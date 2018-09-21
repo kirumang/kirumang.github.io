@@ -11,37 +11,55 @@ redirect_from:
 
 Education
 ======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+* `2016-` Ph.D in Automation and Control Engineering , TU Wien
+* `2009-2011` M. S in Mechanical Engineering & Aerospace System, KAIST
+* `2007` Exchange Student, Technical University of Denmark (DTU)
+* `2005-2009` B.S. in Mechanical Engineering & Aerospace system, KAIST
 
 Work experience
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* `2011-2016` Research Engineer, Ergonomics Team, Hyundai Motors
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-  
-Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
 
 Publications
 ======
   <ul>{% for post in site.publications %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
+
+
+Awards & Scholarships
+======
+- *“Excellence Award”* for great achievement on master course, Department of Mechanical Engineering, KAIST, 2011
+- *"Best Presentation Award"*, 4th Korea Intelligent Robot Conference, 2009
+- *"Magna Cum Laude"*, Mechanical Engineering, KAIST, 2009
+- *"Outstanding Achievement Cum Laude"*, Dept. of Mechanical Engineering, KAIST, 2009
+- *"Bronze Award"*, 3rd Creative Engineering Design Competition, KAIST, 2008
+- *"Bronze Award"*, Creative System Realization Exhibition, KAIST, 2008
+- *"Best Popular award"*, 4th Samsung IT Festival, Samsung SDS, 2007
+- National Science&Technology Scholarship, 2005-2009
+- Ku-Won Scholarship, 2008
+
+
+Projects
+======
+- `2017-` **Research Project - Pose estimation**, TU Wien
+- `2016-2017` **EU Research Project - STRANDS**, TU Wien
+- `2013-2015` **Product Development – Genesis G90**, Hyundai Motors Company
+- `2012-2013` **Product Development – Hyundai Genesis**, Hyundai Motors Company
+- `2010-2010` **Autonomous Agent of Future Robotic Computer**, Ministry of Knowledge Economy and Korea Research Council for Industrial Science & Technology, ETRI
+- `2009` **Swing free control of Mobile Harbor project**,KAIST and Korea Ministry of Education and Science Technology
+- `2009` **Telepresence Robot for English Tutoring**, Co-work : Rastech, Ministry of knowledge economy of Korea
+
+
+Patents
+======
+- APPARATUS AND METHOD FOR HORN CONTROL USING TOUCH PATTERN `(KR 1013385640000, US 8909419, CN 201210167587.6, DE 102012207882.7, JP 2012-246186)`
+- WARNING METHOD AND SYSTEM THEREFOR `KR 1020140180961, US 9666076`
+- VEHICLE AND METHOD FOR CONTROLLING THE SAME `KR 1015285180000, US 14/528,782`
+- AN ANTI-SWAY APPARATUS FOR A CRANE AND A METHOD USING THE SAME `KR 1020090131325`
+- CLIPBOARD DATA CLEAR FORMATTING METHOD, CLIPBOARD DATA CONVERSION METHOD BY EXTRACTING FILE-LOCATION, PROGRAM RECORDING MEDIUM THEREOF AND APPARATUS USING THE METHODS `KR 101097835`
+
 Talks
 ======
   <ul>{% for post in site.talks %}
@@ -53,7 +71,3 @@ Teaching
   <ul>{% for post in site.teaching %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
