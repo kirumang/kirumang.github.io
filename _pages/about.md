@@ -7,9 +7,6 @@ redirect_from:
   - /about/
   - /about.html
 ---
-
-This is Kiru Park's personal blog about his research.
-
 I am a Ph.D student and Research Assistant at TU Wien, [ACIN](https://www.acin.tuwien.ac.at/en/), [Vison for Robotics Group](https://www.acin.tuwien.ac.at/en/vision-for-robotics/). I have started my research related to vision for robotics at TU wien since Oct. 2016.
 
 My research interest is:
