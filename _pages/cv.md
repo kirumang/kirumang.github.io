@@ -60,14 +60,10 @@ Patents
 - AN ANTI-SWAY APPARATUS FOR A CRANE AND A METHOD USING THE SAME `KR 1020090131325`
 - CLIPBOARD DATA CLEAR FORMATTING METHOD, CLIPBOARD DATA CONVERSION METHOD BY EXTRACTING FILE-LOCATION, PROGRAM RECORDING MEDIUM THEREOF AND APPARATUS USING THE METHODS `KR 101097835`
 
-Talks
+Talks & Teaching
 ======
   <ul>{% for post in site.talks %}
     {% include archive-single-talk-cv.html %}
   {% endfor %}</ul>
   
-Teaching
-======
-  <ul>{% for post in site.teaching %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
+
