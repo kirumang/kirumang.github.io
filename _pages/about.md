@@ -21,7 +21,7 @@ My research interest is:
 
 Recent news
 ===
-- 31.Jan.2019 - My paper for ICRA 2019 is accepted. This will be presented [ICRA 2019](https://www.icra2019.org/), May 20-24, 2019, Montreal
+- 31.Jan.2019 - My paper for ICRA 2019 is accepted. This will be presented in [ICRA 2019](https://www.icra2019.org/), May 20-24, 2019, Montreal
 - 29.Oct.2017 - Presentation of my paper (7 min) in ICCV Workshop @ Venice, [3rd International Workshop on Recovering 6D Object Pose](http://cmp.felk.cvut.cz/sixd/workshop_2017/)
 - 18.Aug.2017 - My paper for ICCV Workshop is accepted
 - 8.Aug.2017 - My paper for ICCV Workshop is submitted, "Mutual Hypothesis Verification for 6D Pose Estimation of Natural Objects"
