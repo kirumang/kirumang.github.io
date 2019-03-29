@@ -7,11 +7,17 @@ redirect_from:
   - /about/
   - /about.html
 ---
-I am a Ph.D student and Research Assistant at TU Wien, [ACIN](https://www.acin.tuwien.ac.at/en/), [Vison for Robotics Group](https://www.acin.tuwien.ac.at/en/vision-for-robotics/). I have started my research related to vision for robotics at TU wien since Oct. 2016.
 
-My research interest is:
-- 6D pose estimation of objects
+##### Who am I
+- Ph.D stduent and Research Assistant at TU Wien, [ACIN](https://www.acin.tuwien.ac.at/en/), [Vison for Robotics Group](https://www.acin.tuwien.ac.at/en/vision-for-robotics/)
+- Reviewer: ICRA, IROS, T-RO, Sensors
+- Teaching assistant: Selected topics for Robot Vision (2019S, 2018S)
+- Former: Researcher in Ergonomics and Human Machine Interface Team in Hyundai Motors Company (for 6 years)
+
+##### Research interests
+- 6D pose estimation of objects using RGB, RGB-D, and depth only.
 - Pose estimation of natural objects, deformable objects
+- Object modeling
 - Robotic Manipulation and Grasping
 - Bin-picking
 - 3D Vision, RGB-D perception
@@ -19,12 +25,8 @@ My research interest is:
 - Object detection
 - Object classification
 
-Recent news
-===
-- 31.Jan.2019 - My paper for ICRA 2019 is accepted. This will be presented in [ICRA 2019](https://www.icra2019.org/), May 20-24, 2019, Montreal
-- 29.Oct.2017 - Presentation of my paper (7 min) in ICCV Workshop @ Venice, [3rd International Workshop on Recovering 6D Object Pose](http://cmp.felk.cvut.cz/sixd/workshop_2017/)
-- 18.Aug.2017 - My paper for ICCV Workshop is accepted
-- 8.Aug.2017 - My paper for ICCV Workshop is submitted, "Mutual Hypothesis Verification for 6D Pose Estimation of Natural Objects"
+##### Recent news
+- 31.Jan.2019 - My paper for ICRA 2019 is accepted. This will be presented in [ICRA 2019](https://www.icra2019.org/), Montreal
+- 29.Oct.2017 - Presentation of my ICCVW paper (7 min) in [the 6D Pose Workshop]((http://cmp.felk.cvut.cz/sixd/workshop_2017/)) @ ICCV, Venice
 - 11.May.2017 - Presentation of my paper in OAGM 2017
 - 4.Apr.2017 - My paper for OAGM 2017 is accepted
-- 19.Mar.2017 - My paper for OAGM 2017 is submitted
