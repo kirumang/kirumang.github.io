@@ -12,4 +12,3 @@ You can also find my articles on my Google Scholar profile. [Link](https://schol
 {% for post in site.publications reversed %}
   {% include archive-single.html %}
 {% endfor %}
-
