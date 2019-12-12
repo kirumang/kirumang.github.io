@@ -29,7 +29,7 @@ Research interests
 
 Recent news
 ===
-- 22.Jul.2019 - My paper is accepted for oral presentation at [ICCV 2019](http://iccv2019.thecvf.com), Seoul. See you at Korea!
+- 28.10.2019 - I won awards: the best method on YCB-V and RU-APC at [the BOP Challenge 2019](https://bop.felk.cvut.cz/media/bop_challenge_2019_results.pdf) in ICCV 2019. 
+- 22.Jul.2019 - My paper is accepted for oral presentation at [ICCV 2019](http://iccv2019.thecvf.com), Seoul.
 - 31.Jan.2019 - My paper for ICRA 2019 is accepted. This will be presented in [ICRA 2019](https://www.icra2019.org/), Montreal
 - 29.Oct.2017 - Presentation of my ICCVW paper (7 min) in [the 6D Pose Workshop]((http://cmp.felk.cvut.cz/sixd/workshop_2017/)) @ ICCV, Venice
-- 11.May.2017 - Presentation of my paper in OAGM 2017
