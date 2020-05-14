@@ -1,7 +1,7 @@
 ---
 title: "DGCM-Net: Dense Geometrical Correspondence Matching Network for Incremental Experience-based Robotic Grasping"
 collection: publications
-permalink: /publication/2020-01-DGCMNet.md
+permalink: /publication/2020-01-DGCMNet
 excerpt: 'Matching global and local correspodences densly for tranferring grasp poses from a previous success to a new object'
 date: 2020-01-15
 venue: 'arXiv preprint'
