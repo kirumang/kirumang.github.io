@@ -2,7 +2,7 @@
 title: "A Dual-layer User Model based Cognitive System for User-Adaptive Service Robots"
 collection: publications
 permalink: /publication/2011_Roman
-excerpt: 'A dual-layer user model that can learn preferences of users is proposed for adpative service robots'
+excerpt: "X"
 date: 2011-7-01
 venue: 'ROMAN 2011'
 paperurl: 'https://ieeexplore.ieee.org/abstract/document/6005282/'

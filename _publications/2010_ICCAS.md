@@ -2,7 +2,7 @@
 title: "Swing Free Control of Mobile Harbor Crane with Accelerometer Feedback"
 collection: publications
 permalink: /publication/2010_ICCAS
-excerpt: 'Anti-sway control of a crane on the sea using accelerometer feedback and sliding mode control'
+excerpt: "X"
 date: 2010-10-27
 venue: 'ICCAS 2010'
 paperurl: 'https://ieeexplore.ieee.org/document/5670298/'

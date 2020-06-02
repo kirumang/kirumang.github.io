@@ -2,6 +2,7 @@
 title: "Unsupervised clustering for abnormality detection based on the tri-axial accelerometer"
 collection: publications
 permalink: /publication/2009_ICCAS
+excerpt: "X"
 date: 2009-8-18
 venue: 'ICCAS 2009'
 paperurl: 'https://ieeexplore.ieee.org/document/5333328/'
