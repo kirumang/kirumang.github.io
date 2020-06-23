@@ -6,7 +6,7 @@ excerpt: "X"
 date: 2011-7-01
 venue: 'ROMAN 2011'
 paperurl: 'https://ieeexplore.ieee.org/abstract/document/6005282/'
-authors: 'Seong-Yong Koo, Kiru Park, and Dong-Soo Kwon'
+authors: 'Seong-Yong Koo, <b>Kiru Park</b>, and Dong-Soo Kwon'
 ---
 A Dual-layer User Model based Cognitive System for User-Adaptive Service Robots, In proceedings of 20 th IEEE International Symposium on Robot and Human Interactive Communication (Ro-Man 2011) at Atlanta, GA, USA, July 2011, pp. 59-64.
 

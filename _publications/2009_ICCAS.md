@@ -6,7 +6,7 @@ excerpt: "X"
 date: 2009-8-18
 venue: 'ICCAS 2009'
 paperurl: 'https://ieeexplore.ieee.org/document/5333328/'
-authors: 'Min-Seok Lee, Jong-Gwan Lim, Kiruu Park, and Dong-Soo Kwon'
+authors: 'Min-Seok Lee, Jong-Gwan Lim, <b>Kiru Park</b>, and Dong-Soo Kwon'
 ---
 Unsupervised Clustering for Abnormality Detection Based on the Tri-axial Accelerometer, ICROS SICE International Joint Conference 2009 August 18-21, 2009, Fukuoka International Congress Center, Japan
 

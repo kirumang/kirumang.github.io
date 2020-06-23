@@ -6,7 +6,7 @@ excerpt: "X"
 date: 2010-10-27
 venue: 'ICCAS 2010'
 paperurl: 'https://ieeexplore.ieee.org/document/5670298/'
-authors: 'Seong-Yong Koo, Kiru Park, and Dong-Soo Kwon'
+authors: 'Seong-Yong Koo, <b>Kiru Park</b>, and Dong-Soo Kwon'
 ---
 Swing Free Control of Mobile Harbor Crane with Accelerometer Feedback, International Conference on Control, Automation and Systems 2010, Oct. 27-30, 2010, in Kintex, Gyeonggi-do, Korea
 

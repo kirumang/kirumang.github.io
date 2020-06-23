@@ -17,10 +17,11 @@ Who am I
 
 Recent news
 ===
-- `28.10.2019` Pix2pose was awarded as the best method on YCB-V and RU-APC at [the BOP Challenge 2019](https://bop.felk.cvut.cz/media/bop_challenge_2019_results.pdf) in ICCV'19. 
-- `22.Jul.2019` My paper is accepted for oral presentation at [ICCV'19](http://iccv2019.thecvf.com)
-- `31.Jan.2019` My paper for [ICRA'19](https://www.icra2019.org/) has been accepted. 
-- `29.Oct.2017` Presentation of my ICCVW paper (7 min) in [the 6D Pose Workshop]((http://cmp.felk.cvut.cz/sixd/workshop_2017/)) @ ICCV'17
+- `Jun.2020` [Our paper](https://kirumang.github.io/publication/2020-04-RelativeRotation) has been accepted for RA-L 2020
+- `Apr.2020` [Our paper](https://kirumang.github.io/publication/2020-04-ICCAR20) has been accepted for ICCAR 2020
+- `Oct.2019` [Pix2pose](https://kirumang.github.io/publication/2019-10-ICCV) was awarded as the best method on YCB-V and RU-APC at [the BOP Challenge 2019](https://bop.felk.cvut.cz/media/bop_challenge_2019_results.pdf) in ICCV'19. 
+- `Jul.2019` [Our paper](https://kirumang.github.io/publication/2019-10-ICCV) has been accepted for oral presentation at [ICCV'19](http://iccv2019.thecvf.com)
+- `Jan.2019` [Our paper](https://kirumang.github.io/publication/2019-05-ICRA) has been accepted for [ICRA'19](https://www.icra2019.org/). 
 
 Research interests
 ===
