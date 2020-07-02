@@ -23,7 +23,7 @@ Work experience
 
 Publications
 ======
-* **Kiru Park**, Timothy Patten, and Markus Vincze, Neural Object Learning for 6D Pose Estimation Using a Few Cluttered Images, *arxiv Preprint, 2020*
+* **Kiru Park**, Timothy Patten, and Markus Vincze, Neural Object Learning for 6D Pose Estimation Using a Few Cluttered Images, *ECCV (spotlight, to appear), 2020*
 * Timothy Patten, **Kiru Park**, and Markus Vincze, DGCM-Net: Dense Geometrical Correspondence Matching Network for Incremental Experience-based Robotic Grasping, *arxiv Preprint, 2020*
 * **Kiru Park**, Timothy Patten, and Markus Vincze, Pix2Pose: Pixel-wise Coordinate Regression of Objects for 6D Pose Estimation, *ICCV (Oral), 2020*
 * **Kiru Park**, Timothy Patten, Johann Prankl, and Markus Vincze, Multi-Task Template Matching for Object Detection, Segmentation and Pose Estimation Using Depth Images, *ICRA, 2019*
