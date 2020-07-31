@@ -17,6 +17,7 @@ Who am I
 
 Recent news
 ===
+- `Jul.2020` [Our paper](https://kirumang.github.io/publication/2020-01-DGCMNet) has been accepted at Frontiers Robotics and AI (journal)
 - `Jul.2020` [Our paper](https://kirumang.github.io/publication/2020-05-NOL) has been accepted for a spotlight at ECCV 2020
 - `Jun.2020` [Our paper](https://kirumang.github.io/publication/2020-04-RelativeRotation) has been accepted at RA-L 2020
 - `Apr.2020` [Our paper](https://kirumang.github.io/publication/2020-04-ICCAR20) has been accepted at ICCAR 2020
