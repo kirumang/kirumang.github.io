@@ -3,7 +3,7 @@ title: "DGCM-Net: Dense Geometrical Correspondence Matching Network for Incremen
 collection: publications
 permalink: /publication/2020-01-DGCMNet
 excerpt: "<img src='/images/DGCMNet_main.jpg'>"
-date: 2020-01-15
+date: 2020-07-30
 venue: 'Frontiers in Robotics and AI'
 paperurl: 'https://arxiv.org/abs/2001.05279'
 authors: 'Timothy Patten, <b>Kiru Park</b>, and Markus Vincze'
