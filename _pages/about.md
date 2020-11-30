@@ -10,13 +10,14 @@ redirect_from:
 
 Who am I
 ===
-- Ph.D stduent and Research Assistant at TU Wien, [ACIN](https://www.acin.tuwien.ac.at/en/), [Vison for Robotics Group](https://www.acin.tuwien.ac.at/en/vision-for-robotics/)
+- Research Assistant at TU Wien, [ACIN](https://www.acin.tuwien.ac.at/en/), [Vison for Robotics Group](https://www.acin.tuwien.ac.at/en/vision-for-robotics/)
 - Reviewer: ICRA, IROS, RA-L, T-RO, Sensors
 - Teaching assistant: Selected topics for Robot Vision (2019S, 2018S)
 - Former: Researcher in Ergonomics and Human Machine Interface Team in Hyundai Motors Company
 
 Recent news
 ===
+- `Nov.2020` I finished my PhD at TU Wien (Dissertation title: 6D Pose estimation of objects using limited training data)
 - `Jul.2020` [Our paper](https://kirumang.github.io/publication/2020-01-DGCMNet) has been accepted at Frontiers in Robotics and AI (journal)
 - `Jul.2020` [Our paper](https://kirumang.github.io/publication/2020-05-NOL) has been accepted for a spotlight at ECCV 2020
 - `Jun.2020` [Our paper](https://kirumang.github.io/publication/2020-04-RelativeRotation) has been accepted at RA-L 2020
