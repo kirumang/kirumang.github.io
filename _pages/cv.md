@@ -11,7 +11,7 @@ redirect_from:
 
 Education
 ======
-* `2016-` Ph.D in Automation and Control Engineering , TU Wien
+* `2016-2020` Ph.D in Automation and Control Engineering , TU Wien
 * `2009-2011` M. S in Mechanical Engineering & Aerospace System, KAIST
 * `2007` Exchange Student, Technical University of Denmark (DTU)
 * `2005-2009` B.S. in Mechanical Engineering & Aerospace system, KAIST
