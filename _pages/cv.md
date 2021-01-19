@@ -18,6 +18,7 @@ Education
 
 Work experience
 ======
+* `2021-Current` Applied Scientist, Robotics AI, Amazon
 * `2011-2016` Research Engineer, Ergonomics Team, Hyundai Motors
 
 
