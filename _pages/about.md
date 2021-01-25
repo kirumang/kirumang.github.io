@@ -17,7 +17,7 @@ Who am I
 
 Recent news
 ===
-- `Jan.2012` I joined Robotics AI@Amazon as an Applied Scientist
+- `Jan.2021` I joined Robotics AI@Amazon as an Applied Scientist
 - `Nov.2020` I finished my PhD at TU Wien (Dissertation title: 6D Pose estimation of objects using limited training data)
 - `Jul.2020` [Our paper](https://kirumang.github.io/publication/2020-01-DGCMNet) has been accepted at Frontiers in Robotics and AI (journal)
 - `Jul.2020` [Our paper](https://kirumang.github.io/publication/2020-05-NOL) has been accepted for a spotlight at ECCV 2020
