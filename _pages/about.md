@@ -10,13 +10,15 @@ redirect_from:
 
 Who am I
 ===
-- Applied Scientist at Robotics AI, Amazon
-- Reviewer: ICRA, IROS, RA-L, T-RO, Sensors, CVPR
+- Sr. Applied Scientist at Amazon Robotics
+- Reviewer: ICRA, IROS, RA-L, T-RO, CVPR, ICCV, ECCV
 - Former: PhD Cand, Research Assistant at TU Wien, [ACIN](https://www.acin.tuwien.ac.at/en/), [Vison for Robotics Group](https://www.acin.tuwien.ac.at/en/vision-for-robotics/)
 - Former: Researcher in Ergonomics and Human Machine Interface Team in Hyundai Motors Company
 
 Recent news
 ===
+- `Dec.2022` I am promoted to Senior Applied Scientist, our team is now part of Amazon Robotics!
+- `Sep.2022` My first project in Amazon is featured in [Amazon Science](https://www.amazon.science/latest-news/pinch-grasping-robot-handles-items-with-precision)!
 - `Jan.2021` I joined Robotics AI@Amazon as an Applied Scientist
 - `Nov.2020` I finished my PhD at TU Wien (Dissertation title: 6D Pose estimation of objects using limited training data)
 - `Jul.2020` [Our paper](https://kirumang.github.io/publication/2020-01-DGCMNet) has been accepted at Frontiers in Robotics and AI (journal)
