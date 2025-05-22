@@ -12,12 +12,15 @@ Who am I
 ===
 - Sr. Applied Scientist at Amazon Robotics
 - Reviewer: ICRA, IROS, RA-L, T-RO, CVPR, ICCV, ECCV
+- Area Chair: CoRL 2025
 - Former: PhD Cand, Research Assistant at TU Wien, [ACIN](https://www.acin.tuwien.ac.at/en/), [Vison for Robotics Group](https://www.acin.tuwien.ac.at/en/vision-for-robotics/)
 - Former: Researcher in Ergonomics and Human Machine Interface Team in Hyundai Motors Company
 
 Recent news
 ===
-- `Dec.2022` I am promoted to Senior Applied Scientist, our team is now part of Amazon Robotics!
+- `May.2025` Vulcan Pick is introduced in [IEEE Spectrum](https://spectrum.ieee.org/amazon-robotics-vulcan-warehouse-picking)
+- `May.2025` Our manipulation project, Vulcan Pick, is featured in [Amazon Science]([https://www.aboutamazon.com/news/operations/amazon-vulcan-robot-pick-stow-touch](https://www.amazon.science/blog/how-amazons-vulcan-robots-use-touch-to-plan-and-execute-motions)) with [our paper](https://www.amazon.science/publications/vulcan-pick-a-robotic-system-for-picking-targeted-objects-from-fabric-pods).
+- `Dec.2022` I was promoted to Senior Applied Scientist, our team is now part of Amazon Robotics!
 - `Sep.2022` My first project in Amazon is featured in [Amazon Science](https://www.amazon.science/latest-news/pinch-grasping-robot-handles-items-with-precision)!
 - `Jan.2021` I joined Robotics AI@Amazon as an Applied Scientist
 - `Nov.2020` I finished my PhD at TU Wien (Dissertation title: 6D Pose estimation of objects using limited training data)
@@ -31,10 +34,10 @@ Recent news
 
 Research interests
 ===
+- Robotic Manipulation and Grasping
 - 6D pose estimation of objects using RGB, RGB-D, and depth only.
 - Pose estimation of natural objects, deformable objects
 - Object modeling and learning
-- Robotic Manipulation and Grasping
 - Bin-picking, 3D Vision, RGB-D perception
 - Object detection and segmentation
 
