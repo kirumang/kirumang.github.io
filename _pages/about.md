@@ -19,7 +19,7 @@ Who am I
 Recent news
 ===
 - `May.2025` Vulcan Pick is introduced in [IEEE Spectrum](https://spectrum.ieee.org/amazon-robotics-vulcan-warehouse-picking)
-- `May.2025` Our manipulation project, Vulcan Pick, is featured in [Amazon Science]([https://www.aboutamazon.com/news/operations/amazon-vulcan-robot-pick-stow-touch](https://www.amazon.science/blog/how-amazons-vulcan-robots-use-touch-to-plan-and-execute-motions)) with [our paper](https://www.amazon.science/publications/vulcan-pick-a-robotic-system-for-picking-targeted-objects-from-fabric-pods).
+- `May.2025` Our manipulation project, Vulcan Pick, is featured in [Amazon Science](https://www.aboutamazon.com/news/operations/amazon-vulcan-robot-pick-stow-touch](https://www.amazon.science/blog/how-amazons-vulcan-robots-use-touch-to-plan-and-execute-motions) with [our paper](https://www.amazon.science/publications/vulcan-pick-a-robotic-system-for-picking-targeted-objects-from-fabric-pods).
 - `Dec.2022` I was promoted to Senior Applied Scientist, our team is now part of Amazon Robotics!
 - `Sep.2022` My first project in Amazon is featured in [Amazon Science](https://www.amazon.science/latest-news/pinch-grasping-robot-handles-items-with-precision)!
 - `Jan.2021` I joined Robotics AI@Amazon as an Applied Scientist
