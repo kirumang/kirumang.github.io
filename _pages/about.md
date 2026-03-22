@@ -10,14 +10,18 @@ redirect_from:
 
 Who am I
 ===
-- Sr. Applied Scientist at Amazon Robotics
+- Corporate Vice President at Samsung Electronics
 - Reviewer: ICRA, IROS, RA-L, T-RO, CVPR, ICCV, ECCV
 - Area Chair: CoRL 2025
-- Former: PhD Cand, Research Assistant at TU Wien, [ACIN](https://www.acin.tuwien.ac.at/en/), [Vison for Robotics Group](https://www.acin.tuwien.ac.at/en/vision-for-robotics/)
+- Former: Sr. Applied Scientist at Amazon Robotics
 - Former: Researcher in Ergonomics and Human Machine Interface Team in Hyundai Motors Company
+- Former: PhD Cand, Research Assistant at TU Wien, [ACIN](https://www.acin.tuwien.ac.at/en/), [Vison for Robotics Group](https://www.acin.tuwien.ac.
+at/en/vision-for-robotics/)
+
 
 Recent news
 ===
+- `Feb.2026` I left Amazon and joined Samsung Electronics as Corporate VP at Manufacturing Robot team.
 - `May.2025` Vulcan Pick is introduced in [IEEE Spectrum](https://spectrum.ieee.org/amazon-robotics-vulcan-warehouse-picking)
 - `May.2025` Our manipulation project, Vulcan Pick, is featured in [Amazon Science](https://www.amazon.science/blog/how-amazons-vulcan-robots-use-touch-to-plan-and-execute-motions) with [our paper](https://www.amazon.science/publications/vulcan-pick-a-robotic-system-for-picking-targeted-objects-from-fabric-pods).
 - `Dec.2022` I was promoted to Senior Applied Scientist, our team is now part of Amazon Robotics!

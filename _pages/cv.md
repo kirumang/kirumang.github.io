@@ -18,12 +18,14 @@ Education
 
 Work experience
 ======
-* `2021-Current` Applied Scientist, Robotics AI, Amazon
+* `2026-Current` Corporate VP, Samsung Electronics
+* `2021-2026` Sr. Applied Scientist, Amazon Robotics
 * `2011-2016` Research Engineer, Ergonomics Team, Hyundai Motors
 
 
 Publications
 ======
+* **Kiru Park** et al., Vulcan Pick: A robotic system for picking targeted objects from fabric pods, *Amazon Science, 2025*
 * **Kiru Park**, Timothy Patten, and Markus Vincze, Neural Object Learning for 6D Pose Estimation Using a Few Cluttered Images, *ECCV (spotlight, to appear), 2020*
 * Timothy Patten, **Kiru Park**, and Markus Vincze, DGCM-Net: Dense Geometrical Correspondence Matching Network for Incremental Experience-based Robotic Grasping, Frontiers in Robotics and AI, 2020
 * **Kiru Park**, Timothy Patten, and Markus Vincze, Pix2Pose: Pixel-wise Coordinate Regression of Objects for 6D Pose Estimation, *ICCV (Oral), 2020*
@@ -33,6 +35,7 @@ Publications
 
 Awards & Scholarships
 ======
+- *"Outstanding Reviewer"* at CVPR 2024
 - *“Excellence Award”* for great achievement on master course, Department of Mechanical Engineering, KAIST, 2011
 - *"Best Presentation Award"*, 4th Korea Intelligent Robot Conference, 2009
 - *"Magna Cum Laude"*, Mechanical Engineering, KAIST, 2009
@@ -46,7 +49,7 @@ Awards & Scholarships
 
 Projects
 ======
-- `2017-` **Research Project - Pose estimation**, TU Wien
+- `2017-2020` **Research Project - Pose estimation**, TU Wien
 - `2016-2017` **EU Research Project - STRANDS**, TU Wien
 - `2013-2015` **Product Development – Genesis G90**, Hyundai Motors Company
 - `2012-2013` **Product Development – Hyundai Genesis**, Hyundai Motors Company
