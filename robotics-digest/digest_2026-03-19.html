@@ -5,756 +5,861 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🤖 Robotics arXiv Digest — 2026-03-19</title>
 <style>
+  :root {
+    --bg: #f7f8fc;
+    --card-bg: #ffffff;
+    --text: #1a1d23;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
+    --c1: #667eea;
+    --c2: #e84393;
+    --c3: #10b981;
+    --c4: #f59e0b;
+    --c5: #06b6d4;
+    --c6: #ef4444;
+    --c7: #8b5cf6;
+    --c8: #f97316;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
-  .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 24px 16px 60px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
 
-  /* Header */
-  .site-header { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 36px 0; margin-bottom: 32px; }
-  .site-header .container { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
-  .header-title { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; }
-  .header-meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-  .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 999px; padding: 4px 12px; font-size: 0.8rem; }
-  .badge-ai { background: #7c3aed; border-color: #7c3aed; }
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 32px 36px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: rgba(102,126,234,0.18);
+    border-radius: 50%;
+  }
+  .header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; flex-wrap: wrap; }
+  .header h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.02em; }
+  .badge-claude {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.9);
+    font-size: 0.72rem; font-weight: 600;
+    padding: 3px 10px; border-radius: 20px;
+    letter-spacing: 0.03em; white-space: nowrap;
+  }
+  .header-sub { color: rgba(255,255,255,0.65); font-size: 0.88rem; margin-bottom: 12px; }
+  .header-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .meta-pill {
+    background: rgba(255,255,255,0.12);
+    border-radius: 8px; padding: 5px 14px;
+    font-size: 0.83rem; color: rgba(255,255,255,0.88);
+  }
+  .meta-pill strong { color: white; }
 
-  /* Section headings */
-  .section-title { font-size: 1.3rem; font-weight: 700; color: #0f172a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+  /* SECTIONS */
+  .section { margin-bottom: 36px; }
+  .section-title {
+    font-size: 1.18rem; font-weight: 700;
+    color: var(--text); margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 2px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
 
-  /* Research Landscape */
-  .landscape { background: white; border-radius: 12px; padding: 24px 28px; margin-bottom: 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
-  .landscape p { margin-bottom: 14px; font-size: 0.97rem; color: #374151; line-height: 1.75; }
+  /* LANDSCAPE */
+  .landscape {
+    background: var(--card-bg); border-radius: 12px;
+    padding: 24px 28px; box-shadow: var(--shadow);
+    border-left: 4px solid #667eea;
+  }
+  .landscape p {
+    font-size: 0.94rem; color: #374151;
+    margin-bottom: 14px; line-height: 1.75;
+  }
   .landscape p:last-child { margin-bottom: 0; }
 
-  /* Category overview grid */
-  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 40px; }
-  .cat-card { background: white; border-radius: 10px; padding: 16px; display: flex; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-  .cat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
-  .cat-desc { font-size: 0.78rem; color: #64748b; margin: 4px 0 8px; }
-  .cat-papers { list-style: none; font-size: 0.75rem; color: #475569; }
-  .cat-papers li { padding: 2px 0; border-bottom: 1px solid #f1f5f9; }
-  .cat-papers li:last-child { border-bottom: none; }
+  /* CATEGORY GRID */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .cat-card {
+    background: var(--card-bg); border-radius: 10px;
+    padding: 14px 16px; box-shadow: var(--shadow);
+    border-left: 4px solid var(--color);
+    transition: box-shadow 0.2s;
+  }
+  .cat-card:hover { box-shadow: var(--shadow-hover); }
+  .cat-name { font-weight: 700; font-size: 0.9rem; color: var(--color); margin-bottom: 4px; }
+  .cat-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; line-height: 1.4; }
+  .cat-papers { font-size: 0.78rem; color: #4b5563; }
+  .cat-papers span { display: inline-block; background: #f3f4f6; border-radius: 4px; padding: 1px 6px; margin: 1px 2px 1px 0; }
 
-  /* Paper sections */
-  .cat-section { margin-bottom: 36px; }
-  .cat-header { color: white; border-radius: 8px 8px 0 0; padding: 10px 18px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1rem; }
-  .cat-count { font-size: 0.82rem; opacity: 0.85; font-weight: 500; }
-  .cat-section-desc { font-size: 0.83rem; color: #64748b; padding: 8px 18px 12px; background: white; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
+  /* CATEGORY SECTION HEADER */
+  .cat-section { margin-bottom: 32px; }
+  .cat-section-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 18px; border-radius: 10px;
+    margin-bottom: 14px; font-weight: 700;
+    font-size: 1.02rem; color: white;
+    background: var(--color);
+  }
+  .cat-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.6); }
 
-  /* Paper cards */
-  .paper-card { background: white; margin-bottom: 12px; border-radius: 0 8px 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: box-shadow 0.15s; }
-  .paper-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-  .card-inner { display: flex; gap: 0; }
-  .card-left { width: 68px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding: 16px 8px; gap: 8px; border-right: 1px solid #f1f5f9; }
-  .rank { font-size: 1.05rem; font-weight: 600; color: #374151; }
-  .card-right { flex: 1; padding: 14px 18px; }
-  .paper-title { font-size: 0.97rem; font-weight: 700; line-height: 1.4; margin-bottom: 8px; }
-  .paper-title a { color: #1e40af; text-decoration: none; }
-  .paper-title a:hover { text-decoration: underline; }
-  .pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
-  .pill { background: #f1f5f9; border-radius: 999px; padding: 2px 9px; font-size: 0.72rem; color: #475569; }
-  .h-pill { background: #dbeafe; color: #1d4ed8; font-weight: 600; }
-  .authors { font-size: 0.78rem; color: #64748b; margin-bottom: 10px; }
-  .contributions { margin-bottom: 10px; }
-  .contrib-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; }
-  .bullets { list-style: none; margin-top: 6px; }
-  .bullets li { font-size: 0.84rem; color: #334155; padding: 4px 0; border-bottom: 1px solid #f8fafc; line-height: 1.55; }
-  .bullets li:last-child { border-bottom: none; }
+  /* PAPER CARD */
+  .paper-card {
+    background: var(--card-bg); border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    display: flex; gap: 16px;
+    border-left: 4px solid var(--color);
+    transition: box-shadow 0.2s, transform 0.15s;
+  }
+  .paper-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+  .paper-left {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px; min-width: 52px;
+  }
+  .rank { font-size: 1.4rem; font-weight: 900; color: #9ca3af; line-height: 1; }
+  .rank.gold { color: #d97706; }
+  .rank-label { font-size: 0.62rem; color: #9ca3af; font-weight: 600; letter-spacing: 0.05em; }
+  .hindex-badge {
+    background: #dbeafe; color: #1d4ed8;
+    font-size: 0.74rem; font-weight: 700;
+    padding: 3px 9px; border-radius: 20px; white-space: nowrap;
+  }
+  .paper-right { flex: 1; min-width: 0; }
+  .paper-title { font-size: 1.01rem; font-weight: 700; line-height: 1.4; margin-bottom: 8px; }
+  .paper-title a { color: var(--text); text-decoration: none; }
+  .paper-title a:hover { color: #4f46e5; text-decoration: underline; }
+  .paper-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.72rem; padding: 2px 9px; border-radius: 20px;
+    font-weight: 500; white-space: nowrap;
+  }
+  .pill-date { background: #f3f4f6; color: #4b5563; }
+  .pill-cat { background: #fef3c7; color: #92400e; }
+  .pill-author { background: #ede9fe; color: #5b21b6; }
+  .paper-authors { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
+  .contributions-label {
+    font-size: 0.73rem; font-weight: 700;
+    letter-spacing: 0.08em; color: var(--muted);
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .contributions ul { list-style: none; padding: 0; }
+  .contributions li {
+    font-size: 0.86rem; color: #374151;
+    padding: 3px 0 3px 18px; position: relative; line-height: 1.55;
+  }
+  .contributions li::before {
+    content: '▸'; position: absolute; left: 0;
+    color: var(--color); font-size: 0.75rem; top: 4px;
+  }
 
-  /* Abstract toggle */
-  .abstract-toggle { margin-top: 8px; }
-  .abstract-toggle summary { font-size: 0.78rem; color: #6366f1; cursor: pointer; user-select: none; font-weight: 600; }
-  .abstract-toggle summary:hover { text-decoration: underline; }
-  .abstract-text { font-size: 0.8rem; color: #475569; line-height: 1.65; margin-top: 8px; background: #f8fafc; padding: 10px 12px; border-radius: 6px; }
+  /* ABSTRACT TOGGLE */
+  details { margin-top: 10px; }
+  summary {
+    cursor: pointer; font-size: 0.78rem; color: #6b7280;
+    font-weight: 600; padding: 4px 0; user-select: none;
+    list-style: none; display: flex; align-items: center; gap: 4px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: '▶'; font-size: 0.6rem; transition: transform 0.2s; display: inline-block; }
+  details[open] summary::before { transform: rotate(90deg); }
+  .abstract-text {
+    font-size: 0.83rem; color: #4b5563; line-height: 1.65;
+    margin-top: 8px; padding: 12px 14px;
+    background: #f9fafb; border-radius: 8px; border: 1px solid var(--border);
+  }
 
-  /* Footer */
-  .site-footer { text-align: center; padding: 32px 0; color: #94a3b8; font-size: 0.8rem; border-top: 1px solid #e2e8f0; margin-top: 20px; }
+  /* FOOTER */
+  .footer {
+    text-align: center; font-size: 0.78rem; color: #9ca3af;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
 
   @media (max-width: 600px) {
-    .card-left { width: 52px; padding: 12px 4px; }
-    .card-right { padding: 12px 12px; }
-    .header-title { font-size: 1.4rem; }
+    .header { padding: 20px; }
+    .header h1 { font-size: 1.4rem; }
+    .paper-card { flex-direction: column; gap: 10px; }
+    .paper-left { flex-direction: row; justify-content: flex-start; }
   }
 </style>
 </head>
 <body>
-
-<header class="site-header">
-  <div class="container">
-    <div>
-      <div class="header-title">🤖 Robotics arXiv Digest</div>
-      <div style="font-size:0.9rem;opacity:0.75;margin-top:4px;">cs.RO papers for 2026-03-19</div>
-    </div>
-    <div class="header-meta">
-      <span class="badge">📄 20 papers</span>
-      <span class="badge">📂 7 research areas</span>
-      <span class="badge badge-ai">✦ Generated by Claude</span>
-    </div>
-  </div>
-</header>
-
 <div class="container">
 
-  <!-- Research Landscape -->
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <h1>🤖 Robotics arXiv Digest</h1>
+    <span class="badge-claude">Generated by Claude</span>
+  </div>
+  <div class="header-sub">Papers from arXiv cs.RO · March 19, 2026</div>
+  <div class="header-meta">
+    <div class="meta-pill"><strong>20</strong> papers ranked</div>
+    <div class="meta-pill"><strong>8</strong> research areas</div>
+    <div class="meta-pill">h-index range <strong>7–47</strong></div>
+    <div class="meta-pill">Ranked by max author h-index</div>
+  </div>
+</div>
+
+<!-- RESEARCH LANDSCAPE -->
+<div class="section">
+  <div class="section-title">🔭 Research Landscape</div>
   <div class="landscape">
-    <h2 class="section-title">🔭 Research Landscape</h2>
-    <p>Today's batch of twenty papers reveals three dominant currents shaping robotics research. The most striking is a growing crisis of <strong>measurement</strong>: multiple papers argue that the field's current evaluation tools are systematically misleading. "From Inference to Embodied Efficiency" demonstrates that standard VLA efficiency metrics (FLOPs, parameter counts, throughput) fail to predict actual robot execution behavior, while "Not All Features Are Created Equal" uses mechanistic probing across six VLA models to show that visual pathways dominate action generation — yet this is invisible to task-success metrics. DROID-SLAM in the Wild similarly challenges the static-scene assumption that pervades SLAM evaluation. Taken together, these papers sound a clear warning: the robotics field needs richer, embodied evaluation frameworks before claims about model superiority can be trusted.</p>
-    <p>A second dominant thread is the push toward <strong>tactile and contact-aware manipulation</strong> grounded in large-scale data. OmniVTA introduces a dataset of 21,000+ visuo-tactile trajectories organized around six physics-grounded interaction patterns, coupling it with a world-model-based controller that predicts contact evolution rather than reacting after the fact. ViTac-Tracing addresses the deformable object tracing problem with a unified visual-tactile model that eliminates object-specific engineering. Both papers share the insight that tactile data, used <em>predictively</em> rather than as passive observation, unlocks manipulation capabilities that vision alone cannot provide. This is complemented by V-Dreamer's approach of using video generation models as motion priors to automate training data synthesis — suggesting a near-future where large vision-language models and large tactile datasets converge into comprehensive manipulation systems.</p>
-    <p>The third current cuts across categories: <strong>real-time, deployable intelligence</strong> for physically demanding tasks. FASTER rethinks flow-based VLA sampling to compress reaction latency by 10× without sacrificing trajectory quality, validated on a table tennis task requiring sub-100ms reaction. The ADMM-distributed MPC framework reduces multi-robot planning time by 51% while preserving formal safety guarantees. ABD-Net embeds rigid-body dynamics structure into policy networks to improve sample efficiency and generalization. Even hardware papers like quadrupedal skating and the airdrop sensor mechanism are driven by the same concern: achieving high performance with minimal computational overhead. The field appears to be transitioning from demonstrating that complex behaviors are possible to demanding that they be <em>fast, safe, and deployable</em>.</p>
+    <p>Today's 20 papers reveal a field grappling with a fundamental credibility gap in how it evaluates itself. The VLA cluster is particularly cohesive — three papers converge on the concern that prevailing metrics systematically mislead. <em>From Inference Efficiency to Embodied Efficiency</em> demonstrates that compression methods scoring well on FLOPs and token throughput often <em>increase</em> real execution cost or degrade motion quality. <em>FASTER</em> identifies that standard flow-matching schedules force all denoising steps to complete before any action can start, creating avoidable reaction latency. And the mechanistic study <em>Not All Features Are Created Equal</em> reveals that VLAs largely ignore language when visual context is sufficient — encoding spatially-bound motor programs tied to scene coordinates rather than abstract multi-modal representations. Taken together, these three papers constitute a quiet indictment of VLA benchmarking practice and point toward the need for better evaluation protocols and more honest architectural analysis before the community declares these models "solved."</p>
+    <p>A second dominant thread is the tension between scalable data collection and physical fidelity. <em>V-Dreamer</em> uses video generative models as motion priors to auto-synthesize manipulation environments from text, eliminating fixed asset libraries. <em>Fire as a Service</em> augments existing simulators with high-fidelity thermodynamic fire dynamics for hazardous scenario training. <em>OmniVTA</em> contributes a 21,000-trajectory visuo-tactile dataset across 86 tasks — an order of magnitude larger than prior art. These represent different responses to the same bottleneck: real-world data is too expensive and narrow to train generalizable robots. A related paper, <em>ViTac-Tracing</em>, demonstrates that even with limited data, careful sensing design can achieve 65% generalization to unseen deformable objects, suggesting data quality and architecture matter as much as scale. The field will likely need all three approaches — generative synthesis, physics co-simulation, and large-scale hardware collection — rather than any single solution.</p>
+    <p>A third thread bridges distributed computation and fundamental theoretical limits. The ADMM-MPC paper achieves 51% speedup over centralized planning for four-agent quadruped navigation while preserving control barrier function safety guarantees. <em>GoC-MPC</em> enables model-free multi-agent manipulation planning from visual observations alone, without training data or environment models. Meanwhile, the information-theoretic paper on <em>Fundamental Limits for Sensor-Based Control</em> — the highest-ranked paper by author h-index — provides a Gibbs variational bound on achievable controller performance that tightens self-consistently as the controller improves, providing the kind of principled benchmarking the field is hungry for. The convergence of theory (paper #1), distributed optimization (paper #7), and learning-based coordination (paper #18) suggests this sub-field is maturing rapidly toward bridgeable theory-practice gaps.</p>
   </div>
+</div>
 
-  <!-- Category Overview -->
-  <h2 class="section-title">📂 Papers by Research Area</h2>
+<!-- CATEGORY OVERVIEW GRID -->
+<div class="section">
+  <div class="section-title">📂 Papers by Research Area</div>
   <div class="cat-grid">
-    
-<div class="cat-card" style="border-left:4px solid #7c3aed;">
-  <div class="cat-dot" style="background:#7c3aed;"></div>
-  <div>
-    <strong style="color:#7c3aed">VLA & Foundation Models</strong>
-    <p class="cat-desc">Evaluation, efficiency, and mechanistic understanding of Vision-Language-Action models</p>
-    <ul class="cat-papers"><li>#8 — From Inference Efficiency to Embodied Efficiency: Revis…</li>
-<li>#17 — FASTER: Rethinking Real-Time Flow VLAs</li>
-<li>#20 — Not All Features Are Created Equal: A Mechanistic Study…</li></ul>
+    <div class="cat-card" style="--color: var(--c6)">
+      <div class="cat-name">Control Theory &amp; Optimal Design</div>
+      <div class="cat-desc">Information-theoretic limits, hardware-control co-design via bilevel optimization</div>
+      <div class="cat-papers"><span>#1 Fundamental Limits</span><span>#6 Quadrupedal Skating</span></div>
+    </div>
+    <div class="cat-card" style="--color: var(--c2)">
+      <div class="cat-name">Tactile &amp; Contact-Rich Manipulation</div>
+      <div class="cat-desc">Visuo-tactile sensing, deformable objects, contact world models</div>
+      <div class="cat-papers"><span>#2 ViTac-Tracing</span><span>#19 OmniVTA</span></div>
+    </div>
+    <div class="cat-card" style="--color: var(--c7)">
+      <div class="cat-name">Hardware Design &amp; Mechanisms</div>
+      <div class="cat-desc">Continuum robots, passive elastic mechanisms, airdrop sensor systems</div>
+      <div class="cat-papers"><span>#3 Tendon Continuum Robot</span><span>#14 Elastic-Folding Sensor</span></div>
+    </div>
+    <div class="cat-card" style="--color: var(--c8)">
+      <div class="cat-name">Agentic AI &amp; Human-Robot Interaction</div>
+      <div class="cat-desc">LLM-driven robot programming, multi-actor event grounding, HRI awareness</div>
+      <div class="cat-papers"><span>#4 RAPID EV Disassembly</span><span>#12 MERGE</span></div>
+    </div>
+    <div class="cat-card" style="--color: var(--c3)">
+      <div class="cat-name">Robot Learning &amp; Simulation</div>
+      <div class="cat-desc">Dynamics-grounded RL, generative simulation, hazardous environment training</div>
+      <div class="cat-papers"><span>#5 ABD-Net</span><span>#11 V-Dreamer</span><span>#16 FaaS</span></div>
+    </div>
+    <div class="cat-card" style="--color: var(--c5)">
+      <div class="cat-name">Multi-Robot Coordination</div>
+      <div class="cat-desc">Distributed MPC, multi-agent TAMP, learned multi-objective routing</div>
+      <div class="cat-papers"><span>#7 ADMM-MPC</span><span>#13 GoC-MPC</span><span>#18 CAMO</span></div>
+    </div>
+    <div class="cat-card" style="--color: var(--c4)">
+      <div class="cat-name">Navigation &amp; Spatial Grounding</div>
+      <div class="cat-desc">Zero-shot object navigation, metric-semantic grounding, dynamic SLAM</div>
+      <div class="cat-papers"><span>#9 REST</span><span>#10 MAPG</span><span>#15 DROID-SLAM</span></div>
+    </div>
+    <div class="cat-card" style="--color: var(--c1)">
+      <div class="cat-name">VLA &amp; Foundation Models</div>
+      <div class="cat-desc">Embodied efficiency metrics, real-time flow inference, mechanistic VLA analysis</div>
+      <div class="cat-papers"><span>#8 Embodied Efficiency</span><span>#17 FASTER</span><span>#20 VLA Features</span></div>
+    </div>
   </div>
 </div>
-<div class="cat-card" style="border-left:4px solid #0d9488;">
-  <div class="cat-dot" style="background:#0d9488;"></div>
-  <div>
-    <strong style="color:#0d9488">Tactile & Contact Manipulation</strong>
-    <p class="cat-desc">Multi-modal tactile sensing for deformable object handling and contact-rich tasks</p>
-    <ul class="cat-papers"><li>#2 — ViTac-Tracing: Visual-Tactile Imitation Learning of Def…</li>
-<li>#19 — OmniVTA: Visuo-Tactile World Modeling for Contact-Rich …</li></ul>
-  </div>
-</div>
-<div class="cat-card" style="border-left:4px solid #d97706;">
-  <div class="cat-dot" style="background:#d97706;"></div>
-  <div>
-    <strong style="color:#d97706">Robot Learning & Simulation</strong>
-    <p class="cat-desc">Data generation, physics-informed policy learning, and sim-to-real transfer</p>
-    <ul class="cat-papers"><li>#4 — Robotic Agentic Platform for Intelligent Electric Vehic…</li>
-<li>#5 — Articulated-Body Dynamics Network: Dynamics-Grounded Pr…</li>
-<li>#11 — V-Dreamer: Automating Robotic Simulation and Trajectory…</li>
-<li>#16 — Fire as a Service: Augmenting Robot Simulators with The…</li></ul>
-  </div>
-</div>
-<div class="cat-card" style="border-left:4px solid #2563eb;">
-  <div class="cat-dot" style="background:#2563eb;"></div>
-  <div>
-    <strong style="color:#2563eb">Navigation & Perception</strong>
-    <p class="cat-desc">Object-goal navigation, SLAM, semantic grounding, and situational awareness</p>
-    <ul class="cat-papers"><li>#9 — REST: Receding Horizon Explorative Steiner Tree for Zer…</li>
-<li>#10 — Meanings and Measurements: Multi-Agent Probabilistic Gr…</li>
-<li>#12 — MERGE: Guided Vision-Language Models for Multi-Actor Ev…</li>
-<li>#15 — DROID-SLAM in the Wild</li></ul>
-  </div>
-</div>
-<div class="cat-card" style="border-left:4px solid #dc2626;">
-  <div class="cat-dot" style="background:#dc2626;"></div>
-  <div>
-    <strong style="color:#dc2626">Multi-Robot Coordination</strong>
-    <p class="cat-desc">Decentralized planning, task allocation, and multi-agent path optimization</p>
-    <ul class="cat-papers"><li>#7 — ADMM-Based Distributed MPC with Control Barrier Functio…</li>
-<li>#13 — Graph-of-Constraints Model Predictive Control for React…</li>
-<li>#18 — CAMO: A Conditional Neural Solver for the Multi-objecti…</li></ul>
-  </div>
-</div>
-<div class="cat-card" style="border-left:4px solid #4f46e5;">
-  <div class="cat-dot" style="background:#4f46e5;"></div>
-  <div>
-    <strong style="color:#4f46e5">Control Theory & Locomotion</strong>
-    <p class="cat-desc">Fundamental control limits, legged locomotion, and hardware-control co-design</p>
-    <ul class="cat-papers"><li>#1 — Fundamental Limits for Sensor-Based Control via the Gib…</li>
-<li>#6 — Efficient and Versatile Quadrupedal Skating: Optimal Co…</li></ul>
-  </div>
-</div>
-<div class="cat-card" style="border-left:4px solid #92400e;">
-  <div class="cat-dot" style="background:#92400e;"></div>
-  <div>
-    <strong style="color:#92400e">Hardware Design</strong>
-    <p class="cat-desc">Novel robot hardware: continuum robots, compliant mechanisms, and sensor systems</p>
-    <ul class="cat-papers"><li>#3 — Tendon-Actuated Robots with a Tapered, Flexible Polymer…</li>
-<li>#14 — A Passive Elastic-Folding Mechanism for Stackable Airdr…</li></ul>
-  </div>
-</div>
+
+<!-- ═══ CONTROL THEORY ═══ -->
+<div class="cat-section" style="--color: var(--c6)">
+  <div class="cat-section-header"><div class="cat-dot"></div>Control Theory &amp; Optimal Design</div>
+
+  <div class="paper-card" style="--color: var(--c6)">
+    <div class="paper-left">
+      <div class="rank gold">#1</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=47</div>
+    </div>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.18454v1" target="_blank">Fundamental Limits for Sensor-Based Control via the Gibbs Variational Principle</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">math.OC · cs.RO · eess.SY</span>
+        <span class="pill pill-author">👤 Evangelos A. Theodorou (h=47)</span>
+      </div>
+      <div class="paper-authors">Vincent Pacelli, Evangelos A. Theodorou</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Prior information-theoretic bounds evaluated sensors against the <em>uncontrolled</em> system, producing overly conservative bounds that became useless precisely when feedback mattered most; this work fixes that by conditioning on the controlled trajectory distribution via the Gibbs variational principle.</li>
+        <li>The bound applies broadly to nonlinear, nonholonomic, and hybrid dynamics with unbounded costs — a significantly larger class than prior approaches limited to linear or smooth systems.</li>
+        <li>A self-consistent refinement tightens the bound iteratively: a good controller concentrates the state, limiting extractable sensor information, which in turn tightens the bound further — the fixed-point equation has a unique solution computable by bisection.</li>
+        <li>Provable convexity conditions guarantee the free energy minimization yields a certifiably correct numerical bound, not just a heuristic approximation.</li>
+        <li>On a nonlinear Dubins car tracking problem, the self-consistent bound captures most of the optimal cost across all sensor noise levels where the open-loop variant is completely vacuous — the refinement is not just theoretical but practically significant.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Fundamental limits on the performance of feedback controllers are essential for benchmarking algorithms, guiding sensor selection, and certifying task feasibility -- yet few general-purpose tools exist for computing them. Existing information-theoretic approaches overestimate the information a sensor must provide by evaluating it against the uncontrolled system, producing bounds that degrade precisely when feedback is most valuable. We derive a lower bound on the minimum expected cost of any causal feedback controller under partial observations by applying the Gibbs variational principle to the joint path measure over states and observations. The bound applies to nonlinear, nonholonomic, and hybrid dynamics with unbounded costs and admits a self-consistent refinement: any good controller concentrates the state, which limits the information the sensor can extract, which tightens the bound. The resulting fixed-point equation has a unique solution computable by bisection, and we provide conditions under which the free energy minimization is provably convex, yielding a certifiably correct numerical bound. On a nonlinear Dubins car tracking problem, the self-consistent bound captures most of the optimal cost across sensor noise levels, while the open-loop variant is vacuous at low noise.</div>
+      </details>
+    </div>
   </div>
 
-  <!-- Papers by Category -->
-  <h2 class="section-title">📑 Papers</h2>
-  
-<section class="cat-section">
-  <div class="cat-header" style="background:#7c3aed;">
-    <span>VLA & Foundation Models</span>
-    <span class="cat-count">3 papers</span>
-  </div>
-  <p class="cat-section-desc">Evaluation, efficiency, and mechanistic understanding of Vision-Language-Action models</p>
-  
-<div class="paper-card" style="border-left:4px solid #7c3aed;background:#f5f3ff;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 8</span>
-      <span class="pill h-pill">h=19</span>
+  <div class="paper-card" style="--color: var(--c6)">
+    <div class="paper-left">
+      <div class="rank gold">#6</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=22</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19131v1" target="_blank">From Inference Efficiency to Embodied Efficiency: Revisiting Efficiency Metrics for Vision-Language-Action Models</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.LG</span><span class="pill">cs.RO</span><span class="pill">Chaojian Li (h=19)</span></div>
-      <p class="authors">Zhuofan Li, Hongkun Yang, Zhenyang Chen, Yangxuan Chen, Yingyan</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Challenges the foundational assumption of VLA efficiency research: standard ML metrics (FLOPs, parameters, tokens/sec) systematically fail to predict real-world robotic execution behavior.</li>
-<li>&#9658; Defines four "embodied efficiency" metrics — task completion time, trajectory smoothness, cumulative joint rotation, and motion energy — that reveal policy differences invisible to conventional benchmarks.</li>
-<li>&#9658; Counter-intuitive finding: methods that reduce computation under conventional metrics often <em>increase</em> end-to-end execution cost or degrade motion quality, even while maintaining task success rates.</li>
-<li>&#9658; Common adaptation methods (in-context prompting, supervised fine-tuning) show only mild, metric-specific improvements — gains in one embodied metric come at the cost of others.</li>
-<li>&#9658; Provides a more complete evaluation framework that should replace or supplement standard benchmarks in VLA research, enabling fairer and more practically relevant model comparisons.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.18408v1" target="_blank">Efficient and Versatile Quadrupedal Skating: Optimal Co-design via Reinforcement Learning and Bayesian Optimization</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 Josiah P. Hanna (h=22)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">We find that the prevailing notion of efficiency in VLA research — parameters, FLOPs, token decoding throughput — does not reflect actual performance on robotic platforms. Efficiency in real-world execution is determined by embodied behaviors such as task completion time, trajectory smoothness, cumulative joint rotation, and motion energy. Methods that reduce computation under conventional metrics often increase end-to-end execution cost or degrade motion quality. Common adaptation methods such as in-context prompting or supervised fine-tuning show only mild and metric-specific improvements in embodied efficiency.</p>
+      <div class="paper-authors">Hanwen Wang, Zhenlong Fang, Josiah Hanna, Xiaobin Xiong</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Passive-wheel skating tightly couples mechanical design and control in a way that makes optimizing either without the other leave significant performance on the table; this is the first work to address quadrupedal skating via joint hardware-control co-design.</li>
+        <li>A bilevel optimization framework separates concerns: Bayesian Optimization searches wheel geometry and placement at the upper level, while RL trains a motor control policy for each candidate design at the lower level, enabling scalable design space exploration.</li>
+        <li>The co-designed system discovers qualitatively emergent behaviors — "hockey stop" (rapid sideways braking) and self-aligning motion (automatic reorientation for efficiency) — that are absent from human-engineered baselines, suggesting the optimizer found non-obvious design-control synergies.</li>
+        <li>Passive wheels reduce leg inertia compared to actuated alternatives, improving energy efficiency at high speeds — but only when the mechanical design is specifically matched to the controller's requirements.</li>
+        <li>Provides the first systematic study of dynamic skating motions on quadrupedal platforms, establishing baselines for future work on skating, drifting, and passive-wheel locomotion more broadly.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">In this paper, we present a hardware-control co-design approach that enables efficient and versatile roller skating on quadrupedal robots equipped with passive wheels. Passive-wheel skating reduces leg inertia and improves energy efficiency, particularly at high speeds. However, the absence of direct wheel actuation tightly couples mechanical design and control. To unlock the full potential of this modality, we formulate a bilevel optimization framework: an upper-level Bayesian Optimization searches the mechanical design space, while a lower-level Reinforcement Learning trains a motor control policy for each candidate design. The resulting design-policy pairs not only outperform human-engineered baselines, but also exhibit versatile behaviors such as hockey stop (rapid braking by turning sideways to maximize friction) and self-aligning motion (automatic reorientation to improve energy efficiency in the direction of travel), offering the first system-level study of dynamic skating motion on quadrupedal robots.</div>
       </details>
     </div>
   </div>
 </div>
 
-<div class="paper-card" style="border-left:4px solid #7c3aed;background:#f5f3ff;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 17</span>
-      <span class="pill h-pill">h=9</span>
+<!-- ═══ TACTILE ═══ -->
+<div class="cat-section" style="--color: var(--c2)">
+  <div class="cat-section-header"><div class="cat-dot"></div>Tactile &amp; Contact-Rich Manipulation</div>
+
+  <div class="paper-card" style="--color: var(--c2)">
+    <div class="paper-left">
+      <div class="rank gold">#2</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=46</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19199v1" target="_blank">FASTER: Rethinking Real-Time Flow VLAs</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">cs.CV</span><span class="pill">Hengshuang Zhao (h=9)</span></div>
-      <p class="authors">Yuxiang Lu, Zhe Liu, Xianzhe Fan, Zhenya Yang, Jinghua Hou</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Identifies a structural problem in flow-based VLA inference: constant sampling schedules force <em>all</em> denoising steps to complete before any motion starts — creating an avoidable reaction latency bottleneck.</li>
-<li>&#9658; Derives that reaction time follows a uniform distribution jointly determined by Time to First Action (TTFA) and execution horizon — a formal characterization that clarifies what can be optimized.</li>
-<li>&#9658; Horizon-Aware Schedule adaptively prioritizes near-term actions during flow sampling, compressing the denoising of the immediate reaction from full steps to a <em>single step</em> (10x compression) while preserving long-horizon quality.</li>
-<li>&#9658; Streaming client-server pipeline further reduces effective reaction latency, enabling real-time responsiveness even on consumer-grade GPUs — democratizing VLA deployment beyond research clusters.</li>
-<li>&#9658; Validated on a highly dynamic table tennis task requiring sub-100ms reaction, proving that FASTER unlocks real-time responsiveness for generalist policies in physically demanding scenarios.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.18784v1" target="_blank">ViTac-Tracing: Visual-Tactile Imitation Learning of Deformable Object Tracing</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 Y. Demiris (h=46)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Real-time execution is crucial for deploying VLA models physically. Existing asynchronous inference methods optimize trajectory smoothness but neglect reaction latency. Reaction time follows a uniform distribution determined by Time to First Action (TTFA) and execution horizon. Constant schedules in flow-based VLAs force all sampling steps to complete before movement starts. FASTER's Horizon-Aware Schedule adaptively prioritizes near-term actions, compressing denoising of the immediate reaction by tenfold into a single step while preserving long-horizon trajectory quality. Validated on a highly dynamic table tennis task.</p>
+      <div class="paper-authors">Yongqiang Zhao, Haining Luo, Yupeng Wang, Emmanouil Spyrakos Papastavridis, Yiannis Demiris</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Existing deformable object tracing methods require either object-specific geometric models or sim-to-real transfer that degrades in practice; this work sidesteps both by learning directly from visual+tactile demonstrations, enabling category-level generalization.</li>
+        <li>A single unified model handles both 1D (cables, ropes) and 2D (cloth, fabric) deformable object tracing — prior methods typically required separate architectures per object category.</li>
+        <li>A weighted loss that penalizes actions moving contact away from the tactile image center enforces fine-grained contact maintenance without hand-engineered reward shaping, learning the "stay centered" heuristic directly from demonstrations.</li>
+        <li>A tracing task loss supervises task progression explicitly, improving long-horizon consistency by teaching the policy when it is making forward progress versus drifting.</li>
+        <li>Achieves 80% success on seen objects and 65% on unseen objects in real-world trials — meaningful cross-category generalization without any retraining on new object types.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Deformable objects often appear in unstructured configurations. Tracing deformable objects helps bringing them into extended states and facilitating the downstream manipulation tasks. Due to the requirements for object-specific modeling or sim-to-real transfer, existing tracing methods either lack generalizability across different categories of deformable objects or struggle to complete tasks reliably in the real world. To address this, we propose a novel visual-tactile imitation learning method to achieve one-dimensional (1D) and two-dimensional (2D) deformable object tracing with a unified model. Our method is designed from both local and global perspectives based on visual and tactile sensing. Locally, we introduce a weighted loss that emphasizes actions maintaining contact near the center of the tactile image, improving fine-grained adjustment. Globally, we propose a tracing task loss that helps the policy to regulate task progression. On the hardware side, to compensate for the limited features extracted from visual information, we integrate tactile sensing into a low-cost teleoperation system considering both the teleoperator and the robot. Extensive ablation and comparative experiments on diverse 1D and 2D deformable objects demonstrate the effectiveness of our approach, achieving an average success rate of 80% on seen objects and 65% on unseen objects.</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="paper-card" style="--color: var(--c2)">
+    <div class="paper-left">
+      <div class="rank">#19</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=8</div>
+    </div>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19201v1" target="_blank">OmniVTA: Visuo-Tactile World Modeling for Contact-Rich Robotic Manipulation</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 Yuhang Zheng (h=8)</span>
+      </div>
+      <div class="paper-authors">Yuhang Zheng, Songen Gu, Weize Li, Yupeng Zheng, Yujie Zang</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>The data bottleneck in visuo-tactile manipulation has been severe — existing datasets cover hundreds of trajectories across a handful of tasks; OmniViTac (21,000+ trajectories, 86 tasks, 100+ objects) is an order-of-magnitude larger and broader than any prior collection.</li>
+        <li>Six physics-grounded interaction patterns provide a principled taxonomy of contact types (wiping, insertion, screwing, etc.), enabling systematic evaluation of whether models generalize across contact regimes rather than memorizing task-specific behaviors.</li>
+        <li>Treating tactile signals as inputs to a predictive <em>world model</em> rather than passive observations allows the policy to anticipate contact evolution — a qualitative shift from reactive to anticipatory control.</li>
+        <li>A 60Hz reflexive controller closes the loop on tactile prediction errors in real time, correcting contact deviations before they propagate into task failures — the highest-frequency tactile feedback loop reported in a manipulation learning paper.</li>
+        <li>Demonstrates generalization to unseen objects and geometric configurations across all six interaction categories, confirming that predictive contact modeling provides genuine physical understanding rather than task-specific memorization.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Contact-rich manipulation tasks, such as wiping and assembly, require accurate perception of contact forces, friction changes, and state transitions that cannot be reliably inferred from vision alone. Despite growing interest in visuo-tactile manipulation, progress is constrained by two persistent limitations: existing datasets are small in scale and narrow in task coverage, and current methods treat tactile signals as passive observations rather than using them to model contact dynamics or enable closed-loop control explicitly. In this paper, we present OmniViTac, a large-scale visuo-tactile-action dataset comprising 21,000+ trajectories across 86 tasks and 100+ objects, organized into six physics-grounded interaction patterns. Building on this dataset, we propose OmniVTA, a world-model-based visuo-tactile manipulation framework that integrates four tightly coupled modules: a self-supervised tactile encoder, a two-stream visuo-tactile world model for predicting short-horizon contact evolution, a contact-aware fusion policy for action generation, and a 60Hz reflexive controller that corrects deviations between predicted and observed tactile signals in a closed loop. Real-robot experiments across all six interaction categories show that OmniVTA outperforms existing methods and generalizes well to unseen objects and geometric configurations.</div>
       </details>
     </div>
   </div>
 </div>
 
-<div class="paper-card" style="border-left:4px solid #7c3aed;background:#f5f3ff;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 20</span>
-      <span class="pill h-pill">h=7</span>
+<!-- ═══ HARDWARE ═══ -->
+<div class="cat-section" style="--color: var(--c7)">
+  <div class="cat-section-header"><div class="cat-dot"></div>Hardware Design &amp; Mechanisms</div>
+
+  <div class="paper-card" style="--color: var(--c7)">
+    <div class="paper-left">
+      <div class="rank gold">#3</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=45</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19233v1" target="_blank">Not All Features Are Created Equal: A Mechanistic Study of Vision-Language-Action Models</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">Xijia Zhao (h=7)</span></div>
-      <p class="authors">Bryce Grant, Xijia Zhao, Peng Wang</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; First large-scale mechanistic study of VLA models: 6 models (80M–7B parameters), 394K+ rollout episodes, 4 benchmarks — using activation injection, sparse autoencoders, and linear probes to open the black box.</li>
-<li>&#9658; Visual pathway dominates action generation across all architectures: injecting baseline visual activations into null-prompt episodes recovers near-identical robot behavior (99.8% trajectory alignment in X-VLA), revealing spatially bound motor programs tied to scene coordinates.</li>
-<li>&#9658; Language sensitivity is task-structure dependent, not model-design dependent: when visual context uniquely specifies the task, language is ignored; when multiple goals share a scene, language becomes essential (94% → 10% success under wrong prompts).</li>
-<li>&#9658; In multi-pathway VLAs (π0.5, SmolVLA, GR00T), expert pathways encode motor programs while VLM pathways encode goal semantics — confirmed via subspace injection showing 2x greater behavioral displacement from expert pathway injection.</li>
-<li>&#9658; Contrastive SAE identification recovers 82+ manipulation concepts; releases Action Atlas (action-atlas.com) for interactive exploration of VLA representations, providing a shared resource for the mechanistic interpretability community.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19124v1" target="_blank">Tendon-Actuated Robots with a Tapered, Flexible Polymer Backbone: Design, Fabrication, and Modeling</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 J. Gravdahl (h=45)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">We apply activation injection, sparse autoencoders (SAEs), and linear probes to six VLA models (80M–7B parameters) across 394,000+ rollout episodes on four benchmarks. The visual pathway dominates action generation: injecting baseline activations into null-prompt episodes recovers near-identical behavior (99.8% of X-VLA episodes align with source trajectory). Language sensitivity depends on task structure: when visual context uniquely specifies the task, language is ignored; when multiple goals share a scene, language becomes essential (94%→10% under wrong prompts). In multi-pathway architectures, expert pathways encode motor programs while VLM pathways encode goal semantics. SAE processing identifies 82+ manipulation concepts. We release Action Atlas for interactive exploration.</p>
+      <div class="paper-authors">Harald Minde Hansen, Nandita Gallacher, Nicholas B. Andrews, Kristin Y. Pettersen, Jan Tommy Gravdahl</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Unlike most continuum robot designs requiring specialized fabrication facilities, this system uses standard FDM 3D printing with TPU and commercial sheet materials — making it fully reproducible in any lab with a consumer-grade printer.</li>
+        <li>A tapered backbone creates graded stiffness along the length: high proximal stiffness for load bearing and increased distal compliance for safe contact — a mechanical property unachievable with uniform-cross-section designs without active control.</li>
+        <li>The Cosserat rod model is extended to explicitly handle spatially varying cross-sectional geometry, correcting a systematic modeling error in prior formulations that assumed uniform backbone cross-sections.</li>
+        <li>Model validates against motion capture with centimeter-level shape accuracy after a single Young's modulus calibration — no per-configuration tuning or learned correction needed.</li>
+        <li>Open parameterized CAD scripts enable rapid geometry generation and scaling, lowering the barrier for researchers to replicate or adapt the design for specific inspection or manipulation tasks.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">This paper presents the design, modeling, and fabrication of 3D-printed, tendon-actuated continuum robots featuring a flexible, tapered backbone constructed from thermoplastic polyurethane (TPU). Our scalable design incorporates an integrated electronics base housing that enables direct tendon tension control and sensing via actuators and compression load cells. Unlike many continuum robots that are single-purpose and costly, the proposed design prioritizes customizability, rapid assembly, and low cost while enabling high curvature and enhanced distal compliance through geometric tapering, thereby supporting a broad range of compliant robotic inspection and manipulation tasks. We develop a generalized forward kinetostatic model of the tapered backbone based on Cosserat rod theory using a Newtonian approach, extending existing tendon-actuated Cosserat rod formulations to explicitly account for spatially varying backbone cross-sectional geometry. The model is validated against motion capture data, achieving centimeter-level shape prediction accuracy after calibrating Young's modulus via a line search that minimizes modeling error. We further demonstrate teleoperated grasping using an endoscopic gripper routed along the continuum robot, mounted on a 6-DoF robotic arm. Parameterized iLogic/CAD scripts are provided for rapid geometry generation and scaling.</div>
       </details>
     </div>
   </div>
-</div>
-</section>
-<section class="cat-section">
-  <div class="cat-header" style="background:#0d9488;">
-    <span>Tactile & Contact Manipulation</span>
-    <span class="cat-count">2 papers</span>
-  </div>
-  <p class="cat-section-desc">Multi-modal tactile sensing for deformable object handling and contact-rich tasks</p>
-  
-<div class="paper-card" style="border-left:4px solid #0d9488;background:#f0fdfa;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#b45309;font-weight:700;"># 2</span>
-      <span class="pill h-pill">h=46</span>
+
+  <div class="paper-card" style="--color: var(--c7)">
+    <div class="paper-left">
+      <div class="rank">#14</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=11</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.18784v1" target="_blank">ViTac-Tracing: Visual-Tactile Imitation Learning of Deformable Object Tracing</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">Y. Demiris (h=46)</span></div>
-      <p class="authors">Yongqiang Zhao, Haining Luo, Yupeng Wang, Emmanouil Spyrakos Papastavridis, Yiannis Demiris</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; A single unified model handles both 1D (ropes, wires) and 2D (cloth, fabric) deformable object tracing — prior work required object-specific pipelines or brittle sim-to-real transfer that fails in real-world conditions.</li>
-<li>&#9658; Integrates tactile sensing into a low-cost teleoperation system, enabling data collection that captures both visual and tactile modalities simultaneously — removing the expensive specialized hardware typically required for tactile demonstration.</li>
-<li>&#9658; Weighted loss emphasizes actions that maintain contact near the <em>center</em> of the tactile image, providing fine-grained finger positioning that vision alone cannot achieve.</li>
-<li>&#9658; A global tracing task loss regulates task-level progression, preventing the policy from drifting or terminating prematurely — addressing a subtle failure mode in continuous manipulation tasks.</li>
-<li>&#9658; Achieves 80% success on seen deformable objects and 65% on unseen, demonstrating meaningful cross-category generalization without any object-specific re-training.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.18861v1" target="_blank">A Passive Elastic-Folding Mechanism for Stackable Airdrop Sensors</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO · eess.SY</span>
+        <span class="pill pill-author">👤 T. Sasatani (h=11)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Deformable objects often appear in unstructured configurations. Tracing deformable objects helps bringing them into extended states and facilitating the downstream manipulation tasks. Due to the requirements for object-specific modeling or sim-to-real transfer, existing tracing methods either lack generalizability across different categories of deformable objects or struggle to complete tasks reliably in the real world. To address this, we propose a novel visual-tactile imitation learning method to achieve one-dimensional (1D) and two-dimensional (2D) deformable object tracing with a unified model. Our method is designed from both local and global perspectives based on visual and tactile sensing. Locally, we introduce a weighted loss that emphasizes actions maintaining contact near the center of the tactile image, improving fine-grained adjustment. Globally, we propose a tracing task loss that helps the policy to regulate task progression. On the hardware side, to compensate for the limited features extracted from visual information, we integrate tactile sensing into a low-cost teleoperation system. Extensive ablation and comparative experiments on diverse 1D and 2D deformable objects demonstrate the effectiveness of our approach, achieving an average success rate of 80% on seen objects and 65% on unseen objects.</p>
+      <div class="paper-authors">Damyon Kim, Yuichi Honjo, Tatsuya Iizuka, Naomi Okubo, Naoto Endo</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Existing airdrop sensor systems require active actuators for mid-air shape change, adding power consumption, weight, and failure modes; this work achieves full 3D structural deployment entirely passively through pre-programmed elastic energy released on drop.</li>
+        <li>A single oven-heating fabrication step programs fold angles (10–100° range, ±4° repeatability) into laminated PCB-sheet composites — no clean-room, no specialized tooling, no per-unit calibration needed, enabling low-cost scalable production.</li>
+        <li>A geometric model linking laminate geometry to fold angle provides predictive design methodology: researchers specify a target configuration and compute required laminate parameters analytically before fabrication.</li>
+        <li>Field trials with LoRa transmission confirm reliable data collection during real dispersal events — not just controlled lab deployment — validating the system under realistic airdrop conditions.</li>
+        <li>HWM-based trajectory simulation indicates 10+ km coverage per dispersal event, enabling wide-area environmental monitoring at a cost-per-sensor significantly below existing deployable systems.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Air-dispersed sensor networks deployed from aerial robotic systems (e.g., UAVs) provide a low-cost approach to wide-area environmental monitoring. However, existing methods often rely on active actuators for mid-air shape or trajectory control, increasing both power consumption and system cost. Here, we introduce a passive elastic-folding hinge mechanism that transforms sensors from a flat, stackable form into a three-dimensional structure upon release. Hinges are fabricated by laminating commercial sheet materials with rigid printed circuit boards (PCBs) and programming fold angles through a single oven-heating step, enabling scalable production without specialized equipment. Our geometric model links laminate geometry, hinge mechanics, and resulting fold angle, providing a predictive design methodology for target configurations. Laboratory tests confirmed fold angles between 10 degrees and 100 degrees, with a standard deviation of 4 degrees and high repeatability. Field trials further demonstrated reliable data collection and LoRa transmission during dispersion, while the Horizontal Wind Model (HWM)-based trajectory simulations indicated strong potential for wide-area sensing exceeding 10 km.</div>
       </details>
     </div>
   </div>
 </div>
 
-<div class="paper-card" style="border-left:4px solid #0d9488;background:#f0fdfa;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 19</span>
-      <span class="pill h-pill">h=8</span>
+<!-- ═══ AGENTIC AI ═══ -->
+<div class="cat-section" style="--color: var(--c8)">
+  <div class="cat-section-header"><div class="cat-dot"></div>Agentic AI &amp; Human-Robot Interaction</div>
+
+  <div class="paper-card" style="--color: var(--c8)">
+    <div class="paper-left">
+      <div class="rank gold">#4</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=35</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19201v1" target="_blank">OmniVTA: Visuo-Tactile World Modeling for Contact-Rich Robotic Manipulation</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">Yuhang Zheng (h=8)</span></div>
-      <p class="authors">Yuhang Zheng, Songen Gu, Weize Li, Yupeng Zheng, Yujie Zang</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; OmniViTac provides 21,000+ visuo-tactile-action trajectories across 86 tasks and 100+ objects — addressing the dataset scarcity that has constrained contact-rich manipulation research relative to purely visual approaches.</li>
-<li>&#9658; Organizes data around six physics-grounded interaction patterns (e.g., sliding, pressing, pivoting), enabling structured evaluation of contact dynamics understanding rather than task-specific overfitting.</li>
-<li>&#9658; World-model approach: predicts short-horizon contact evolution rather than treating tactile signals as passive observations — enabling anticipatory planning rather than purely reactive control.</li>
-<li>&#9658; 60Hz reflexive controller closes the loop between predicted and observed tactile signals, correcting deviations at high frequency — a key advantage over slower action-chunking policies for contact-sensitive tasks.</li>
-<li>&#9658; Generalizes to unseen objects and geometric configurations across all six interaction categories, confirming that large-scale diverse visuo-tactile datasets enable the kind of generalization vision-only datasets provide for visual manipulation.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.18520v1" target="_blank">Robotic Agentic Platform for Intelligent Electric Vehicle Disassembly (RAPID)</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 N. Correll (h=35)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Contact-rich manipulation tasks require accurate perception of contact forces, friction changes, and state transitions that cannot be inferred from vision alone. OmniViTac is a large-scale visuo-tactile-action dataset of 21,000+ trajectories across 86 tasks and 100+ objects, organized into six physics-grounded interaction patterns. OmniVTA integrates a self-supervised tactile encoder, a two-stream visuo-tactile world model for predicting short-horizon contact evolution, a contact-aware fusion policy, and a 60Hz reflexive controller that corrects deviations between predicted and observed tactile signals. Real-robot experiments across all six interaction categories show generalization to unseen objects and geometric configurations.</p>
+      <div class="paper-authors">Zachary Allen, Max Conway, Lyle Antieau, Allen Ponraj, Nikolaus Correll</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>EV battery disassembly remains manual due to high design variability across manufacturers; RAPID is among the first systems to tackle full-scale battery pack disassembly robotically with open-vocabulary perception, removing the need to retrain for each new EV model.</li>
+        <li>Open-vocabulary object detection achieves 0.9757 mAP50 on screws, nuts, and busbars — enabling reliable fastener identification on novel battery designs without task-specific training data.</li>
+        <li>Three fastener removal strategies compared empirically (n=204): taught-in poses (97% success), one-shot vision (57%), visual servoing (83%) — the 40-point gap between taught poses and vision-only execution pinpoints perception-to-action coupling as the primary failure mode.</li>
+        <li>LLM agents using structured tool-based interfaces achieve 100% task completion, while automatic ROS service discovery fails 43% of the time — a sharp empirical demonstration that structured APIs are necessary (not optional) for reliable LLM robot control.</li>
+        <li>Edge-hardware results (Qwen 3.5 9B/4B) comparable to GPT-4o-mini for structured tool calls suggest LLM-driven disassembly does not require cloud connectivity, which is critical for factory deployment.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Electric vehicles (EV) create an urgent need for scalable battery recycling, yet disassembly of EV battery packs remains largely manual due to high design variability. We present our Robotic Agentic Platform for Intelligent Disassembly (RAPID), designed to investigate perception-driven manipulation, flexible automation, and AI-assisted robot programming in realistic recycling scenarios. The system integrates a gantry-mounted industrial manipulator, RGB-D perception, and an automated nut-running tool for fastener removal on a full-scale EV battery pack. An open-vocabulary object detection pipeline achieves 0.9757 mAP50, enabling reliable identification of screws, nuts, busbars, and other components. We experimentally evaluate (n=204) three one-shot fastener removal strategies: taught-in poses (97% success rate, 24 min duration), one-shot vision execution (57%, 29 min), and visual servoing (83%, 36 min). Tool-based interfaces achieve 100% task completion, while automatic ROS service discovery shows 43.3% failure rates, highlighting the need for structured robot APIs for reliable LLM-driven control.</div>
       </details>
     </div>
   </div>
-</div>
-</section>
-<section class="cat-section">
-  <div class="cat-header" style="background:#d97706;">
-    <span>Robot Learning & Simulation</span>
-    <span class="cat-count">4 papers</span>
-  </div>
-  <p class="cat-section-desc">Data generation, physics-informed policy learning, and sim-to-real transfer</p>
-  
-<div class="paper-card" style="border-left:4px solid #d97706;background:#fffbeb;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 4</span>
-      <span class="pill h-pill">h=35</span>
+
+  <div class="paper-card" style="--color: var(--c8)">
+    <div class="paper-left">
+      <div class="rank">#12</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=13</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.18520v1" target="_blank">Robotic Agentic Platform for Intelligent Electric Vehicle Disassembly</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">N. Correll (h=35)</span></div>
-      <p class="authors">Zachary Allen, Max Conway, Lyle Antieau, Allen Ponraj, Nikolaus Correll</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; First system-level study of robotic EV battery pack disassembly — a genuine industrial bottleneck where design variability has kept the process manual despite urgent recycling demand.</li>
-<li>&#9658; Open-vocabulary object detection achieves 0.9757 mAP50 for screws, nuts, and busbars without category-specific fine-tuning, enabling generalization across different EV models.</li>
-<li>&#9658; Systematic comparison of three fastener-removal strategies quantifies the autonomy–reliability tradeoff: taught-in poses (97% success, 24 min) beats visual servoing (83%, 36 min) and one-shot vision (57%, 29 min) in both metrics.</li>
-<li>&#9658; Agentic AI specifications using LLM agents (SmolAgents + GPT-4o-mini, Qwen) show 100% task completion via tool-based interfaces but 43.3% failure rates under automatic ROS service discovery — highlighting the critical importance of structured APIs.</li>
-<li>&#9658; Provides open-source infrastructure for studying human-robot collaboration and increasingly autonomous recycling workflows, establishing a practical research foundation for the industry.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.18988v1" target="_blank">MERGE: Guided Vision-Language Models for Multi-Actor Event Reasoning and Grounding in Human-Robot Interaction</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 A. Belardinelli (h=13)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Electric vehicles (EV) create an urgent need for scalable battery recycling, yet disassembly of EV battery packs remains largely manual due to high design variability. We present our Robotic Agentic Platform for Intelligent Disassembly (RAPID), designed to investigate perception-driven manipulation, flexible automation, and AI-assisted robot programming in realistic recycling scenarios. An open-vocabulary object detection pipeline achieves 0.9757 mAP50, enabling reliable identification of screws, nuts, busbars, and other components. We experimentally evaluate three one-shot fastener removal strategies: taught-in poses (97% success rate, 24 min duration), one-shot vision execution (57%, 29 min), and visual servoing (83%, 36 min). Tool-based interfaces achieve 100% task completion, while automatic ROS service discovery shows 43.3% failure rates.</p>
+      <div class="paper-authors">Joerg Deigmoeller, Nakul Agarwal, Stephan Hasler, Daniel Tanneberg, Anna Belardinelli</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>HRI systems face a dilemma: use expensive VLMs per frame (high latency, cost) or lightweight streaming models (miss complex reasoning); MERGE resolves this by streaming to detect scene changes and invoking VLMs selectively only when something meaningful changes.</li>
+        <li>4× runtime reduction vs. VLM-only baselines (including GPT-4o, GPT-5, Gemini 2.5 Flash) — most frames are similar to the previous one, so selective invocation eliminates redundant inference without sacrificing reasoning quality.</li>
+        <li>2× improvement in grounding score over state-of-the-art VLM baselines, showing that structured perception pipelines add substantial value even on top of very powerful foundation models.</li>
+        <li>The GROUND dataset fills a genuine gap: no benchmark existed for fine-grained situational awareness in multi-person HRI with temporally consistent actor tracking across interaction sequences.</li>
+        <li>Actor-action-object relations with temporal consistency enable reasoning about causal event chains over time — a capability that frame-level captioning fundamentally cannot support without persistent actor identity.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">We introduce MERGE, a system for situational grounding of actors, objects, and events in dynamic human-robot group interactions. MERGE achieves this by uniquely identifying physical instances of actors and objects and structuring them into actor-action-object relations, ensuring temporal consistency across interactions. Central to MERGE is the integration of Vision-Language Models (VLMs) guided with a perception pipeline: a lightweight streaming module continuously processes visual input to detect changes and selectively invokes the VLM only when necessary. This decoupled design preserves the reasoning power and zero-shot generalization of VLMs while improving efficiency. To address the absence of suitable benchmarks for multi-actor collaboration, we introduce the GROUND dataset, which offers fine-grained situational annotations of multi-person and human-robot interactions. On this dataset, our approach improves the average grounding score by a factor of 2 compared to VLM-only baselines — including GPT-4o, GPT-5 and Gemini 2.5 Flash — while also reducing run-time by a factor of 4.</div>
       </details>
     </div>
   </div>
 </div>
 
-<div class="paper-card" style="border-left:4px solid #d97706;background:#fffbeb;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 5</span>
-      <span class="pill h-pill">h=22</span>
+<!-- ═══ ROBOT LEARNING ═══ -->
+<div class="cat-section" style="--color: var(--c3)">
+  <div class="cat-section-header"><div class="cat-dot"></div>Robot Learning &amp; Simulation</div>
+
+  <div class="paper-card" style="--color: var(--c3)">
+    <div class="paper-left">
+      <div class="rank gold">#5</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=22</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19078v1" target="_blank">Articulated-Body Dynamics Network: Dynamics-Grounded Prior for Robot Learning</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">Josiah P. Hanna (h=22)</span></div>
-      <p class="authors">Sangwoo Shin, Kunzhao Ren, Xiaobin Xiong, Josiah Hanna</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Prior physics-informed policy networks use kinematic structure (joint connectivity) as an inductive bias, but ignore <em>dynamics</em> — how inertia and forces propagate through the body. ABD-Net fills this gap.</li>
-<li>&#9658; Adapts the Articulated Body Algorithm's child-to-parent inertia propagation into a learnable GNN, replacing physical quantities with learned parameters while preserving the tree-structured aggregation pattern.</li>
-<li>&#9658; Achieves greater sample efficiency and stronger generalization to dynamics shifts compared to both transformer and GNN baselines across humanoid, quadruped, and hopper morphologies.</li>
-<li>&#9658; Validates sim-to-real transfer on Unitree G1 (humanoid) and Go2 (quadruped) at real-time inference rates — demonstrating practical deployment potential beyond simulation.</li>
-<li>&#9658; Provides a template for using classical rigid-body dynamics algorithms (like the ABA) as architectural blueprints for more data-efficient neural policy networks.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19078v1" target="_blank">Articulated-Body Dynamics Network: Dynamics-Grounded Prior for Robot Learning</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 Josiah P. Hanna (h=22)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Recent work in reinforcement learning has shown that incorporating structural priors for articulated robots — such as link connectivity — into policy networks improves learning efficiency. However, dynamics properties, despite their fundamental role in determining how forces and motion propagate through the body, remain largely underexplored as an inductive bias for policy learning. We present ABD-Net, a novel graph neural network architecture grounded in the computational structure of forward dynamics. We adapt the inertia propagation mechanism from the Articulated Body Algorithm, systematically aggregating inertial quantities from child to parent links in a tree-structured manner, while replacing physical quantities with learnable parameters. Through experiments with simulated humanoid, quadruped, and hopper robots, our approach demonstrates increased sample efficiency and generalization to dynamics shifts compared to transformer-based and GNN baselines. We validate the learned policy on real Unitree G1 and Go2 robots with real-time inference.</p>
+      <div class="paper-authors">Sangwoo Shin, Kunzhao Ren, Xiaobin Xiong, Josiah Hanna</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Most GNNs for robots exploit connectivity structure but ignore dynamics — ABD-Net embeds the Articulated Body Algorithm's inertia propagation directly into the network architecture, creating a prior that mirrors how forces actually propagate through rigid-body chains.</li>
+        <li>Replacing physical inertial quantities with learnable parameters lets the network start from a physics-informed prior and adapt to model errors, unlike standard GNNs that learn from scratch with no physical knowledge.</li>
+        <li>Demonstrates improved sample efficiency on humanoid, quadruped, and hopper robots — the dynamics prior reduces required environment interactions to learn stable locomotion, directly reducing training cost on physical hardware.</li>
+        <li>Generalizes better to dynamics shifts (changed payload, terrain changes) than transformer-based and GNN baselines, suggesting the structural prior acts as a regularizer against overfitting training conditions.</li>
+        <li>Validated on real Unitree G1 humanoid and Go2 quadruped with sim-to-real transfer at real-time inference rates — validating the approach beyond controlled benchmarks on state-of-the-art platforms.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Recent work in reinforcement learning has shown that incorporating structural priors for articulated robots, such as link connectivity, into policy networks improves learning efficiency. However, dynamics properties, despite their fundamental role in determining how forces and motion propagate through the body, remain largely underexplored as an inductive bias for policy learning. To address this gap, we present the Articulated-Body Dynamics Network (ABD-Net), a novel graph neural network architecture grounded in the computational structure of forward dynamics. Specifically, we adapt the inertia propagation mechanism from the Articulated Body Algorithm, systematically aggregating inertial quantities from child to parent links in a tree-structured manner, while replacing physical quantities with learnable parameters. Through experiments with simulated humanoid, quadruped, and hopper robots, our approach demonstrates increased sample efficiency and generalization to dynamics shifts compared to transformer-based and GNN baselines. We further validate the learned policy on real Unitree G1 and Go2 robots, generating dynamic, versatile and robust locomotion behaviors through sim-to-real transfer with real-time inference.</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="paper-card" style="--color: var(--c3)">
+    <div class="paper-left">
+      <div class="rank">#11</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=15</div>
+    </div>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.18811v1" target="_blank">V-Dreamer: Automating Robotic Simulation and Trajectory Synthesis via Video Generation Priors</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 Jing Huo (h=15)</span>
+      </div>
+      <div class="paper-authors">Songjia He, Zixuan Chen, Hongyu Ding, Dian Shao, Jieqi Shi</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Prior simulation-based data generation requires manual asset placement and fixed object libraries; V-Dreamer generates complete 3D manipulation environments from text descriptions with zero manual intervention, removing the fixed-vocabulary bottleneck entirely.</li>
+        <li>Video generative models serve as motion priors: rather than programming expert trajectories, the system generates plausible video of the task being performed and maps this to robot kinematics — a fundamentally different and more scalable source of trajectory supervision.</li>
+        <li>The Sim-to-Gen visual-kinematic alignment module (using CoTracker3 + VGGT) is the critical bridge between video-space motion and executable robot joint commands — without this alignment, video priors remain unexecutable fantasies.</li>
+        <li>Policies trained on V-Dreamer data transfer to real-world manipulation with a Piper robotic arm, demonstrating that synthetically generated environments provide training signal that generalizes beyond simulation.</li>
+        <li>Scales to open-vocabulary tasks — any manipulation task expressible in natural language can generate training data — removing the fixed-vocabulary limitation that restricts existing simulation frameworks.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Training generalist robots demands large-scale, diverse manipulation data, yet real-world collection is prohibitively expensive, and existing simulators are often constrained by fixed asset libraries and manual heuristics. To bridge this gap, we present V-Dreamer, a fully automated framework that generates open-vocabulary, simulation-ready manipulation environments and executable expert trajectories directly from natural language instructions. V-Dreamer employs a novel generative pipeline that constructs physically grounded 3D scenes using large language models and 3D generative models, validated by geometric constraints to ensure stable, collision-free layouts. Crucially, for behavior synthesis, we leverage video generation models as rich motion priors. These visual predictions are then mapped into executable robot trajectories via a robust Sim-to-Gen visual-kinematic alignment module utilizing CoTracker3 and VGGT. Extensive evaluations on tabletop manipulation tasks using the Piper robotic arm demonstrate that our policies robustly generalize to unseen objects in simulation and achieve effective sim-to-real transfer.</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="paper-card" style="--color: var(--c3)">
+    <div class="paper-left">
+      <div class="rank">#16</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=10</div>
+    </div>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19063v1" target="_blank">Fire as a Service: Augmenting Robot Simulators with Thermally and Visually Accurate Fire Dynamics</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO · cs.GR</span>
+        <span class="pill pill-author">👤 Sören Pirk (h=10)</span>
+      </div>
+      <div class="paper-authors">Anton R. Wagner, Madhan Balaji Rao, Helge Wrede, Sören Pirk, Xuesu Xiao</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Robot simulators model rigid-body dynamics precisely but treat fire as a texture or ignore it entirely; FaaS is the first framework to integrate high-fidelity thermodynamic fire simulation into the robot control loop, enabling firefighting robot training and evaluation in simulation.</li>
+        <li>Asynchronous co-simulation decouples slow fire physics (compute-heavy) from the fast robot control loop (100+ Hz), achieving realistic fire dynamics without disrupting real-time control — a key systems engineering contribution.</li>
+        <li>Multi-species thermodynamic heat transfer and volumetric smoke allow robots to experience realistic sensor degradation and proximity heat effects, critical for learning policies that behave safely around actual fire hazards.</li>
+        <li>Real-time performance supports human-in-the-loop teleoperation, enabling data collection that successfully produced reactive multimodal firefighting policies via Behavioral Cloning.</li>
+        <li>Simulator-agnostic design integrates with multiple existing robot simulators, letting the community adopt fire environments without switching simulation infrastructure.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Most existing robot simulators prioritize rigid-body dynamics and photorealistic rendering, but largely neglect the thermally and optically complex phenomena that characterize real-world fire environments. For robots envisioned as future firefighters, this limitation hinders both reliable capability evaluation and the generation of representative training data prior to deployment in hazardous scenarios. To address these challenges, we introduce Fire as a Service (FaaS), a novel, asynchronous co-simulation framework that augments existing robot simulators with high-fidelity and computationally efficient fire simulations. Our pipeline enables robots to experience accurate, multi-species thermodynamic heat transfer and visually consistent volumetric smoke without disrupting high-frequency rigid-body control loops. Crucially, its real-time performance supports human-in-the-loop teleoperation, enabling the successful training of reactive, multimodal policies via Behavioral Cloning. By adding fire dynamics to robot simulations, FaaS provides a scalable pathway toward safer, more reliable deployment of robots in fire scenarios.</div>
       </details>
     </div>
   </div>
 </div>
 
-<div class="paper-card" style="border-left:4px solid #d97706;background:#fffbeb;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 11</span>
-      <span class="pill h-pill">h=15</span>
+<!-- ═══ MULTI-ROBOT ═══ -->
+<div class="cat-section" style="--color: var(--c5)">
+  <div class="cat-section-header"><div class="cat-dot"></div>Multi-Robot Coordination</div>
+
+  <div class="paper-card" style="--color: var(--c5)">
+    <div class="paper-left">
+      <div class="rank gold">#7</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=19</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.18811v1" target="_blank">V-Dreamer: Automating Robotic Simulation and Trajectory Synthesis via Video Generation Priors</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">Jing Huo (h=15)</span></div>
-      <p class="authors">Songjia He, Zixuan Chen, Hongyu Ding, Dian Shao, Jieqi Shi</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Fully automates the two most expensive steps in robot data collection — environment creation and expert trajectory generation — using only natural language input, eliminating fixed asset libraries and manual heuristics.</li>
-<li>&#9658; Novel approach: uses video generation models as <em>motion priors</em> rather than just visual augmentation — generated video predictions encode plausible human-like motion that is then mapped to executable robot trajectories.</li>
-<li>&#9658; Sim-to-Gen visual-kinematic alignment module (CoTracker3 + VGGT) bridges the video-to-robot gap, converting visual motion predictions into kinematically feasible robot arm trajectories.</li>
-<li>&#9658; LLM + 3D generative model pipeline constructs physically grounded 3D scenes validated by geometric constraints for collision-free, stable object layouts — ensuring physical plausibility without manual checking.</li>
-<li>&#9658; Policies trained entirely on synthesized data generalize to unseen objects in simulation and achieve effective sim-to-real transfer with novel real-world objects, validating the approach end-to-end.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19170v1" target="_blank">ADMM-Based Distributed MPC with Control Barrier Functions for Safe Multi-Robot Quadrupedal Locomotion</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO · math.OC</span>
+        <span class="pill pill-author">👤 K. Hamed (h=19)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Training generalist robots demands large-scale, diverse manipulation data, yet real-world collection is prohibitively expensive. V-Dreamer generates open-vocabulary, simulation-ready manipulation environments and executable expert trajectories directly from natural language. It constructs physically grounded 3D scenes using LLMs and 3D generative models, validated by geometric constraints for stable, collision-free layouts. Video generation models serve as motion priors, with visual predictions mapped to robot trajectories via CoTracker3 and VGGT. Policies trained on synthesized trajectories generalize to unseen objects and achieve effective sim-to-real transfer.</p>
+      <div class="paper-authors">Yicheng Zeng, Ruturaj S. Sambhus, Basit Muhammad Imran, Jeeseop Kim, Vittorio Pastore</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>CBF constraints introduce inter-agent coupling that prevents direct decomposition of multi-robot MPC; a node-edge splitting formulation with consensus constraints separates this coupling into independent local quadratic programs solvable in parallel with neighbor-only communication.</li>
+        <li>The distributed solution provably converges to the centralized safety-critical MPC solution, preserving formal safety guarantees while enabling decentralization — distribution doesn't sacrifice safety for speed.</li>
+        <li>Reduces per-cycle planning time by up to 51% vs. centralized MPC for four-agent systems — meaningful speedup at scale, enabling real-time decentralized planning on physical hardware.</li>
+        <li>Validated on real Unitree Go2 robots navigating rough terrain with external disturbances — an important hardware robustness test that many multi-robot papers skip in favor of simulation-only evaluation.</li>
+        <li>Modular hierarchical architecture (distributed planning → nonlinear MPC → whole-body control) allows the distributed layer to plug into existing locomotion stacks without replacing lower-level controllers.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">This paper proposes a fully decentralized model predictive control (MPC) framework with control barrier function (CBF) constraints for safety-critical trajectory planning in multi-robot legged systems. The incorporation of CBF constraints introduces explicit inter-agent coupling, which prevents direct decomposition of the resulting optimal control problems. To address this challenge, we reformulate the centralized safety-critical MPC problem using a structured distributed optimization framework based on the alternating direction method of multipliers (ADMM). By introducing a novel node-edge splitting formulation with consensus constraints, the proposed approach decomposes the global problem into independent node-local and edge-local quadratic programs that can be solved in parallel using only neighbor-to-neighbor communication. This enables fully decentralized trajectory optimization with symmetric computational load across agents while preserving safety and dynamic feasibility. The effectiveness of the proposed approach is demonstrated through hardware experiments on two Unitree Go2 quadrupedal robots and numerical simulations involving up to four robots, showing that the proposed distributed formulation achieves performance comparable to centralized MPC while reducing the average per-cycle planning time by up to 51% in the four-agent case.</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="paper-card" style="--color: var(--c5)">
+    <div class="paper-left">
+      <div class="rank">#13</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=12</div>
+    </div>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.18400v1" target="_blank">Graph-of-Constraints Model Predictive Control for Reactive Multi-agent Task and Motion Planning</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 A. H. Qureshi (h=12)</span>
+      </div>
+      <div class="paper-authors">Anastasios Manganaris, Jeremy Lu, Ahmed H. Qureshi, Suresh Jagannathan</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Existing sequence-of-constraints TAMP approaches require static agent assignments and cannot recover when disturbances force task reassignment; GoC-MPC generalizes to partially ordered tasks with dynamic agent assignments natively without replanning from scratch.</li>
+        <li>Constraints defined over tracked 3D keypoints (not CAD models) make the approach model-free — no prior environment knowledge, no training data required, just visual observations from cameras in the workspace.</li>
+        <li>The graph structure encodes task dependencies without reducing to a fixed linear sequence: tasks can be ordered, parallel, or conditionally dependent, naturally handling the partial ordering common in real manipulation workflows.</li>
+        <li>Achieves higher success rates, faster TAMP computation, and shorter paths vs. recent baselines simultaneously — improvements across all metrics without metric-specific tradeoffs.</li>
+        <li>Adapts online to disturbances without full replanning, critical for real-world deployment where task allocations can change mid-execution due to unforeseen events.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Sequences of interdependent geometric constraints are central to many multi-agent Task and Motion Planning (TAMP) problems. However, existing methods for handling such constraint sequences struggle with partially ordered tasks and dynamic agent assignments. They typically assume static assignments and cannot adapt when disturbances alter task allocations. To overcome these limitations, we introduce Graph-of-Constraints Model Predictive Control (GoC-MPC), a generalized sequence-of-constraints framework integrated with MPC. GoC-MPC naturally supports partially ordered tasks, dynamic agent coordination, and disturbance recovery. By defining constraints over tracked 3D keypoints, our method robustly solves diverse multi-agent manipulation tasks from visual observations alone, without relying on training data or environment models. Experiments demonstrate that GoC-MPC achieves higher success rates, significantly faster TAMP computation, and shorter overall paths compared to recent baselines.</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="paper-card" style="--color: var(--c5)">
+    <div class="paper-left">
+      <div class="rank">#18</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=9</div>
+    </div>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19074v1" target="_blank">CAMO: A Conditional Neural Solver for the Multi-objective Multiple Traveling Salesman Problem</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO · cs.AI</span>
+        <span class="pill pill-author">👤 G. Sartoretti (h=9)</span>
+      </div>
+      <div class="paper-authors">Fengxiaoxiao Li, Xiao Mao, Mingfeng Fan, Yifeng Zhang, Yi Li</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Multi-objective routing and multi-agent routing have been tackled separately by the learning community; CAMO is the first neural solver to address both simultaneously, handling dual complexity sources in a single framework.</li>
+        <li>A conditional encoder fuses user-specified preference vectors into instance representations at test time, enabling explicit control over the objective tradeoff (travel cost vs. makespan) without retraining for each preference setting.</li>
+        <li>The collaborative decoder alternates between selecting which agent acts next and which node that agent visits, learning coordination strategies without centralized communication overhead or explicit coordination protocols.</li>
+        <li>Training on mixed problem sizes via REINFORCE enables generalization to varying numbers of agents and targets at test time — prior methods required separate training for each configuration.</li>
+        <li>Real mobile robot experiments validate practical applicability beyond combinatorial benchmarks, demonstrating that learned multi-agent routing transfers to physical deployment conditions.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Robotic systems often require a team of robots to collectively visit multiple targets while optimizing competing objectives, such as total travel cost and makespan. This setting can be formulated as the Multi-Objective Multiple Traveling Salesman Problem (MOMTSP). Although learning-based methods have shown strong performance on the single-agent TSP and multi-objective TSP variants, they rarely address the combined challenges of multi-agent coordination and multi-objective trade-offs. To bridge this gap, we propose CAMO, a conditional neural solver for MOMTSP that generalizes across varying numbers of targets, agents, and preference vectors, and yields high-quality approximations to the Pareto front. Extensive experiments show that CAMO outperforms both neural and conventional heuristics, and real-world tests on a mobile robot platform demonstrate its practical applicability.</div>
       </details>
     </div>
   </div>
 </div>
 
-<div class="paper-card" style="border-left:4px solid #d97706;background:#fffbeb;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 16</span>
-      <span class="pill h-pill">h=10</span>
+<!-- ═══ NAVIGATION ═══ -->
+<div class="cat-section" style="--color: var(--c4)">
+  <div class="cat-section-header"><div class="cat-dot"></div>Navigation &amp; Spatial Grounding</div>
+
+  <div class="paper-card" style="--color: var(--c4)">
+    <div class="paper-left">
+      <div class="rank gold">#9</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=17</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19063v1" target="_blank">Fire as a Service: Augmenting Robot Simulators with Thermally and Visually Accurate Fire Dynamics</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">cs.GR</span><span class="pill">Sören Pirk (h=10)</span></div>
-      <p class="authors">Anton R. Wagner, Madhan Balaji Rao, Helge Wrede, Sören Pirk, Xuesu Xiao</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Addresses a blind spot in robot simulation: existing simulators excel at rigid-body physics and photorealism but completely ignore thermally and optically complex fire dynamics — a critical gap for firefighting robot development.</li>
-<li>&#9658; Asynchronous co-simulation design runs fire thermodynamics alongside existing robot simulators without disrupting high-frequency rigid-body control loops — fire updates and robot control operate at decoupled rates.</li>
-<li>&#9658; Enables robots to experience accurate multi-species thermodynamic heat transfer and volumetric smoke rendering, providing realistic multimodal perceptual data for training and evaluation.</li>
-<li>&#9658; Real-time performance unlocks human-in-the-loop teleoperation in fire scenarios, which was used to collect behavioral cloning data for training reactive multimodal policies.</li>
-<li>&#9658; Open framework integrates with diverse robot simulators, providing a scalable pathway toward safer pre-deployment testing — allowing capability evaluation before robots face actual hazardous conditions.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.18624v1" target="_blank">REST: Receding Horizon Explorative Steiner Tree for Zero-Shot Object-Goal Navigation</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO · cs.AI · cs.CV</span>
+        <span class="pill pill-author">👤 Maani Ghaffari (h=17)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Most robot simulators prioritize rigid-body dynamics and photorealistic rendering but neglect fire's thermally and optically complex phenomena. FaaS is an asynchronous co-simulation framework that augments existing robot simulators with high-fidelity, computationally efficient fire simulations. The pipeline enables accurate multi-species thermodynamic heat transfer and volumetric smoke without disrupting high-frequency rigid-body control loops. Real-time performance supports human-in-the-loop teleoperation, enabling training of reactive multimodal policies via behavioral cloning.</p>
+      <div class="paper-authors">Shuqi Xiao, Maani Ghaffari, Chengzhong Xu, Hui Kong</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Prior LLM-based navigation planners propose isolated waypoints as options, discarding information gathered en route; REST's key insight is that options should be full <em>paths</em>, where en-route information gain through unexplored regions is explicitly scored alongside destination utility.</li>
+        <li>Organizing candidate paths as a Steiner tree with shared segments allows the LLM to reason coarse-to-fine — dismissing entire branches before examining individual leaves, compressing a combinatorial path space into an efficient reasoning hierarchy.</li>
+        <li>Builds an explicit open-vocabulary 3D map online from RGB-D streams without requiring prior maps, enabling zero-shot deployment in previously unseen environments with no map preprocessing.</li>
+        <li>Ranks among the top methods in success rate on Gibson, HM3D, and HSSD benchmarks while achieving best or second-best path efficiency — a favorable efficiency-success balance that prior methods achieve only by sacrificing one for the other.</li>
+        <li>Entirely training-free across all three benchmarks — no task-specific navigation models, no fine-tuning — confirming the approach generalizes zero-shot rather than overfitting to any particular environment distribution.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Zero-shot object-goal navigation (ZSON) requires navigating unknown environments to find a target object without task-specific training. Prior hierarchical training-free solutions invest in scene understanding and high-level decision-making, yet overlook the design of the option space. In practice, options are reduced to isolated waypoints scored independently: single destinations hide the value gathered along the journey. Our insight is that the option space should be a tree of paths. Full paths expose en-route information gain that destination-only scoring systematically neglects; a tree of shared segments enables coarse-to-fine LLM reasoning that dismisses or pursues entire branches before examining individual leaves. We instantiate this insight in REST, a training-free framework that builds an explicit open-vocabulary 3D map from online RGB-D streams, grows an agent-centric tree of safe and informative paths, and textualizes each branch into a spatial narrative for chain-of-thought LLM reasoning. Across the Gibson, HM3D, and HSSD benchmarks, REST consistently ranks among the top methods in success rate while achieving the best or second-best path efficiency.</div>
       </details>
     </div>
   </div>
-</div>
-</section>
-<section class="cat-section">
-  <div class="cat-header" style="background:#2563eb;">
-    <span>Navigation & Perception</span>
-    <span class="cat-count">4 papers</span>
-  </div>
-  <p class="cat-section-desc">Object-goal navigation, SLAM, semantic grounding, and situational awareness</p>
-  
-<div class="paper-card" style="border-left:4px solid #2563eb;background:#eff6ff;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 9</span>
-      <span class="pill h-pill">h=17</span>
+
+  <div class="paper-card" style="--color: var(--c4)">
+    <div class="paper-left">
+      <div class="rank">#10</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=16</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.18624v1" target="_blank">REST: Receding Horizon Explorative Steiner Tree for Zero-Shot Object-Goal Navigation</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">cs.CV</span><span class="pill">Maani Ghaffari (h=17)</span></div>
-      <p class="authors">Shuqi Xiao, Maani Ghaffari, Chengzhong Xu, Hui Kong</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Identifies a previously overlooked gap in zero-shot object-goal navigation: existing methods carefully design scene understanding (belief) and decision-making (policy) but treat subgoal candidates (options) as isolated waypoints — losing all en-route information value.</li>
-<li>&#9658; Key insight: the option space should be a <em>tree of paths</em>, not individual destinations — full paths expose en-route information gain that destination-only scoring systematically misses.</li>
-<li>&#9658; Tree structure enables coarse-to-fine LLM reasoning: dismiss or pursue entire branches before examining leaves, compressing the exponential path-space into a tractable hierarchy.</li>
-<li>&#9658; Fully training-free: builds open-vocabulary 3D maps from online RGB-D and uses chain-of-thought LLM reasoning for path selection — no task-specific fine-tuning needed.</li>
-<li>&#9658; Consistently ranks among top methods on Gibson, HM3D, and HSSD benchmarks while achieving best or second-best path efficiency — demonstrating a favorable efficiency-success tradeoff.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19166v1" target="_blank">Meanings and Measurements: Multi-Agent Probabilistic Grounding for Vision-Language Navigation</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO · cs.AI · cs.CL · cs.CV · cs.LG</span>
+        <span class="pill pill-author">👤 N. Gopalan (h=16)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Zero-shot object-goal navigation (ZSON) requires navigating unknown environments without task-specific training. Prior hierarchical solutions invest in scene understanding and high-level decision-making but overlook option design — subgoal candidates proposed from evolving belief. Options are reduced to isolated waypoints scored independently, hiding en-route information gain. REST represents the option space as a tree of paths: full paths expose en-route information gain that destination-only scoring neglects; a tree enables coarse-to-fine LLM reasoning. REST builds an open-vocabulary 3D map from RGB-D streams, grows an agent-centric tree of safe paths, and selects the next-best path through chain-of-thought LLM reasoning. REST consistently ranks among top methods on Gibson, HM3D, and HSSD while achieving best or second-best path efficiency.</p>
+      <div class="paper-authors">Swagat Padhan, Lakshya Jain, Bhavya Minesh Shah, Omkar Patil, Thao Nguyen</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>State-of-the-art VLMs fail on metric-semantic queries like "two meters to the right of the fridge" because they lack mechanisms to reason about physical distances in 3D space; MAPG addresses this by decomposing such queries into semantic and metric subcomponents grounded separately.</li>
+        <li>Probabilistic composition of grounded subcomponents produces a distribution over 3D positions (not a point estimate), enabling metrically consistent decisions that propagate uncertainty appropriately through the pipeline.</li>
+        <li>Introduces MAPG-Bench, a benchmark specifically designed for metric-semantic goal grounding — addressing a gap in existing evaluations that tested semantic grounding but not physical distance reasoning in 3D scenes.</li>
+        <li>Shows consistent performance improvements over strong baselines on HM-EQA with successful real-world robot demonstrations, confirming the approach transfers beyond simulation when structured scene representations are available.</li>
+        <li>Multi-agent decomposition (multiple specialized VLM calls per query) is more expensive but substantially more reliable — an important tradeoff for deployment scenarios where grounding accuracy is safety-critical.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Robots collaborating with humans must convert natural language goals into actionable, physically grounded decisions. For example, executing a command such as "go two meters to the right of the fridge" requires grounding semantic references, spatial relations, and metric constraints within a 3D scene. While recent vision language models (VLMs) demonstrate strong semantic grounding capabilities, they are not explicitly designed to reason about metric constraints in physically defined spaces. In this work, we empirically demonstrate that state-of-the-art VLM-based grounding approaches struggle with complex metric-semantic language queries. To address this limitation, we propose MAPG (Multi-Agent Probabilistic Grounding), an agentic framework that decomposes language queries into structured subcomponents and queries a VLM to ground each component. MAPG then probabilistically composes these grounded outputs to produce metrically consistent, actionable decisions in 3D space. We evaluate MAPG on the HM-EQA benchmark and show consistent performance improvements over strong baselines. We also present a real-world robot demonstration showing that MAPG transfers beyond simulation when a structured scene representation is available.</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="paper-card" style="--color: var(--c4)">
+    <div class="paper-left">
+      <div class="rank">#15</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=10</div>
+    </div>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19076v1" target="_blank">DROID-SLAM in the Wild</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.CV · cs.RO</span>
+        <span class="pill pill-author">👤 Marc Pollefeys (h=10)</span>
+      </div>
+      <div class="paper-authors">Moyang Li, Zihan Zhu, Marc Pollefeys, Daniel Barath</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Traditional SLAM assumes static scenes and fails in dynamic environments; this work removes that assumption by estimating per-pixel uncertainty from multi-view visual feature <em>inconsistency</em> — moving objects create inconsistent cross-view features and are automatically downweighted.</li>
+        <li>Unlike prior dynamic SLAM approaches requiring predefined dynamic priors (e.g., "assume all people are dynamic"), this method handles <em>unknown</em> dynamic objects of any category without category-specific assumptions.</li>
+        <li>Achieves state-of-the-art camera poses and scene geometry in dynamic cluttered scenarios while running at ~10 FPS in real time — prior uncertainty-aware methods sacrificed real-time performance for accuracy.</li>
+        <li>Differentiable bundle adjustment allows uncertainty estimates to co-improve with the map: better uncertainty → better poses → better map → better uncertainty, creating a self-reinforcing accuracy loop.</li>
+        <li>Open-source code and datasets released, addressing a known gap in dynamic SLAM evaluation benchmarks that has hampered reproducible comparison.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">We present a robust, real-time RGB SLAM system that handles dynamic environments by leveraging differentiable Uncertainty-aware Bundle Adjustment. Traditional SLAM methods typically assume static scenes, leading to tracking failures in the presence of motion. Recent dynamic SLAM approaches attempt to address this challenge using predefined dynamic priors or uncertainty-aware mapping, but they remain limited when confronted with unknown dynamic objects or highly cluttered scenes. In contrast, our method estimates per-pixel uncertainty by exploiting multi-view visual feature inconsistency, enabling robust tracking and reconstruction even in real-world environments. The proposed system achieves state-of-the-art camera poses and scene geometry in cluttered dynamic scenarios while running in real time at around 10 FPS. Code and datasets are available at https://github.com/MoyangLi00/DROID-W.git.</div>
       </details>
     </div>
   </div>
 </div>
 
-<div class="paper-card" style="border-left:4px solid #2563eb;background:#eff6ff;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 10</span>
-      <span class="pill h-pill">h=16</span>
+<!-- ═══ VLA ═══ -->
+<div class="cat-section" style="--color: var(--c1)">
+  <div class="cat-section-header"><div class="cat-dot"></div>VLA &amp; Foundation Models</div>
+
+  <div class="paper-card" style="--color: var(--c1)">
+    <div class="paper-left">
+      <div class="rank gold">#8</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=19</div>
     </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19166v1" target="_blank">Meanings and Measurements: Multi-Agent Probabilistic Grounding for Vision-Language Navigation</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">cs.CL</span><span class="pill">cs.CV</span><span class="pill">cs.LG</span><span class="pill">N. Gopalan (h=16)</span></div>
-      <p class="authors">Swagat Padhan, Lakshya Jain, Bhavya Minesh Shah, Omkar Patil, Thao Nguyen</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Exposes a concrete VLM failure mode: state-of-the-art vision-language models handle semantic grounding well but systematically fail at metric-spatial queries like "go two meters to the right of the fridge."</li>
-<li>&#9658; MAPG decomposes language queries into structured subcomponents (semantic references, spatial relations, metric constraints) and probabilistically composes them for metrically consistent 3D decisions — treating metric reasoning as a first-class concern.</li>
-<li>&#9658; Introduces MAPG-Bench, a new benchmark specifically targeting metric-semantic goal grounding — filling a critical gap in existing language grounding evaluation infrastructure.</li>
-<li>&#9658; Shows consistent performance improvements over strong VLM baselines on HM-EQA, demonstrating that decomposition and probabilistic composition is more reliable than end-to-end VLM grounding.</li>
-<li>&#9658; Demonstrates real-world robot transfer when a structured scene representation is available, validating the approach beyond simulation and showing a clear path to deployment.</li></ul>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19131v1" target="_blank">From Inference Efficiency to Embodied Efficiency: Revisiting Efficiency Metrics for Vision-Language-Action Models</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.LG · cs.RO</span>
+        <span class="pill pill-author">👤 Chaojian Li (h=19)</span>
       </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Robots collaborating with humans must convert natural language goals into actionable, physically grounded decisions. Executing 'go two meters to the right of the fridge' requires grounding semantic references, spatial relations, and metric constraints in 3D space. State-of-the-art VLMs struggle with complex metric-semantic language queries. MAPG decomposes language queries into structured subcomponents and probabilistically composes grounded outputs for metrically consistent decisions in 3D space. We introduce MAPG-Bench, a new benchmark for metric-semantic goal grounding. MAPG shows consistent improvements over strong baselines and transfers to real robots.</p>
+      <div class="paper-authors">Zhuofan Li, Hongkun Yang, Zhenyang Chen, Yangxuan Chen, Yingyan</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>The central finding is counterintuitive: compression methods scoring well on standard VLA efficiency metrics (FLOPs, token throughput) often <em>increase</em> real end-to-end execution cost or degrade motion quality — the metrics are measuring the wrong thing.</li>
+        <li>Introduces embodied efficiency metrics — task completion time, trajectory smoothness, cumulative joint rotation, motion energy — that correlate with what actually matters for physical robot deployment rather than benchmark leaderboard scores.</li>
+        <li>Model compression and token sparsification maintain task success rates but often produce jerkier, less energy-efficient motions that would accelerate hardware wear and degrade user experience in deployment.</li>
+        <li>In-context prompting and supervised fine-tuning show only mild, metric-specific improvements in embodied efficiency — adaptation methods alone cannot close the gap between benchmark performance and real-world deployment quality.</li>
+        <li>Provides a unified evaluation protocol enabling fairer comparison of VLA models for deployment scenarios rather than benchmark-only leaderboards that systematically miss embodied execution realities.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Vision-Language-Action (VLA) models have recently enabled embodied agents to perform increasingly complex tasks by jointly reasoning over visual, linguistic, and motor modalities. However, we find that the prevailing notion of "efficiency" in current VLA research, characterized by parameters, FLOPs, or token decoding throughput, does not reflect actual performance on robotic platforms. In real-world execution, efficiency is determined by system-level embodied behaviors such as task completion time, trajectory smoothness, cumulative joint rotation, and motion energy. Through controlled studies across model compression, token sparsification, and action sequence compression, we make several observations that challenge common assumptions: methods that reduce computation under conventional metrics often increase end-to-end execution cost or degrade motion quality; system-level embodied efficiency metrics reveal performance differences hidden under conventional evaluations; and common adaptation methods show only mild improvements. Our results suggest that conventional inference efficiency metrics overlook important aspects of embodied execution, and that incorporating embodied efficiency provides a more complete and fairer view of VLA model behavior.</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="paper-card" style="--color: var(--c1)">
+    <div class="paper-left">
+      <div class="rank">#17</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=9</div>
+    </div>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19199v1" target="_blank">FASTER: Rethinking Real-Time Flow VLAs</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO · cs.CV</span>
+        <span class="pill pill-author">👤 Hengshuang Zhao (h=9)</span>
+      </div>
+      <div class="paper-authors">Yuxiang Lu, Zhe Liu, Xianzhe Fan, Zhenya Yang, Jinghua Hou</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Identifies that the standard constant schedule in flow-based VLAs forces <em>all</em> denoising steps to complete before any action can begin — creating systematic reaction latency that scales with action chunk length and is not addressed by asynchronous inference approaches.</li>
+        <li>Proves formally that reaction time follows a uniform distribution determined jointly by Time to First Action (TTFA) and execution horizon — framing the optimization problem as minimizing TTFA rather than total compute budget.</li>
+        <li>The Horizon-Aware Schedule adaptively prioritizes near-term actions during sampling, compressing immediate-reaction denoising by 10× (to a single step in π₀.₅ and X-VLA) while preserving trajectory quality for long-horizon planning.</li>
+        <li>A streaming client-server pipeline overlaps inference of future chunks with execution of current ones, eliminating compute-execution serialization that dominates latency on consumer-grade GPUs.</li>
+        <li>Validated on dynamic table tennis requiring real-time ball tracking — a task where existing flow-based VLAs were too slow to react — demonstrating that FASTER unlocks reaction speeds previously impossible for generalist policies.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Real-time execution is crucial for deploying Vision-Language-Action (VLA) models in the physical world. Existing asynchronous inference methods primarily optimize trajectory smoothness, but neglect the critical latency in reacting to environmental changes. By rethinking the notion of reaction in action chunking policies, this paper presents a systematic analysis of the factors governing reaction time. We show that reaction time follows a uniform distribution determined jointly by the Time to First Action (TTFA) and the execution horizon. Moreover, we reveal that the standard practice of applying a constant schedule in flow-based VLAs forces the system to complete all sampling steps before any movement can start. To overcome this issue, we propose Fast Action Sampling for ImmediaTE Reaction (FASTER). By introducing a Horizon-Aware Schedule, FASTER adaptively prioritizes near-term actions during flow sampling, compressing the denoising of the immediate reaction by tenfold into a single step. Coupled with a streaming client-server pipeline, FASTER substantially reduces the effective reaction latency on real robots. Real-world experiments, including a highly dynamic table tennis task, prove that FASTER unlocks unprecedented real-time responsiveness for generalist policies.</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="paper-card" style="--color: var(--c1)">
+    <div class="paper-left">
+      <div class="rank">#20</div><div class="rank-label">RANK</div>
+      <div class="hindex-badge">h=7</div>
+    </div>
+    <div class="paper-right">
+      <div class="paper-title"><a href="http://arxiv.org/abs/2603.19233v1" target="_blank">Not All Features Are Created Equal: A Mechanistic Study of Vision-Language-Action Models</a></div>
+      <div class="paper-meta">
+        <span class="pill pill-date">📅 2026-03-19</span>
+        <span class="pill pill-cat">cs.RO</span>
+        <span class="pill pill-author">👤 Xijia Zhao (h=7)</span>
+      </div>
+      <div class="paper-authors">Bryce Grant, Xijia Zhao, Peng Wang</div>
+      <div class="contributions-label">Core Contributions</div>
+      <div class="contributions"><ul>
+        <li>Through activation injection across 394,000+ rollout episodes on six VLA models (80M–7B parameters), the paper shows visual pathways dominate action generation: injecting null-prompt baseline activations recovers near-identical behavior, revealing language prompts are frequently ignored.</li>
+        <li>Cross-task activation injection steers robots toward the <em>source task's spatial positions</em> with 99.8% trajectory alignment in X-VLA — revealing VLA motor programs are spatially bound to scene coordinates, not abstract multi-modal task representations.</li>
+        <li>Language sensitivity depends on task structure, not model design: when visual context uniquely specifies the task, language is ignored; when multiple goals share a scene, language becomes essential (94%→10% success under wrong prompts in libero_goal vs. 60–100% regardless in libero_object).</li>
+        <li>In multi-pathway architectures (π₀.₅, SmolVLA, GR00T), expert pathways encode motor programs while VLM pathways encode goal semantics — subspace injection confirms these occupy separable activation subspaces with 2× greater behavioral displacement from expert-pathway injection.</li>
+        <li>Releases Action Atlas (action-atlas.com) for interactive exploration of VLA representations across all six models — enabling the community to build on these mechanistic insights without re-running the expensive 394,000-episode analysis.</li>
+      </ul></div>
+      <details><summary>Show abstract</summary>
+        <div class="abstract-text">Vision-Language-Action (VLA) models combine perception, language, and motor control in a single architecture, yet how they translate multimodal inputs into actions remains poorly understood. We apply activation injection, sparse autoencoders (SAEs), and linear probes to six models spanning 80M--7B parameters across 394,000+ rollout episodes on four benchmarks. The visual pathway dominates action generation across all architectures: injecting baseline activations into null-prompt episodes recovers near-identical behavior, while cross-task injection steers robots toward source-task positions (99.8% of X-VLA episodes align with the source trajectory), exposing spatially bound motor programs tied to scene coordinates rather than abstract task representations. Language sensitivity depends on task structure, not model design: when visual context uniquely specifies the task, language is ignored; when multiple goals share a scene, language becomes essential. In all three multi-pathway architectures, expert pathways encode motor programs while VLM pathways encode goal semantics. We release Action Atlas for interactive exploration of VLA representations across all six models.</div>
       </details>
     </div>
   </div>
 </div>
 
-<div class="paper-card" style="border-left:4px solid #2563eb;background:#eff6ff;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 12</span>
-      <span class="pill h-pill">h=13</span>
-    </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.18988v1" target="_blank">MERGE: Guided Vision-Language Models for Multi-Actor Event Reasoning and Grounding in Human-Robot Interaction</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">A. Belardinelli (h=13)</span></div>
-      <p class="authors">Joerg Deigmoeller, Nakul Agarwal, Stephan Hasler, Daniel Tanneberg, Anna Belardinelli</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Targets a persistent HRI gap: maintaining temporally consistent situational awareness (who is doing what to whom) across complex multi-actor group interactions — a task where frame-by-frame VLM captioning produces fragmented, delayed outputs.</li>
-<li>&#9658; Decoupled design: a lightweight streaming perception module detects visual changes and selectively invokes the VLM only when necessary — preserving VLM reasoning power while avoiding the cost and latency of continuous inference.</li>
-<li>&#9658; Achieves 2x improvement in average grounding score and 4x runtime reduction compared to VLM-only baselines including GPT-4o, GPT-5, and Gemini 2.5 Flash — a substantial margin over frontier models.</li>
-<li>&#9658; Introduces the GROUND dataset with fine-grained situational annotations of multi-person and human-robot interactions — the first benchmark specifically designed for multi-actor situational grounding.</li>
-<li>&#9658; Actor-action-object relation structuring ensures temporal consistency across interactions, enabling robots to track complex group dynamics over extended time horizons.</li></ul>
-      </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">MERGE provides situational grounding of actors, objects, and events in dynamic human-robot group interactions. It uniquely identifies physical instances of actors (humans or robots) and objects, structuring them into actor-action-object relations with temporal consistency. A lightweight streaming module continuously processes visual input, selectively invoking VLMs only when changes are detected. MERGE improves average grounding score by 2x and reduces runtime by 4x compared to GPT-4o, GPT-5, and Gemini 2.5 Flash baselines. The GROUND dataset provides fine-grained annotations of multi-person and HRI scenarios.</p>
-      </details>
-    </div>
-  </div>
+<!-- FOOTER -->
+<div class="footer">
+  Generated by Claude &nbsp;·&nbsp; Papers from arXiv cs.RO &nbsp;·&nbsp; Ranked by max author h-index via Semantic Scholar &nbsp;·&nbsp; 2026-03-19
 </div>
 
-<div class="paper-card" style="border-left:4px solid #2563eb;background:#eff6ff;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 15</span>
-      <span class="pill h-pill">h=10</span>
-    </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19076v1" target="_blank">DROID-SLAM in the Wild</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.CV</span><span class="pill">cs.RO</span><span class="pill">Marc Pollefeys (h=10)</span></div>
-      <p class="authors">Moyang Li, Zihan Zhu, Marc Pollefeys, Daniel Barath</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Eliminates the static-scene assumption in SLAM without requiring predefined dynamic priors or object-class labels — enabling robust tracking in <em>any</em> dynamic environment, including unknown moving objects.</li>
-<li>&#9658; Per-pixel uncertainty is estimated from multi-view visual feature inconsistency: pixels that look different from multiple views are likely dynamic, providing a principled signal without semantic knowledge.</li>
-<li>&#9658; Integrates differentiable uncertainty-aware bundle adjustment naturally into the DROID-SLAM architecture, extending it to handle dynamic environments without architectural redesign.</li>
-<li>&#9658; Achieves state-of-the-art camera pose and scene geometry in cluttered dynamic scenarios while maintaining real-time performance at ~10 FPS — both accuracy and speed simultaneously.</li>
-<li>&#9658; Removes a key assumption that has limited SLAM deployment to controlled environments, opening the door for reliable robot navigation in public spaces, warehouses, and other dynamic real-world settings.</li></ul>
-      </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">We present a robust, real-time RGB SLAM system handling dynamic environments via differentiable Uncertainty-aware Bundle Adjustment. Traditional SLAM assumes static scenes. Recent dynamic SLAM approaches use predefined dynamic priors or uncertainty-aware mapping, but struggle with unknown dynamic objects or cluttered scenes. Our method estimates per-pixel uncertainty by exploiting multi-view visual feature inconsistency, enabling robust tracking and reconstruction even in real-world environments. The system achieves state-of-the-art camera poses and scene geometry in cluttered dynamic scenarios while running at around 10 FPS.</p>
-      </details>
-    </div>
-  </div>
-</div>
-</section>
-<section class="cat-section">
-  <div class="cat-header" style="background:#dc2626;">
-    <span>Multi-Robot Coordination</span>
-    <span class="cat-count">3 papers</span>
-  </div>
-  <p class="cat-section-desc">Decentralized planning, task allocation, and multi-agent path optimization</p>
-  
-<div class="paper-card" style="border-left:4px solid #dc2626;background:#fef2f2;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 7</span>
-      <span class="pill h-pill">h=19</span>
-    </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19170v1" target="_blank">ADMM-Based Distributed MPC with Control Barrier Functions for Safe Multi-Robot Quadrupedal Locomotion</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">math.OC</span><span class="pill">K. Hamed (h=19)</span></div>
-      <p class="authors">Yicheng Zeng, Ruturaj S. Sambhus, Basit Muhammad Imran, Jeeseop Kim, Vittorio Pastore</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Safety-critical multi-robot legged control typically requires centralized MPC that cannot scale; this work achieves full decentralization <em>with formal safety guarantees</em> preserved through CBF constraints.</li>
-<li>&#9658; CBF constraints create inter-agent coupling that breaks standard ADMM decomposition — the key contribution is a novel node-edge splitting with consensus constraints that resolves this while enabling parallel QP solving.</li>
-<li>&#9658; Each agent solves only local QPs using neighbor-to-neighbor communication — symmetric computational load across agents, no central coordinator, and no global model of the environment needed.</li>
-<li>&#9658; Reduces average per-cycle planning time by up to 51% vs. centralized MPC in the 4-agent case, enabling real-time decentralized implementation.</li>
-<li>&#9658; Validated on physical Unitree Go2 robots navigating rough terrain under external disturbances, demonstrating the framework's practical robustness beyond simulated results.</li></ul>
-      </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">This paper proposes a fully decentralized MPC framework with CBF constraints for safety-critical trajectory planning in multi-robot legged systems. CBF constraints introduce inter-agent coupling, preventing direct decomposition via ADMM. We introduce a node-edge splitting formulation with consensus constraints that decomposes the global problem into independent node-local and edge-local QPs solvable in parallel with only neighbor-to-neighbor communication. The proposed framework reduces average per-cycle planning time by up to 51% in the four-agent case while preserving safety and dynamic feasibility. Validated on Unitree Go2 robots navigating rough terrain with external disturbances.</p>
-      </details>
-    </div>
-  </div>
-</div>
-
-<div class="paper-card" style="border-left:4px solid #dc2626;background:#fef2f2;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 13</span>
-      <span class="pill h-pill">h=12</span>
-    </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.18400v1" target="_blank">Graph-of-Constraints Model Predictive Control for Reactive Multi-agent Task and Motion Planning</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">A. H. Qureshi (h=12)</span></div>
-      <p class="authors">Anastasios Manganaris, Jeremy Lu, Ahmed H. Qureshi, Suresh Jagannathan</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Solves a gap in existing TAMP frameworks: support for <em>partially ordered</em> tasks and <em>dynamic agent reassignment</em> when disturbances alter task allocations — prior methods assume static assignments and fail under perturbation.</li>
-<li>&#9658; Graph-of-Constraints formulation represents interdependent geometric constraints as a directed graph, naturally encoding partial task ordering and enabling online restructuring when agents or constraints change.</li>
-<li>&#9658; Defining constraints over tracked 3D keypoints makes the system model-free: operates from visual observations alone without training data, environment models, or pre-built object databases.</li>
-<li>&#9658; Achieves higher success rates, significantly faster TAMP computation, and shorter overall paths compared to recent baselines — improving on all three evaluation criteria simultaneously.</li>
-<li>&#9658; Online disturbance recovery is built into the graph structure rather than handled as a special case, making GoC-MPC suitable for real-world manipulation where unexpected events are the norm.</li></ul>
-      </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">GoC-MPC handles multi-agent TAMP with partially ordered tasks and dynamic agent assignments. Existing methods assume static assignments and cannot adapt when disturbances alter task allocations. GoC-MPC represents interdependent geometric constraints as a directed graph, naturally supporting partial ordering and online disturbance recovery. Constraints defined over tracked 3D keypoints enable model-free operation from visual observations alone. GoC-MPC achieves higher success rates, faster TAMP computation, and shorter paths compared to recent baselines.</p>
-      </details>
-    </div>
-  </div>
-</div>
-
-<div class="paper-card" style="border-left:4px solid #dc2626;background:#fef2f2;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 18</span>
-      <span class="pill h-pill">h=9</span>
-    </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19074v1" target="_blank">CAMO: A Conditional Neural Solver for the Multi-objective Multiple Traveling Salesman Problem</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">G. Sartoretti (h=9)</span></div>
-      <p class="authors">Fengxiaoxiao Li, Xiao Mao, Mingfeng Fan, Yifeng Zhang, Yi Li</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Bridges two separately studied problems — multi-agent TSP and multi-objective TSP — into a unified solver (MOMTSP), addressing a combined complexity that prior learning-based methods avoid.</li>
-<li>&#9658; Conditional encoder fuses preference vectors directly into instance representations, enabling explicit control over multi-objective tradeoffs — a single model covers the entire Pareto front rather than requiring separate models per preference.</li>
-<li>&#9658; Collaborative decoder alternates agent selection and node selection to build multi-agent tours autoregressively, coordinating routes without centralized assignment.</li>
-<li>&#9658; Training on mixed problem sizes via REINFORCE achieves strong generalization across varying numbers of targets, agents, and preference vectors — important for deployment in heterogeneous real-world missions.</li>
-<li>&#9658; Outperforms both neural and conventional heuristics in Pareto front approximation quality; validated on a real mobile robot platform, demonstrating applicability beyond simulation.</li></ul>
-      </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Robot teams must collectively visit targets while optimizing competing objectives like total travel cost and makespan. Existing learning-based methods address single-agent TSP or multi-objective TSP variants, but rarely the combined challenge of multi-agent coordination and multi-objective tradeoffs. CAMO is a conditional neural solver for MOMTSP that generalizes across varying numbers of targets, agents, and preference vectors. A conditional encoder fuses preferences into instance representations; a collaborative decoder coordinates agents autoregressively. Trained with REINFORCE over mixed problem sizes. CAMO outperforms neural and conventional heuristics and is validated on a real mobile robot platform.</p>
-      </details>
-    </div>
-  </div>
-</div>
-</section>
-<section class="cat-section">
-  <div class="cat-header" style="background:#4f46e5;">
-    <span>Control Theory & Locomotion</span>
-    <span class="cat-count">2 papers</span>
-  </div>
-  <p class="cat-section-desc">Fundamental control limits, legged locomotion, and hardware-control co-design</p>
-  
-<div class="paper-card" style="border-left:4px solid #4f46e5;background:#eef2ff;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#b45309;font-weight:700;"># 1</span>
-      <span class="pill h-pill">h=47</span>
-    </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.18454v1" target="_blank">Fundamental Limits for Sensor-Based Control via the Gibbs Variational Principle</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">math.OC</span><span class="pill">cs.RO</span><span class="pill">eess.SY</span><span class="pill">Evangelos A. Theodorou (h=47)</span></div>
-      <p class="authors">Vincent Pacelli, Evangelos A. Theodorou</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Existing information-theoretic bounds for sensor-based control overestimate sensor requirements because they evaluate sensors against <em>uncontrolled</em> dynamics — this paper corrects that fundamental flaw by evaluating sensors jointly with the controller via the Gibbs variational principle.</li>
-<li>&#9658; Derives a lower bound on minimum expected cost for <em>any</em> causal feedback controller under partial observations, covering nonlinear, nonholonomic, and hybrid dynamics with unbounded costs — unusually broad applicability for a fundamental-limits result.</li>
-<li>&#9658; Self-consistent refinement is the key novelty: good controllers concentrate state distributions → sensors extract less information → the bound itself tightens, creating an iterative loop that converges to a unique fixed-point via bisection.</li>
-<li>&#9658; Proves conditions under which the free energy minimization is provably convex, enabling certifiably correct numerical computation — not just asymptotic analysis.</li>
-<li>&#9658; On a Dubins car tracking problem, the self-consistent bound captures most of the optimal cost across all sensor noise levels, while the open-loop variant is vacuous at low noise where feedback matters most.</li></ul>
-      </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Fundamental limits on the performance of feedback controllers are essential for benchmarking algorithms, guiding sensor selection, and certifying task feasibility — yet few general-purpose tools exist for computing them. Existing information-theoretic approaches overestimate the information a sensor must provide by evaluating it against the uncontrolled system, producing bounds that degrade precisely when feedback is most valuable. We derive a lower bound on the minimum expected cost of any causal feedback controller under partial observations by applying the Gibbs variational principle to the joint path measure over states and observations. The bound applies to nonlinear, nonholonomic, and hybrid dynamics with unbounded costs and admits a self-consistent refinement: any good controller concentrates the state, which limits the information the sensor can extract, which tightens the bound. The resulting fixed-point equation has a unique solution computable by bisection, and we provide conditions under which the free energy minimization is provably convex, yielding a certifiably correct numerical bound. On a nonlinear Dubins car tracking problem, the self-consistent bound captures most of the optimal cost across sensor noise levels, while the open-loop variant is vacuous at low noise.</p>
-      </details>
-    </div>
-  </div>
-</div>
-
-<div class="paper-card" style="border-left:4px solid #4f46e5;background:#eef2ff;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 6</span>
-      <span class="pill h-pill">h=22</span>
-    </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.18408v1" target="_blank">Efficient and Versatile Quadrupedal Skating: Optimal Co-design via Reinforcement Learning and Bayesian Optimization</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">Josiah P. Hanna (h=22)</span></div>
-      <p class="authors">Hanwen Wang, Zhenlong Fang, Josiah Hanna, Xiaobin Xiong</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; First system-level study of dynamic roller skating on quadrupedal robots — passive wheels reduce leg inertia and energy consumption at speed, but eliminate direct actuation, creating a fundamental co-design problem.</li>
-<li>&#9658; Bilevel optimization couples mechanical search (upper-level Bayesian Optimization) with control learning (lower-level RL) — jointly optimizing what would otherwise be sequential, suboptimal design decisions.</li>
-<li>&#9658; Co-designed systems outperform human-engineered baselines, validating that manual design intuition leaves significant efficiency and performance on the table.</li>
-<li>&#9658; Discovers emergent behaviors not explicitly programmed: hockey stop (rapid braking by turning sideways to maximize friction) and self-aligning motion (automatic reorientation toward the travel direction for energy efficiency).</li>
-<li>&#9658; Demonstrates that for underactuated locomotion modalities, separating hardware design from control optimization is structurally suboptimal — a lesson applicable beyond skating to other passive-mechanism robots.</li></ul>
-      </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">We present a hardware-control co-design approach that enables efficient and versatile roller skating on quadrupedal robots equipped with passive wheels. Passive-wheel skating reduces leg inertia and improves energy efficiency at high speeds, but the absence of direct wheel actuation tightly couples mechanical design and control. We formulate a bilevel optimization framework: upper-level Bayesian Optimization searches the mechanical design space, while lower-level RL trains a motor control policy for each candidate design. The resulting design-policy pairs outperform human-engineered baselines and exhibit versatile behaviors including hockey stop and self-aligning motion.</p>
-      </details>
-    </div>
-  </div>
-</div>
-</section>
-<section class="cat-section">
-  <div class="cat-header" style="background:#92400e;">
-    <span>Hardware Design</span>
-    <span class="cat-count">2 papers</span>
-  </div>
-  <p class="cat-section-desc">Novel robot hardware: continuum robots, compliant mechanisms, and sensor systems</p>
-  
-<div class="paper-card" style="border-left:4px solid #92400e;background:#fef3c7;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#b45309;font-weight:700;"># 3</span>
-      <span class="pill h-pill">h=45</span>
-    </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.19124v1" target="_blank">Tendon-Actuated Robots with a Tapered, Flexible Polymer Backbone: Design, Fabrication, and Modeling</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">J. Gravdahl (h=45)</span></div>
-      <p class="authors">Harald Minde Hansen, Nandita Gallacher, Nicholas B. Andrews, Kristin Y. Pettersen, Jan Tommy Gravdahl</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; 3D-printed TPU continuum robots with tapered backbones are cheap, fast to produce, and fully customizable via parametric CAD — directly tackling the single-purpose, expensive design that limits continuum robot adoption.</li>
-<li>&#9658; Extends Cosserat rod theory with a Newtonian approach to explicitly model <em>spatially varying</em> cross-section geometry — existing Cosserat formulations assume uniform backbones and cannot capture the graded stiffness induced by tapering.</li>
-<li>&#9658; Taper angle is identified as a principled design knob: systematic analysis shows how it controls both the reachable configuration space and end-effector manipulability, enabling task-driven backbone design.</li>
-<li>&#9658; Model validated against motion capture data with centimeter-level shape prediction accuracy after a single Young's modulus calibration step, making it practical for real-time use.</li>
-<li>&#9658; Demonstrates teleoperated grasping with an endoscopic gripper routed through the continuum robot, mounted on a 6-DoF arm — showing a complete, deployable system for inspection tasks.</li></ul>
-      </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">This paper presents the design, modeling, and fabrication of 3D-printed, tendon-actuated continuum robots featuring a flexible, tapered backbone constructed from thermoplastic polyurethane (TPU). Our scalable design incorporates an integrated electronics base housing that enables direct tendon tension control and sensing via actuators and compression load cells. Unlike many continuum robots that are single-purpose and costly, the proposed design prioritizes customizability, rapid assembly, and low cost while enabling high curvature and enhanced distal compliance through geometric tapering, thereby supporting a broad range of compliant robotic inspection and manipulation tasks. We develop a generalized forward kinetostatic model of the tapered backbone based on Cosserat rod theory using a Newtonian approach, extending existing tendon-actuated Cosserat rod formulations to explicitly account for spatially varying backbone cross-sectional geometry. The model is validated against motion capture data, achieving centimeter-level shape prediction accuracy after calibrating Young's modulus via a line search that minimizes modeling error.</p>
-      </details>
-    </div>
-  </div>
-</div>
-
-<div class="paper-card" style="border-left:4px solid #92400e;background:#fef3c7;">
-  <div class="card-inner">
-    <div class="card-left">
-      <span class="rank" style="color:#374151;"># 14</span>
-      <span class="pill h-pill">h=11</span>
-    </div>
-    <div class="card-right">
-      <h3 class="paper-title"><a href="http://arxiv.org/abs/2603.18861v1" target="_blank">A Passive Elastic-Folding Mechanism for Stackable Airdrop Sensors</a></h3>
-      <div class="pills"><span class="pill">2026-03-19</span><span class="pill">cs.RO</span><span class="pill">eess.SY</span><span class="pill">T. Sasatani (h=11)</span></div>
-      <p class="authors">Damyon Kim, Yuichi Honjo, Tatsuya Iizuka, Naomi Okubo, Naoto Endo</p>
-      <div class="contributions">
-        <span class="contrib-label">Core Contributions</span>
-        <ul class="bullets"><li>&#9658; Eliminates active actuators from airborne sensor deployment: a passive elastic-folding hinge transforms flat, stackable 2D sensors into 3D sensing structures purely upon release — reducing power, cost, and mechanical complexity.</li>
-<li>&#9658; Single oven-heating fabrication step programs target fold angles by laminating commercial sheet materials with PCBs — scalable production requiring no specialized equipment, enabling mass manufacturing.</li>
-<li>&#9658; Geometric model linking laminate geometry, hinge mechanics, and resulting fold angle provides a predictive design methodology for specifying target configurations a priori.</li>
-<li>&#9658; Lab validation confirms fold angles spanning 10–100° with ±4° standard deviation and high repeatability, demonstrating reliable deployment across diverse sensor form-factor requirements.</li>
-<li>&#9658; HWM-based trajectory simulations indicate wide-area sensing potential exceeding 10 km per deployment event, enabling cost-effective environmental monitoring at scales impractical with ground-based networks.</li></ul>
-      </div>
-      <details class="abstract-toggle">
-        <summary>Show abstract</summary>
-        <p class="abstract-text">Air-dispersed sensor networks deployed from UAVs provide low-cost wide-area monitoring. Existing methods rely on active actuators for mid-air shape or trajectory control, increasing power and cost. We introduce a passive elastic-folding hinge mechanism that transforms sensors from flat, stackable forms into 3D structures upon release. Hinges are fabricated by laminating sheet materials with PCBs and programming fold angles through a single oven-heating step. Lab tests confirmed fold angles between 10–100°, standard deviation 4°, and high repeatability. Field trials demonstrated reliable LoRa data collection during dispersion, with HWM trajectory simulations indicating potential for wide-area sensing exceeding 10 km.</p>
-      </details>
-    </div>
-  </div>
-</div>
-</section>
-
-</div>
-
-<footer class="site-footer">
-  Generated by Claude &middot; Papers from arXiv cs.RO &middot; Ranked by max author h-index via Semantic Scholar &middot; 2026-03-19
-</footer>
-
+</div><!-- /container -->
 </body>
 </html>
