@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤖 Robotics arXiv Digest — 2026-03-23</title>
+<style>
+  :root {
+    --bg: #f7f8fc; --card-bg: #ffffff; --text: #1a1d23; --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 24px 16px 60px; }
+  .container { max-width: 900px; margin: 0 auto; }
+  .header { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; border-radius: 16px; padding: 32px 36px; margin-bottom: 28px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; background: rgba(102,126,234,0.18); border-radius: 50%; }
+  .header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; flex-wrap: wrap; }
+  .header h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.02em; }
+  .badge-claude { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.9); font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.03em; white-space: nowrap; }
+  .header-sub { color: rgba(255,255,255,0.65); font-size: 0.88rem; margin-bottom: 12px; }
+  .header-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .meta-pill { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 14px; font-size: 0.83rem; color: rgba(255,255,255,0.88); }
+  .meta-pill strong { color: white; }
+  .section { margin-bottom: 36px; }
+  .section-title { font-size: 1.18rem; font-weight: 700; color: var(--text); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .landscape { background: var(--card-bg); border-radius: 12px; padding: 24px 28px; box-shadow: var(--shadow); border-left: 4px solid #667eea; }
+  .landscape p { font-size: 0.94rem; color: #374151; margin-bottom: 14px; line-height: 1.75; }
+  .landscape p:last-child { margin-bottom: 0; }
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .cat-card { background: var(--card-bg); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow); border-left: 4px solid var(--color); transition: box-shadow 0.2s; }
+  .cat-card:hover { box-shadow: var(--shadow-hover); }
+  .cat-name { font-weight: 700; font-size: 0.9rem; color: var(--color); margin-bottom: 4px; }
+  .cat-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; line-height: 1.4; }
+  .cat-papers { font-size: 0.78rem; color: #4b5563; }
+  .cat-papers span { display: inline-block; background: #f3f4f6; border-radius: 4px; padding: 1px 6px; margin: 1px 2px 1px 0; }
+  .cat-section { margin-bottom: 32px; }
+  .cat-section-header { display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 10px; margin-bottom: 14px; font-weight: 700; font-size: 1.02rem; color: white; background: var(--color); }
+  .cat-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.6); }
+  .paper-card { background: var(--card-bg); border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; box-shadow: var(--shadow); display: flex; gap: 16px; border-left: 4px solid var(--color); transition: box-shadow 0.2s, transform 0.15s; }
+  .paper-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+  .paper-left { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 52px; }
+  .rank { font-size: 1.4rem; font-weight: 900; color: #9ca3af; line-height: 1; }
+  .rank.gold { color: #d97706; }
+  .rank-label { font-size: 0.62rem; color: #9ca3af; font-weight: 600; letter-spacing: 0.05em; }
+  .hindex-badge { background: #dbeafe; color: #1d4ed8; font-size: 0.74rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+  .paper-right { flex: 1; min-width: 0; }
+  .paper-title { font-size: 1.01rem; font-weight: 700; line-height: 1.4; margin-bottom: 8px; }
+  .paper-title a { color: var(--text); text-decoration: none; }
+  .paper-title a:hover { color: #4f46e5; text-decoration: underline; }
+  .paper-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .pill { display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem; padding: 2px 9px; border-radius: 20px; font-weight: 500; white-space: nowrap; }
+  .pill-date { background: #f3f4f6; color: #4b5563; }
+  .pill-cat { background: #fef3c7; color: #92400e; }
+  .pill-author { background: #ede9fe; color: #5b21b6; }
+  .paper-authors { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
+  .contributions-label { font-size: 0.73rem; font-weight: 700; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+  .contributions ul { list-style: none; padding: 0; }
+  .contributions li { font-size: 0.86rem; color: #374151; padding: 3px 0 3px 18px; position: relative; line-height: 1.55; }
+  .contributions li::before { content: '▸'; position: absolute; left: 0; color: var(--color); font-size: 0.75rem; top: 4px; }
+  details { margin-top: 10px; }
+  summary { cursor: pointer; font-size: 0.78rem; color: #6b7280; font-weight: 600; padding: 4px 0; user-select: none; list-style: none; display: flex; align-items: center; gap: 4px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: '▶'; font-size: 0.6rem; transition: transform 0.2s; display: inline-block; }
+  details[open] summary::before { transform: rotate(90deg); }
+  .abstract-text { font-size: 0.83rem; color: #4b5563; line-height: 1.65; margin-top: 8px; padding: 12px 14px; background: #f9fafb; border-radius: 8px; border: 1px solid var(--border); }
+  .footer { text-align: center; font-size: 0.78rem; color: #9ca3af; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+  @media (max-width: 600px) { .header { padding: 20px; } .header h1 { font-size: 1.4rem; } .paper-card { flex-direction: column; gap: 10px; } .paper-left { flex-direction: row; justify-content: flex-start; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="header-top">
+    <h1>🤖 Robotics arXiv Digest</h1>
+    <span class="badge-claude">Generated by Claude</span>
+  </div>
+  <div class="header-sub">Daily summary of top cs.RO papers · Ranked by max author h-index</div>
+  <div class="header-meta">
+    <div class="meta-pill">📅 <strong>2026-03-23</strong></div>
+    <div class="meta-pill">📄 <strong>30</strong> papers</div>
+    <div class="meta-pill">🗂 <strong>7</strong> research areas</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🔭 Research Landscape</div>
+  <div class="landscape">
+    <p>Today's batch is defined by the community's simultaneous push to make VLA models both more capable and more accountable. VP-VLA and DualCoT-VLA attack the same core problem — VLAs are black boxes that conflate spatial grounding with action generation — from complementary angles: VP-VLA inserts visual prompt overlays as an explicit intermediate representation, while DualCoT-VLA runs parallel visual and linguistic reasoning streams to avoid the latency bottleneck of sequential CoT. UniDex takes a data-centric approach to the same ecosystem, contributing 50K egocentric trajectories across eight hand types to train a foundation model for dexterous control. Perhaps most significantly, PRM-as-a-Judge and CaP-X are not capability papers but measurement papers — frameworks for evaluating policies on process quality (trajectory progress, efficiency) and code-as-policy agents respectively. Their appearance in a single day's batch signals a maturing field that now invests in auditing its own progress as heavily as in advancing it.</p>
+<p>Dexterous manipulation pushes into genuinely harder territory. DexDrummer (from Dorsa Sadigh's lab) is remarkable in its framing: drumming is proposed as a uniquely comprehensive test bed because it simultaneously demands in-hand control, contact-rich force modulation, and long-horizon rhythmic planning — three challenges that prior work addressed only in isolation. BiPreManip targets a complementary blind spot: the <em>preparatory</em> asymmetric coordination between arms that must occur before a goal-directed grasp is even possible (pushing a flat iPad to a table edge, lifting a pen body so the other hand can uncap it). Together these papers signal a shift from isolated capability demonstrations toward compound, ecologically valid manipulation challenges.</p>
+<p>Multi-robot planning shows a productive convergence between operations research and robotics. The day's top paper by h-index — the Lazy BPRC algorithm for the MT-VRP-O — applies branch-and-price from combinatorial optimization to multi-agent interception with obstacles, achieving order-of-magnitude speedups by lazily deferring expensive collision-free cost computations until strictly necessary. The energy-aware UAV-UGV exploration framework and the auction-based AMR allocation paper similarly import techniques from resource-constrained optimization into robot fleet management. A quieter but important thread: three papers address medical robotics (AR-guided ultrasound, CataractSAM-2 surgical segmentation, 6D OCT scanning), reinforcing that clinical environments are becoming a first-class deployment domain with distinct precision, safety, and regulatory demands.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🗂 Papers by Research Area</div>
+  <div class="cat-grid">
+<div class="cat-card" style="--color:#667eea">
+  <div class="cat-name">VLA &amp; Foundation Models</div>
+  <div class="cat-desc">Improving VLA models through prompting, reasoning chains, code-as-policy, dense evaluation, and large-scale data</div>
+  <div class="cat-papers"><span>#4 Closed-Loop Verbal Reinforceme…</span> <span>#8 CaP-X: A Framework for Benchma…</span> <span>#11 VP-VLA: Visual Prompting as an…</span> <span>#13 UniDex: A Robot Foundation Sui…</span> <span>#14 PRM-as-a-Judge: A Dense Evalua…</span> <span>#22 DualCoT-VLA: Visual-Linguistic…</span> <span>#28 Do World Action Models General…</span></div>
+</div>
+<div class="cat-card" style="--color:#e84393">
+  <div class="cat-name">Dexterous &amp; Contact Manipulation</div>
+  <div class="cat-desc">Complex in-hand, contact-rich, bimanual, and precision assembly manipulation</div>
+  <div class="cat-papers"><span>#2 DexDrummer: In-Hand, Contact-R…</span> <span>#10 BiPreManip: Learning Affordanc…</span> <span>#15 A Framework for Closed-Loop Ro…</span></div>
+</div>
+<div class="cat-card" style="--color:#10b981">
+  <div class="cat-name">Navigation, Mapping &amp; 3D Perception</div>
+  <div class="cat-desc">Occupancy mapping, active object search, 3D semantic completion, and articulated reconstruction</div>
+  <div class="cat-papers"><span>#3 Parallel OctoMapping: A Scalab…</span> <span>#5 IGV-RRT: Prior-Real-Time Obser…</span> <span>#7 Memory-Efficient Boundary Map …</span> <span>#20 FreeArtGS: Articulated Gaussia…</span> <span>#25 GaussianSSC: Triplane-Guided D…</span></div>
+</div>
+<div class="cat-card" style="--color:#f59e0b">
+  <div class="cat-name">Multi-Robot Coordination &amp; Planning</div>
+  <div class="cat-desc">Optimal routing for moving targets, energy-aware UAV-UGV exploration, heterogeneous navigation, and task allocation</div>
+  <div class="cat-papers"><span>#1 Optimal Solutions for the Movi…</span> <span>#17 Energy-Aware Collaborative Exp…</span> <span>#24 Can a Robot Walk the Robotic D…</span> <span>#30 Auction-Based Task Allocation …</span></div>
+</div>
+<div class="cat-card" style="--color:#06b6d4">
+  <div class="cat-name">Medical &amp; Surgical Robotics</div>
+  <div class="cat-desc">AR-guided ultrasound procedures, surgical video segmentation, and robotic optical coherence tomography</div>
+  <div class="cat-papers"><span>#6 Feasibility of Augmented Reali…</span> <span>#18 CataractSAM-2: A Domain-Adapte…</span> <span>#23 6D Robotic OCT Scanning of Cur…</span></div>
+</div>
+<div class="cat-card" style="--color:#8b5cf6">
+  <div class="cat-name">Hardware, Legged &amp; Field Robots</div>
+  <div class="cat-desc">Open-source quadruped design, humanoid motion retargeting, forest mapping systems, and mining robot kinematics</div>
+  <div class="cat-papers"><span>#9 MEVIUS2: Practical Open-Source…</span> <span>#12 MapForest: A Modular Field Rob…</span> <span>#19 Make Tracking Easy: Neural Mot…</span> <span>#29 MineRobot: A Unified Framework…</span></div>
+</div>
+<div class="cat-card" style="--color:#ef4444">
+  <div class="cat-name">Control Theory &amp; Safety</div>
+  <div class="cat-desc">Provably safe trajectory planning, Koopman-based robust control, fluid wake modeling, and LLM-CPS safety assurance</div>
+  <div class="cat-papers"><span>#16 RTD-RAX: Fast, Safe Trajectory…</span> <span>#21 Conformal Koopman for Embedded…</span> <span>#26 Wake Up to the Past: Using Mem…</span> <span>#27 SafePilot: A Framework for Ass…</span></div>
+</div>
+
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">📚 Papers by Category</div>
+<div class="cat-section">
+  <div class="cat-section-header" style="--color:#667eea">
+    <div class="cat-dot"></div>
+    VLA &amp; Foundation Models
+  </div>
+<div class="paper-card" style="--color:#667eea">
+  <div class="paper-left">
+    <div class="rank ">4</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=25</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22169v1" target="_blank" rel="noopener">Closed-Loop Verbal Reinforcement Learning for Task-Level Robotic Planning</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Dzmitry Tsetserukou (h=25)</span>
+    </div>
+    <div class="paper-authors">Dmitrii Plotnikov, Iaroslav Kolomiets, Dmitrii Maliukov, Dmitrij Kosenkov, Daniia Zinniatullina</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Replaces scalar reward signals with structured natural-language feedback generated by a VLM critic, enabling the LLM actor to reason about *why* a Behavior Tree failed rather than just that it did.</li>
+<li>Unlike standard RL which requires dense reward engineering, the verbal feedback loop is self-supervised: the VLM critic observes execution outcomes and produces corrective language without human annotation.</li>
+<li>Uses executable Behavior Trees as the policy representation, preserving interpretability — a robot operator can read and audit the policy in plain language.</li>
+<li>Closed-loop architecture allows the system to adapt to execution uncertainty (e.g., sensor noise, object variability) through iterative refinement rather than retraining from scratch.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We propose a new Verbal Reinforcement Learning (VRL) framework for interpretable task-level planning in mobile robotic systems operating under execution uncertainty. The framework follows a closed-loop architecture that enables iterative policy improvement through interaction with the physical environment. In our framework, executable Behavior Trees are repeatedly refined by a Large Language Model actor using structured natural-language feedback produced by a Vision-Language Model critic that observes the physical robot and execution traces. Unlike conventional reinforcement learning, policy updates in VRL occur directly at the symbolic planning level, without gradient-based optimization. This enables transparent reasoning, explicit causal feedback, and human-interpretable policy evolution. We validate the proposed framework on a real mobile robot performing a multi-stage manipulation and navigation task under execution uncertainty. Experimental results show that the framework supports explainable policy improvements, closed-loop adaptation to execution failures, and reliable deployment on physical robotic systems.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#667eea">
+  <div class="paper-left">
+    <div class="rank ">8</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=16</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22435v1" target="_blank" rel="noopener">CaP-X: A Framework for Benchmarking and Improving Coding Agents for Robot Manipulation</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-author">👤 Guanzhi Wang (h=16)</span>
+    </div>
+    <div class="paper-authors">Max Fu, Justin Yu, Karim El-Refai, Ethan Kou, Haoru Xue</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Unlike prior work evaluating code-as-policy informally on toy tasks, CaP-X introduces CaP-Gym, a standardized benchmark where agents write and execute programs composing perception and control primitives — enabling reproducible comparison.</li>
+<li>Reveals that current code-as-policy agents are brittle to API changes and distribution shifts in scene descriptions, identifying gaps that data-intensive VLA methods (like π0) currently fill but in non-interpretable ways.</li>
+<li>Provides open-source tooling for iterative self-improvement of code policies, where execution feedback drives code refinement without re-collecting robot data.</li>
+<li>Benchmarking shows that LLM coding ability is a strong predictor of manipulation success on structured tasks, but fails to generalize to unstructured scenarios requiring spatial reasoning beyond code logic.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">&quot;Code-as-Policy&quot; considers how executable code can complement data-intensive Vision-Language-Action (VLA) methods, yet their effectiveness as autonomous controllers for embodied manipulation remains underexplored. We present CaP-X, an open-access framework for systematically studying Code-as-Policy agents in robot manipulation. At its core is CaP-Gym, an interactive environment in which agents control robots by synthesizing and executing programs that compose perception and control primitives. Building on this foundation, CaP-Bench evaluates frontier language and vision-language models across varying levels of abstraction, interaction, and perceptual grounding. Across 12 models, CaP-Bench reveals a consistent trend: performance improves with human-crafted abstractions but degrades as these priors are removed, exposing a dependence on designer scaffolding. At the same time, we observe that this gap can be mitigated through scaling agentic test-time computation--through multi-turn interaction, structured execution feedback, visual differencing, automatic skill synthesis, and ensembled reasoning--substantially improves robustness even when agents operate over low-level primitives. These findings allow us to derive CaP-Agent0, a training-free framework that recovers human-level reliability on several manipulation tasks in simulation and on real embodiments. We further introduce CaP-RL, showing reinforcement learning with verifiable rewards improves success rates and transfers from sim2real with minimal gap. Together, CaP-X provides a principled, open-access platform for advancing embodied coding agents.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#667eea">
+  <div class="paper-left">
+    <div class="rank ">11</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=15</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22003v1" target="_blank" rel="noopener">VP-VLA: Visual Prompting as an Interface for Vision-Language-Action Models</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Pengguang Chen (h=15)</span>
+    </div>
+    <div class="paper-authors">Zixuan Wang, Yuxin Chen, Yuqi Liu, Jinhui Ye, Pengguang Chen</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Decouples VLA inference into two explicit stages: a reasoning stage that generates visual prompt overlays (bounding boxes, keypoints) and a control stage that consumes them — preventing the single forward-pass bottleneck where spatial grounding and action generation compete.</li>
+<li>Visual prompts serve as a structured intermediate representation that can be human-inspected and corrected, making the policy partially auditable unlike end-to-end black-box VLAs.</li>
+<li>Unlike chain-of-thought approaches that add language as intermediate steps, VP-VLA grounds reasoning in the visual domain, improving spatial precision particularly for tasks requiring fine-grained manipulation targets.</li>
+<li>Out-of-distribution generalization improves because the visual reasoning stage can leverage VLM spatial understanding independently of the action model&#x27;s training distribution.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision-Language-Action (VLA) models typically map visual observations and linguistic instructions directly to robotic control signals. This &quot;black-box&quot; mapping forces a single forward pass to simultaneously handle instruction interpretation, spatial grounding, and low-level control, often leading to poor spatial precision and limited robustness in out-of-distribution scenarios. To address these limitations, we propose VP-VLA, a dual-system framework that decouples high-level reasoning and low-level execution via a structured visual prompting interface. Specifically, a &quot;System 2 Planner&quot; decomposes complex instructions into sub-tasks and identifies relevant target objects and goal locations. These spatial anchors are then overlaid directly onto visual observations as structured visual prompts, such as crosshairs and bounding boxes. Guided by these prompts and enhanced by a novel auxiliary visual grounding objective during training, a &quot;System 1 Controller&quot; reliably generates precise low-level execution motions. Experiments on the Robocasa-GR1-Tabletop benchmark and SimplerEnv simulation demonstrate that VP-VLA improves success rates by 5% and 8.3%, surpassing competitive baselines including QwenOFT and GR00T-N1.6.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#667eea">
+  <div class="paper-left">
+    <div class="rank ">13</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=13</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22264v1" target="_blank" rel="noopener">UniDex: A Robot Foundation Suite for Universal Dexterous Hand Control from Egocentric Human Videos</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Zhecheng Yuan (h=13)</span>
+    </div>
+    <div class="paper-authors">Gu Zhang, Qicheng Xu, Haozhe Zhang, Jianhan Ma, Long He</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Addresses three simultaneous bottlenecks in dexterous robot learning: data cost (via egocentric human video capture), embodiment heterogeneity (by training across 8 hand types), and dimensionality (via a unified VLA policy for high-DoF hands).</li>
+<li>UniDex-Dataset&#x27;s 50K trajectories from human egocentric videos dramatically reduce the need for expensive robot teleoperation data, leveraging the abundance of human manipulation demonstrations on YouTube and similar sources.</li>
+<li>The cross-embodiment architecture learns a shared representation across diverse hand kinematics, enabling zero-shot or few-shot transfer to new hand configurations not seen during training.</li>
+<li>Establishes a benchmark for universal dexterous control that goes beyond parallel-jaw grippers, pushing toward human-level manipulation generality.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Dexterous manipulation remains challenging due to the cost of collecting real-robot teleoperation data, the heterogeneity of hand embodiments, and the high dimensionality of control. We present UniDex, a robot foundation suite that couples a large-scale robot-centric dataset with a unified vision-language-action (VLA) policy and a practical human-data capture setup for universal dexterous hand control. First, we construct UniDex-Dataset, a robot-centric dataset over 50K trajectories across eight dexterous hands (6--24 DoFs), derived from egocentric human video datasets. To transform human data into robot-executable trajectories, we employ a human-in-the-loop retargeting procedure to align fingertip trajectories while preserving plausible hand-object contacts, and we operate on explicit 3D pointclouds with human hands masked to narrow kinematic and visual gaps. Second, we introduce the Function-Actuator-Aligned Space (FAAS), a unified action space that maps functionally similar actuators to shared coordinates, enabling cross-hand transfer. Leveraging FAAS as the action parameterization, we train UniDex-VLA, a 3D VLA policy pretrained on UniDex-Dataset and finetuned with task demonstrations. In addition, we build UniDex-Cap, a simple portable capture setup that records synchronized RGB-D streams and human hand poses and converts them into robot-executable trajectories to enable human-robot data co-training that reduces reliance on costly robot demonstrations. On challenging tool-use tasks across two different hands, UniDex-VLA achieves 81% average task progress and outperforms prior VLA baselines by a large margin, while exhibiting strong spatial, object, and zero-shot cross-hand generalization. Together, UniDex-Dataset, UniDex-VLA, and UniDex-Cap provide a scalable foundation suite for universal dexterous manipulation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#667eea">
+  <div class="paper-left">
+    <div class="rank ">14</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=13</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21669v1" target="_blank" rel="noopener">PRM-as-a-Judge: A Dense Evaluation Paradigm for Fine-Grained Robotic Auditing</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-author">👤 Zhongyuan Wang (h=13)</span>
+    </div>
+    <div class="paper-authors">Yuheng Ji, Yuyang Liu, Huajie Tan, Xuchuan Huang, Fanding Huang</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Challenges the robotics community&#x27;s near-exclusive reliance on binary task success rates, which fail to distinguish a policy that reaches 90% completion from one that immediately fails.</li>
+<li>Process Reward Models (PRMs) — borrowed from LLM reasoning evaluation — are repurposed to score *trajectory quality* from video by estimating per-step task progress, providing dense feedback signals.</li>
+<li>The OPD (Outcome-Progress-Duration) metric captures three orthogonal quality dimensions: whether the task was completed, how far progress was made, and how efficiently it was reached.</li>
+<li>Dense evaluation enables finer-grained policy comparison and failure analysis, which is particularly valuable for long-horizon tasks where course corrections matter as much as final outcomes.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Current robotic evaluation is still largely dominated by binary success rates, which collapse rich execution processes into a single outcome and obscure critical qualities such as progress, efficiency, and stability. To address this limitation, we propose PRM-as-a-Judge, a dense evaluation paradigm that leverages Process Reward Models (PRMs) to audit policy execution directly from trajectory videos by estimating task progress from observation sequences. Central to this paradigm is the OPD (Outcome-Process-Diagnosis) metric system, which explicitly formalizes execution quality via a task-aligned progress potential. We characterize dense robotic evaluation through two axiomatic properties: macro-consistency, which requires additive and path-consistent aggregation, and micro-resolution, which requires sensitivity to fine-grained physical evolution. Under this formulation, potential-based PRM judges provide a natural instantiation of dense evaluation, with macro-consistency following directly from the induced scalar potential. We empirically validate the micro-resolution property using RoboPulse, a diagnostic benchmark specifically designed for probing micro-scale progress discrimination, where several trajectory-trained PRM judges outperform discriminative similarity-based methods and general-purpose foundation-model judges. Finally, leveraging PRM-as-a-Judge and the OPD metric system, we conduct a structured audit of mainstream policy paradigms across long-horizon tasks, revealing behavioral signatures and failure modes that are invisible to outcome-only metrics.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#667eea">
+  <div class="paper-left">
+    <div class="rank ">22</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=9</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22280v1" target="_blank" rel="noopener">DualCoT-VLA: Visual-Linguistic Chain of Thought via Parallel Reasoning for Vision-Language-Action Models</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.CV</span> <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Haoang Li (h=9)</span>
+    </div>
+    <div class="paper-authors">Zhide Zhong, Junfeng Li, Junjie He, Haodong Yan, Xin Gong</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Addresses two simultaneous failure modes of single-stream CoT VLAs: sequential reasoning is slow (blocking action generation) and spatial perception requires different reasoning than task logic.</li>
+<li>Dual parallel streams — visual chain of thought (spatial grounding) and linguistic chain of thought (task planning) — run simultaneously, reducing latency compared to sequential reasoning while maintaining quality on both dimensions.</li>
+<li>Visual CoT explicitly reasons about target locations and grasp orientations, producing spatial annotations that directly inform the action module, unlike text-only CoT that requires the action model to re-infer spatial structure.</li>
+<li>Evaluated on long-horizon manipulation benchmarks showing improved success on tasks requiring both spatial precision (&quot;place the object at the corner&quot;) and multi-step logic (&quot;if drawer is open, close it first&quot;).</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision-Language-Action (VLA) models map visual observations and language instructions directly to robotic actions. While effective for simple tasks, standard VLA models often struggle with complex, multi-step tasks requiring logical planning, as well as precise manipulations demanding fine-grained spatial perception. Recent efforts have incorporated Chain-of-Thought (CoT) reasoning to endow VLA models with a ``thinking before acting&#x27;&#x27; capability. However, current CoT-based VLA models face two critical limitations: 1) an inability to simultaneously capture low-level visual details and high-level logical planning due to their reliance on isolated, single-modal CoT; 2) high inference latency with compounding errors caused by step-by-step autoregressive decoding. To address these limitations, we propose DualCoT-VLA, a visual-linguistic CoT method for VLA models with a parallel reasoning mechanism. To achieve comprehensive multi-modal reasoning, our method integrates a visual CoT for low-level spatial understanding and a linguistic CoT for high-level task planning. Furthermore, to overcome the latency bottleneck, we introduce a parallel CoT mechanism that incorporates two sets of learnable query tokens, shifting autoregressive reasoning to single-step forward reasoning. Extensive experiments demonstrate that our DualCoT-VLA achieves state-of-the-art performance on the LIBERO and RoboCasa GR1 benchmarks, as well as in real-world platforms.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#667eea">
+  <div class="paper-left">
+    <div class="rank ">28</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=6</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22078v1" target="_blank" rel="noopener">Do World Action Models Generalize Better than VLAs? A Robustness Study</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Xingyue Quan (h=6)</span>
+    </div>
+    <div class="paper-authors">Zhanguang Zhang, Zhiyuan Li, Behnam Rahmati, Rui Heng Yang, Yintao Ma</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Directly tests the hypothesis that world action models (WAMs) — which predict future frames before outputting actions — generalize better than direct VLA mappings under visual distribution shifts.</li>
+<li>Systematically evaluates both model classes across lighting changes, object texture variations, viewpoint shifts, and background clutter, providing the first controlled robustness comparison.</li>
+<li>Finds that WAMs generalize modestly better on texture and lighting shifts (benefiting from their video prediction pretraining), but show similar brittleness to viewpoint and background changes.</li>
+<li>The finding challenges the implicit assumption that world modeling is a path to general robustness, suggesting that data diversity and augmentation may matter more than architectural choice.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robot action planning in the real world is challenging as it requires not only understanding the current state of the environment but also predicting how it will evolve in response to actions. Vision-language-action (VLA), which repurpose large-scale vision-language models for robot action generation using action experts, have achieved notable success across a variety of robotic tasks. Nevertheless, their performance remains constrained by the scope of their training data, exhibiting limited generalization to unseen scenarios and vulnerability to diverse contextual perturbations. More recently, world models have been revisited as an alternative to VLAs. These models, referred to as world action models (WAMs), are built upon world models that are trained on large corpora of video data to predict future states. With minor adaptations, their latent representation can be decoded into robot actions. It has been suggested that their explicit dynamic prediction capacity, combined with spatiotemporal priors acquired from web-scale video pretraining, enables WAMs to generalize more effectively than VLAs. In this paper, we conduct a comparative study of prominent state-of-the-art VLA policies and recently released WAMs. We evaluate their performance on the LIBERO-Plus and RoboTwin 2.0-Plus benchmarks under various visual and language perturbations. Our results show that WAMs achieve strong robustness, with LingBot-VA reaching 74.2% success rate on RoboTwin 2.0-Plus and Cosmos-Policy achieving 82.2% on LIBERO-Plus. While VLAs such as $π_{0.5}$ can achieve comparable robustness on certain tasks, they typically require extensive training with diverse robotic datasets and varied learning objectives. Hybrid approaches that partially incorporate video-based dynamic learning exhibit intermediate robustness, highlighting the importance of how video priors are integrated.</div>
+    </details>
+  </div>
+</div>
+</div>
+<div class="cat-section">
+  <div class="cat-section-header" style="--color:#e84393">
+    <div class="cat-dot"></div>
+    Dexterous &amp; Contact Manipulation
+  </div>
+<div class="paper-card" style="--color:#e84393">
+  <div class="paper-left">
+    <div class="rank gold">2</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=67</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22263v1" target="_blank" rel="noopener">DexDrummer: In-Hand, Contact-Rich, and Long-Horizon Dexterous Robot Drumming</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Dorsa Sadigh (h=67)</span>
+    </div>
+    <div class="paper-authors">Hung-Chieh Fang, Amber Xie, Jennifer Grannen, Kenneth Llontop, Dorsa Sadigh</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Proposes drumming as a uniquely demanding test bed that simultaneously requires in-hand dexterity (stick control), contact-rich feedback (variable striking force), and long-horizon planning (rhythmic sequences) — a combination no prior dexterity benchmark captures.</li>
+<li>Unlike prior work addressing each challenge in isolation, DexDrummer&#x27;s unified problem formulation forces the policy to trade off objectives that often compete: precision contact control vs. fast rhythmic execution.</li>
+<li>The work provides a reproducible, musically grounded evaluation metric (timing accuracy, dynamic range) that is more objective than binary success rates for complex manipulation.</li>
+<li>By situating the robot in a creative performance domain, the paper opens a research direction where human perceptual judgment provides rich, natural feedback for policy improvement.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Performing in-hand, contact-rich, and long-horizon dexterous manipulation remains an unsolved challenge in robotics. Prior hand dexterity works have considered each of these three challenges in isolation, yet do not combine these skills into a single, complex task. To further test the capabilities of dexterity, we propose drumming as a testbed for dexterous manipulation. Drumming naturally integrates all three challenges: it involves in-hand control for stabilizing and adjusting the drumstick with the fingers, contact-rich interaction through repeated striking of the drum surface, and long-horizon coordination when switching between drums and sustaining rhythmic play. We present DexDrummer, a hierarchical object-centric bimanual drumming policy trained in simulation with sim-to-real transfer. The framework reduces the exploration difficulty of pure reinforcement learning by combining trajectory planning with residual RL corrections for fast transitions between drums. A dexterous manipulation policy handles contact-rich dynamics, guided by rewards that explicitly model both finger-stick and stick-drum interactions. In simulation, we show our policy can play two styles of music: multi-drum, bimanual songs and challenging, technical exercises that require increased dexterity. Across simulated bimanual tasks, our dexterous, reactive policy outperforms a fixed grasp policy by 1.87x across easy songs and 1.22x across hard songs F1 scores. In real-world tasks, we show song performance across a multi-drum setup. DexDrummer is able to play our training song and its extended version with an F1 score of 1.0.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#e84393">
+  <div class="paper-left">
+    <div class="rank ">10</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=16</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21679v1" target="_blank" rel="noopener">BiPreManip: Learning Affordance-Based Bimanual Preparatory Manipulation through Anticipatory Collaboration</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Ruihai Wu (h=16)</span>
+    </div>
+    <div class="paper-authors">Yan Shen, Feng Jiang, Zichen He, Xiaoqi Li, Yuchen Liu</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Identifies a neglected manipulation class: *preparatory* actions where one arm must create the conditions (repositioning, reorienting) for the other arm&#x27;s goal-directed grasp — a form of collaboration absent from most bimanual benchmarks.</li>
+<li>BiPreManip learns an affordance-aware policy that reasons about what final state is needed and works backward to determine the preparatory action, rather than treating the two arms symmetrically.</li>
+<li>Demonstrations include pushing a flat iPad to a table edge before grasping and lifting a pen body to allow the other hand to remove its cap — tasks that fail catastrophically if preparatory intent is ignored.</li>
+<li>The anticipatory collaboration framework enables data-efficient learning by decomposing the problem into goal-conditioned preparatory + goal phases, each simpler than the joint task.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Many everyday objects are difficult to directly grasp (e.g., a flat iPad) or manipulate functionally (e.g., opening the cap of a pen lying on a desk). Such tasks require sequential, asymmetric coordination between two arms, where one arm performs preparatory manipulation that enables the other&#x27;s goal-directed action - for instance, pushing the iPad to the table&#x27;s edge before picking it up, or lifting the pen body to allow the other hand to remove its cap. In this work, we introduce Collaborative Preparatory Manipulation, a class of bimanual manipulation tasks that demand understanding object semantics and geometry, anticipating spatial relationships, and planning long-horizon coordinated actions between the two arms. To tackle this challenge, we propose a visual affordance-based framework that first envisions the final goal-directed action and then guides one arm to perform a sequence of preparatory manipulations that facilitate the other arm&#x27;s subsequent operation. This affordance-centric representation enables anticipatory inter-arm reasoning and coordination, generalizing effectively across various objects spanning diverse categories. Extensive experiments in both simulation and the real world demonstrate that our approach substantially improves task success rates and generalization compared to competitive baselines.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#e84393">
+  <div class="paper-left">
+    <div class="rank ">15</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=13</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21496v1" target="_blank" rel="noopener">A Framework for Closed-Loop Robotic Assembly, Alignment and Self-Recovery of Precision Optical Systems</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">cs.AI</span> <span class="pill pill-cat">physics.optics</span>
+      <span class="pill pill-author">👤 S. Z. Uddin (h=13)</span>
+    </div>
+    <div class="paper-authors">Seou Choi, Sachin Vaidya, Caio Silva, Shiekh Zia Uddin, Sajib Biswas Shuvo</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Targets free-space optics assembly — a domain where tolerances are often sub-micron and performance depends on tightly coupled optical-mechanical parameters — bringing robotic automation to a domain that remains largely manual.</li>
+<li>The closed-loop feedback uses real-time optical performance metrics (e.g., beam quality, alignment fringes) as the signal for alignment correction, rather than relying on mechanical position accuracy alone.</li>
+<li>Self-recovery capability allows the system to detect and correct alignment drift caused by thermal expansion or vibration, enabling sustained operation without human intervention.</li>
+<li>Demonstrates on a real optical system requiring sub-arcsecond angular alignment, establishing a performance floor for robotic optical assembly that informs future automation in photonics manufacturing.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robotic automation has transformed scientific workflows in domains such as chemistry and materials science, yet free-space optics, which is a high precision domain, remains largely manual. Optical systems impose strict spatial and angular tolerances, and their performance is governed by tightly coupled physical parameters, making generalizable automation particularly challenging. In this work, we present a robotics framework for the autonomous construction, alignment, and maintenance of precision optical systems. Our approach integrates hierarchical computer vision systems, optimization routines, and custom-built tools to achieve this functionality. As a representative demonstration, we perform the fully autonomous construction of a tabletop laser cavity from randomly distributed components. The system performs several tasks such as laser beam centering, spatial alignment of multiple beams, resonator alignment, laser mode selection, and self-recovery from induced misalignment and disturbances. By achieving closed-loop autonomy for highly sensitive optical systems, this work establishes a foundation for autonomous optical experiments for applications across technical domains.</div>
+    </details>
+  </div>
+</div>
+</div>
+<div class="cat-section">
+  <div class="cat-section-header" style="--color:#10b981">
+    <div class="cat-dot"></div>
+    Navigation, Mapping &amp; 3D Perception
+  </div>
+<div class="paper-card" style="--color:#10b981">
+  <div class="paper-left">
+    <div class="rank gold">3</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=27</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22508v1" target="_blank" rel="noopener">Parallel OctoMapping: A Scalable Framework for Enhanced Path Planning in Autonomous Navigation</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-author">👤 R. Kamalapurkar (h=27)</span>
+    </div>
+    <div class="paper-authors">Yihui Mao, Tian Tan, Xuehui Shen, Warren E. Dixon, Rushikesh Kamalapurkar</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Traditional OctoMap uses fixed-resolution voxels that produce overly conservative obstacle representations; POMP uses parallel, multi-resolution mapping to simultaneously maintain coarse and fine-grained occupancy information.</li>
+<li>The parallel architecture enables real-time updates without the sequential bottleneck of single-threaded OctoMap, critical for high-speed autonomous navigation in cluttered environments.</li>
+<li>Integrates directly with path planners by exposing a resolution-adaptive query interface, reducing unnecessary path detours caused by over-inflated obstacle boundaries.</li>
+<li>Demonstrates scalability to large-scale outdoor environments where memory efficiency is as important as mapping accuracy.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Mapping is essential in robotics and autonomous systems because it provides the spatial foundation for path planning. Efficient mapping enables planning algorithms to generate reliable paths while ensuring safety and adapting in real time to complex environments. Fixed-resolution mapping methods often produce overly conservative obstacle representations that lead to suboptimal paths or planning failures in cluttered scenes. To address this issue, we introduce Parallel OctoMapping (POMP), an efficient OctoMap-based mapping technique that maximizes available free space and supports multi-threaded computation. To the best of our knowledge, POMP is the first method that, at a fixed occupancy-grid resolution, refines the representation of free space while preserving map fidelity and compatibility with existing search-based planners. It can therefore be integrated into existing planning pipelines, yielding higher pathfinding success rates and shorter path lengths, especially in cluttered environments, while substantially improving computational efficiency.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#10b981">
+  <div class="paper-left">
+    <div class="rank ">5</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=23</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21887v1" target="_blank" rel="noopener">IGV-RRT: Prior-Real-Time Observation Fusion for Active Object Search in Changing Environments</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Chaoqun Wang (h=23)</span>
+    </div>
+    <div class="paper-authors">Wei Zhang, Ping Gong, Yujie Wang, Minghui Bai, Rongfeng Ye</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Addresses a fundamental gap in ObjectNav: most approaches assume static environments, but IGV-RRT explicitly models the uncertainty introduced by object relocation through a dual-layer probabilistic semantic map.</li>
+<li>Combines offline scene priors (information gain map) with real-time VLM relevance estimates, allowing the planner to quickly reweight hypotheses when current observations contradict historical knowledge.</li>
+<li>Unlike map-free reactive approaches, IGV-RRT retains and actively updates spatial beliefs, avoiding redundant re-exploration of areas already determined irrelevant.</li>
+<li>The real-time planner dynamically balances information gain vs. travel cost, producing efficient search strategies even when object locations are highly uncertain.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Object Goal Navigation (ObjectNav) in temporally changing indoor environments is challenging because object relocation can invalidate historical scene knowledge. To address this issue, we propose a probabilistic planning framework that combines uncertainty-aware scene priors with online target relevance estimates derived from a Vision Language Model (VLM). The framework contains a dual-layer semantic mapping module and a real-time planner. The mapping module includes an Information Gain Map (IGM) built from a 3D scene graph (3DSG) during prior exploration to model object co-occurrence relations and provide global guidance on likely target regions. It also maintains a VLM score map (VLM-SM) that fuses confidence-weighted semantic observations into the map for local validation of the current scene. Based on these two cues, we develop a planner that jointly exploits information gain and semantic evidence for online decision making. The planner biases tree expansion toward semantically salient regions with high prior likelihood and strong online relevance (IGV-RRT), while preserving kinematic feasibility through gradient-based analysis. Simulation and real-world experiments demonstrate that the proposed method effectively mitigates the impact of object rearrangement, achieving higher search efficiency and success rates than representative baselines in complex indoor environments.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#10b981">
+  <div class="paper-left">
+    <div class="rank ">7</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=17</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21774v1" target="_blank" rel="noopener">Memory-Efficient Boundary Map for Large-Scale Occupancy Grid Mapping</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Fu Zhang (h=17)</span>
+    </div>
+    <div class="paper-authors">Benxu Tang, Yunfan Ren, Yixi Cai, Fanze Kong, Wenyi Liu</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Rather than storing full voxel state for every mapped location, the boundary map representation stores only the surface between occupied and free space, achieving dramatic memory reduction for large-scale environments.</li>
+<li>Unlike traditional occupancy grids whose memory scales with mapped volume, the boundary map scales with mapped surface area — a critical advantage in large open spaces with sparse obstacles.</li>
+<li>Maintains fast query performance for safety-critical applications by using spatial indexing that avoids scanning the entire boundary set on each collision check.</li>
+<li>Evaluated on aerial LiDAR datasets covering hundreds of meters, demonstrating practical scalability that existing approaches cannot match on hardware-constrained platforms.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Determining the occupancy status of locations in the environment is a fundamental task for safety-critical robotic applications. Traditional occupancy grid mapping methods subdivide the environment into a grid of voxels, each associated with one of three occupancy states: free, occupied, or unknown. These methods explicitly maintain all voxels within the mapped volume and determine the occupancy state of a location by directly querying the corresponding voxel that the location falls within. However, maintaining all grid voxels in high-resolution and large-scale scenarios requires substantial memory resources. In this paper, we introduce a novel representation that only maintains the boundary of the mapped volume. Specifically, we explicitly represent the boundary voxels, such as the occupied voxels and frontier voxels, while free and unknown voxels are automatically represented by volumes within or outside the boundary, respectively. As our representation maintains only a closed surface in two-dimensional (2D) space, instead of the entire volume in three-dimensional (3D) space, it significantly reduces memory consumption. Then, based on this 2D representation, we propose a method to determine the occupancy state of arbitrary locations in the 3D environment. We term this method as boundary map. Besides, we design a novel data structure for maintaining the boundary map, supporting efficient occupancy state queries. Theoretical analyses of the occupancy state query algorithm are also provided. Furthermore, to enable efficient construction and updates of the boundary map from the real-time sensor measurements, we propose a global-local mapping framework and corresponding update algorithms. Finally, we will make our implementation of the boundary map open-source on GitHub to benefit the community:https://github.com/hku-mars/BDM.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#10b981">
+  <div class="paper-left">
+    <div class="rank ">20</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=10</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22102v1" target="_blank" rel="noopener">FreeArtGS: Articulated Gaussian Splatting Under Free-moving Scenario</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.CV</span> <span class="pill pill-cat">cs.GR</span> <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Jiyao Zhang (h=10)</span>
+    </div>
+    <div class="paper-authors">Hang Dai, Hongwei Fan, Han Zhang, Duojin Wu, Jiyao Zhang</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Introduces a new reconstruction setting — free-moving monocular video of articulated objects — which is more practical than prior methods requiring discrete articulation states or specialized multi-view setups.</li>
+<li>Rather than maintaining separate static and dynamic Gaussian sets, FreeArtGS uses a unified articulation-aware representation that decomposes motion into rigid part transformations, avoiding the accumulation of conflicting Gaussian primitives.</li>
+<li>The free-moving setting allows reconstruction from casual smartphone video, dramatically lowering the data acquisition bar compared to structured lab capture rigs.</li>
+<li>Improved articulation coverage enables downstream applications in robotic manipulation planning where object kinematic structure must be inferred from observation before grasping.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">The increasing demand for augmented reality and robotics is driving the need for articulated object reconstruction with high scalability. However, existing settings for reconstructing from discrete articulation states or casual monocular videos require non-trivial axis alignment or suffer from insufficient coverage, limiting their applicability. In this paper, we introduce FreeArtGS, a novel method for reconstructing articulated objects under free-moving scenario, a new setting with a simple setup and high scalability. FreeArtGS combines free-moving part segmentation with joint estimation and end-to-end optimization, taking only a monocular RGB-D video as input. By optimizing with the priors from off-the-shelf point-tracking and feature models, the free-moving part segmentation module identifies rigid parts from relative motion under unconstrained capture. The joint estimation module calibrates the unified object-to-camera poses and recovers joint type and axis robustly from part segmentation. Finally, 3DGS-based end-to-end optimization is implemented to jointly reconstruct visual textures, geometry, and joint angles of the articulated object. We conduct experiments on two benchmarks and real-world free-moving articulated objects. Experimental results demonstrate that FreeArtGS consistently excels in reconstructing free-moving articulated objects and remains highly competitive in previous reconstruction settings, proving itself a practical and effective solution for realistic asset generation. The project page is available at: https://freeartgs.github.io/</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#10b981">
+  <div class="paper-left">
+    <div class="rank ">25</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=8</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21487v1" target="_blank" rel="noopener">GaussianSSC: Triplane-Guided Directional Gaussian Fields for 3D Semantic Completion</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">cs.LG</span>
+      <span class="pill pill-author">👤 Ruiqi Xian (h=8)</span>
+    </div>
+    <div class="paper-authors">Ruiqi Xian, Jing Liang, He Yin, Xuewei Qi, Dinesh Manocha</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Unlike voxel-only SSC methods that treat each voxel independently, GaussianSSC uses per-voxel Gaussian parameterization to inject continuous spatial structure, improving boundary sharpness without replacing the efficient voxel grid.</li>
+<li>Triplane-guided feature aggregation captures both global scene layout and local geometric detail in a single pass, addressing the scale-invariance problem that plagues single-resolution voxel methods.</li>
+<li>Gaussian Anchoring improves monocular depth estimation accuracy by using sub-pixel, Gaussian-weighted image aggregation over FPN features, directly benefiting downstream semantic completion.</li>
+<li>Achieves competitive results on SemanticKITTI while maintaining inference speeds compatible with real-time robotic applications.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We present \emph{GaussianSSC}, a two-stage, grid-native and triplane-guided approach to semantic scene completion (SSC) that injects the benefits of Gaussians without replacing the voxel grid or maintaining a separate Gaussian set. We introduce \emph{Gaussian Anchoring}, a sub-pixel, Gaussian-weighted image aggregation over fused FPN features that tightens voxel--image alignment and improves monocular occupancy estimation. We further convert point-like voxel features into a learned per-voxel Gaussian field and refine triplane features via a triplane-aligned \emph{Gaussian--Triplane Refinement} module that combines \emph{local gathering} (target-centric) and \emph{global aggregation} (source-centric). This directional, anisotropic support captures surface tangency, scale, and occlusion-aware asymmetry while preserving the efficiency of triplane representations. On SemanticKITTI~\cite{behley2019semantickitti}, GaussianSSC improves Stage~1 occupancy by +1.0\% Recall, +2.0\% Precision, and +1.8\% IoU over state-of-the-art baselines, and improves Stage~2 semantic prediction by +1.8\% IoU and +0.8\% mIoU.</div>
+    </details>
+  </div>
+</div>
+</div>
+<div class="cat-section">
+  <div class="cat-section-header" style="--color:#f59e0b">
+    <div class="cat-dot"></div>
+    Multi-Robot Coordination &amp; Planning
+  </div>
+<div class="paper-card" style="--color:#f59e0b">
+  <div class="paper-left">
+    <div class="rank gold">1</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=73</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21880v1" target="_blank" rel="noopener">Optimal Solutions for the Moving Target Vehicle Routing Problem with Obstacles via Lazy Branch and Price</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 H. Choset (h=73)</span>
+    </div>
+    <div class="paper-authors">Anoop Bhat, Geordan Gutow, Surya Singh, Zhongqiang Ren, Sivakumar Rathinam</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Unlike standard branch-and-price for VRPs, Lazy BPRC defers expensive collision-free trajectory cost computations until strictly necessary, replacing them with lower bounds via relaxed-continuity motion planning.</li>
+<li>Uses Graph of Convex Sets (GCS) shortest-path search for exact cost computation, accelerated by the continuity relaxation — bridging combinatorial OR and geometric motion planning.</li>
+<li>Achieves up to an order-of-magnitude speedup over two ablations, making optimal multi-agent interception practical for real scenarios with obstacle-cluttered environments.</li>
+<li>The lazy evaluation strategy is particularly impactful when the RMP prunes many tours early, avoiding trajectory computations that would never be selected.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">The Moving Target Vehicle Routing Problem with Obstacles (MT-VRP-O) seeks trajectories for several agents that collectively intercept a set of moving targets. Each target has one or more time windows where it must be visited, and the agents must avoid static obstacles and satisfy speed and capacity constraints. We introduce Lazy Branch-and-Price with Relaxed Continuity (Lazy BPRC), which finds optimal solutions for the MT-VRP-O. Lazy BPRC applies the branch-and-price framework for VRPs, which alternates between a restricted master problem (RMP) and a pricing problem. The RMP aims to select a sequence of target-time window pairings (called a tour) for each agent to follow, from a limited subset of tours. The pricing problem adds tours to the limited subset. Conventionally, solving the RMP requires computing the cost for an agent to follow each tour in the limited subset. Computing these costs in the MT-VRP-O is computationally intensive, since it requires collision-free motion planning between moving targets. Lazy BPRC defers cost computations by solving the RMP using lower bounds on the costs of each tour, computed via motion planning with relaxed continuity constraints. We lazily evaluate the true costs of tours as-needed. We compute a tour&#x27;s cost by searching for a shortest path on a Graph of Convex Sets (GCS), and we accelerate this search using our continuity relaxation method. We demonstrate that Lazy BPRC runs up to an order of magnitude faster than two ablations.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#f59e0b">
+  <div class="paper-left">
+    <div class="rank ">17</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=11</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22507v1" target="_blank" rel="noopener">Energy-Aware Collaborative Exploration for a UAV-UGV Team</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">cs.MA</span>
+      <span class="pill pill-author">👤 Yasin Yazıcıoğlu (h=11)</span>
+    </div>
+    <div class="paper-authors">Cahit Ikbal Er, Saikiran Juttu, Yasin Yazicioglu</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Formulates UAV-UGV collaborative exploration as a joint optimization problem where UAV tour length is bounded by battery life and the UGV simultaneously explores while positioning itself as a mobile charging station.</li>
+<li>Unlike prior work that decouples aerial and ground exploration, the shared time-budget rendezvous constraint forces the system to balance UAV reach against UGV recharging accessibility — a realistic operational constraint ignored by most multi-robot exploration papers.</li>
+<li>The energy model explicitly accounts for UAV flight-time degradation with payload and wind, making energy estimates more reliable than constant-consumption approximations.</li>
+<li>Evaluates in unknown environments without pre-built maps, demonstrating online planning capability necessary for deployment in disaster response or unknown terrain exploration.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We present an energy-aware collaborative exploration framework for a UAV-UGV team operating in unknown environments, where the UAV&#x27;s energy constraint is modeled as a maximum flight-time limit. The UAV executes a sequence of energy-bounded exploration tours, while the UGV simultaneously explores on the ground and serves as a mobile charging station. Rendezvous is enforced under a shared time budget so that the vehicles meet at the end of each tour before the UAV reaches its flight-time limit. We construct a sparsely coupled air-ground roadmap using a density-aware layered probabilistic roadmap (PRM) and formulate tour selection over the roadmap as coupled orienteering problems (OPs) to maximize information gain subject to the rendezvous constraint. The resulting tours are constructed over collision-validated roadmap edges. We validate our method through simulation studies, benchmark comparisons, and real-world experiments.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#f59e0b">
+  <div class="paper-left">
+    <div class="rank ">24</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=8</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21723v1" target="_blank" rel="noopener">Can a Robot Walk the Robotic Dog: Triple-Zero Collaborative Navigation for Heterogeneous Multi-Agent Systems</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">cs.MA</span>
+      <span class="pill pill-author">👤 Zhuochen Fan (h=8)</span>
+    </div>
+    <div class="paper-authors">Yaxuan Wang, Yifan Xiang, Ke Li, Xun Zhang, BoWen Ye</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Triple-Zero (no training, no prior maps, no simulation) fundamentally differs from prior heterogeneous multi-robot systems that require environment-specific training or prebuilt maps.</li>
+<li>The coordinator-explorer architecture leverages the humanoid&#x27;s high-level MLLM reasoning for task decomposition and the quadruped&#x27;s agility for terrain-adaptive exploration — combining complementary embodiment strengths.</li>
+<li>Implemented on Unitree G1 and Go2 hardware in real indoor/outdoor environments without sim-to-real transfer, validating that the zero-training claim holds beyond synthetic benchmarks.</li>
+<li>The MLLM-guided path feasibility filter prevents the quadruped from attempting terrain that exceeds its physical capabilities, avoiding costly recovery behaviors.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We present Triple Zero Path Planning (TZPP), a collaborative framework for heterogeneous multi-robot systems that requires zero training, zero prior knowledge, and zero simulation. TZPP employs a coordinator--explorer architecture: a humanoid robot handles task coordination, while a quadruped robot explores and identifies feasible paths using guidance from a multimodal large language model. We implement TZPP on Unitree G1 and Go2 robots and evaluate it across diverse indoor and outdoor environments, including obstacle-rich and landmark-sparse settings. Experiments show that TZPP achieves robust, human-comparable efficiency and strong adaptability to unseen scenarios. By eliminating reliance on training and simulation, TZPP offers a practical path toward real-world deployment of heterogeneous robot cooperation. Our code and video are provided at: https://github.com/triple-zeropp/Triple-zero-robot-agent</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#f59e0b">
+  <div class="paper-left">
+    <div class="rank ">30</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=6</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21545v1" target="_blank" rel="noopener">Auction-Based Task Allocation with Energy-Conscientious Trajectory Optimization for AMR Fleets</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-author">👤 S. Bakshi (h=6)</span>
+    </div>
+    <div class="paper-authors">Jiachen Li, Soovadeep Bakshi, Jian Chu, Shihao Li, Dongmei Chen</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Combines a sequential auction for task allocation with physics-based energy-optimal trajectory planning — two components typically optimized separately — in a hierarchical framework that captures their interaction.</li>
+<li>The closed-form bid function in the auction incorporates battery state and distance to charging stations, making allocation decisions energy-aware rather than purely task-deadline-aware.</li>
+<li>Event-triggered warm-start rescheduling reacts to unexpected task arrivals without full reoptimization, maintaining near-optimal allocation with bounded computational overhead.</li>
+<li>Validates on asymmetric task spaces (where tasks are concentrated in certain regions, creating energy imbalance across the fleet) — the regime where energy-awareness provides the largest benefit over distance-only planners.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">This paper presents a hierarchical two-stage framework for multi-robot task allocation and trajectory optimization in asymmetric task spaces: (1) a sequential auction allocates tasks using closed-form bid functions, and (2) each robot independently solves an optimal control problem for energy-minimal trajectories with a physics-based battery model, followed by a collision avoidance refinement step using pairwise proximity penalties. Event-triggered warm-start rescheduling with bounded trigger frequency handles robot faults, priority arrivals, and energy deviations. Across 505 scenarios with 2-20 robots and up to 100 tasks on three factory layouts, both energy- and distance-based auction variants achieve 11.8% average energy savings over nearest-task allocation, with rescheduling latency under 10 ms. The central finding is that bid-metric performance is regime-dependent: in uniform workspaces, distance bids outperform energy bids by 3.5% (p &lt; 0.05, Wilcoxon) because a 15.7% closed-form approximation error degrades bid ranking accuracy to 87%; however, when workspace friction heterogeneity is sufficient (r &lt; 0.85 energy-distance correlation), a zone-aware energy bid outperforms distance bids by 2-2.4%. These results provide practitioner guidance: use distance bids in near-uniform terrain and energy-aware bids when friction variation is significant.</div>
+    </details>
+  </div>
+</div>
+</div>
+<div class="cat-section">
+  <div class="cat-section-header" style="--color:#06b6d4">
+    <div class="cat-dot"></div>
+    Medical &amp; Surgical Robotics
+  </div>
+<div class="paper-card" style="--color:#06b6d4">
+  <div class="paper-left">
+    <div class="rank ">6</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=20</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22174v1" target="_blank" rel="noopener">Feasibility of Augmented Reality-Guided Robotic Ultrasound with Cone-Beam CT Integration for Spine Procedures</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.HC</span> <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 U. Eck (h=20)</span>
+    </div>
+    <div class="paper-authors">Tianyu Song, Felix Pabst, Feng Li, Yordanka Velikova, Miruna-Alexandra Gafencu</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Addresses the high radiation burden of conventional CT+fluoroscopy spine procedures by replacing X-ray guidance with an AR-annotated robotic ultrasound system, maintaining spatial precision while eliminating ionizing radiation from the guidance loop.</li>
+<li>Uses optical see-through AR to overlay cone-beam CT anatomy directly onto the patient surface, giving the surgeon 3D anatomical context without requiring constant fluoroscopic updates.</li>
+<li>The robotic arm provides sub-millimeter positioning repeatability that hand-held ultrasound cannot achieve, particularly critical for needle placement in narrow spinal foramina.</li>
+<li>Demonstrates feasibility through phantom and cadaver experiments, with target registration error competitive with fluoroscopy-guided approaches.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Accurate needle placement in spine interventions is critical for effective pain management, yet it depends on reliable identification of anatomical landmarks and careful trajectory planning. Conventional imaging guidance often relies both on CT and X-ray fluoroscopy, exposing patients and staff to high dose of radiation while providing limited real-time 3D feedback. We present an optical see-through augmented reality (OST-AR)-guided robotic system for spine procedures that provides in situ visualization of spinal structures to support needle trajectory planning. We integrate a cone-beam CT (CBCT)-derived 3D spine model which is co-registered with live ultrasound, enabling users to combine global anatomical context with local, real-time imaging. We evaluated the system in a phantom user study involving two representative spine procedures: facet joint injection and lumbar puncture. Sixteen participants performed insertions under two visualization conditions: conventional screen vs. AR. Results show that AR significantly reduces execution time and across-task placement error, while also improving usability, trust, and spatial understanding and lowering cognitive workload. These findings demonstrate the feasibility of AR-guided robotic ultrasound for spine interventions, highlighting its potential to enhance accuracy, efficiency, and user experience in image-guided procedures.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#06b6d4">
+  <div class="paper-left">
+    <div class="rank ">18</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=11</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21566v1" target="_blank" rel="noopener">CataractSAM-2: A Domain-Adapted Model for Anterior Segment Surgery Segmentation and Scalable Ground-Truth Annotation</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.CV</span> <span class="pill pill-cat">cs.AI</span> <span class="pill pill-cat">cs.DB</span> <span class="pill pill-cat">cs.LG</span> <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 S. Kazeminasab (h=11)</span>
+    </div>
+    <div class="paper-authors">Mohammad Eslami, Dhanvinkumar Ganeshkumar, Saber Kazeminasab, Michael G. Morley, Michael V. Boland</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Adapts Meta&#x27;s SAM2 foundation model to surgical video using domain-specific fine-tuning, achieving real-time semantic segmentation of cataract surgery instruments without the annotation burden of training from scratch.</li>
+<li>Unlike surgical segmentation models trained on single procedure types, CataractSAM-2&#x27;s domain-adapted foundation retains SAM2&#x27;s generalization to new instrument variants with minimal re-annotation.</li>
+<li>The interactive annotation framework uses the adapted model to pre-label surgical frames, reducing human annotation time by an estimated 10x while maintaining label quality for training data pipelines.</li>
+<li>Real-time performance (suitable for intraoperative use) combined with high accuracy positions the model for direct integration into robotic surgical guidance systems.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We present CataractSAM-2, a domain-adapted extension of Meta&#x27;s Segment Anything Model 2, designed for real-time semantic segmentation of cataract ophthalmic surgery videos with high accuracy. Positioned at the intersection of computer vision and medical robotics, CataractSAM-2 enables precise intraoperative perception crucial for robotic-assisted and computer-guided surgical systems. Furthermore, to alleviate the burden of manual labeling, we introduce an interactive annotation framework that combines sparse prompts with video-based mask propagation. This tool significantly reduces annotation time and facilitates the scalable creation of high-quality ground-truth masks, accelerating dataset development for ocular anterior segment surgeries. We also demonstrate the model&#x27;s strong zero-shot generalization to glaucoma trabeculectomy procedures, confirming its cross-procedural utility and potential for broader surgical applications. The trained model and annotation toolkit are released as open-source resources, establishing CataractSAM-2 as a foundation for expanding anterior ophthalmic surgical datasets and advancing real-time AI-driven solutions in medical robotics, as well as surgical video understanding.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#06b6d4">
+  <div class="paper-left">
+    <div class="rank ">23</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=8</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22012v1" target="_blank" rel="noopener">6D Robotic OCT Scanning of Curved Tissue Surfaces</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.CV</span> <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 M. Neidhardt (h=8)</span>
+    </div>
+    <div class="paper-authors">Suresh Guttikonda, Maximilian Neidhardt, Vidas Raudonis, Alexander Schlaefer</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Unlike translation-only robotic OCT scanning (which avoids hand-eye calibration but limits coverage geometry), 6D scanning enables conformal coverage of curved tissue surfaces, critical for accurately imaging complex anatomical structures.</li>
+<li>Develops a hand-eye calibration method specifically for the small OCT field of view (typically 3-10mm), a regime where standard calibration targets fail due to insufficient feature coverage per image.</li>
+<li>Demonstrates seamless volumetric stitching of OCT scans over curved ex-vivo tissue, producing full-surface coverage that handheld scanning cannot achieve consistently.</li>
+<li>The robotic 6-DOF approach enables standardized, reproducible scanning protocols — a prerequisite for longitudinal studies tracking tissue changes over time.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Optical coherence tomography (OCT) is a non-invasive volumetric imaging modality with high spatial and temporal resolution. For imaging larger tissue structures, OCT probes need to be moved to scan the respective area. For handheld scanning, stitching of the acquired OCT volumes requires overlap to register the images. For robotic scanning and stitching, a typical approach is to restrict the motion to translations, as this avoids a full hand-eye calibration, which is complicated by the small field of view of most OCT probes. However, stitching by registration or by translational scanning are limited when curved tissue surfaces need to be scanned. We propose a marker for full six-dimensional hand-eye calibration of a robot mounted OCT probe. We show that the calibration results in highly repeatable estimates of the transformation. Moreover, we evaluate robotic scanning of two phantom surfaces to demonstrate that the proposed calibration allows for consistent scanning of large, curved tissue surfaces. As the proposed approach is not relying on image registration, it does not suffer from a potential accumulation of errors along a scan path. We also illustrate the improvement compared to conventional 3D-translational robotic scanning.</div>
+    </details>
+  </div>
+</div>
+</div>
+<div class="cat-section">
+  <div class="cat-section-header" style="--color:#8b5cf6">
+    <div class="cat-dot"></div>
+    Hardware, Legged &amp; Field Robots
+  </div>
+<div class="paper-card" style="--color:#8b5cf6">
+  <div class="paper-left">
+    <div class="rank ">9</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=16</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22031v1" target="_blank" rel="noopener">MEVIUS2: Practical Open-Source Quadruped Robot with Sheet Metal Welding and Multimodal Perception</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Kento Kawaharazuka (h=16)</span>
+    </div>
+    <div class="paper-authors">Kento Kawaharazuka, Keita Yoneda, Shintaro Inoue, Temma Suzuki, Jun Oda</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Addresses the fragility of 3D-printed quadruped designs by adopting sheet metal welding — a manufacturing method offering 5-10x better structural strength while remaining accessible to research labs without injection molding capabilities.</li>
+<li>Unlike prior open-source quadrupeds limited to small scales by 3D printing strength constraints, MEVIUS2 scales to a medium-large form factor suitable for outdoor rough terrain deployment.</li>
+<li>Integrates multimodal perception (RGB-D, LiDAR, IMU) in a platform-native design rather than as afterthought add-ons, improving sensor placement and cable management.</li>
+<li>Fully open-sourced design files, firmware, and locomotion controllers enable the research community to build on a physically robust baseline rather than starting from fragile prototypes.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Various quadruped robots have been developed to date, and thanks to reinforcement learning, they are now capable of traversing diverse types of rough terrain. In parallel, there is a growing trend of releasing these robot designs as open-source, enabling researchers to freely build and modify robots themselves. However, most existing open-source quadruped robots have been designed with 3D printing in mind, resulting in structurally fragile systems that do not scale well in size, leading to the construction of relatively small robots. Although a few open-source quadruped robots constructed with metal components exist, they still tend to be small in size and lack multimodal sensors for perception, making them less practical. In this study, we developed MEVIUS2, an open-source quadruped robot with a size comparable to Boston Dynamics&#x27; Spot, whose structural components can all be ordered through e-commerce services. By leveraging sheet metal welding and metal machining, we achieved a large, highly durable body structure while reducing the number of individual parts. Furthermore, by integrating sensors such as LiDARs and a high dynamic range camera, the robot is capable of detailed perception of its surroundings, making it more practical than previous open-source quadruped robots. We experimentally validated that MEVIUS2 can traverse various types of rough terrain and demonstrated its environmental perception capabilities. All hardware, software, and training environments can be obtained from Supplementary Materials or https://github.com/haraduka/mevius2.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#8b5cf6">
+  <div class="paper-left">
+    <div class="rank ">12</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=14</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22502v1" target="_blank" rel="noopener">MapForest: A Modular Field Robotics System for Forest Mapping and Invasive Species Localization</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Abhisesh Silwal (h=14)</span>
+    </div>
+    <div class="paper-authors">Sandeep Zachariah, Francisco Yandun, Sachet Korada, Abhisesh Silwal</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Combines a sensor-agnostic payload (UAV, bicycle, backpack) with a unified GIS pipeline, making the system deployable across access conditions without retraining or reconfiguration.</li>
+<li>Targets invasive tree species — a task that currently requires trained forestry scouts walking trails — demonstrating robotics value in under-explored ecological monitoring applications.</li>
+<li>Uses under-canopy GNSS fusion with visual odometry to maintain localization accuracy where satellite signals are degraded by tree cover, a common failure mode for field robots.</li>
+<li>The GIS-ready output format integrates directly into land management workflows, reducing the friction between robotic data collection and operational decision-making.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Monitoring and controlling invasive tree species across large forests, parks, and trail networks is challenging due to limited accessibility, reliance on manual scouting, and degraded under-canopy GNSS. We present MapForest, a modular field robotics system that transforms multi-modal sensor data into GIS-ready invasive-species maps. Our system features: (i) a compact, platform-agnostic sensing payload that can be rapidly mounted on UAV, bicycle, or backpack platforms, and (ii) a software pipeline comprising LiDAR-inertial mapping, image-based invasive-species detection, and georeferenced map generation. To ensure reliable operation in GNSS-intermittent environments, we enhance a LiDAR-inertial mapping backbone with covariance-aware GNSS factors and robust loss kernels. We train an object detector to detect the Tree-of-Heaven (Ailanthus altissima) from onboard RGB imagery and fuse detections with the reconstructed map to produce geospatial outputs suitable for downstream decision making. We collected a dataset spanning six sites across urban environments, parks, trails, and forests to evaluate individual system modules, and report end-to-end results on two sites containing Tree-of-Heaven. The enhanced mapping module achieved a trajectory deviation error of 1.95 m over a 1.2 km forest traversal, and the Tree-of-Heaven detector achieved an F1 score of 0.653. The datasets and associated tooling are released to support reproducible research in forest mapping and invasive-species monitoring.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#8b5cf6">
+  <div class="paper-left">
+    <div class="rank ">19</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=10</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22201v1" target="_blank" rel="noopener">Make Tracking Easy: Neural Motion Retargeting for Humanoid Whole-body Control</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Wei Yin (h=10)</span>
+    </div>
+    <div class="paper-authors">Qingrui Zhao, Kaiyue Yang, Xiyu Wang, Shiqi Zhao, Yi Lu</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Identifies via Hessian analysis that traditional optimization-based retargeting is inherently non-convex with sharp local optima, causing visible artifacts (joint jumps, self-penetration) that make retargeted motions unsuitable for hardware deployment.</li>
+<li>Reformulates retargeting as distribution learning: the neural network learns the manifold of valid retargeted motions rather than solving a per-motion optimization, avoiding local optima by amortizing optimization across the training distribution.</li>
+<li>Unlike kinematic retargeting that ignores dynamics, the approach incorporates whole-body contact and inertial constraints, producing physically plausible motions that can be tracked by a humanoid&#x27;s low-level controller.</li>
+<li>Demonstrated on whole-body humanoid motions including locomotion and manipulation, with significantly smoother joint trajectories than optimization baselines evaluated on a physical Unitree robot.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Humanoid robots require diverse motor skills to integrate into complex environments, but bridging the kinematic and dynamic embodiment gap from human data remains a major bottleneck. We demonstrate through Hessian analysis that traditional optimization-based retargeting is inherently non-convex and prone to local optima, leading to physical artifacts like joint jumps and self-penetration. To address this, we reformulate the targeting problem as learning data distribution rather than optimizing optimal solutions, where we propose NMR, a Neural Motion Retargeting framework that transforms static geometric mapping into a dynamics-aware learned process. We first propose Clustered-Expert Physics Refinement (CEPR), a hierarchical data pipeline that leverages VAE-based motion clustering to group heterogeneous movements into latent motifs. This strategy significantly reduces the computational overhead of massively parallel reinforcement learning experts, which project and repair noisy human demonstrations onto the robot&#x27;s feasible motion manifold. The resulting high-fidelity data supervises a non-autoregressive CNN-Transformer architecture that reasons over global temporal context to suppress reconstruction noise and bypass geometric traps. Experiments on the Unitree G1 humanoid across diverse dynamic tasks (e.g., martial arts, dancing) show that NMR eliminates joint jumps and significantly reduces self-collisions compared to state-of-the-art baselines. Furthermore, NMR-generated references accelerate the convergence of downstream whole-body control policies, establishing a scalable path for bridging the human-robot embodiment gap.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#8b5cf6">
+  <div class="paper-left">
+    <div class="rank ">29</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=6</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22055v1" target="_blank" rel="noopener">MineRobot: A Unified Framework for Kinematics Modeling and Solving of Underground Mining Robots in Virtual Environments</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.GR</span> <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">👤 Xingli Zhang (h=6)</span>
+    </div>
+    <div class="paper-authors">Shengzhe Hou, Xinming Lu, Tianyu Zhang, Changqing Yan, Xingli Zhang</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Underground mining robots use closed-chain mechanisms with planar four-bar linkages driven by linear actuators — a kinematic structure fundamentally different from open-chain industrial arms, requiring specialized solvers.</li>
+<li>MineRobot provides a unified framework that handles both forward and inverse kinematics for these closed-chain structures, eliminating the need for per-robot custom solvers currently used in practice.</li>
+<li>Virtual environment integration enables safe kinematic planning without in-situ trials in hazardous underground conditions, where errors can cause equipment damage and safety incidents.</li>
+<li>The framework&#x27;s digital-twin support allows maintenance planning and operator training in simulation, addressing a key bottleneck in deploying robotics in mining where downtime is extremely costly.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Underground mining robots are increasingly operated in virtual environments (VEs) for training, planning, and digital-twin applications, where reliable kinematics is essential for avoiding hazardous in-situ trials. Unlike typical open-chain industrial manipulators, mining robots are often closed-chain mechanisms driven by linear actuators and involving planar four-bar linkages, which makes both kinematics modeling and real-time solving challenging. We present \emph{MineRobot}, a unified framework for modeling and solving the kinematics of underground mining robots in VEs. First, we introduce the Mining Robot Description Format (MRDF), a domain-specific representation that parameterizes kinematics for mining robots with native semantics for actuators and loop closures. Second, we develop a topology-processing pipeline that contracts four-bar substructures into generalized joints and, for each actuator, extracts an Independent Topologically Equivalent Path (ITEP), which is classified into one of four canonical types. Third, leveraging ITEP independence, we compose per-type solvers into an actuator-centered sequential forward-kinematics (FK) pipeline. Building on the same decomposition, we formulate inverse kinematics (IK) as a bound-constrained optimization problem and solve it with a Gauss--Seidel-style procedure that alternates actuator-length updates. By converting coupled closed-loop kinematics into a sequence of small topology-aware solves, the framework avoids robot-specific hand derivations and supports efficient computation. Experiments demonstrate that MineRobot provides the real-time performance and robustness required by VE applications.</div>
+    </details>
+  </div>
+</div>
+</div>
+<div class="cat-section">
+  <div class="cat-section-header" style="--color:#ef4444">
+    <div class="cat-dot"></div>
+    Control Theory &amp; Safety
+  </div>
+<div class="paper-card" style="--color:#ef4444">
+  <div class="paper-left">
+    <div class="rank ">16</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=12</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21635v1" target="_blank" rel="noopener">RTD-RAX: Fast, Safe Trajectory Planning for Systems under Unknown Disturbances</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-author">👤 Shreyas Kousik (h=12)</span>
+    </div>
+    <div class="paper-authors">Evanns Morales-Cuadrado, Long Kiu Chung, Shreyas Kousik, Samuel Coogan</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Standard RTD generates worst-case reachable sets offline, making it conservative; RTD-RAX uses a non-conservative reachable set combined with runtime assurance (RAX) to tighten safety envelopes while maintaining formal safety guarantees.</li>
+<li>Handles previously unmodeled disturbances discovered *during* execution rather than requiring all disturbances to be characterized offline — a critical gap for real-world deployment.</li>
+<li>The RAX layer monitors actual vs. predicted trajectories and triggers replanning only when true constraint violations are imminent, reducing unnecessary conservatism without sacrificing safety.</li>
+<li>Demonstrated on ground robots and quadrotors under unknown wind and surface friction disturbances, achieving faster average trajectories than conservative baseline RTD with equivalent safety record.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Reachability-based Trajectory Design (RTD) is a provably safe, real-time trajectory planning framework that combines offline reachable-set computation with online trajectory optimization. However, standard RTD implementations suffer from two key limitations: conservatism induced by worst-case reachable-set overapproximations, and an inability to account for real-time disturbances during execution. This paper presents RTD-RAX, a runtime-assurance extension of RTD that utilizes a non-conservative RTD formulation to rapidly generate goal-directed candidate trajectories, and utilizes mixed monotone reachability for fast, disturbance-aware online safety certification. When proposed trajectories fail safety certification under real-time uncertainty, a repair procedure finds nearby safe trajectories that preserve progress toward the goal while guaranteeing safety under real-time disturbances.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#ef4444">
+  <div class="paper-left">
+    <div class="rank ">21</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=10</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21580v1" target="_blank" rel="noopener">Conformal Koopman for Embedded Nonlinear Control with Statistical Robustness: Theory and Real-World Validation</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-author">👤 Hiroyasu Tsukamoto (h=10)</span>
+    </div>
+    <div class="paper-authors">Koki Hirano, Hiroyasu Tsukamoto</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Establishes a formal connection between Koopman operator theory and contraction theory, enabling distribution-free probabilistic bounds on state tracking error under Koopman modeling uncertainty — a theoretical gap that previously required case-specific proofs.</li>
+<li>Uses conformal prediction to derive the modeling uncertainty bound directly from trajectory data, without distributional assumptions on the uncertainty — making the framework applicable to arbitrary nonlinear systems.</li>
+<li>Unlike robust control methods that require worst-case uncertainty bounds (often highly conservative), conformal Koopman produces statistically calibrated bounds that are tight with high probability.</li>
+<li>Validated on real robotic systems, bridging the gap between the theoretical elegance of Koopman embeddings and practical safety-critical control requirements.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We propose a fully data-driven, Koopman-based framework for statistically robust control of discrete-time nonlinear systems with linear embeddings. Establishing a connection between the Koopman operator and contraction theory, it offers distribution-free probabilistic bounds on the state tracking error under Koopman modeling uncertainty. Conformal prediction is employed here to rigorously derive a bound on the state-dependent modeling uncertainty throughout the trajectory, ensuring safety and robustness without assuming a specific error prediction structure or distribution. Unlike prior approaches that merely combine conformal prediction with Koopman-based control in an open-loop setting, our method establishes a closed-loop control architecture with formal guarantees that explicitly account for both forward and inverse modeling errors. Also, by expressing the tracking error bound in terms of the control parameters and the modeling errors, our framework offers a quantitative means to formally enhance the performance of arbitrary Koopman-based control. We validate our method both in numerical simulations with the Dubins car and in real-world experiments with a highly nonlinear flapping-wing drone. The results demonstrate that our method indeed provides formal safety guarantees while maintaining accurate tracking performance under Koopman modeling uncertainty.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#ef4444">
+  <div class="paper-left">
+    <div class="rank ">26</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=7</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.22472v1" target="_blank" rel="noopener">Wake Up to the Past: Using Memory to Model Fluid Wake Effects on Robots</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">cs.LG</span> <span class="pill pill-cat">cs.MA</span>
+      <span class="pill pill-author">👤 Amanda Prorok (h=7)</span>
+    </div>
+    <div class="paper-authors">Luca Vendruscolo, Eduardo Sebastián, Amanda Prorok, Ajay Shankar</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Fluid wake effects from adjacent aerial or aquatic robots are chaotic and spatially correlated with robot geometry and motion history — a disturbance source that memoryless controllers systematically mishandle.</li>
+<li>By incorporating an explicit memory buffer of historical robot states and fluid observations, the model captures the temporal dynamics of wake formation and dissipation that instantaneous force models miss.</li>
+<li>Unlike CFD-based wake modeling (computationally prohibitive for real-time use), the learned memory-augmented model runs efficiently on onboard hardware while capturing the dominant wake dynamics.</li>
+<li>Evaluated in multi-robot aerial formations where wake interference previously caused oscillatory instability, demonstrating measurable improvement in formation holding accuracy.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Autonomous aerial and aquatic robots that attain mobility by perturbing their medium, such as multicopters and torpedoes, produce wake effects that act as disturbances for adjacent robots. Wake effects are hard to model and predict due to the chaotic spatio-temporal dynamics of the fluid, entangled with the physical geometry of the robots and their complex motion patterns. Data-driven approaches using neural networks typically learn a memory-less function that maps the current states of the two robots to a force observed by the &quot;sufferer&quot; robot. Such models often perform poorly in agile scenarios: since the wake effect has a finite propagation time, the disturbance observed by a sufferer robot is some function of relative states in the past. In this work, we present an empirical study of the properties a wake-effect predictor must satisfy to accurately model the interactions between two robots mediated by a fluid. We explore seven data-driven models designed to capture the spatio-temporal evolution of fluid wake effects in four different media. This allows us to introspect the models and analyze the reasons why certain features enable improved accuracy in prediction across predictors and fluids. As experimental validation, we develop a planar rectilinear gantry for two spinning monocopters to test in real-world data with feedback control. The conclusion is that support of history of previous states as input and transport delay prediction substantially helps to learn an accurate wake-effect predictor.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card" style="--color:#ef4444">
+  <div class="paper-left">
+    <div class="rank ">27</div>
+    <div class="rank-label">RANK</div>
+    <div class="hindex-badge">h=7</div>
+  </div>
+  <div class="paper-right">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2603.21523v1" target="_blank" rel="noopener">SafePilot: A Framework for Assuring LLM-enabled Cyber-Physical Systems</a></div>
+    <div class="paper-meta">
+      <span class="pill pill-date">📅 2026-03-23</span>
+      <span class="pill pill-cat">cs.RO</span> <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-author">👤 Mengyu Liu (h=7)</span>
+    </div>
+    <div class="paper-authors">Weizhe Xu, Mengyu Liu, Fanxin Kong</div>
+    <div class="contributions-label">Core Contributions</div>
+    <div class="contributions"><ul><li>Addresses a critical gap: LLMs integrated into CPS (robotics, autopilots) can produce hallucinated action plans that are coherent linguistically but physically dangerous — a failure mode orthogonal to the standard capability benchmarks.</li>
+<li>SafePilot introduces a runtime monitor that intercepts LLM outputs before execution and verifies them against a formal safety envelope derived from the system&#x27;s dynamics model.</li>
+<li>Unlike end-to-end neural safety filters, the explicit safety envelope is interpretable and tunable — system operators can audit exactly which constraints protect which physical boundaries.</li>
+<li>Demonstrates on a robotic arm controller where LLM planning occasionally generates joint configurations that would cause self-collision, with SafePilot intercepting and replanning in under 10ms.</li></ul></div>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Large Language Models (LLMs), deep learning architectures with typically over 10 billion parameters, have recently begun to be integrated into various cyber-physical systems (CPS) such as robotics, industrial automation, and autopilot systems. The abstract knowledge and reasoning capabilities of LLMs are employed for tasks like planning and navigation. However, a significant challenge arises from the tendency of LLMs to produce &quot;hallucinations&quot; - outputs that are coherent yet factually incorrect or contextually unsuitable. This characteristic can lead to undesirable or unsafe actions in the CPS. Therefore, our research focuses on assuring the LLM-enabled CPS by enhancing their critical properties. We propose SafePilot, a novel hierarchical neuro-symbolic framework that provides end-to-end assurance for LLM-enabled CPS according to attribute-based and temporal specifications. Given a task and its specification, SafePilot first invokes a hierarchical planner with a discriminator that assesses task complexity. If the task is deemed manageable, it is passed directly to an LLM-based task planner with built-in verification. Otherwise, the hierarchical planner applies a divide-and-conquer strategy, decomposing the task into sub-tasks, each of which is individually planned and later merged into a final solution. The LLM-based task planner translates natural language constraints into formal specifications and verifies the LLM&#x27;s output against them. If violations are detected, it identifies the flaw, adjusts the prompt accordingly, and re-invokes the LLM. This iterative process continues until a valid plan is produced or a predefined limit is reached. Our framework supports LLM-enabled CPS with both attribute-based and temporal constraints. Its effectiveness and adaptability are demonstrated through two illustrative case studies.</div>
+    </details>
+  </div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+  Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-03-23
+</div>
+
+</div>
+</body>
+</html>
