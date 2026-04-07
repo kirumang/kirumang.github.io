@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤖 Robotics arXiv Digest — 2026-04-06</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* Header */
+  .header { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; border-radius: 16px; padding: 32px; margin-bottom: 28px; }
+  .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+  .header-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; align-items: center; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+  .badge-white { background: rgba(255,255,255,0.15); color: white; }
+  .badge-claude { background: #f97316; color: white; }
+
+  /* Landscape */
+  .section-title { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+  .landscape { background: white; border-radius: 12px; padding: 24px; margin-bottom: 28px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .landscape p { color: #475569; margin-bottom: 14px; font-size: 0.95rem; }
+  .landscape p:last-child { margin-bottom: 0; }
+
+  /* Category grid */
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin-bottom: 36px; }
+  .cat-card { background: white; border-radius: 10px; padding: 16px; border-left: 4px solid; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: transform 0.15s; }
+  .cat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.10); }
+  .cat-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+  .cat-card p { font-size: 0.78rem; color: #64748b; margin-bottom: 8px; }
+  .cat-papers { font-size: 0.75rem; color: #94a3b8; }
+
+  /* Category sections */
+  .cat-section { margin-bottom: 36px; }
+  .cat-header { padding: 14px 20px; border-radius: 10px 10px 0 0; margin-bottom: 0; }
+  .cat-header h2 { font-size: 1.05rem; font-weight: 700; color: white; }
+  .cat-header p { font-size: 0.82rem; color: rgba(255,255,255,0.85); margin-top: 4px; }
+
+  /* Paper cards */
+  .paper-card { background: white; border-radius: 0; border-left: 4px solid; padding: 20px; margin-bottom: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: box-shadow 0.15s; }
+  .paper-card:last-child { border-radius: 0 0 10px 10px; margin-bottom: 0; }
+  .paper-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.09); }
+  .paper-inner { display: flex; gap: 16px; }
+  .paper-left { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 48px; }
+  .rank { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; background: #f1f5f9; color: #64748b; flex-shrink: 0; }
+  .rank.gold { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; }
+  .hindex { font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: #dbeafe; color: #1d4ed8; white-space: nowrap; }
+  .paper-right { flex: 1; min-width: 0; }
+  .paper-title { font-size: 0.97rem; font-weight: 700; margin-bottom: 8px; }
+  .paper-title a { color: #1e40af; text-decoration: none; }
+  .paper-title a:hover { text-decoration: underline; }
+  .meta-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+  .pill-date { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+  .pill-cat { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+  .pill-author { background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
+  .authors { font-size: 0.78rem; color: #64748b; margin-bottom: 12px; }
+  .contributions-label { font-size: 0.78rem; font-weight: 700; color: #374151; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .bullets { list-style: none; padding: 0; }
+  .bullets li { font-size: 0.82rem; color: #374151; padding: 4px 0 4px 16px; position: relative; line-height: 1.5; }
+  .bullets li::before { content: "▸"; position: absolute; left: 0; color: #94a3b8; }
+
+  /* Abstract toggle */
+  .abstract-toggle { margin-top: 12px; }
+  .abstract-toggle summary { font-size: 0.78rem; color: #6366f1; cursor: pointer; font-weight: 600; padding: 4px 0; user-select: none; }
+  .abstract-toggle summary:hover { color: #4f46e5; }
+  .abstract-text { font-size: 0.8rem; color: #64748b; margin-top: 8px; padding: 12px; background: #f8fafc; border-radius: 8px; line-height: 1.6; border-left: 3px solid #e2e8f0; }
+
+  /* Footer */
+  .footer { text-align: center; margin-top: 40px; font-size: 0.78rem; color: #94a3b8; padding-top: 24px; border-top: 1px solid #e2e8f0; }
+
+  @media (max-width: 600px) {
+    .paper-inner { flex-direction: column; }
+    .paper-left { flex-direction: row; justify-content: flex-start; }
+    .header h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>🤖 Robotics arXiv Digest</h1>
+  <div style="font-size:1rem; color:rgba(255,255,255,0.7);">Curated intelligence from cs.RO and related areas</div>
+  <div class="header-meta">
+    <span class="badge badge-white">📅 2026-04-06</span>
+    <span class="badge badge-white">📄 20 papers</span>
+    <span class="badge badge-white">🗂 6 research areas</span>
+    <span class="badge badge-claude">✨ Generated by Claude</span>
+  </div>
+</div>
+
+<div class="landscape">
+  <div class="section-title">Research Landscape</div>
+  <p>
+    The dominant theme in this batch is the <em>rapid maturation of vision-language-action (VLA) architectures beyond standard RGB perception</em>. Three papers attack VLA limitations from fundamentally different angles and together sketch a roadmap for the next generation. E-VLA (rank 1) demonstrates that event cameras can rescue VLA models in conditions where conventional frame-based vision fails entirely — achieving 90% pick-and-place success at 20 lux where image-only models score 0%. Veo-Act (rank 7) proposes using frontier video generation models (Veo-3) as high-level motion planners for VLA policies, effectively decomposing the problem into "imagine what should happen" and "execute what was imagined" — a hierarchical scheme that significantly boosts instruction-following in dexterous hand tasks. ROSClaw (rank 9) tackles the multi-agent coordination gap by wrapping heterogeneous robots in a unified VLM controller with sim-to-real topological mapping. The convergence across these three papers suggests the field is moving past monolithic VLA architectures toward modular, sensor-diverse, multi-agent systems where the VLA is one component rather than the entire stack.
+  </p>
+  <p>
+    The second major thread is <em>localization and mapping pushing into challenging domains</em>. Five papers collectively expand the frontier of where SLAM and place recognition can operate reliably. WaterSplat-SLAM (rank 8) brings Gaussian splatting underwater with semantic medium filtering — a domain where light scattering and absorption make conventional methods unreliable. MPTF-Net (rank 4) achieves 96.3% Recall@1 on nuScenes place recognition at 10ms latency by encoding local geometric complexity through Normal Distribution Transform BEV features, directly addressing the failure mode of conventional BEV in repetitive environments. ZeD-MAP (rank 15) converts zero-shot diffusion depth models into metrically consistent mapping pipelines for UAV disaster response, achieving sub-meter accuracy. G-EDF-Loc (rank 16) and Relational Epipolar Graphs (rank 20) each offer distinct algorithmic advances — continuous Gaussian distance fields for CPU-based scan-to-map registration, and graph neural networks for relative pose estimation — that improve robustness under degraded inputs.
+  </p>
+  <p>
+    A cross-cutting observation is the <em>growing emphasis on making advanced methods practically deployable</em>. FlashSAC (rank 5) reduces sim-to-real humanoid training from hours to minutes by rethinking the scaling laws of off-policy RL. Pickalo (rank 13) achieves 600 picks per hour with 96–99% success using only low-cost RGB-D hardware and synthetic training data. The biologically inspired table tennis system (rank 12) demonstrates 35.8% accuracy improvement through curriculum-based progressive training. Even the multi-objective planning paper (rank 11) achieves 1–2 orders of magnitude runtime improvement specifically to make weighted-maximum Pareto optimization viable for real-time navigation. This pragmatic focus on deployment speed, cost, and real-world robustness — rather than benchmark numbers alone — marks a field increasingly serious about moving from papers to products.
+  </p>
+</div>
+
+<!-- Category Overview Grid -->
+<div class="section-title">Research Areas</div>
+<div class="cat-grid">
+  <div class="cat-card" style="border-left-color: #7c3aed;">
+    <h3 style="color:#7c3aed;">🧠 VLA &amp; Foundation Models</h3>
+    <p>Event-augmented perception, video-model planners, and multi-agent VLM controllers</p>
+    <div class="cat-papers">#1 E-VLA · #7 Veo-Act · #9 ROSClaw</div>
+  </div>
+  <div class="cat-card" style="border-left-color: #2563eb;">
+    <h3 style="color:#2563eb;">🗺 SLAM, Localization &amp; 3D Mapping</h3>
+    <p>Place recognition, underwater SLAM, UAV depth mapping, and pose estimation</p>
+    <div class="cat-papers">#4 MPTF-Net · #8 WaterSplat · #15 ZeD-MAP · #16 G-EDF-Loc · #20 Epipolar Graphs</div>
+  </div>
+  <div class="cat-card" style="border-left-color: #0d9488;">
+    <h3 style="color:#0d9488;">🤖 Robot Learning &amp; Control</h3>
+    <p>Off-policy RL scaling, event-based perception for high-speed tasks, braking control, and robust estimation</p>
+    <div class="cat-papers">#3 Outlier-Robust MHE · #5 FlashSAC · #12 Bio Table Tennis · #21 ReinVBC</div>
+  </div>
+  <div class="cat-card" style="border-left-color: #dc2626;">
+    <h3 style="color:#dc2626;">🚗 Autonomous Navigation &amp; Safety</h3>
+    <p>Adversarial robustness, off-road mapping, multi-objective planning, and formation control</p>
+    <div class="cat-papers">#6 Adversarial AV · #10 Offroad VLM · #11 Multi-Obj Planning · #17 FORMULA</div>
+  </div>
+  <div class="cat-card" style="border-left-color: #f97316;">
+    <h3 style="color:#f97316;">🔧 Industrial Manipulation &amp; AI Hardware</h3>
+    <p>Low-cost bin picking and dual-precision floating-point acceleration</p>
+    <div class="cat-papers">#2 DHFP-PE · #13 Pickalo</div>
+  </div>
+  <div class="cat-card" style="border-left-color: #16a34a;">
+    <h3 style="color:#16a34a;">🤝 Human-Robot Interaction &amp; Accessible Robotics</h3>
+    <p>Considerate coexistence frameworks and sketch-based robot instruction</p>
+    <div class="cat-papers">#14 Considerate HRI · #19 AnyUser</div>
+  </div>
+</div>
+
+<!-- ===== CATEGORY 1: VLA & FOUNDATION MODELS ===== -->
+<div class="cat-section">
+  <div class="cat-header" style="background: #7c3aed;">
+    <h2>🧠 VLA &amp; Foundation Models</h2>
+    <p>Event-augmented perception, video-model planners, and multi-agent VLM controllers</p>
+  </div>
+
+  <!-- Paper 1: E-VLA -->
+  <div class="paper-card" style="border-left-color: #7c3aed;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank gold">1</div>
+        <span class="hindex">h=25</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04834v1">E-VLA: Event-Augmented Vision-Language-Action Model for Dark and Blurred Scenes</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.CV</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">Kaiwei Wang · h=25</span>
+        </div>
+        <div class="authors">Jiajun Zhai, Hao Shi, Shangwei Guo, Kailun Yang, Kaiwei Wang</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Addresses a critical blind spot in VLA models: unlike prior work that assumes clean RGB input, E-VLA is the first to systematically integrate event camera streams into VLA architectures for manipulation under extreme low light and motion blur</li>
+          <li>Even the simplest fusion strategy — parameter-free overlay of accumulated event maps onto RGB — lifts pick-and-place success from 0% to 60% at 20 lux, suggesting event data provides high-value structural cues that are complementary rather than redundant to RGB</li>
+          <li>The full event adapter pushes success to 90% at 20 lux and recovers 20–25% success under 1000ms motion blur where image-only models completely fail, establishing quantitative baselines for VLA robustness under sensing degradation</li>
+          <li>Provides an open-source teleoperation platform with DAVIS346 event camera and synchronized RGB-event-action dataset, lowering the barrier for future event-driven embodied AI research</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Robotic Vision-Language-Action (VLA) models generalize well for open-ended manipulation, but their perception is fragile under sensing-stage degradations such as extreme low light, motion blur, and black clipping. We present E-VLA, an event-augmented VLA framework that improves manipulation robustness when conventional frame-based vision becomes unreliable. Instead of reconstructing images from events, E-VLA directly leverages motion and structural cues in event streams to preserve semantic perception and perception-action consistency under adverse conditions. We build an open-source teleoperation platform with a DAVIS346 event camera and collect a real-world synchronized RGB-event-action manipulation dataset across diverse tasks and illumination settings. We also propose lightweight, pretrained-compatible event integration strategies and study event windowing and fusion for stable deployment. Experiments show that even a simple parameter-free fusion, i.e., overlaying accumulated event maps onto RGB images, could substantially improve robustness in dark and blur-heavy scenes: on Pick-Place at 20 lux, success increases from 0% (image-only) to 60% with overlay fusion and to 90% with our event adapter; under severe motion blur (1000 ms exposure), Pick-Place improves from 0% to 20-25%, and Sorting from 5% to 32.5%. Overall, E-VLA provides systematic evidence that event-driven perception can be effectively integrated into VLA models, pointing toward robust embodied intelligence beyond conventional frame-based imaging.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 7: Veo-Act -->
+  <div class="paper-card" style="border-left-color: #7c3aed;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">7</div>
+        <span class="hindex">h=8</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04502v1">Veo-Act: How Far Can Frontier Video Models Advance Generalizable Robot Manipulation?</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">Jianyu Chen · h=8</span>
+        </div>
+        <div class="authors">Zhongru Zhang, Chenghan Yang, Qingzhou Lu, Yanjiang Guo, Jianke Zhang</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Introduces a zero-shot pipeline (Veo-3+IDM) where a frontier video generation model predicts plausible future image sequences and an inverse dynamics model trained only on random-play data recovers robot actions — requiring no expert demonstrations whatsoever</li>
+          <li>Reveals an important capability gap: Veo-3+IDM generates approximately correct task-level trajectories but lacks the low-level precision needed for reliable task completion, motivating a hierarchical decomposition</li>
+          <li>The full Veo-Act framework uses Veo-3 as a high-level motion planner with a VLA policy as the low-level executor, significantly improving instruction-following performance on dexterous hand manipulation beyond what either component achieves alone</li>
+          <li>Provides evidence that video generation models, as they continue to improve, can serve as general-purpose motion planners for robotics — a paradigm shift from training task-specific planners to leveraging internet-scale video understanding</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Video generation models have advanced rapidly and are beginning to show a strong understanding of physical dynamics. In this paper, we investigate how far an advanced video generation model such as Veo-3 can support generalizable robotic manipulation. We first study a zero-shot approach in which Veo-3 predicts future image sequences from current robot observations, while an inverse dynamics model IDM recovers the corresponding robot actions. The IDM is trained solely on random-play data, requiring neither human supervision nor expert demonstrations. The key intuition is that, if a video model can generate physically plausible future motions in image space, an IDM can translate those visual trajectories into executable robot actions. We evaluate this "Veo-3+IDM" approach in both simulation and the real world using a high-dimensional dexterous hand. We find that, owing to the strong generalization capability of frontier video models, Veo-3+IDM can consistently generate approximately correct task-level trajectories. However, its low-level control accuracy remains insufficient to solve most tasks reliably. Motivated by this observation, we develop a hierarchical framework, Veo-Act, which uses Veo-3 as a high-level motion planner and a VLA policy as the low-level executor, significantly improving the instruction-following performance of a state-of-the-art vision-language-action policy. Overall, our results suggest that, as video generation models continue to improve, video models can be a valuable component for generalizable robot learning.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 9: ROSClaw -->
+  <div class="paper-card" style="border-left-color: #7c3aed;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">9</div>
+        <span class="hindex">h=6</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04664v1">ROSClaw: A Hierarchical Semantic-Physical Framework for Heterogeneous Multi-Agent Collaboration</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">cs.AI</span>
+          <span class="pill pill-cat">cs.MA</span>
+          <span class="pill pill-author">Zhongpan Zhu · h=6</span>
+        </div>
+        <div class="authors">Rongfeng Zhao, Xuanhao Zhang, Zhaochen Guo, Xiang Shao, Zhongpan Zhu</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Bridges the gap between LLM-based semantic reasoning and physical robot execution through a unified VLM controller that maintains semantic continuity across the full plan-execute loop, unlike modular pipelines that lose context at module boundaries</li>
+          <li>Introduces e-URDF representations as physical constraints for sim-to-real topological mapping, enabling a single controller to dynamically assign tasks to heterogeneous robots with different morphologies and capabilities</li>
+          <li>Incorporates an autonomous closed-loop data collection mechanism that stores states, observations, and trajectories during deployment for iterative policy improvement — reducing reliance on separate data collection campaigns</li>
+          <li>Supports hardware-level validation with automated SDK-level control program generation, enabling rapid cross-platform transfer without robot-specific development workflows</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">The integration of large language models (LLMs) with embodied agents has improved high-level reasoning capabilities; however, a critical gap remains between semantic understanding and physical execution. While vision-language-action (VLA) and vision-language-navigation (VLN) systems enable robots to perform manipulation and navigation tasks from natural language instructions, they still struggle with long-horizon sequential and temporally structured tasks. Existing frameworks typically adopt modular pipelines for data collection, skill training, and policy deployment, resulting in high costs in experimental validation and policy optimization. To address these limitations, we propose ROSClaw, an agent framework for heterogeneous robots that integrates policy learning and task execution within a unified vision-language model (VLM) controller. The framework leverages e-URDF representations of heterogeneous robots as physical constraints to construct a sim-to-real topological mapping, enabling real-time access to the physical states of both simulated and real-world agents. We further incorporate a data collection and state accumulation mechanism that stores robot states, multimodal observations, and execution trajectories during real-world execution, enabling subsequent iterative policy optimization. During deployment, a unified agent maintains semantic continuity between reasoning and execution, and dynamically assigns task-specific control to different agents, thereby improving robustness in multi-policy execution. By establishing an autonomous closed-loop framework, ROSClaw minimizes the reliance on robot-specific development workflows. The framework supports hardware-level validation, automated generation of SDK-level control programs, and tool-based execution, enabling rapid cross-platform transfer and continual improvement of robotic skills.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CATEGORY 2: SLAM, LOCALIZATION & 3D MAPPING ===== -->
+<div class="cat-section">
+  <div class="cat-header" style="background: #2563eb;">
+    <h2>🗺 SLAM, Localization &amp; 3D Mapping</h2>
+    <p>Place recognition, underwater SLAM, UAV depth mapping, and pose estimation</p>
+  </div>
+
+  <!-- Paper 4: MPTF-Net -->
+  <div class="paper-card" style="border-left-color: #2563eb;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">4</div>
+        <span class="hindex">h=11</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04513v1">MPTF-Net: Multi-view Pyramid Transformer Fusion Network for LiDAR-based Place Recognition</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.CV</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">Dong Kong · h=11</span>
+        </div>
+        <div class="authors">Shuyuan Li, Zihang Wang, Xieyuanli Chen, Wenkai Zhu, Xiaoteng Fang</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Identifies a key failure mode of conventional BEV-based place recognition: simple statistical aggregation discards fine-grained geometry, causing false matches in repetitive environments like parking structures or urban grids</li>
+          <li>Introduces multi-channel NDT-based BEV encoding that captures local geometric complexity and intensity distributions via Normal Distribution Transform, providing a noise-resilient structural prior that standard BEV projections lack</li>
+          <li>A customized pyramid Transformer fuses cross-view correlations between Range Image Views and NDT-BEV at multiple spatial scales, achieving 96.31% Recall@1 on nuScenes Boston — a new state of the art</li>
+          <li>Maintains 10.02ms inference latency, making the method viable for real-time loop closure in autonomous systems where competing methods sacrifice speed for accuracy</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">LiDAR-based place recognition (LPR) is essential for global localization and loop-closure detection in large-scale SLAM systems. Existing methods typically construct global descriptors from Range Images or BEV representations for matching. BEV is widely adopted due to its explicit 2D spatial layout encoding and efficient retrieval. However, conventional BEV representations rely on simple statistical aggregation, which fails to capture fine-grained geometric structures, leading to performance degradation in complex or repetitive environments. To address this, we propose MPTF-Net, a novel multi-view multi-scale pyramid Transformer fusion network. Our core contribution is a multi-channel NDT-based BEV encoding that explicitly models local geometric complexity and intensity distributions via Normal Distribution Transform, providing a noise-resilient structural prior. To effectively integrate these features, we develop a customized pyramid Transformer module that captures cross-view interactive correlations between Range Image Views (RIV) and NDT-BEV at multiple spatial scales. Extensive experiments on the nuScenes, KITTI and NCLT datasets demonstrate that MPTF-Net achieves state-of-the-art performance, specifically attaining a Recall@1 of 96.31% on the nuScenes Boston split while maintaining an inference latency of only 10.02 ms, making it highly suitable for real-time autonomous unmanned systems.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 8: WaterSplat-SLAM -->
+  <div class="paper-card" style="border-left-color: #2563eb;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">8</div>
+        <span class="hindex">h=7</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04642v1">WaterSplat-SLAM: Photorealistic Monocular SLAM in Underwater Environment</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">Guijin Wang · h=7</span>
+        </div>
+        <div class="authors">Kangxu Wang, Shaofeng Zou, Chenxing Jiang, Yixiang Dai, Siang Chen</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>First monocular SLAM system to combine Gaussian splatting with explicit underwater medium modeling, addressing the fundamental challenge that water's wavelength-dependent absorption and scattering violate assumptions of terrestrial SLAM methods</li>
+          <li>Semantic medium filtering removes water-induced artifacts before two-view 3D reconstruction, enabling depth estimation and camera tracking to operate on "clean" scene geometry rather than corrupted observations</li>
+          <li>An online medium-aware Gaussian map with semantic-guided rendering and adaptive map management produces photorealistic dense maps while keeping the representation compact enough for real-time operation</li>
+          <li>Validated across multiple underwater datasets, demonstrating both robust tracking and high-fidelity rendering — a combination that existing underwater SLAM methods have struggled to achieve simultaneously</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Underwater monocular SLAM is a challenging problem with applications from autonomous underwater vehicles to marine archaeology. However, existing underwater SLAM methods struggle to produce maps with high-fidelity rendering. In this paper, we propose WaterSplat-SLAM, a novel monocular underwater SLAM system that achieves robust pose estimation and photorealistic dense mapping. Specifically, we couple semantic medium filtering into two-view 3D reconstruction prior to enable underwater-adapted camera tracking and depth estimation. Furthermore, we present a semantic-guided rendering and adaptive map management strategy with an online medium-aware Gaussian map, modeling underwater environment in a photorealistic and compact manner. Experiments on multiple underwater datasets demonstrate that WaterSplat-SLAM achieves robust camera tracking and high-fidelity rendering in underwater environments.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 15: ZeD-MAP -->
+  <div class="paper-card" style="border-left-color: #2563eb;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">15</div>
+        <span class="hindex">h=2</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04667v1">ZeD-MAP: Bundle Adjustment Guided Zero-Shot Depth Maps for Real-Time Aerial Imaging</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.CV</span>
+          <span class="pill pill-cat">cs.LG</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">Selim Ahmet Iz · h=2</span>
+        </div>
+        <div class="authors">Selim Ahmet Iz, Francesco Nex, Norman Kerle, Henry Meissner, Ralf Berger</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Solves a key limitation of zero-shot diffusion depth models — lack of metric consistency across frames — by injecting bundle-adjustment-derived sparse 3D tie-points as metric guidance, converting probabilistic single-image predictions into a SLAM-like mapping pipeline</li>
+          <li>Achieves sub-meter accuracy (0.87m XY, 0.12m Z) from UAV imagery at ~50m altitude with per-image runtimes of 1.47–4.91 seconds, competitive with classical photogrammetry at a fraction of the processing time</li>
+          <li>Targets disaster response specifically: the cluster-based streaming architecture processes UAV frames incrementally rather than requiring a complete flight, enabling real-time 3D map generation during ongoing missions</li>
+          <li>Eliminates the need for task-specific retraining or rigid multi-view capture geometry that limits classical stereo methods, making the approach adaptable to varied UAV platforms and flight patterns</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Real-time depth reconstruction from ultra-high-resolution UAV imagery is essential for time-critical geospatial tasks such as disaster response, yet remains challenging due to wide-baseline parallax, large image sizes, low-texture or specular surfaces, occlusions, and strict computational constraints. Recent zero-shot diffusion models offer fast per-image dense predictions without task-specific retraining, and require fewer labelled datasets than transformer-based predictors while avoiding the rigid capture geometry requirement of classical multi-view stereo. However, their probabilistic inference prevents reliable metric accuracy and temporal consistency across sequential frames and overlapping tiles. We present ZeD-MAP, a cluster-level framework that converts a test-time diffusion depth model into a metrically consistent, SLAM-like mapping pipeline by integrating incremental cluster-based bundle adjustment (BA). Streamed UAV frames are grouped into overlapping clusters; periodic BA produces metrically consistent poses and sparse 3D tie-points, which are reprojected into selected frames and used as metric guidance for diffusion-based depth estimation. Validation on ground-marker flights captured at approximately 50 m altitude (GSD is approximately 0.85 cm/px, corresponding to 2,650 square meters ground coverage per frame) with the DLR Modular Aerial Camera System (MACS) shows that our method achieves sub-meter accuracy, with approximately 0.87 m error in the horizontal (XY) plane and 0.12 m in the vertical (Z) direction, while maintaining per-image runtimes between 1.47 and 4.91 seconds. Results are subject to minor noise from manual point-cloud annotation. These findings show that BA-based metric guidance provides consistency comparable to classical photogrammetric methods while significantly accelerating processing, enabling real-time 3D map generation.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 16: G-EDF-Loc -->
+  <div class="paper-card" style="border-left-color: #2563eb;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">16</div>
+        <span class="hindex">h=2</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04525v1">G-EDF-Loc: 3D Continuous Gaussian Distance Field for Robust Gradient-Based 6DoF Localization</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">cs.CV</span>
+          <span class="pill pill-author">Lucía Coto-Elena · h=2</span>
+        </div>
+        <div class="authors">José E. Maese, Lucía Coto-Elena, Luis Merino, Fernando Caballero</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Proposes G-EDF, a continuous 3D distance field using Block-Sparse Gaussian Mixture Models with adaptive spatial partitioning that guarantees C¹ continuity across block boundaries — eliminating the boundary artifacts that plague voxel-based distance fields</li>
+          <li>Analytical gradients with Eikonal consistency enable direct CPU-based scan-to-map registration without GPU acceleration, making the approach deployable on resource-constrained platforms like aerial robots</li>
+          <li>Demonstrates exceptional resilience under severe odometry degradation and complete absence of IMU priors — conditions where conventional methods relying on good initial pose estimates typically diverge</li>
+          <li>Memory efficiency comes from the block-sparse structure: only regions near surfaces are modeled at high resolution, achieving high-fidelity spatial reconstruction without the memory overhead of dense voxel grids</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">This paper presents a robust 6-DoF localization framework based on a direct, CPU-based scan-to-map registration pipeline. The system leverages G-EDF, a novel continuous and memory-efficient 3D distance field representation. The approach models the Euclidean Distance Field (EDF) using a Block-Sparse Gaussian Mixture Model with adaptive spatial partitioning, ensuring C¹ continuity across block transitions and mitigating boundary artifacts. By leveraging the analytical gradients of this continuous map, which maintain Eikonal consistency, the proposed method achieves high-fidelity spatial reconstruction and real-time localization. Experimental results on large-scale datasets demonstrate that G-EDF-Loc performs competitively against state-of-the-art methods, exhibiting exceptional resilience even under severe odometry degradation or in the complete absence of IMU priors.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 20: Relational Epipolar Graphs -->
+  <div class="paper-card" style="border-left-color: #2563eb;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">20</div>
+        <span class="hindex">h=0</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04554v1">Relational Epipolar Graphs for Robust Relative Camera Pose Estimation</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.CV</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">Prateeth Rao · h=0</span>
+        </div>
+        <div class="authors">Prateeth Rao, Sachit Rao</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Reformulates relative pose estimation as relational inference over epipolar correspondence graphs — a departure from both RANSAC-style stochastic sampling and learning-based methods that lack explicit geometric structure</li>
+          <li>Graph operations (pruning, message passing, pooling) learn global relational consensus from noisy dense correspondences, simultaneously estimating quaternion rotation, translation vector, and Essential Matrix</li>
+          <li>A multi-term loss combining L₂, Frobenius norm, singular value, heading angle, and scale differences provides richer supervision than typical rotation-translation losses alone, improving convergence on geometrically challenging pairs</li>
+          <li>Shows improved robustness to dense noise and large baseline variation compared to classical and learning-guided baselines on both indoor and outdoor benchmarks, validating the benefit of explicit geometric graph structure</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">A key component of Visual Simultaneous Localization and Mapping (VSLAM) is estimating relative camera poses using matched keypoints. Accurate estimation is challenged by noisy correspondences. Classical methods rely on stochastic hypothesis sampling and iterative estimation, while learning-based methods often lack explicit geometric structure. In this work, we reformulate relative pose estimation as a relational inference problem over epipolar correspondence graphs, where matched keypoints are nodes and nearby ones are connected by edges. Graph operations such as pruning, message passing, and pooling estimate a quaternion rotation, translation vector, and the Essential Matrix (EM). Minimizing a loss comprising (i) L₂ differences with ground truth (GT), (ii) Frobenius norm between estimated and GT EMs, (iii) singular value differences, (iv) heading angle differences, and (v) scale differences, yields the relative pose between image pairs. The dense detector-free method LoFTR is used for matching. Experiments on indoor and outdoor benchmarks show improved robustness to dense noise and large baseline variation compared to classical and learning-guided approaches, highlighting the effectiveness of global relational consensus.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CATEGORY 3: ROBOT LEARNING & CONTROL ===== -->
+<div class="cat-section">
+  <div class="cat-header" style="background: #0d9488;">
+    <h2>🤖 Robot Learning &amp; Control</h2>
+    <p>Off-policy RL scaling, event-based perception for high-speed tasks, braking control, and robust estimation</p>
+  </div>
+
+  <!-- Paper 3: Outlier-Robust MHE -->
+  <div class="paper-card" style="border-left-color: #0d9488;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank gold">3</div>
+        <span class="hindex">h=16</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04862v1">Outlier-Robust Nonlinear Moving Horizon Estimation using Adaptive Loss Functions</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">L. Giovanini · h=16</span>
+        </div>
+        <div class="authors">Nestor Deniz, Guido Sanchez, Fernando Auat Cheein, Leonardo Giovanini</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Replaces the standard L₂ loss in Moving Horizon Estimation with an adaptive robust loss function that automatically interpolates between L₂ and more robust alternatives based on the contamination level of incoming measurements</li>
+          <li>A tuning parameter controls the loss shape, enabling the estimator to behave like standard MHE when measurements are clean while progressively downweighting outliers when contamination is detected — avoiding the conservatism of always-robust estimators</li>
+          <li>The regularization term prevents the optimizer from trivially ignoring all data, ensuring the estimator remains informative even under heavy outlier conditions</li>
+          <li>Adaptation occurs within just a few iterations, making the approach practical for real-time robotic state estimation where outliers from sensor failures or environmental disturbances are common but unpredictable</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">In this work, we propose an adaptive robust loss function framework for MHE, integrating an adaptive robust loss function to reduce the impact of outliers with a regularization term that avoids naive solutions. The proposed approach prioritizes the fitting of uncontaminated data and downweights the contaminated ones. A tuning parameter is incorporated into the framework to control the shape of the loss function for adjusting the estimator's robustness to outliers. The simulation results demonstrate that adaptation occurs in just a few iterations, whereas the traditional behaviour L₂ predominates when the measurements are free of outliers.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 5: FlashSAC -->
+  <div class="paper-card" style="border-left-color: #0d9488;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">5</div>
+        <span class="hindex">h=10</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04539v1">FlashSAC: Fast and Stable Off-Policy Reinforcement Learning for High-Dimensional Robot Control</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.LG</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">Jaegul Choo · h=10</span>
+        </div>
+        <div class="authors">Donghu Kim, Youngdo Lee, Minho Park, Kinam Kim, I Made Aswin Nahendra</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Identifies a scaling law insight for off-policy RL: sharply reducing gradient updates while compensating with larger networks and higher data throughput can overcome the instability that plagues standard SAC — inverting the conventional wisdom that more gradient steps improve sample efficiency</li>
+          <li>Explicit norm bounding on weights, features, and gradients prevents the critic error accumulation that causes off-policy methods to diverge, addressing the root cause rather than symptoms of instability</li>
+          <li>Consistently outperforms PPO across 60+ tasks in 10 simulators in both final performance and training efficiency, with the largest gains on high-dimensional tasks like dexterous manipulation where on-policy methods struggle most</li>
+          <li>Reduces sim-to-real humanoid locomotion training from hours to minutes, demonstrating that the efficiency gains translate directly to practical deployment timelines</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Reinforcement learning (RL) is a core approach for robot control when expert demonstrations are unavailable. On-policy methods such as Proximal Policy Optimization (PPO) are widely used for their stability, but their reliance on narrowly distributed on-policy data limits accurate policy evaluation in high-dimensional state and action spaces. Off-policy methods can overcome this limitation by learning from a broader state-action distribution, yet suffer from slow convergence and instability, as fitting a value function over diverse data requires many gradient updates, causing critic errors to accumulate through bootstrapping. We present FlashSAC, a fast and stable off-policy RL algorithm built on Soft Actor-Critic. Motivated by scaling laws observed in supervised learning, FlashSAC sharply reduces gradient updates while compensating with larger models and higher data throughput. To maintain stability at increased scale, FlashSAC explicitly bounds weight, feature, and gradient norms, curbing critic error accumulation. Across over 60 tasks in 10 simulators, FlashSAC consistently outperforms PPO and strong off-policy baselines in both final performance and training efficiency, with the largest gains on high-dimensional tasks such as dexterous manipulation. In sim-to-real humanoid locomotion, FlashSAC reduces training time from hours to minutes, demonstrating the promise of off-policy RL for sim-to-real transfer.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 12: Bio-Inspired Table Tennis -->
+  <div class="paper-card" style="border-left-color: #0d9488;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">12</div>
+        <span class="hindex">h=4</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04618v1">Biologically Inspired Event-Based Perception and Sample-Efficient Learning for High-Speed Table Tennis Robots</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">Huadong Dai · h=4</span>
+        </div>
+        <div class="authors">Ziqi Wang, Jingyue Zhao, Xun Xiao, Jichao Yang, Yaohua Wang</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Moves event-based perception for table tennis beyond simplified ball-only scenarios to real-world rallies with complex backgrounds, using motion cues and geometric consistency directly on asynchronous event streams without frame reconstruction</li>
+          <li>A human-inspired curriculum training strategy progressively builds skills from low-speed to high-speed scenarios, mimicking how human players learn — achieving 35.8% improvement in return-to-target accuracy with the same training episodes</li>
+          <li>The temporally adaptive reward and reward-threshold mechanism adjust training signal density based on the current scenario difficulty, preventing the sparse-reward problem that plagues direct high-speed training</li>
+          <li>Demonstrates the full perception-to-action pipeline on a physical table tennis robot, validating that biologically inspired design principles (event vision + curriculum learning) can jointly solve the high-speed dynamic task problem</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Perception and decision-making in high-speed dynamic scenarios remain challenging for current robots. In contrast, humans and animals can rapidly perceive and make decisions in such environments. Taking table tennis as a typical example, conventional frame-based vision sensors suffer from motion blur, high latency and data redundancy, which can hardly meet real-time, accurate perception requirements. Inspired by the human visual system, event-based perception methods address these limitations through asynchronous sensing, high temporal resolution, and inherently sparse data representations. However, current event-based methods are still restricted to simplified, unrealistic ball-only scenarios. Meanwhile, existing decision-making approaches typically require thousands of interactions with the environment to converge, resulting in significant computational costs. In this work, we present a biologically inspired approach for high-speed table tennis robots, combining event-based perception with sample-efficient learning. On the perception side, we propose an event-based ball detection method that leverages motion cues and geometric consistency, operating directly on asynchronous event streams without frame reconstruction, to achieve robust and efficient detection in real-world rallies. On the decision-making side, we introduce a human-inspired, sample-efficient training strategy that first trains policies in low-speed scenarios, progressively acquiring skills from basic to advanced, and then adapts them to high-speed scenarios, guided by a case-dependent temporally adaptive reward and a reward-threshold mechanism. With the same training episodes, our method improves return-to-target accuracy by 35.8%. These results demonstrate the effectiveness of biologically inspired perception and decision-making for high-speed robotic systems.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 21: ReinVBC -->
+  <div class="paper-card" style="border-left-color: #0d9488;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">21</div>
+        <span class="hindex">h=0</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04401v1">ReinVBC: A Model-based Reinforcement Learning Approach to Vehicle Braking Controller</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">cs.LG</span>
+          <span class="pill pill-cat">eess.SY</span>
+          <span class="pill pill-author">Haoxin Lin · h=0</span>
+        </div>
+        <div class="authors">Haoxin Lin, Junjie Zhou, Daheng Xu, Yang Yu</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Applies offline model-based RL to vehicle braking control — a domain traditionally dominated by extensive manual PID calibration — with engineering-specific adaptations to the standard MBRL paradigm for reliable dynamics modeling</li>
+          <li>Addresses a real industry pain point: production-line brake controller tuning consumes significant labor and time per vehicle variant, and ReinVBC demonstrates the potential to replace this manual process entirely</li>
+          <li>The offline approach is crucial for safety: policy exploration happens within a learned dynamics model rather than on real vehicles, avoiding the catastrophic failures that would result from online RL on brake systems</li>
+          <li>Validated on real-world vehicle braking tests with performance competitive to production-grade anti-lock braking systems, suggesting practical near-term deployment potential</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Braking system, the key module to ensure the safety and steer-ability of current vehicles, relies on extensive manual calibration during production. Reducing labor and time consumption while maintaining the Vehicle Braking Controller (VBC) performance greatly benefits the vehicle industry. Model-based methods in offline reinforcement learning, which facilitate policy exploration within a data-driven dynamics model, offer a promising solution for addressing real-world control tasks. This work proposes ReinVBC, which applies an offline model-based reinforcement learning approach to deal with the vehicle braking control problem. We introduce useful engineering designs into the paradigm of model learning and utilization to obtain a reliable vehicle dynamics model and a capable braking policy. Several results demonstrate the capability of our method in real-world vehicle braking and its potential to replace the production-grade anti-lock braking system.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CATEGORY 4: AUTONOMOUS NAVIGATION & SAFETY ===== -->
+<div class="cat-section">
+  <div class="cat-header" style="background: #dc2626;">
+    <h2>🚗 Autonomous Navigation &amp; Safety</h2>
+    <p>Adversarial robustness, off-road mapping, multi-objective planning, and formation control</p>
+  </div>
+
+  <!-- Paper 6: Adversarial Robustness -->
+  <div class="paper-card" style="border-left-color: #dc2626;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">6</div>
+        <span class="hindex">h=10</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04349v1">Adversarial Robustness Analysis of Cloud-Assisted Autonomous Driving Systems</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">cs.LG</span>
+          <span class="pill pill-author">Amr S. El-Wakeel · h=10</span>
+        </div>
+        <div class="authors">Maher Al Islam, Amr S. El-Wakeel</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>First hardware-in-the-loop testbed that jointly evaluates adversarial attacks on perception AND network impairments in the vehicle-cloud communication link, exposing cross-layer vulnerabilities that neither analysis alone would reveal</li>
+          <li>Quantifies severe degradation under realistic attack scenarios: PGD reduces YOLOv8 detection precision from 0.73 to 0.22 and recall from 0.68 to 0.15 at ε=0.04, showing that cloud-offloaded perception is highly vulnerable to gradient-based attacks</li>
+          <li>Network delays of 150–250ms (corresponding to 3–4 lost frames) and packet loss of 0.5–5% compound with adversarial perturbations to cause delayed actuation and rule violations in closed-loop control — a failure mode specific to cloud-assisted architectures</li>
+          <li>Provides concrete evidence that cloud-assisted autonomous driving requires cross-layer resilience design, not just robust perception or reliable networking independently</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Autonomous vehicles increasingly rely on deep learning-based perception and control, which impose substantial computational demands. Cloud-assisted architectures offload these functions to remote servers, enabling enhanced perception and coordinated decision-making through the Internet of Vehicles (IoV). However, this paradigm introduces cross-layer vulnerabilities, where adversarial manipulation of perception models and network impairments in the vehicle-cloud link can jointly undermine safety-critical autonomy. This paper presents a hardware-in-the-loop IoV testbed that integrates real-time perception, control, and communication to evaluate such vulnerabilities in cloud-assisted autonomous driving. A YOLOv8-based object detector deployed on the cloud is subjected to whitebox adversarial attacks using the Fast Gradient Sign Method (FGSM) and Projected Gradient Descent (PGD), while network adversaries induce delay and packet loss in the vehicle-cloud loop. Results show that adversarial perturbations significantly degrade perception performance, with PGD reducing detection precision and recall from 0.73 and 0.68 in the clean baseline to 0.22 and 0.15 at epsilon= 0.04. Network delays of 150-250 ms, corresponding to transient losses of approximately 3-4 frames, and packet loss rates of 0.5-5 % further destabilize closed-loop control, leading to delayed actuation and rule violations. These findings highlight the need for cross-layer resilience in cloud-assisted autonomous driving systems.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 10: Visual Prompt Offroad -->
+  <div class="paper-card" style="border-left-color: #dc2626;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">10</div>
+        <span class="hindex">h=6</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04564v1">Visual Prompt Based Reasoning for Offroad Mapping using Multimodal LLMs</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">cs.CV</span>
+          <span class="pill pill-author">Majid Khonji · h=6</span>
+        </div>
+        <div class="authors">Abdelmoamen Nasser, Yousef Baba'a, Murad Mebrahtu, Nadya Abdel Madjid, Jorge Dias</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Eliminates the need for separate terrain classification, height estimation, and slip/slope models by using SAM2 for segmentation and a VLM for zero-shot drivability reasoning — collapsing a multi-model pipeline into a unified framework</li>
+          <li>The visual prompting approach annotates segmented masks with numeric labels and asks the VLM which regions are drivable, leveraging inherent reasoning capabilities rather than requiring terrain-specific training data</li>
+          <li>Surpasses state-of-the-art trainable models on high-resolution off-road segmentation benchmarks despite being entirely zero-shot — suggesting foundation model reasoning may already exceed task-specific models for terrain understanding</li>
+          <li>Validated through full-stack navigation in Isaac Sim off-road environments, demonstrating the approach works end-to-end from perception through planning and control</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Traditional approaches to off-road autonomy rely on separate models for terrain classification, height estimation, and quantifying slip or slope conditions. Utilizing several models requires training each component separately, having task specific datasets, and fine-tuning. In this work, we present a zero-shot approach leveraging SAM2 for environment segmentation and a vision-language model (VLM) to reason about drivable areas. Our approach involves passing to the VLM both the original image and the segmented image annotated with numeric labels for each mask. The VLM is then prompted to identify which regions, represented by these numeric labels, are drivable. Combined with planning and control modules, this unified framework eliminates the need for explicit terrain-specific models and relies instead on the inherent reasoning capabilities of the VLM. Our approach surpasses state-of-the-art trainable models on high resolution segmentation datasets and enables full stack navigation in our Isaac Sim offroad environment.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 11: Multi-Objective Planning -->
+  <div class="paper-card" style="border-left-color: #dc2626;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">11</div>
+        <span class="hindex">h=4</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04826v1">Efficient Multi-Objective Planning with Weighted Maximization Using Large Neighbourhood Search</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-author">Shamak Dutta · h=4</span>
+        </div>
+        <div class="authors">Krishna Kalavadia, Shamak Dutta, Yash Vardhan Pant, Stephen L. Smith</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Addresses a fundamental limitation of weighted-sum multi-objective planning: its inability to find Pareto-optimal solutions in non-convex regions of the trade-off space, which can cause critical solutions to be missed entirely</li>
+          <li>The weighted maximum formulation can theoretically find all Pareto-optimal solutions, but its computational complexity in discrete domains has prevented practical use — this work makes it viable through Large Neighbourhood Search</li>
+          <li>Achieves comparable solution quality to existing weighted maximum planners with 1–2 orders of magnitude runtime improvement, crossing the threshold from theoretically interesting to practically deployable for autonomous navigation</li>
+          <li>Particularly relevant for safety-critical navigation where missing a feasible trade-off between objectives (e.g., speed vs. safety margin) could have catastrophic consequences</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Autonomous navigation often requires the simultaneous optimization of multiple objectives. The most common approach scalarizes these into a single cost function using a weighted sum, but this method is unable to find all possible trade-offs and can therefore miss critical solutions. An alternative, the weighted maximum of objectives, can find all Pareto-optimal solutions, including those in non-convex regions of the trade-off space that weighted sum methods cannot find. However, the increased computational complexity of finding weighted maximum solutions in the discrete domain has limited its practical use. To address this challenge, we propose a novel search algorithm based on the Large Neighbourhood Search framework that efficiently solves the weighted maximum planning problem. Through extensive simulations, we demonstrate that our algorithm achieves comparable solution quality to existing weighted maximum planners with a runtime improvement of 1-2 orders of magnitude, making it a viable option for autonomous navigation.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 17: FORMULA -->
+  <div class="paper-card" style="border-left-color: #dc2626;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">17</div>
+        <span class="hindex">h=2</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04409v1">FORMULA: FORmation MPC with neUral barrier Learning for safety Assurance</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">cs.MA</span>
+          <span class="pill pill-author">Weishu Zhan · h=2</span>
+        </div>
+        <div class="authors">Qintong Xie, Weishu Zhan, Peter Chin</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Combines distributed MPC with neural network-based Control Barrier Functions to eliminate the need for manually designing safety constraints — a major bottleneck in deploying multi-robot formation control in complex environments</li>
+          <li>Integrates Control Lyapunov Functions for stability alongside neural CBFs for safety in a unified framework, ensuring formation integrity is maintained during obstacle avoidance rather than sacrificed for collision-free motion</li>
+          <li>Addresses deadlock resolution in dense configurations — a failure mode where standard decentralized planners cause robots to freeze in conflicting positions — through the joint optimization of stability and safety objectives</li>
+          <li>The distributed architecture reduces online computational load compared to centralized approaches, making the framework scalable to multi-robot teams operating in cluttered, dynamic environments</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Multi-robot systems (MRS) are essential for large-scale applications such as disaster response, material transport, and warehouse logistics, yet ensuring robust, safety-aware formation control in cluttered and dynamic environments remains a major challenge. Existing model predictive control (MPC) approaches suffer from limitations in scalability and provable safety, while control barrier functions (CBFs), though principled for safety enforcement, are difficult to handcraft for large-scale nonlinear systems. This paper presents FORMULA, a safe distributed, learning-enhanced predictive control framework that integrates MPC with Control Lyapunov Functions (CLFs) for stability and neural network-based CBFs for decentralized safety, eliminating manual safety constraint design. This scheme maintains formation integrity during obstacle avoidance, resolves deadlocks in dense configurations, and reduces online computational load. Simulation results demonstrate that FORMULA enables scalable, safety-aware, formation-preserving navigation for multi-robot teams in complex environments.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CATEGORY 5: INDUSTRIAL MANIPULATION & AI HARDWARE ===== -->
+<div class="cat-section">
+  <div class="cat-header" style="background: #f97316;">
+    <h2>🔧 Industrial Manipulation &amp; AI Hardware</h2>
+    <p>Low-cost bin picking and dual-precision floating-point acceleration</p>
+  </div>
+
+  <!-- Paper 2: DHFP-PE -->
+  <div class="paper-card" style="border-left-color: #f97316;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank gold">2</div>
+        <span class="hindex">h=24</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04507v1">DHFP-PE: Dual-Precision Hybrid Floating Point Processing Element for AI Acceleration</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.AR</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">eess.AS</span>
+          <span class="pill pill-author">S. Vishvakarma · h=24</span>
+        </div>
+        <div class="authors">Shubham Kumar, Vijay Pratap Sharma, Vaibhav Neema, Santosh Kumar Vishvakarma</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>A novel bit-partitioning technique allows a single 4-bit multiplier unit to operate as either a standard 4×4 multiplier for FP8 or two parallel 2×2 multipliers for FP4, achieving 100% hardware utilization without duplicating logic</li>
+          <li>Supports all four emerging low-precision formats (FP8 E4M3, FP8 E5M2, FP4 E2M1, FP4 E1M2) in a single pipelined MAC engine, providing the flexibility needed as AI workloads increasingly mix precision levels</li>
+          <li>Implemented in 28nm technology, achieving 1.94 GHz with 60.4% area reduction and 86.6% power savings compared to state-of-the-art designs — metrics directly relevant to deploying AI inference on edge robotics platforms</li>
+          <li>The power consumption of just 2.13 mW enables always-on AI inference on battery-constrained robotic systems where current accelerators would drain power budgets</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">The rapid adoption of low-precision arithmetic in artificial intelligence and edge computing has created a strong demand for energy-efficient and flexible floating-point multiply-accumulate (MAC) units. This paper presents a fully pipelined dual-precision floating-point MAC processing engine supporting FP8 formats (E4M3, E5M2) and FP4 formats (E2M1, E1M2), specifically optimized for low-power and high-throughput AI workloads. The proposed architecture employs a novel bit-partitioning technique that enables a single 4-bit unit multiplier to operate either as a standard 4x4 multiplier for FP8 or as two parallel 2x2 multipliers for 2-bit operands, achieving 100 percent hardware utilization without duplicating logic. Implemented in 28 nm technology, the proposed processing engine achieves an operating frequency of 1.94 GHz with an area of 0.00396 mm^2 and power consumption of 2.13 mW, resulting in up to 60.4 percent area reduction and 86.6 percent power savings compared to state-of-the-art designs.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 13: Pickalo -->
+  <div class="paper-card" style="border-left-color: #f97316;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">13</div>
+        <span class="hindex">h=3</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04690v1">Pickalo: Leveraging 6D Pose Estimation for Low-Cost Industrial Bin Picking</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">cs.AI</span>
+          <span class="pill pill-author">Simone Cortinovis · h=3</span>
+        </div>
+        <div class="authors">Alessandro Tarsi, Matteo Mastrogiuseppe, Saverio Taliani, Simone Cortinovis, Ugo Pattacini</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Achieves industrial-grade bin picking (600 mean picks/hour, 96–99% grasp success) using only a UR5e, parallel-jaw gripper, and Intel RealSense D435i — hardware costing a fraction of specialized 3D sensing setups typically used in industry</li>
+          <li>A multi-view active exploration strategy with a wrist-mounted camera compensates for the limitations of a single low-cost RGB-D sensor, while BridgeDepth refines raw stereo streams for accurate collision reasoning</li>
+          <li>The pose buffer module fuses observations across viewpoints over time and handles object symmetries, significantly reducing pose noise that would otherwise cause grasp failures in cluttered euroboxes</li>
+          <li>The Mask-RCNN segmentation model trained purely on photorealistic synthetic data combined with zero-shot SAM-6D pose estimation eliminates the need for real-world training data collection — a major cost barrier for industrial deployment</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">Bin picking in real industrial environments remains challenging due to severe clutter, occlusions, and the high cost of traditional 3D sensing setups. We present Pickalo, a modular 6D pose-based bin-picking pipeline built entirely on low-cost hardware. A wrist-mounted RGB-D camera actively explores the scene from multiple viewpoints, while raw stereo streams are processed with BridgeDepth to obtain refined depth maps suitable for accurate collision reasoning. Object instances are segmented with a Mask-RCNN model trained purely on photorealistic synthetic data and localized using the zero-shot SAM-6D pose estimator. A pose buffer module fuses multi-view observations over time, handling object symmetries and significantly reducing pose noise. Offline, we generate and curate large sets of antipodal grasp candidates per object; online, a utility-based ranking and fast collision checking are queried for the grasp planning. Deployed on a UR5e with a parallel-jaw gripper and an Intel RealSense D435i, Pickalo achieves up to 600 mean picks per hour with 96-99% grasp success and robust performance over 30-minute runs on densely filled euroboxes. Ablation studies demonstrate the benefits of enhanced depth estimation and of the pose buffer for long-term stability and throughput in realistic industrial conditions.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CATEGORY 6: HUMAN-ROBOT INTERACTION ===== -->
+<div class="cat-section">
+  <div class="cat-header" style="background: #16a34a;">
+    <h2>🤝 Human-Robot Interaction &amp; Accessible Robotics</h2>
+    <p>Considerate coexistence frameworks and sketch-based robot instruction</p>
+  </div>
+
+  <!-- Paper 14: Considerate HRI -->
+  <div class="paper-card" style="border-left-color: #16a34a;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">14</div>
+        <span class="hindex">h=3</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04374v1">Towards Considerate Human-Robot Coexistence: A Dual-Space Framework of Robot Design and Human Perception in Healthcare</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">cs.AI</span>
+          <span class="pill pill-cat">cs.HC</span>
+          <span class="pill pill-author">Ruixiang Han · h=3</span>
+        </div>
+        <div class="authors">Yuanchen Bai, Zijian Ding, Ruixiang Han, Niti Parikh, Wendy Ju</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Moves beyond static "acceptance" surveys by conducting in-depth follow-up interviews from a 14-week co-design study, revealing how human perceptions of healthcare robots evolve dynamically through deployment stages rather than being fixed at introduction</li>
+          <li>Identifies four interpretive dimensions of the "human perception space" — degree of decomposition, temporal orientation, scope of reasoning, and source of evidence — providing a structured vocabulary for understanding how people make sense of robots in their environment</li>
+          <li>Proposes a co-evolving loop between human perception space and robot design space, where needs, design decisions, interpretations, and social mediation continuously reshape each other — a fundamentally different model from the linear "design → deploy → evaluate" pipeline</li>
+          <li>Introduces the concept of "considerate human-robot coexistence," arguing that humans function not just as passive users or design contributors but as active interpreters and mediators who shape how robots are understood across an organization</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">The rapid advancement of robotics, spanning expanded capabilities, more intuitive interaction, and more integration into real-world workflows, is reshaping what it means for humans and robots to coexist. Beyond sharing physical space, this coexistence is increasingly characterized by organizational embeddedness, temporal evolution, social situatedness, and open-ended uncertainty. However, prior work has largely focused on static snapshots of attitudes and acceptance, offering limited insight into how perceptions form and evolve, and what active role humans play in shaping coexistence as a dynamic process. We address these gaps through in-depth follow-up interviews with nine participants from a 14-week co-design study on healthcare robots. We identify the human perception space, including four interpretive dimensions (i.e., degree of decomposition, temporal orientation, scope of reasoning, and source of evidence). We enrich the conceptual framework of human-robot coexistence by conceptualizing the mutual relationship between the human perception space and the robot design space as a co-evolving loop, in which human needs, design decisions, situated interpretations, and social mediation continuously reshape one another over time. Building on this, we propose considerate human-robot coexistence, arguing that humans act not only as design contributors but also as interpreters and mediators who actively shape how robots are understood and integrated across deployment stages.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 19: AnyUser -->
+  <div class="paper-card" style="border-left-color: #16a34a;">
+    <div class="paper-inner">
+      <div class="paper-left">
+        <div class="rank">19</div>
+        <span class="hindex">h=1</span>
+      </div>
+      <div class="paper-right">
+        <div class="paper-title"><a href="http://arxiv.org/abs/2604.04811v1">AnyUser: Translating Sketched User Intent into Domestic Robots</a></div>
+        <div class="meta-pills">
+          <span class="pill pill-date">2026-04-06</span>
+          <span class="pill pill-cat">cs.RO</span>
+          <span class="pill pill-cat">cs.CV</span>
+          <span class="pill pill-cat">cs.HC</span>
+          <span class="pill pill-author">Songyuan Yang · h=1</span>
+        </div>
+        <div class="authors">Songyuan Yang, Huibin Tan, Kailun Yang, Wenjing Yang, Shaowu Yang</div>
+        <div class="contributions-label">Core Contributions</div>
+        <ul class="bullets">
+          <li>Enables non-expert users to instruct domestic robots through free-form sketches drawn on camera images, with optional language — a far more intuitive interface than text commands or programming for elderly, non-verbal, or low-literacy users</li>
+          <li>Interprets multimodal inputs (sketch + vision + language) as spatial-semantic primitives to generate executable actions without requiring prior maps, object models, or pre-defined vocabularies — a true zero-prior approach</li>
+          <li>Validated on two distinct platforms (KUKA LBR iiwa stationary arm and Realman dual-arm mobile manipulator) performing tasks like targeted wiping and area cleaning, demonstrating cross-platform generalization</li>
+          <li>User study with diverse demographics (elderly, simulated non-verbal, low technical literacy) shows 85.7–96.4% task completion rates and high user satisfaction, providing evidence that sketch-based interaction genuinely improves accessibility over existing interfaces</li>
+        </ul>
+        <details class="abstract-toggle">
+          <summary>Show abstract</summary>
+          <div class="abstract-text">We introduce AnyUser, a unified robotic instruction system for intuitive domestic task instruction via free-form sketches on camera images, optionally with language. AnyUser interprets multimodal inputs (sketch, vision, language) as spatial-semantic primitives to generate executable robot actions requiring no prior maps or models. Novel components include multimodal fusion for understanding and a hierarchical policy for robust action generation. Efficacy is shown via extensive evaluations: (1) Quantitative benchmarks on the large-scale dataset showing high accuracy in interpreting diverse sketch-based commands across various simulated domestic scenes. (2) Real-world validation on two distinct robotic platforms, a statically mounted 7-DoF assistive arm (KUKA LBR iiwa) and a dual-arm mobile manipulator (Realman RMC-AIDAL), performing representative tasks like targeted wiping and area cleaning, confirming the system's ability to ground instructions and execute them reliably in physical environments. (3) A comprehensive user study involving diverse demographics (elderly, simulated non-verbal, low technical literacy) demonstrating significant improvements in usability and task specification efficiency, achieving high task completion rates (85.7%-96.4%) and user satisfaction. AnyUser bridges the gap between advanced robotic capabilities and the need for accessible non-expert interaction, laying the foundation for practical assistive robots adaptable to real-world human environments.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-04-06
+</div>
+
+</div>
+</body>
+</html>
