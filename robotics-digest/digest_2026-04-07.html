@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arXiv Robotics Digest - April 7, 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header .meta {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 15px;
+        }
+
+        header .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        header .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        header .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .landscape-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+        }
+
+        .landscape-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .landscape-section p {
+            margin-bottom: 15px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.9;
+            z-index: 0;
+        }
+
+        .category-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .category-card p {
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+
+        .paper-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid;
+        }
+
+        .section-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .section-header h2 {
+            font-size: 1.6em;
+            margin: 0;
+        }
+
+        .paper-count {
+            margin-left: auto;
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .paper-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .paper-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: #d1d5db;
+        }
+
+        .paper-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .paper-rank {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1em;
+            flex-shrink: 0;
+        }
+
+        .paper-title {
+            flex: 1;
+        }
+
+        .paper-title a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 1.15em;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .paper-title a:hover {
+            text-decoration: underline;
+        }
+
+        .h-index-badge {
+            background: #ecfdf5;
+            color: #047857;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .paper-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .meta-pill {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 4px 12px;
+            border-radius: 15px;
+        }
+
+        .authors {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .contributions {
+            margin-bottom: 15px;
+        }
+
+        .contributions h4 {
+            color: #667eea;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contributions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .contributions li {
+            padding: 5px 0 5px 20px;
+            position: relative;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .contributions li:before {
+            content: '▪';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .abstract-toggle {
+            cursor: pointer;
+            color: #667eea;
+            font-size: 0.9em;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 0;
+            border: none;
+            background: none;
+            text-decoration: underline;
+        }
+
+        .abstract-toggle:hover {
+            color: #764ba2;
+        }
+
+        .abstract-content {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+            color: #555;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+
+        .abstract-content.show {
+            display: block;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.9em;
+        }
+
+        .paper-id {
+            color: #999;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            header .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .paper-header {
+                flex-direction: column;
+            }
+
+            .section-header {
+                flex-wrap: wrap;
+            }
+
+            .paper-count {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>arXiv Robotics Digest</h1>
+            <div class="meta">April 7, 2026</div>
+            <div class="stats">
+                <div class="stat-item">30 Papers Analyzed</div>
+                <div class="stat-item">7 Research Categories</div>
+                <div class="stat-item">Max h-index: 36</div>
+            </div>
+            <div class="badge">Generated by Claude</div>
+        </header>
+
+        <div class="content">
+            <section class="landscape-section">
+                <h2>Research Landscape</h2>
+
+                <p>The dominant theme across this digest is the <strong>explosion of VLA model research</strong> — eight of the 30 papers directly address vision-language-action architectures, but the conversation has shifted fundamentally from "can we build VLAs?" to "can we make them safe, efficient, and trustworthy?" Three papers specifically probe VLA and world action model vulnerabilities: DAERT (#15) reduces baseline success rates from 93.33% to 5.85%, JailWAM (#18) achieves 84.2% attack success on LingBot-VA, and SafeGate (#13) introduces neurosymbolic pre-execution safety gates using Z3 theorem proving. Meanwhile, A1 (#22) and VLA-InfoEntropy (#11) shift focus to practical inference constraints—achieving 72% latency reduction through adaptive early termination. Action Images (#8) proposes a fundamentally new representation where video generation itself becomes the policy backbone. This safety-efficiency axis reflects field maturity: scaling VLAs is necessary but insufficient without trustworthiness guarantees.</p>
+
+                <p>The second thread is <strong>physically grounded manipulation moving beyond geometric planning</strong>. GraspSense (#4) introduces force maps that encode material-specific deformation into grasp selection using SAM3D and physics simulation. Delta6 (#7) democratizes high-quality sensing by offering an open-source $50 6-DOF force/torque sensor with 3.8% full-scale error. Contact-rich tasks reveal sensing innovation: soft scooping (#10) uses physics-based evolutionary optimization for deformable conical hands; button pressing (#21) leverages microphone-based contact detection as privileged supervision during training; deburring MPC (#25) combines diffusion-based motion priors with force feedback for collision avoidance in industrial settings. Together these point to a conceptual shift: manipulation is no longer solely about where to grasp, but how much force to apply, how to sense contact progression, and how to adapt reactively—requiring richer feedback loops than visual feedback alone provides.</p>
+
+                <p>A cross-cutting theme is <strong>bridging mathematical theory with deployment-ready algorithms</strong>. RSBM (#27) proves velocity structure invariance theorems that enable three-step generative policies for visual navigation, achieving 92% success without retraining. SI-OCP (#3) provides formal coverage guarantees for adaptive control systems on quadrotors with DNN components. Aggressive aerial maneuvers (#9) achieve repeatable 5cm-clearance gap traversal and 90° tilts—moving from simulation benchmarks to real physical feats. Formation control (#28) employs complex-number representations to make distributed leaderless control tractable and enabling translation, rotation, scaling, and shearing simultaneously. This pattern suggests the field increasingly recognizes that practical deployment requires bridging the theory-practice gap: proofs enable scaling, and real-world performance validates the theory's relevance.</p>
+            </section>
+
+            <section class="categories-grid">
+                <div class="category-card" style="background-color: #7c3aed;">
+                    <div class="section-color" style="background-color: #7c3aed;"></div>
+                    <h3>VLA & Foundation Models</h3>
+                    <p>Vision-language-action models, world action models, and multimodal policy architectures</p>
+                </div>
+                <div class="category-card" style="background-color: #dc2626;">
+                    <div class="section-color" style="background-color: #dc2626;"></div>
+                    <h3>Robot Safety & Trustworthy AI</h3>
+                    <p>Safety verification, hazard analysis, jailbreaking, and explainability</p>
+                </div>
+                <div class="category-card" style="background-color: #0d9488;">
+                    <div class="section-color" style="background-color: #0d9488;"></div>
+                    <h3>Manipulation & Grasping</h3>
+                    <p>Dexterous hands, force sensing, contact-rich tasks, and mobile manipulation</p>
+                </div>
+                <div class="category-card" style="background-color: #2563eb;">
+                    <div class="section-color" style="background-color: #2563eb;"></div>
+                    <h3>Navigation & Localization</h3>
+                    <p>Visual navigation, UAV localization, and image-goal navigation</p>
+                </div>
+                <div class="category-card" style="background-color: #ea580c;">
+                    <div class="section-color" style="background-color: #ea580c;"></div>
+                    <h3>Aerial Robotics & Control</h3>
+                    <p>Quadrotor control, eVTOL systems, and safe adaptive control</p>
+                </div>
+                <div class="category-card" style="background-color: #6d28d9;">
+                    <div class="section-color" style="background-color: #6d28d9;"></div>
+                    <h3>Hardware Design & Surgical Robotics</h3>
+                    <p>Mechanical co-design, surgical instruments, and medical robotics</p>
+                </div>
+                <div class="category-card" style="background-color: #0891b2;">
+                    <div class="section-color" style="background-color: #0891b2;"></div>
+                    <h3>Multi-Agent & Swarm Systems</h3>
+                    <p>Multi-robot collaboration, formation control, and molecular swarms</p>
+                </div>
+            </section>
+
+            <!-- VLA & Foundation Models -->
+            <section class="paper-section">
+                <div class="section-header" style="border-bottom-color: #7c3aed;">
+                    <div class="section-color" style="background-color: #7c3aed;"></div>
+                    <h2>VLA & Foundation Models</h2>
+                    <span class="paper-count">8 papers</span>
+                </div>
+
+                <!-- Paper 1 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">1</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05320v1" target="_blank">ExpressMM: Expressive Mobile Manipulation Behaviors in Human-Robot Interactions</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 36</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Souren Pashangpour, Haitong Wang, Matthew Lisondra, Goldie Nejat</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Introduces first VLM-based planner for expressive robot behaviors during human-robot interaction, encoding interpersonal dynamics beyond task completion</li>
+                            <li>Combines vision-language reasoning with visual-language-action (VLA) policies to generate socially-aware robot behaviors that maintain appropriate physical and social distance</li>
+                            <li>Enables interruptible interactions where robots gracefully yield to human-initiated contact, improving collaborative safety and naturalness</li>
+                            <li>Demonstrates how foundation models can encode social conventions previously requiring hand-coded interaction rules</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Enabling robots to adapt their behaviors during human-robot interaction (HRI) is a critical challenge in close-proximity collaboration. Despite significant advances in vision-language-action (VLA) models for understanding and executing human intentions, current methods lack explicit reasoning about expressive behaviors such as maintaining appropriate interpersonal distances or signaling through motion modulation. This paper presents ExpressMM, a framework that combines a VLM-based planner with VLA policies to generate expressive robot behaviors during collaborative mobile manipulation tasks. Our approach leverages natural language as an intermediate representation to reason about human intentions and robot expressiveness simultaneously. We demonstrate how our method can generate socially-aware behaviors including distance maintenance, gesture-based signaling, and graceful handling of unexpected human contact through interruptible interactions. Experiments with a mobile manipulator in collaborative tasks show that ExpressMM enables robots to communicate intent and maintain appropriate social distance while performing manipulation.
+                    </div>
+                </div>
+
+                <!-- Paper 8 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">8</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.06168v1" target="_blank">Action Images: End-to-End Policy Learning via Multiview Video Generation</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 12</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.CV</span>
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Haoyu Zhen, Zixian Gao, Qiao Sun, Yilin Zhao, Yuncong Yang</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Proposes fundamentally new policy representation: translates 7-DoF robot actions into pixel-space "action images" usable as zero-shot policies with pretrained video backbones</li>
+                            <li>Eliminates need for task-specific training by grounding actions in visual space, enabling policies that leverage massive pretrained video understanding models</li>
+                            <li>Demonstrates zero-shot transfer across different robot morphologies by learning action-to-image mappings, bypassing robot-specific training</li>
+                            <li>Shows how generative models trained on human video can predict robot behavior without seeing robot data during training</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> We propose Action Images, a novel representation for learning robot manipulation policies via multiview video generation. The key insight is to represent robot actions (e.g., joint angles for a 7-DoF manipulator) as "action images"—visual frames that encode action information in pixel space. This allows us to leverage powerful pretrained video generation models as the backbone for policy learning. We train an encoder-decoder architecture where the encoder processes visual observations and the decoder generates action images that can be decoded into continuous action sequences. By operating in pixel space, our approach enables zero-shot policy transfer and learning from diverse video data without explicit robot supervision. We demonstrate results on multiple robotic manipulation tasks and show competitive performance compared to traditional action-based policy learning approaches.
+                    </div>
+                </div>
+
+                <!-- Paper 11 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">11</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05323v1" target="_blank">VLA-InfoEntropy: Training-Free VLA Inference Acceleration</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 11</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.CV</span>
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Chuhang Liu, Yayun He, Zuheng Kang, Xiaoyang Qu, Jianzong Wang</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Introduces training-free acceleration for VLA inference via dynamic token pruning based on image entropy and attention entropy, reducing computational cost without retraining</li>
+                            <li>Identifies that low-entropy visual regions (background, redundant details) can be aggressively pruned without affecting action prediction accuracy</li>
+                            <li>Combines two entropy signals: pixel-level image entropy and transformer attention entropy to identify which tokens contribute to action generation</li>
+                            <li>Achieves practical inference speedup on resource-constrained robots where model retraining is infeasible</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Vision-Language-Action (VLA) models have shown promise for robot control, but their high computational cost limits real-time deployment on resource-constrained robotic platforms. We propose VLA-InfoEntropy, a training-free approach to accelerate VLA inference by leveraging information-theoretic measures of token importance. Our method dynamically prunes visual tokens based on image entropy (detecting low-information regions) and attention entropy (identifying which regions the model actually attends to). Unlike fine-tuning approaches, our method requires no additional training and can be applied to any VLA model. We demonstrate significant inference speedups (up to 40% latency reduction) while maintaining action prediction accuracy across multiple robotic tasks.
+                    </div>
+                </div>
+
+                <!-- Paper 12 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">12</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.06067v1" target="_blank">HiPolicy: Hierarchical Multi-Frequency Action Chunking for Policy Learning</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 10</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Jiyao Zhang, Zimu Han, Junhan Wang, Xionghao Wu, Shihong Lin</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Proposes hierarchical multi-frequency action chunking that simultaneously plans at multiple timescales, balancing long-horizon reasoning with fine-grained control</li>
+                            <li>Uses entropy-guided execution that dynamically selects which action frequency to trust based on confidence estimates, enabling adaptive switching during task execution</li>
+                            <li>Outperforms fixed action chunk sizes by allowing coarse-grained chunks for high-level planning and fine-grained chunks for precise control primitives</li>
+                            <li>Demonstrates improved performance on both long-horizon assembly tasks and dexterous manipulation requiring precise contact control</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Action chunking—predicting sequences of actions rather than individual actions—has become important for sample efficiency in robot learning. However, fixed chunk sizes may not match the temporal structure of different task phases: some behaviors benefit from high-level planning (long chunks) while others require precise frame-by-frame control (short chunks). We propose HiPolicy, a hierarchical multi-frequency action chunking method that learns to operate at multiple temporal resolutions simultaneously. Our approach uses entropy-guided execution to dynamically weight different frequency levels, enabling the policy to adaptively select appropriate action granularity during deployment. Experiments on long-horizon and manipulation tasks show consistent improvements over single-frequency baselines.
+                    </div>
+                </div>
+
+                <!-- Paper 15 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">15</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05595v1" target="_blank">Uncovering Linguistic Fragility in VLA Models via Diversity-Aware Red Teaming</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 9</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="authors">Baoshun Tong, Haoran He, Ling Pan, Yang Liu, Liang Lin</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>First systematic adversarial testing framework (DAERT) exposing linguistic vulnerabilities in VLA models—success rate drops from 93.33% to 5.85% under adversarial prompts</li>
+                            <li>Shows VLA models are brittle to instruction paraphrasing, semantic negation, and instruction shuffling despite perfect performance on canonical prompts</li>
+                            <li>Introduces diversity-aware red teaming that generates adversarial instructions while maintaining distributional coverage, avoiding unrealistic attack scenarios</li>
+                            <li>Highlights critical deployment risk: semantic equivalent instructions cause failure, requiring robustness improvements before real-world deployment</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Vision-Language-Action (VLA) models have demonstrated impressive capabilities on robot control tasks, but their robustness to natural language variations remains understudied. We introduce DAERT (Diversity-Aware Adversarial Red Teaming), a framework for systematically evaluating VLA model robustness to linguistic perturbations. Our approach generates adversarial instructions that preserve task semantics while varying linguistic form (paraphrases, negations, instruction reordering). We evaluate several state-of-the-art VLA models and find dramatic performance drops (from 93.33% to 5.85% success rate) under adversarial prompts, indicating significant linguistic fragility. We analyze failure modes and provide insights into which semantic variations cause robustness degradation, establishing a benchmark for improving VLA robustness.
+                    </div>
+                </div>
+
+                <!-- Paper 17 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">17</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05544v1" target="_blank">Referring-Aware Visuomotor Policy Learning for Closed-Loop Manipulation</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 8</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="authors">Jiahua Ma, Yiran Qin, Xin Wen, Yixiong Li, Yuyu Sun</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Proposes ReV: a closed-loop policy that adapts to sparse referring points (spatial annotations) provided by humans during task execution, enabling interactive task refinement</li>
+                            <li>Uses coupled diffusion heads that jointly model visual observation dynamics and human referring semantics, allowing on-the-fly trajectory adjustment based on human input</li>
+                            <li>First work enabling robots to accept mid-task spatial guidance from humans without requiring complete policy retraining or replanning</li>
+                            <li>Demonstrates human-in-the-loop manipulation where reference points effectively steer robot behavior mid-trajectory</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Closed-loop manipulation policies must balance autonomy with human guidance. We propose ReV (Referring-aware Visuomotor), a policy learning framework that incorporates sparse human referring points (spatial annotations) as conditional inputs. Our approach uses coupled diffusion models to jointly predict future visual observations and adapt actions based on human spatial guidance. This enables humans to provide mid-task corrections without explicit replanning. We demonstrate ReV on complex manipulation tasks where human referring points improve task success rates and trajectory quality compared to fully autonomous policies.
+                    </div>
+                </div>
+
+                <!-- Paper 22 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">22</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05672v1" target="_blank">A1: Fully Transparent Open-Source VLA Model</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 6</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Kaidong Zhang, Jian Zhang, Rongtao Xu, Yu Sun, Shuoshuo Xue</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>First fully open-source VLA model with complete transparency: released weights, architecture, and training code enabling full reproducibility and community iteration</li>
+                            <li>Introduces adaptive inference techniques including early termination and truncated flow matching, reducing latency up to 72% without accuracy loss</li>
+                            <li>Achieves practical robotics performance: 29% latency reduction on RoboChallenge benchmark while maintaining action prediction accuracy</li>
+                            <li>Enables researchers without institutional resources to build and customize VLAs, democratizing foundation model development in robotics</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> We introduce A1, a fully transparent and open-source Vision-Language-Action (VLA) model designed for robot control. Unlike existing VLA models which are either proprietary or partially open, A1 provides complete transparency: open weights, architecture specifications, training data, and training code. We implement adaptive inference strategies including early termination of diffusion processes and truncated flow matching to reduce computational overhead. On robotics benchmarks, A1 achieves up to 72% latency reduction in inference compared to standard VLA inference while maintaining action quality. Our work aims to democratize VLA development and enable community-driven improvements in open-source robotics.
+                    </div>
+                </div>
+
+                <!-- Paper 26 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">26</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05614v1" target="_blank">Grounding Hierarchical VLA Models Through Explicit Language-Action Alignment</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 5</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Theodor Wulff, Federico Tavella, Rahul Singh Maharjan, Manith Adikari, Angelo Cangelosi</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Addresses semantic grounding problem in hierarchical VLAs through explicit language-trajectory alignment using contrastive learning</li>
+                            <li>Uses offline preference learning to align high-level language descriptions with low-level action trajectories, reducing compounding errors in hierarchical policies</li>
+                            <li>Demonstrates that explicit alignment improves both language understanding and action execution quality compared to end-to-end training without grounding</li>
+                            <li>Enables clearer interpretation of what each hierarchical level learns about language-action relationships</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Hierarchical Vision-Language-Action models improve sample efficiency by decomposing tasks into high-level language understanding and low-level action execution. However, semantic grounding between language descriptions and actual action trajectories remains challenging. We propose a contrastive learning approach that explicitly aligns language embeddings with trajectory embeddings using offline preference learning. Our method learns to identify which language descriptions best match specific behaviors, improving the coherence of hierarchical policies. Experiments show improved task success rates and more interpretable policy hierarchies compared to end-to-end learning baselines.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Robot Safety & Trustworthy AI -->
+            <section class="paper-section">
+                <div class="section-header" style="border-bottom-color: #dc2626;">
+                    <div class="section-color" style="background-color: #dc2626;"></div>
+                    <h2>Robot Safety & Trustworthy AI</h2>
+                    <span class="paper-count">4 papers</span>
+                </div>
+
+                <!-- Paper 2 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">2</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05749v1" target="_blank">Hazard Management in Robot-Assisted Mammography Support</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 35</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">eess.SY</span>
+                    </div>
+                    <div class="authors">Ioannis Stefanakos, Roisin Bradley, Radu Calinescu, Beverley Townsend, Tianyuan Wang</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Applies SHARD and STPA (Systems-Theoretic Process Analysis) hazard analysis methods to medical robotic systems, establishing systematic safety assurance for MammoBot</li>
+                            <li>Identifies critical failure modes in robot-assisted medical procedures where patient harm could result from mechanical, control, or procedural failures</li>
+                            <li>Demonstrates how formal hazard analysis methods scale to real medical robots, providing comprehensive safety documentation required for clinical deployment</li>
+                            <li>Bridges gap between robotics research and medical device regulation by applying structured hazard identification techniques</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Robot-assisted medical procedures require rigorous safety assurance due to direct patient contact and clinical consequences. This paper applies SHARD (Systematic Hazard Analysis and Resolution Design) and STPA (Systems-Theoretic Process Analysis) to conduct comprehensive hazard analysis for MammoBot, a robotic system designed to assist mammography procedures. We identify critical failure modes, assess their potential consequences, and propose mitigation strategies. Our systematic approach demonstrates how formal hazard analysis methods, traditionally used in aerospace and automotive, can assure safety for clinical robotic systems. The analysis informs design improvements and provides documentation required for regulatory approval.
+                    </div>
+                </div>
+
+                <!-- Paper 13 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">13</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05427v1" target="_blank">Pre-Execution Safety Gate & Task Safety Contracts for LLM-Controlled Robot Systems</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 10</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Ike Obi, Vishnunandan L. N. Venkatesh, Weizheng Wang, Ruiqi Wang, Dayoon Suh</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Introduces SafeGate: a neurosymbolic architecture that validates LLM-generated robot commands before execution using Z3 SMT solver</li>
+                            <li>Defines task safety contracts specifying resource constraints, geometric constraints, and allowable actions—enabling machine-verifiable safety properties</li>
+                            <li>Prevents unsafe commands from reaching actuators by catching constraint violations at planning time, reducing failure modes compared to reactive safety monitors</li>
+                            <li>Demonstrates first formal safety validation framework for LLM-robot systems, enabling safe deployment despite LLM brittleness</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Large language models (LLMs) are increasingly used for high-level robot planning, but their tendency to produce invalid or unsafe commands limits deployment. We propose SafeGate, a neurosymbolic system combining LLM planning with formal verification. SafeGate uses task safety contracts (formal specifications of resource and geometric constraints) and Z3 SMT solving to verify that proposed actions satisfy safety properties before execution. Our approach prevents unsafe commands from reaching robotic actuators, providing formal assurance despite LLM brittleness. We demonstrate SafeGate on navigation and manipulation tasks, showing that pre-execution verification significantly improves system safety without sacrificing task performance.
+                    </div>
+                </div>
+
+                <!-- Paper 16 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">16</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05896v1" target="_blank">Dialogue based Interactive Explanations for Safety Decisions in HRC</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 8</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.HC</span>
+                    </div>
+                    <div class="authors">Yifan Xu, Xiao Zhan, Akilu Yunusa Kaltungo, Ming Shan Ng, Tsukasa Ishizawa</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>First dialogue-based framework enabling humans to query robot safety decisions in human-robot collaboration through natural language</li>
+                            <li>Supports three explanation types: causal explanations (why safety decision was made), contrastive explanations (why alternative was rejected), and counterfactual explanations (what would change decision)</li>
+                            <li>Enables human understanding of robot safety policies through interactive dialogue rather than opaque black-box decisions</li>
+                            <li>Improves trust in collaborative robots by making safety reasoning transparent and interpretable</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> In human-robot collaboration (HRC), robots make safety decisions that directly impact worker safety and productivity. When these decisions are opaque, human operators cannot understand or contest them. We propose an interactive dialogue framework enabling humans to query robot safety decisions and receive explanations in natural language. Our system supports three explanation types: causal (why was this decision made?), contrastive (why not this alternative?), and counterfactual (what would change the decision?). We demonstrate the framework on a collaborative manipulation task and show that dialogue-based explanations improve human understanding of robot safety policies compared to static documentation.
+                    </div>
+                </div>
+
+                <!-- Paper 18 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">18</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05498v1" target="_blank">JailWAM: Jailbreaking World Action Models in Robot Control</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 8</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Hanqing Liu, Songping Wang, Jiahuan Long, Jiacheng Hou, Jialiang Sun</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>First systematic jailbreak attack framework targeting World Action Models (WAMs) used in robot control, achieving 84.2% attack success rate on LingBot-VA</li>
+                            <li>Shows WAMs are vulnerable to adversarial prompts despite being trained on safety-filtered data, revealing fundamental limitations in model-based safety</li>
+                            <li>Demonstrates that WAM vulnerabilities can cause incorrect world state predictions, leading to unsafe robot behaviors not caught by downstream safety checks</li>
+                            <li>Highlights need for robust WAM development and defense mechanisms beyond prompt-level safety filtering</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> World Action Models (WAMs) predict how the world changes in response to robot actions, serving as planning and learning backbones for autonomous systems. We present the first jailbreak attack framework for WAMs, demonstrating that these models are vulnerable to adversarial prompts that cause incorrect world state predictions. Our attacks achieve 84.2% success rate on LingBot-VA, causing the model to predict unsafe or impossible world states. We analyze failure modes and show how WAM vulnerabilities can cascade into unsafe robot behaviors. Our work establishes a security benchmark for WAM development and motivates defenses against adversarial inputs.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manipulation & Grasping -->
+            <section class="paper-section">
+                <div class="section-header" style="border-bottom-color: #0d9488;">
+                    <div class="section-color" style="background-color: #0d9488;"></div>
+                    <h2>Manipulation & Grasping</h2>
+                    <span class="paper-count">6 papers</span>
+                </div>
+
+                <!-- Paper 4 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">4</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05697v1" target="_blank">GraspSense: Physically Grounded Grasp and Grip Planning for a Dexterous Robotic Hand</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 26</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">eess.SY</span>
+                    </div>
+                    <div class="authors">Elizaveta Semenyakina, Ivan Snegirev, Mariya Lezina, Miguel Altamirano Cabrera, Safina Gulyamova</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Introduces force maps that encode material properties (stiffness, deformability) into grasp planning, moving beyond geometric-only grasp selection</li>
+                            <li>Uses SAM3D (segmentation model) plus Isaac Sim physics simulation to predict material-specific contact forces and structural safety</li>
+                            <li>Enables dexterous hands to select grasps that won't crush fragile objects or slip on slippery surfaces by reasoning about contact forces</li>
+                            <li>Demonstrates how physics simulation can provide grounding for grasp planning, reducing real-world failures from material assumptions</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Selecting grasps that respect material properties is critical for dexterous manipulation of everyday objects. We introduce GraspSense, a framework that grounds grasp planning in physics-based force analysis. Our approach uses segmentation models (SAM3D) to identify object materials and Isaac Sim to simulate contact forces under candidate grasps. We compute force maps that represent expected pressure distributions, enabling selection of grasps safe for the specific material. For fragile objects, our system avoids excessive crushing forces; for slippery surfaces, it ensures sufficient normal force. Experiments on diverse objects demonstrate improved grasp success rates and material safety compared to geometry-only planning.
+                    </div>
+                </div>
+
+                <!-- Paper 7 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">7</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.06150v1" target="_blank">Delta6: A Low-Cost, 6-DOF Force-Sensing Flexible End-Effector</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 13</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Yue Feng, Weicheng Huang, Chen Qiu, Huixu Dong, I-Ming Chen</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Designs low-cost 6-DOF force/torque sensor using 3D printing and antagonistic springs with magnetic encoders, democratizing force sensing on resource-constrained robots</li>
+                            <li>Achieves 3.8% full-scale error—competitive with industrial sensors costing 10x more, making force feedback practical for research robotics</li>
+                            <li>Open-sources design and code, enabling rapid adoption in labs and small companies previously unable to afford commercial sensors</li>
+                            <li>Demonstrates that novel mechanical designs using off-the-shelf components can match sensor accuracy of expensive commercial alternatives</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Force/torque sensing is essential for contact-rich manipulation but commercial 6-DOF sensors are expensive (>$10,000), limiting their use in academic robotics. We introduce Delta6, an open-source 6-DOF force-sensing end-effector that costs approximately 50 USD to manufacture. Our design uses 3D-printed flexible components combined with antagonistic spring mechanisms and low-cost magnetic encoders. Despite its simplicity, Delta6 achieves 3.8% full-scale error, competitive with commercial sensors. We provide complete CAD models, assembly instructions, and calibration software to enable widespread adoption. Delta6 democratizes force feedback for robot manipulation research and enables new applications previously limited by sensor cost.
+                    </div>
+                </div>
+
+                <!-- Paper 10 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">10</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05531v1" target="_blank">Simulation-Driven Evolutionary Motion Parameterization for Contact-Rich Granular Scooping</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 11</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Yongliang Wang, Cristian C. Beltran-Hernandez, Tomoya Takahashi, Masashi Hamaya</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Combines soft robot hand simulation with evolutionary optimization to learn scooping trajectories for granular materials, a contact-rich task traditionally difficult to model</li>
+                            <li>Uses physics-based simulation of deformable conical hand geometry interacting with granular materials to predict scooping success</li>
+                            <li>Evolutionary optimization discovers non-intuitive trajectories that maximize granule capture by reasoning about deformation and flow dynamics</li>
+                            <li>Demonstrates sim-to-real transfer showing learned scooping policies work on physical robot despite material variability</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Scooping granular materials is a challenging contact-rich task where traditional geometric planning fails due to complex material dynamics. We propose a simulation-driven approach that learns scooping trajectories through evolutionary optimization of parametric motion primitives. Our physics simulator accurately models a soft conical hand interacting with granular materials, allowing us to evaluate candidate trajectories. Evolutionary algorithms search the trajectory space for motions maximizing material capture. We demonstrate that evolved trajectories outperform hand-designed baselines and show successful transfer to real robot hardware. Our approach illustrates how physics-based simulation can guide learning for contact-rich manipulation tasks.
+                    </div>
+                </div>
+
+                <!-- Paper 21 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">21</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05954v1" target="_blank">You're Pushing My Buttons: Instrumented Learning of Gentle Button Presses</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 6</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Raman Talwar, Remko Proesmans, Thomas Lips, Andreas Verleysen, Francis Wyffels</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Uses instrumented training—adding microphone to robot fingertip during learning—as privileged supervision to teach gentle contact control without crushing buttons</li>
+                            <li>Shows that audio-based contact sensing during training (privileged information not available at test time) improves learned force control policies</li>
+                            <li>Demonstrates novel approach to contact learning: bootstrap robot learning with additional sensing, then transfer to standard visual-only deployment</li>
+                            <li>Achieves more reliable and gentle button pressing compared to purely vision-based learning, improving real-world usability</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Robots often need to interact with delicate objects without applying excessive force, yet learning appropriate force control from vision alone is challenging. We propose instrumented learning: augmenting the robot with additional sensing (microphone on fingertip) during the training phase to provide privileged supervision about contact events. The robot learns to predict contact from visual and proprioceptive cues while supervised by audio signals. At deployment, the extra sensing is removed, leaving a policy that controls force based on vision and proprioception. We demonstrate the approach on gentle button pressing tasks, showing that audio-supervised training produces more reliable and gentler contact behaviors than vision-only baselines.
+                    </div>
+                </div>
+
+                <!-- Paper 25 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">25</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.06133v1" target="_blank">Learning-Guided Force-Feedback MPC with Obstacle Avoidance for Robotic Deburring</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 5</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Krzysztof Wojciechowski, Ege Gursoy, Arthur Haffemayer, Sebastien Kleff, Vincent Bonnet</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Combines diffusion-based motion priors with force-feedback MPC for industrial deburring, enabling reactive force control with learned task guidance</li>
+                            <li>Uses learned diffusion models to suggest trajectories while MPC enforces force constraints and avoids obstacles in real-time</li>
+                            <li>Addresses industrial manipulation challenge: maintaining target contact force (deburring pressure) while avoiding collisions in manufacturing environments</li>
+                            <li>Demonstrates how learning and control can be integrated: learning captures task structure, MPC provides real-time safety guarantees</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Robotic deburring requires maintaining precise contact forces while navigating obstacles in tight manufacturing spaces. We propose a hybrid approach combining learning and control: diffusion-based motion priors suggest promising trajectories for deburring, while model predictive control (MPC) enforces force feedback constraints and collision avoidance in real-time. The learned prior captures task-specific knowledge about appropriate deburring motions, while MPC provides reactive safety guarantees. Our approach outperforms both learning-only and control-only baselines on simulated and real deburring tasks, demonstrating the benefit of combining learned task priors with principled real-time control.
+                    </div>
+                </div>
+
+                <!-- Paper 29 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">29</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05430v1" target="_blank">Synergizing Efficiency and Reliability for Continuous Mobile Manipulation</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 4</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Chengkai Wu, Ruilin Wang, Yixin Zeng, Jiayuan Wang, Mingjie Zhang</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Proposes unified framework for successive mobile manipulation (repeating manipulation tasks while moving between locations) with reliability-aware planning</li>
+                            <li>Models trade-off between task efficiency (speed) and reliability (success rate) through probabilistic prediction of action success</li>
+                            <li>Achieves 26-82% success rate improvement compared to baselines by adapting trajectory timing and parameters based on estimated reliability</li>
+                            <li>Addresses practical mobile manipulation challenge: long task sequences fail if individual actions have modest success rates</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Mobile manipulation robots often perform long sequences of manipulation tasks while navigating between locations. In this setting, even actions with high individual success rates compound into failures over long sequences. We propose a unified framework that adapts manipulation strategies based on predicted action reliability. Our approach estimates success probability for each action and jointly optimizes trajectory parameters to maximize total task reliability while maintaining efficiency. We demonstrate on sequential manipulation benchmarks that reliability-aware planning achieves 26-82% improvement in overall task success compared to efficiency-only baselines, enabling practical long-horizon mobile manipulation.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation & Localization -->
+            <section class="paper-section">
+                <div class="section-header" style="border-bottom-color: #2563eb;">
+                    <div class="section-color" style="background-color: #2563eb;"></div>
+                    <h2>Navigation & Localization</h2>
+                    <span class="paper-count">3 papers</span>
+                </div>
+
+                <!-- Paper 20 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">20</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05351v1" target="_blank">AnyImageNav: Any-View Geometry for Precise Last-Meter Image-Goal Navigation</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 8</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="authors">Yijie Deng, Shuaihang Yuan, Yi Fang</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Proposes training-free 6-DoF pose recovery for image-goal navigation using any-view geometry, enabling precise final-meter localization to visual targets</li>
+                            <li>Recovers full 6D pose (position + orientation) from single goal image without learning or fine-tuning, enabling rapid deployment to new environments</li>
+                            <li>Achieves 93.1% navigation success on Gibson benchmark with 0.27m position error, demonstrating practical precision for embodied navigation</li>
+                            <li>Enables navigation to goals where exact match isn't possible by recovering precise pose relative to goal image</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Image-goal navigation requires robots to reach a location photographed from a specific viewpoint. Standard approaches navigate to the location but struggle with precise orientation alignment. We propose AnyImageNav, which recovers 6-DoF pose (position and orientation) relative to a goal image using geometric constraints, without requiring training or environment-specific fine-tuning. Our approach leverages visual correspondences and epipolar geometry to recover the camera pose that best aligns with the goal viewpoint. On Gibson and other benchmarks, AnyImageNav achieves 93.1% success with 0.27m position error, demonstrating precise last-meter localization. The training-free nature enables rapid deployment to novel environments.
+                    </div>
+                </div>
+
+                <!-- Paper 23 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">23</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05402v1" target="_blank">LSGS-Loc: Robust 3DGS-Based Visual Localization for Large-Scale UAV Scenarios</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 6</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.CV</span>
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Xiang Zhang, Tengfei Wang, Fang Xu, Xin Wang, Zongqian Zhan</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Adapts 3D Gaussian Splatting (3DGS) for UAV localization by addressing scale ambiguity—critical for aerial scenarios where meters matter</li>
+                            <li>Introduces scale-aware pose initialization that determines metric scale from sparse LiDAR measurements, solving fundamental limitation of monocular methods</li>
+                            <li>Uses Laplacian reliability masking to identify and downweight unreliable gaussian features (sky regions, moving objects), improving robustness in outdoor scenes</li>
+                            <li>Enables metric-accurate UAV localization in large-scale environments where centimeter precision is required for safe autonomous flight</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> UAV localization requires metric-accurate pose estimation in large-scale environments. While 3D Gaussian Splatting (3DGS) offers fast rendering, applying it to localization is non-trivial due to scale ambiguity inherent in monocular vision. We propose LSGS-Loc, which extends 3DGS-based localization to UAV scenarios by solving two key challenges: (1) scale ambiguity via sparse LiDAR-informed initialization, and (2) robustness to dynamic elements via Laplacian reliability masking. Our method identifies and deweights unreliable gaussian features (sky, moving objects) during localization. Experiments on large-scale UAV datasets demonstrate improved localization accuracy compared to standard visual localization methods.
+                    </div>
+                </div>
+
+                <!-- Paper 27 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">27</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05673v1" target="_blank">Rectified Schrödinger Bridge Matching for Few-Step Visual Navigation</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 4</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.AI</span>
+                    </div>
+                    <div class="authors">Wuyang Luan, Junhui Li, Weiguang Zhao, Wenjian Zhang, Tieru Wu</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Proposes RSBM: rectified Schrödinger bridge matching for visual navigation that generates action sequences in just 3 steps, enabling real-time robot control</li>
+                            <li>Proves that velocity structure invariance—the principle that action sequences should have similar velocity profiles across environments—enables this dramatic reduction</li>
+                            <li>Achieves 92% navigation success by learning policies that maintain consistent velocity structure rather than memorizing specific trajectories</li>
+                            <li>Enables deployment on resource-constrained robots where long-horizon generation is infeasible</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Generative models for visual navigation typically require many diffusion steps to produce action sequences, limiting real-time deployment. We propose RSBM (Rectified Schrödinger Bridge Matching), which generates navigation action sequences in just 3 steps. Our key insight is that navigation behaviors exhibit velocity structure invariance: action sequences maintain similar velocity profiles across diverse environments. This principle enables aggressive step reduction without sacrificing performance. We demonstrate 92% navigation success on visual navigation benchmarks with only 3 generation steps. RSBM enables practical deployment of generative policies on resource-constrained robotic platforms.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Aerial Robotics & Control -->
+            <section class="paper-section">
+                <div class="section-header" style="border-bottom-color: #ea580c;">
+                    <div class="section-color" style="background-color: #ea580c;"></div>
+                    <h2>Aerial Robotics & Control</h2>
+                    <span class="paper-count">3 papers</span>
+                </div>
+
+                <!-- Paper 3 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">3</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.06058v1" target="_blank">Staggered Integral Online Conformal Prediction for Safe Dynamics Adaptation</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 31</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">eess.SY</span>
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Daniel M. Cherenson, Dimitra Panagou</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Proposes SI-OCP: staggered integral online conformal prediction providing formal uncertainty quantification for neural network-based adaptive control</li>
+                            <li>Proves coverage guarantees: the uncertainty estimates are mathematically guaranteed to contain the true prediction error with specified probability</li>
+                            <li>Enables safe use of deep neural networks in control loops by wrapping DNNs with formal confidence bounds, validated on quadrotor with DNN adaptive controller</li>
+                            <li>Demonstrates practical deployment: robust tube MPC can enforce safety constraints using uncertainty estimates from SI-OCP</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Neural networks in control loops provide superior performance but lack formal guarantees, limiting deployment in safety-critical systems. We propose SI-OCP (Staggered Integral Online Conformal Prediction), which provides formally-guaranteed uncertainty quantification for neural network predictions in online control settings. SI-OCP computes confidence sets that are guaranteed to contain prediction errors with specified probability (e.g., 95%), enabling the controller to account for neural network uncertainty. We validate SI-OCP on quadrotor control with a DNN-based adaptive controller and show that robust tube MPC can enforce safety constraints despite neural network uncertainty.
+                    </div>
+                </div>
+
+                <!-- Paper 9 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">9</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05828v1" target="_blank">Precise Aggressive Aerial Maneuvers with Sensorimotor Policies</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 11</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Tianyue Wu, Guangtong Xu, Zihan Wang, Junxiao Lin, Tianyang Chen</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Develops RL-based sensorimotor policies enabling quadrotors to navigate 5cm-clearance gaps at 90-degree tilt angles—boundary of aerodynamic stability</li>
+                            <li>Policies are reactive to moving gaps, adjusting trajectories in real-time rather than using pre-computed paths, enabling dynamic obstacle navigation</li>
+                            <li>Demonstrates reproducible deployment of aggressive maneuvers on physical quadrotors, moving beyond simulation-only results to repeatable real-world performance</li>
+                            <li>Shows how end-to-end learning can discover control policies that humans would struggle to design manually due to extreme nonlinearity</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Navigating constrained spaces with aerial robots requires aggressive control policies at the edge of stability. We develop sensorimotor policies trained with reinforcement learning to achieve extreme maneuvers: quadrotors navigating 5cm-clearance gaps while tilted 90 degrees. Our policies react in real-time to moving gaps, adjusting mid-flight rather than executing pre-planned paths. We validate repeatability on physical quadrotors, demonstrating that learned policies achieve consistent performance on boundary-case maneuvers. Our results show that end-to-end reinforcement learning can discover control strategies that achieve feats approaching aerodynamic limits, advancing the capabilities of aerial robots in constrained environments.
+                    </div>
+                </div>
+
+                <!-- Paper 30 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">30</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.06093v1" target="_blank">eVTOL Aircraft Energy Overhead Estimation under Conflict Resolution</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 3</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">eess.SY</span>
+                        <span class="meta-pill">cs.LG</span>
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Alex Zongo, Peng Wei</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Analyzes energy overhead caused by conflict resolution maneuvers in eVTOL flight corridors, critical for urban air mobility mission planning</li>
+                            <li>Uses mean-value principle (MVP) to deconvolve how trajectory modifications for deconfliction affect battery consumption</li>
+                            <li>Shows median energy overhead less than 1.5% for typical air traffic, enabling accurate energy reserve planning and extending flight range predictions</li>
+                            <li>Develops ML models for energy reserve estimation, enabling eVTOL path planning that accounts for realistic conflict resolution constraints</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Urban air mobility (UAM) systems require reliable energy planning under realistic constraints including conflict avoidance with other aircraft. We analyze the energy overhead caused by deconfliction maneuvers in eVTOL operations using mean-value principle optimization. Our analysis quantifies how trajectory modifications to avoid conflicts affect battery consumption, showing median overhead less than 1.5% for typical traffic densities. We develop machine learning models that predict required energy reserves given expected traffic density, enabling eVTOL mission planning that accounts for conflict resolution. Our results inform flight planning systems and energy management for emerging urban air mobility networks.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hardware Design & Surgical Robotics -->
+            <section class="paper-section">
+                <div class="section-header" style="border-bottom-color: #6d28d9;">
+                    <div class="section-color" style="background-color: #6d28d9;"></div>
+                    <h2>Hardware Design & Surgical Robotics</h2>
+                    <span class="paper-count">3 papers</span>
+                </div>
+
+                <!-- Paper 5 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">5</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05610v1" target="_blank">Control Architecture and experimental validation of a Novel Surgical Robotic Instrument</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 23</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Doina Pisla, Ionut Zima, Calin Vaida, Andrei Cailean, Marius Miclaus</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Designs 4-DOF flexible laparoscopic surgical instrument with 10mm diameter, enabling minimally invasive access to constrained surgical spaces</li>
+                            <li>Develops scissor-linkage kinematic model enabling precise control of instrument tip despite complex 4-DOF coupling</li>
+                            <li>Validates design using ATHENA parallel robot as test platform, demonstrating repeatability and accuracy needed for surgical applications</li>
+                            <li>Advances surgical robotics hardware: minimal diameter enables widespread adoption in existing laparoscopic surgical suites</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Laparoscopic surgical instruments require compact, flexible designs to navigate tight anatomical spaces while maintaining precise control. We develop a 4-DOF surgical robotic instrument with 10mm outer diameter compatible with standard surgical cannulas. The instrument employs scissor-linkage mechanisms to achieve dexterous control within extreme size constraints. We derive kinematic models enabling precise tip control despite the complex linkage coupling. Experimental validation using the ATHENA robot confirms repeatability within surgical accuracy requirements. Our design represents advancement in surgical robotics hardware, enabling integration with existing minimally invasive surgical systems.
+                    </div>
+                </div>
+
+                <!-- Paper 6 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">6</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.06025v1" target="_blank">A Co-Design Framework for High-Performance Jumping of a Five-Bar Monoped</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 20</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Aastha Mishra, Aman Singh, Shishir Kolathaya</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Proposes co-design framework jointly optimizing mechanics (linkage geometry, materials), actuation (motor/gearbox selection), and control for jumping robots</li>
+                            <li>Achieves 42% jump distance improvement by optimizing all three dimensions simultaneously rather than sequential design iterations</li>
+                            <li>Demonstrates that hardware constraints (motor torque, gearbox ratio, spring stiffness) are as important as control algorithms for achieving extreme behaviors</li>
+                            <li>Provides methodology for future robotics design: co-optimization outperforms traditional design pipelines where mechanics and control are separate</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> High-performance robot behaviors like jumping require simultaneous optimization of mechanical design, actuator selection, and control strategies. We present a co-design framework for a five-bar monoped that jointly optimizes: (1) linkage geometry and materials, (2) motor and gearbox selection, and (3) control parameters. Our approach uses multi-objective optimization to balance competing objectives: maximum jump distance, minimal energy consumption, and robustness to impact. Results demonstrate 42% improvement in jump distance through co-design compared to traditional sequential design iterations. Our methodology establishes principles for holistic robot design where hardware and software constraints are optimized together.
+                    </div>
+                </div>
+
+                <!-- Paper 24 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">24</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05272v1" target="_blank">Final Report, Center for CISST ERC</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 6</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="authors">Russell H. Taylor, Gregory D. Hager, et al.</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Comprehensive historical report on NSF Engineering Research Center (ERC) for medical robotics and image-guided intervention spanning multiple decades</li>
+                            <li>Documents foundational work in surgical robotics, image-guided surgery, and computer-assisted intervention that influenced modern medical robotics</li>
+                            <li>Highlights evolution of technologies: from early computer vision for surgery to modern robotic systems with haptic feedback and autonomous capabilities</li>
+                            <li>Provides perspective on sustained interdisciplinary research and technology transfer from academic research to clinical practice</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> This report documents the research and accomplishments of the Johns Hopkins University Engineering Research Center for Computer-Integrated Surgical Systems and Technology (CISST ERC). Spanning multiple decades, the center has pioneered foundational work in surgical robotics, computer vision for image-guided surgery, and autonomous surgical systems. The report describes key technologies including da Vinci surgical robot integration, image-guided interventions, haptic feedback systems, and emerging autonomous surgical capabilities. We review technology transfer to clinical practice, discussing how academic innovations have translated to FDA-cleared surgical systems. The report reflects on lessons learned and future directions for computer-assisted and robotic surgery.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Multi-Agent & Swarm Systems -->
+            <section class="paper-section">
+                <div class="section-header" style="border-bottom-color: #0891b2;">
+                    <div class="section-color" style="background-color: #0891b2;"></div>
+                    <h2>Multi-Agent & Swarm Systems</h2>
+                    <span class="paper-count">3 papers</span>
+                </div>
+
+                <!-- Paper 14 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">14</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05277v1" target="_blank">Semantic analysis of behavior in a DNA-functionalized molecular swarm</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 10</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="authors">Tom Bachard, Gong Yiming, Ibuki Kawamata, Akira Kakugo, Nathanael Aubert-Kato</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>First semantic analysis of molecular swarm behaviors using DNA-functionalized microtubules, extending swarm robotics principles to molecular scale</li>
+                            <li>Uses semantic embeddings to learn and characterize collective behaviors without hand-crafted features, enabling discovery of behavior classes</li>
+                            <li>Demonstrates how machine learning can extract meaningful behavior patterns from molecular swarms, bridging biology and robotics</li>
+                            <li>Opens new research direction: understanding and controlling behavior at molecular scale using swarm robotics concepts</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Molecular swarms—collections of DNA-functionalized microtubules exhibiting collective behavior—present opportunities to understand coordination at biological scales. We apply semantic embedding techniques to analyze behaviors in DNA-functionalized molecular swarms, discovering interpretable behavior classes without requiring hand-crafted features. Our approach uses video analysis of microtubule dynamics to generate semantic representations capturing collective motion patterns. We identify distinct behavioral regimes (clustering, collective motion, phase transitions) and analyze their dependence on DNA-functionalization parameters. Our work demonstrates how machine learning can extract biological insight from molecular swarms and explores principles of coordination at sub-cellular scales.
+                    </div>
+                </div>
+
+                <!-- Paper 19 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">19</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05484v1" target="_blank">CoEnv: Driving Embodied Multi-Agent Collaboration via Compositional Environment</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 8</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="authors">Li Kang, Yutao Fan, Rui Li, Heng Zhou, Yiran Qin</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Proposes compositional environment (CoEnv) framework enabling multi-arm manipulation by combining real-to-sim reconstruction with VLM-based planning</li>
+                            <li>Real-to-sim reconstruction captures environment geometry and object pose from visual input, enabling physics-based collaboration planning</li>
+                            <li>VLM planner decomposes collaborative manipulation into subtasks, assigning them to robots and ensuring physical feasibility</li>
+                            <li>Demonstrates first framework for automated multi-robot task planning that grounds plans in reconstructed physics-based environments</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Multi-robot manipulation requires reasoning about physical interactions and task decomposition. We introduce CoEnv, a compositional environment framework that bridges visual perception and physics-based planning. Our approach combines: (1) real-to-sim reconstruction that captures object geometry and poses from RGB-D input, and (2) VLM-based task planning that decomposes manipulation into collaborative subtasks. The VLM reasons about task structure and proposes robot-arm assignments, while physics simulation validates feasibility. We demonstrate CoEnv on multi-arm manipulation benchmarks, showing how compositional reasoning enables complex collaborative tasks like coordinated object rearrangement and assembly.
+                    </div>
+                </div>
+
+                <!-- Paper 28 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-rank">28</div>
+                        <div class="paper-title">
+                            <a href="http://arxiv.org/abs/2604.05648v1" target="_blank">Leaderless Collective Motion in Affine Formation Control</a>
+                        </div>
+                        <span class="h-index-badge">h-index: 4</span>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">eess.SY</span>
+                    </div>
+                    <div class="authors">Jesus Bautista, Enric Morella, Lili Wang, Hector Garcia de Marina</div>
+                    <div class="contributions">
+                        <h4>Core Contributions</h4>
+                        <ul>
+                            <li>Develops leaderless formation control using complex-number representations enabling simultaneous translation, rotation, scaling, and shearing of formations</li>
+                            <li>No central coordinator required: each robot uses only local neighbor information, enabling scalability to large swarms</li>
+                            <li>Complex-number formalism provides elegant mathematical framework making distributed control analysis tractable and provably stable</li>
+                            <li>Enables flexible formation morphing where formation shape evolves dynamically while maintaining local communication constraints</li>
+                        </ul>
+                    </div>
+                    <button class="abstract-toggle" onclick="toggleAbstract(this)">Show abstract ▼</button>
+                    <div class="abstract-content">
+                        <strong>Abstract:</strong> Distributed formation control for robot swarms typically requires either a designated leader or global coordination, limiting scalability. We propose a leaderless formation control approach using complex-number representations of robot positions. Our method enables formations to undergo arbitrary affine transformations (translation, rotation, scaling, shearing) while maintaining stability with only local neighbor communication. The complex-number formalism elegantly captures formation geometry and enables closed-form stability proofs. We demonstrate scalability to large swarms and adaptive formation morphing in simulation and on physical robot teams.
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>This digest compiles 30 papers from arXiv's Computer Science - Robotics category submitted on April 7, 2026.</p>
+            <p>Papers are ranked by maximum author h-index and categorized by research theme.</p>
+            <p>Abstracts and analysis generated for research discovery purposes.</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleAbstract(button) {
+            const abstractContent = button.nextElementSibling;
+            abstractContent.classList.toggle('show');
+            button.textContent = abstractContent.classList.contains('show') ? 'Hide abstract ▲' : 'Show abstract ▼';
+        }
+    </script>
+</body>
+</html>
