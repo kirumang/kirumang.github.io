@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotics arXiv Digest - April 13, 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .claude-badge {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        /* Research Landscape */
+        .landscape {
+            padding: 40px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .landscape h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .landscape p {
+            margin-bottom: 15px;
+            text-align: justify;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Category Grid */
+        .category-grid {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .category-card {
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-card h3 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .category-card p {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .category-count {
+            font-weight: 600;
+            font-size: 0.95em;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .cat-vla { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .cat-learning { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .cat-manipulation { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .cat-planning { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .cat-navigation { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .cat-hri { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .cat-multiagent { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+
+        /* Papers Section */
+        .papers-section {
+            padding: 30px;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+            color: #333;
+        }
+
+        .paper-card {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .paper-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+
+        .paper-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+
+        .rank-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .rank-gold {
+            background: #ffd700;
+            color: #333;
+        }
+
+        .rank-silver {
+            background: #c0c0c0;
+            color: #333;
+        }
+
+        .rank-bronze {
+            background: #cd7f32;
+            color: white;
+        }
+
+        .h-index {
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .paper-title {
+            font-size: 1.15em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .paper-title a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .paper-title a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .paper-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .meta-pill {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .paper-authors {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .contributions {
+            margin-top: 12px;
+        }
+
+        .contributions-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .contributions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .contributions li {
+            padding: 6px 0 6px 24px;
+            position: relative;
+            font-size: 0.92em;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .contributions li:before {
+            content: "▪";
+            position: absolute;
+            left: 8px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .abstract-toggle {
+            margin-top: 12px;
+        }
+
+        .toggle-button {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            color: #667eea;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .toggle-button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .abstract {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: white;
+            border-left: 3px solid #667eea;
+            font-size: 0.92em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .abstract.show {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .papers-section {
+                padding: 20px;
+            }
+
+            .paper-card {
+                padding: 15px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 Robotics arXiv Digest</h1>
+            <div class="header-meta">
+                <span class="badge">📅 April 13, 2026</span>
+                <span class="badge">📄 30 Papers</span>
+                <span class="badge">🗂️ 7 Research Areas</span>
+                <span class="claude-badge">✨ Generated by Claude</span>
+            </div>
+        </div>
+
+        <!-- Research Landscape -->
+        <div class="landscape">
+            <h2>Research Landscape</h2>
+            <p>The robotics field is experiencing a remarkable convergence of three major paradigms: vision-language-action (VLA) foundation models enabling semantic reasoning, learning-based control approaches replacing hand-crafted policies, and embodied AI systems that ground abstract reasoning in physical interaction. Papers like StarVLA-α and Grounded World Model exemplify how large-scale vision-language pretraining is moving from pure perception toward actionable planning, while simultaneous advances in robot learning through simulation—from UGE-TO's uncertainty-guided trajectories to ComSim's compositional simulation—are systematically closing the sim-to-real gap. Manipulation tasks benefit from this alignment: ViserDex combines differentiable rendering with reinforcement learning for dexterous in-hand tasks, while AffordSim and ComSim are building the open-vocabulary affordance datasets needed for zero-shot generalization. The field shows particular maturity in hybrid classical-learning approaches (complementarity-by-construction solvers, neural+classical simulation) where interpretability and performance are no longer in tension.</p>
+            <p>Cross-cutting innovations suggest robotics is entering a phase of practical autonomy at scale. Multi-robot coordination papers (Dynamic Multi-Robot Task Allocation, Multi-ORFT) now handle realistic constraints—communication delays, uncertainty, cooperative objectives—that determine real-world deployment viability. Human-robot interaction is rapidly shifting from scripted gestures toward intent-aware collaboration: Safe Human-to-Humanoid Motion Imitation uses control barrier functions to fuse vision-based human understanding with safety guarantees, while M2HRI demonstrates that personality-driven multi-agent interaction with persistent memory scales to user studies of n=105. On the embodied cognition side, papers like Minimal Embodiment Enables Efficient Learning show that robots can develop compact, biologically plausible number representations from minimal interaction—a finding with implications for how embodiment constraints shape learning. Meanwhile, specialized domains (medical robotics, underwater reconstruction, racing perception) are applying these foundation-level innovations, with ReefMapGS closing the loop between SLAM and Gaussian splatting for large-scale underwater exploration and EagleVision establishing cross-domain benchmarks for perception in high-speed contexts.</p>
+            <p>A unifying theme is the shift toward systems that **learn to forget** and **adapt incrementally**. H²-EMV's hierarchical episodic memory with selective forgetting achieves 45% memory reduction while improving query accuracy, suggesting that scaling embodied AI demands new data management paradigms beyond standard replay buffers. Similarly, WM-DAgger uses world models as priors for efficient imitation learning, while RAPO tackles fundamental distributional shift under dynamics uncertainty via Boltzmann reweighting. Temporal reasoning and formal verification (Ternary Logic Encodings of Temporal BTs) are gaining prominence as systems become safety-critical. The papers collectively point toward a near-term future where robotics applications will be constrained not by algorithmic capability but by data efficiency, sim-to-real generalization, and the ability to ground abstract reasoning in heterogeneous sensor modalities and embodied constraints.</p>
+        </div>
+
+        <!-- Category Grid -->
+        <div class="category-grid">
+            <div class="category-card cat-vla">
+                <h3>VLA & Foundation Models</h3>
+                <p>Language-aligned vision-action systems</p>
+                <span class="category-count">4 papers</span>
+            </div>
+            <div class="category-card cat-learning">
+                <h3>Robot Learning & Sim-to-Real</h3>
+                <p>Bridging simulation and physical deployment</p>
+                <span class="category-count">6 papers</span>
+            </div>
+            <div class="category-card cat-manipulation">
+                <h3>Manipulation & Grasping</h3>
+                <p>Dexterous control and affordance learning</p>
+                <span class="category-count">4 papers</span>
+            </div>
+            <div class="category-card cat-planning">
+                <h3>Planning & Control</h3>
+                <p>Motion synthesis and optimization methods</p>
+                <span class="category-count">5 papers</span>
+            </div>
+            <div class="category-card cat-navigation">
+                <h3>Navigation & Perception</h3>
+                <p>SLAM, odometry, and environmental understanding</p>
+                <span class="category-count">3 papers</span>
+            </div>
+            <div class="category-card cat-hri">
+                <h3>Human-Robot Interaction & Embodied Cognition</h3>
+                <p>Collaboration, gesture, and learning through embodiment</p>
+                <span class="category-count">6 papers</span>
+            </div>
+            <div class="category-card cat-multiagent">
+                <h3>Multi-Robot Systems</h3>
+                <p>Coordination and decentralized deployment</p>
+                <span class="category-count">2 papers</span>
+            </div>
+        </div>
+
+        <!-- Papers -->
+        <div class="papers-section">
+            <!-- VLA & Foundation Models -->
+            <div class="category-section">
+                <div class="category-title">VLA & Foundation Models</div>
+
+                <!-- Paper 12 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">12</span>
+                        <span class="h-index">h=13</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11751v1" target="_blank">Grounded World Model for Semantically Generalizable Planning</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.AI</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Quanyi Li et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes GWM operating in vision-language-aligned latent space, enabling semantic understanding of scene objectives without task-specific fine-tuning</li>
+                            <li>Achieves 87% success on WISER benchmark vs. 22% for traditional vision-language-action baselines, demonstrating 4x improvement in semantic generalization</li>
+                            <li>Novel approach bridges low-level visual features and high-level semantic concepts through joint embedding space</li>
+                            <li>Enables zero-shot planning for unseen task combinations by leveraging grounded semantic relationships</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">World models learn latent representations of environment dynamics that support planning. However, they typically learn low-level spatiotemporal patterns and struggle with high-level semantic understanding. We propose Grounded World Model (GWM) that grounds world models in vision-language representations, enabling semantic understanding of scene properties and task requirements. GWM learns a unified latent space that aligns visual features, language embeddings, and action representations. This enables semantically generalizable planning across diverse manipulation tasks. We evaluate GWM on WISER benchmark with unseen task combinations and demonstrate significant improvements in semantic generalization and robustness.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 18 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">18</span>
+                        <span class="h-index">h=9</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11757v1" target="_blank">StarVLA-α: Reducing Complexity in Vision-Language-Action Systems</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.AI</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Jinhui Ye et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Presents StarVLA-α, a minimalist VLA architecture that simplifies prior work without sacrificing performance or generalization</li>
+                            <li>Outperforms π₀.₅ by 20% on RoboChallenge benchmark, suggesting that simplicity and interpretability do not require sacrificing state-of-the-art performance</li>
+                            <li>Demonstrates that effective VLA systems can emerge from straightforward design principles rather than complex hierarchical structures</li>
+                            <li>Provides strong baseline for future VLA research and industrial deployment where computational efficiency matters</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Vision-Language-Action (VLA) models have shown remarkable progress in robot learning, but architectural complexity remains a barrier to understanding and deployment. We introduce StarVLA-α, a simplified VLA architecture that achieves competitive performance while maintaining clarity and computational efficiency. Through systematic ablation studies, we identify core design principles that enable effective vision-language-action alignment. StarVLA-α outperforms larger and more complex baselines on standard benchmarks, suggesting that the field may have overengineered VLA systems.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 20 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-silver">20</span>
+                        <span class="h-index">h=8</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11135v1" target="_blank">AIM: Intent-Aware Unified world action Modeling with Spatial Value Maps</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.LG</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Liaoyuan Fan et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Introduces spatial value maps as a unified representation for intent-aware action prediction, bridging value estimation and spatial localization</li>
+                            <li>Achieves 94% success rate on RoboTwin 2.0 benchmark, demonstrating practical effectiveness for complex manipulation scenarios</li>
+                            <li>Spatial value representation allows model to jointly reason about where to act and what action values are possible at each location</li>
+                            <li>Framework generalizes across diverse task types by factoring world dynamics, intent encoding, and spatial reasoning</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Understanding task intent and predicting appropriate actions are critical for robots. We propose AIM (Intent-Aware Unified world action Modeling), which uses spatial value maps to jointly model world dynamics and intent-conditioned action prediction. Spatial value maps provide a unified representation where each location in the workspace has an associated value under the current task intent. This allows the model to reason spatially about where and how to act. Experiments on complex manipulation benchmarks show significant improvements in action prediction accuracy and task success.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 28 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-bronze">28</span>
+                        <span class="h-index">h=5</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11689v1" target="_blank">LARY: A Latent Action Representation Yielding Benchmark</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.CV</span>
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Dujun Nie et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Introduces LARY benchmark for evaluating learned latent action representations, a critical component of embodied AI but underexplored empirically</li>
+                            <li>Reveals surprising finding that general visual models (vision transformers, foundation models) outperform specialized embodied models on latent action learning</li>
+                            <li>Systematic evaluation across multiple domains shows gap between general and specialized architectures, suggesting misdirected research effort</li>
+                            <li>Provides standardized evaluation protocol enabling future research to build more effective action representations</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Learning effective action representations is crucial for embodied AI, yet evaluation remains fragmented across domains. We introduce LARY, a comprehensive benchmark for latent action representation learning that spans manipulation, navigation, and locomotion. Through systematic evaluation, we compare general-purpose vision models (e.g., ViT, foundation models) against robot-specialized architectures. Surprisingly, general models consistently outperform specialized alternatives, suggesting the embodied AI community may be overspecializing. LARY provides a standardized protocol for future research on action representations.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Robot Learning & Sim-to-Real -->
+            <div class="category-section">
+                <div class="category-title">Robot Learning & Sim-to-Real</div>
+
+                <!-- Paper 2 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">2</span>
+                        <span class="h-index">h=54</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.10974v1" target="_blank">Robust Adversarial Policy Optimization Under Dynamics Uncertainty</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.LG</span>
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Mintae Kim, Koushil Sreenath
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes RAPO (Robust Adversarial Policy Optimization) with dual formulation addressing distributional shift from model mismatch during deployment</li>
+                            <li>Combines trajectory-level temperature and model-level Boltzmann reweighting to adaptively focus training on worst-case dynamics shifts</li>
+                            <li>Outperforms standard robust RL baselines by maintaining performance under significant model uncertainty without pessimistic value updates</li>
+                            <li>Addresses fundamental challenge of sim-to-real transfer: policies must generalize to dynamics not seen during training</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Sim-to-real transfer in robotics requires policies robust to model errors and unmodeled dynamics. We introduce RAPO, a robust reinforcement learning approach based on adversarial policy optimization that explicitly handles dynamics uncertainty. RAPO uses a dual formulation with trajectory-level and model-level temperature parameters to balance exploration and robustness. The model-level Boltzmann reweighting focuses learning on challenging dynamics shifts. Empirical results show RAPO significantly outperforms baseline robust RL methods on high-dimensional control tasks with substantial model mismatch.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 5 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">5</span>
+                        <span class="h-index">h=31</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11805v1" target="_blank">Solving Physics Olympiad via Reinforcement Learning on Physics Simulators</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.LG</span>
+                        <span class="meta-pill">cs.AI</span>
+                        <span class="meta-pill">cs.CV</span>
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Mihir Prabhudesai, Aryan Satpathy, Yangmin Li, Zheyang Qin, Nikash Bhardwaj
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Novel approach uses physics simulators as supervision signal for training LLMs on physical reasoning, avoiding need for human-annotated solutions</li>
+                            <li>Achieves zero-shot sim-to-real transfer: robots trained in simulation solve novel physics tasks without modification</li>
+                            <li>Demonstrates 5-10 percentage point improvement over baseline approaches on International Physics Olympiad problems</li>
+                            <li>Bridges gap between abstract physical reasoning and embodied problem-solving by grounding symbolic computation in simulator feedback</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Large language models struggle with physics reasoning despite strong performance on text-based tasks. We propose using physics simulators as a source of self-supervision for training LLMs. An RL agent explores physics simulators to find solutions to problem scenarios, generating trajectories that demonstrate physical principles. These trajectories serve as demonstrations for language model fine-tuning. Our approach achieves competitive performance on International Physics Olympiad problems and enables zero-shot transfer to real robotic systems.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 11 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">11</span>
+                        <span class="h-index">h=15</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11090v1" target="_blank">Simulator Adaptation for Sim-to-Real Learning of Legged Locomotion via Proprioceptive Distribution Matching</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Jeremy Dao, Alan Fern
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes proprioceptive distribution matching for simulator adaptation—matching only internal state distributions, not sensory observations</li>
+                            <li>Achieves sim-to-real transfer without requiring time alignment or external sensing (cameras, IMUs), using only onboard proprioceptive data</li>
+                            <li>Requires less than 5 minutes of hardware data for effective adaptation, dramatically reducing real-world sample complexity</li>
+                            <li>Fundamental insight: proprioceptive consistency is sufficient for successful transfer; visual appearance and timing need not match</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Sim-to-real transfer for legged robots typically requires either extensive real-world data or domain randomization over a large space of unknown parameters. We propose proprioceptive distribution matching (PDM), which adapts the simulator by matching only the distribution of proprioceptive (internal state) observations between sim and real, rather than matching sensory observations. PDM does not require time-synchronized trajectories, external sensors, or explicit parameter identification. We demonstrate successful sim-to-real transfer for quadruped locomotion using less than 5 minutes of hardware data.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 19 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-silver">19</span>
+                        <span class="h-index">h=9</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11351v1" target="_blank">WM-DAgger: Enabling Efficient Data Aggregation for Imitation Learning with World Models</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Anlan Yu et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Leverages world models to generate out-of-distribution recovery data, addressing fundamental challenge in imitation learning: recovering from distribution shift</li>
+                            <li>Achieves 93.3% task success with only 5 demonstrations, reducing labeling burden compared to standard DAgger which requires expert re-labeling online</li>
+                            <li>World models enable efficient synthesis of failure cases without expert interaction, making imitation learning practical for expensive-to-label domains</li>
+                            <li>Combines model-based reasoning with behavior cloning, showing complementary benefits of learned and demonstrated trajectories</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Imitation learning can solve robotics tasks with few demonstrations, but requires expert feedback when the policy encounters out-of-distribution states—a critical bottleneck for practical deployment. We propose WM-DAgger, which uses learned world models to predict failure modes and generate recovery trajectories, reducing dependence on expert annotations. World model predictions identify states where the current policy will likely fail; we then synthesize demonstrations for these states without requiring expert interaction. Our approach achieves high success rates with minimal demonstrations on complex manipulation tasks.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 22 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-silver">22</span>
+                        <span class="h-index">h=7</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11386v1" target="_blank">ComSim: Building Scalable Real-World Robot Data Generation via Compositional Simulation</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Yiran Qin et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes hybrid classical+neural simulation for compositional data generation: classical physics for dynamics, neural networks for rendering</li>
+                            <li>Directly generates action-video pairs without requiring intermediate 3D supervision, enabling scalable synthetic data production</li>
+                            <li>Demonstrates significant reduction in sim-to-real gap compared to standard rendering-only simulators by closing the sensorimotor loop</li>
+                            <li>Compositional approach allows reuse of components across different simulation scenarios, enabling efficient scaling to diverse tasks</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Generating large-scale robot training data in simulation is essential for learning-based approaches, but sim-to-real transfer remains challenging. We introduce ComSim, a compositional simulation framework that combines classical physics engines with learned neural components to generate realistic action-conditioned videos. The hybrid approach leverages classical simulators for accurate dynamics while using neural networks to model visual complexity. Compositional design allows reusing and combining components across tasks. We demonstrate that ComSim generates data that transfers effectively to real robotic systems with minimal fine-tuning.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 25 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-bronze">25</span>
+                        <span class="h-index">h=6</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.10962v1" target="_blank">ScoRe-Flow: Complete Distributional Control via Score-Based Reinforcement Learning for Flow Matching</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Xiaotian Qiu et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Introduces score-based RL fine-tuning for flow matching policies, enabling distributional control beyond single trajectory optimization</li>
+                            <li>Achieves 2.4x faster convergence compared to standard RL fine-tuning by leveraging probabilistic structure of flow models</li>
+                            <li>Maintains diversity of solutions while optimizing for task objectives, important for exploration and robustness</li>
+                            <li>Bridges generative modeling and reinforcement learning: combines expressiveness of flow models with reward optimization</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Flow matching models can generate diverse trajectories, but applying them to reward optimization requires careful design. We propose ScoRe-Flow, which performs score-based RL fine-tuning on flow matching policies to optimize task-specific rewards while maintaining distributional properties. By working in score space, we enable efficient gradient-based optimization of the flow model without compromising generative diversity. Experiments show significant speedup in convergence and improved performance on complex manipulation tasks.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manipulation & Grasping -->
+            <div class="category-section">
+                <div class="category-title">Manipulation & Grasping</div>
+
+                <!-- Paper 13 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">13</span>
+                        <span class="h-index">h=13</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11138v1" target="_blank">ViserDex: Visual Sim-to-Real for Robust Dexterous In-hand Reorientation</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Arjun Bhardwaj et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Applies 3D Gaussian Splatting to monocular RGB observations for high-fidelity in-hand object understanding, replacing expensive multi-view setups</li>
+                            <li>Domain randomization in Gaussian space enables effective transfer from simulation to real dexterous manipulation without domain adaptation</li>
+                            <li>Achieves robust reorientation control using only single onboard camera, demonstrating practical deployment for five-fingered hands</li>
+                            <li>Demonstrates that differentiable rendering enables better visual sim-to-real transfer than traditional pixel-space matching</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Dexterous in-hand manipulation requires precise control based on visual feedback, but sim-to-real transfer for monocular observations is challenging. We introduce ViserDex, which uses 3D Gaussian Splatting to reconstruct hand-object scenes from single RGB images. Gaussian splatting provides differentiable rendering for domain randomization, enabling robust transfer from simulation. Our approach combines differentiable rendering with reinforcement learning to learn dexterous manipulation policies from image observations. Experiments on real five-fingered hands demonstrate successful reorientation of diverse objects.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 15 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">15</span>
+                        <span class="h-index">h=10</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.10953v1" target="_blank">Diffusion Reinforcement Learning Based Online 3D Bin Packing</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Jie Han et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes diffusion-based actor network for bin packing, treating grasp pose generation as iterative refinement problem</li>
+                            <li>Leverages generative model's ability to capture multimodal grasp distributions, improving exploration in action space</li>
+                            <li>Outperforms standard DRL baselines in number of successfully packed items, showing importance of diverse action sampling</li>
+                            <li>Integrates uncertainty quantification through diffusion, enabling risk-aware packing decisions</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">3D bin packing is a challenging manipulation task requiring both geometric reasoning and sequential decision-making. We propose a diffusion-based reinforcement learning approach where the policy generates grasp poses through iterative refinement. The diffusion model captures the distribution of valid grasp poses, providing diverse action samples for exploration. Combined with RL optimization, this approach achieves better packing efficiency than traditional methods. We demonstrate the approach on both simulated and real robotic systems.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 21 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-silver">21</span>
+                        <span class="h-index">h=7</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11674v1" target="_blank">AffordSim: A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.AI</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Mingyang Li et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Introduces VoxAfford for open-vocabulary 3D affordance learning, moving beyond class-specific grasp points to semantic object properties</li>
+                            <li>Provides 50 tasks across 7 object categories benchmark revealing significant gap in affordance-demanding tasks, suggesting important research frontier</li>
+                            <li>Scalable simulator-based data generation enables training affordance models on diverse objects without hand-annotation</li>
+                            <li>Affordance representations enable zero-shot transfer to novel objects by grounding task requirements in spatial properties</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Robotic manipulation requires understanding object affordances—what actions are possible on different parts of objects. We present AffordSim, a data generation framework and benchmark for learning open-vocabulary 3D affordances. Unlike traditional grasp detection, affordances capture semantic properties like "graspable," "screwable," and "deformable." AffordSim provides 50 manipulation tasks across 7 object categories. Our analysis reveals significant performance gaps on affordance-demanding tasks, highlighting an important research direction for embodied AI systems.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 24 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-bronze">24</span>
+                        <span class="h-index">h=6</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11320v1" target="_blank">CLASP: Closed-loop Asynchronous Spatial Perception for Open-vocabulary Desktop Object Grasping</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Yiran Ling et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes dual-pathway perception combining language-guided detection and spatial property reasoning for open-vocabulary grasping</li>
+                            <li>Asynchronous closed-loop architecture enables continuous perception refinement as robot executes grasps, recovering from failures</li>
+                            <li>Achieves 87% success rate on real robot grasping without requiring task-specific training or object models</li>
+                            <li>Demonstrates practical system that generalizes to arbitrary objects specified by natural language description</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Grasping novel objects requires flexible perception systems that can understand arbitrary object categories. We propose CLASP, which combines language-guided object detection with spatial reasoning for open-vocabulary grasping. CLASP uses a dual-pathway architecture: one pathway detects objects specified by natural language descriptions, while another pathway reasons about grasp feasibility based on spatial properties. An asynchronous closed-loop controller continuously refines perceptions and adjusts grasp strategies during execution. Experiments show robust grasping of diverse objects without task-specific training.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Planning & Control -->
+            <div class="category-section">
+                <div class="category-title">Planning & Control</div>
+
+                <!-- Paper 1 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">1</span>
+                        <span class="h-index">h=61</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.12092v1" target="_blank">Ternary Logic Encodings of Temporal Behavior Trees with Application to Control Synthesis</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">eess.SY</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Ryan Matheu, John S. Baras, Calin Belta
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Reformulates Temporal Behavior Trees using ternary-valued STL (Signal Temporal Logic) to enable formal verification and synthesis</li>
+                            <li>Develops mixed-integer linear program encodings that guarantee correct-by-construction control strategies with formal safety guarantees</li>
+                            <li>Bridges hierarchical planning (behavior trees) and formal verification (temporal logic), enabling automated synthesis with certification</li>
+                            <li>Applicable to systems where correctness is critical: autonomous vehicles, medical robotics, industrial automation</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Behavior Trees are widely used for hierarchical control in robotics, but lack formal guarantees. We present a novel approach to encode Temporal Behavior Trees using ternary-valued Signal Temporal Logic (STL), enabling formal verification and automated synthesis. The encoding reformulates tree semantics as ternary logic operations (true, false, unknown) rather than binary. We then develop mixed-integer linear program (MILP) encodings to synthesize control strategies that are guaranteed to satisfy temporal requirements. This approach enables correct-by-construction controllers suitable for safety-critical applications.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 3 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">3</span>
+                        <span class="h-index">h=42</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.12149v1" target="_blank">Uncertainty Guided Exploratory Trajectory Optimization for Sampling-Based Model Predictive Control</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> O. Goktug Poyrazoglu, Yukang Cao, Rahul Moorthy, Volkan Isler
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes UGE-TO that generates well-separated trajectory samples via uncertainty ellipsoids, improving exploration efficiency in MPC</li>
+                            <li>Uses Hellinger distance between trajectory distributions to quantify diversity, ensuring samples cover different regions of solution space</li>
+                            <li>Achieves 72.1% faster convergence and 66% faster execution time with 6.7% higher success rate on complex planning tasks</li>
+                            <li>Uncertainty-guided approach is more sample-efficient than uniform sampling or diversity-only methods</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Sampling-based Model Predictive Control requires generating diverse trajectory candidates for optimization. Standard approaches sample uniformly or use prior information, but can miss promising regions. We propose Uncertainty Guided Exploratory Trajectory Optimization (UGE-TO), which generates trajectory samples by considering both model uncertainty and trajectory diversity. Uncertainty ellipsoids from the dynamics model guide sampling toward informative regions, while Hellinger distance ensures samples remain well-separated. This approach significantly accelerates convergence and improves success rates on complex manipulation and navigation tasks.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 23 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-silver">23</span>
+                        <span class="h-index">h=6</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11991v1" target="_blank">Complementarity by Construction: A Lie-Group Approach to Solving Quadratic Programs with Linear Complementarity Constraints</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Arun L. Bishop et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Develops Lie-group-based framework for solving quadratic programs with complementarity constraints, fundamental for contact-rich manipulation</li>
+                            <li>Guarantees complementarity satisfaction by construction rather than post-hoc checking, ensuring physically consistent solutions</li>
+                            <li>Open-source Marble solver in C++ enables practical adoption in trajectory optimization and control pipelines</li>
+                            <li>Unified mathematical framework handles diverse contact scenarios: friction, contact breaks, and inequality constraints</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Contact-rich manipulation requires solving optimization problems with complementarity constraints that ensure physical consistency. We present a novel approach using Lie group geometry to structure these optimization problems. By leveraging the group structure, we develop algorithms that satisfy complementarity constraints by construction, avoiding numerical issues of penalty methods. We provide open-source solver (Marble) in C++ for practical trajectory optimization and control synthesis in contact-rich scenarios. The approach handles friction cones, contact breaks, and diverse constraint types.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 26 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-bronze">26</span>
+                        <span class="h-index">h=5</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.12031v1" target="_blank">Dynamic Modeling and Robust Gait Optimization of a Compliant Worm Robot</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">eess.SY</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Xinyu Zhou et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Develops hybrid dynamic model for compliant worm robot navigating constrained environments (corrugated pipes, narrow spaces)</li>
+                            <li>Multi-objective gait optimization balances speed, stability, and energy efficiency, addressing trade-offs in novel locomotion</li>
+                            <li>Compliant mechanisms enable adaptability to irregular terrain, important for inspection and search-and-rescue applications</li>
+                            <li>Physics-based optimization provides interpretable gaits suitable for real-world deployment</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Worm-like robots offer unique capabilities for navigation in confined spaces, but their compliant dynamics are complex. We develop a hybrid dynamic model capturing both rigid-body and elastic deformation behaviors. Using this model, we formulate multi-objective gait optimization to find movement patterns that are fast, stable, and energy-efficient. Experiments with a soft-robotic worm prototype demonstrate that optimized gaits significantly outperform baseline approaches in navigating pipes and irregular terrain. This work provides tools for designing effective locomotion strategies for compliant robots.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 27 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-bronze">27</span>
+                        <span class="h-index">h=5</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11734v2" target="_blank">Multi-ORFT: Stable Online Reinforcement Fine-Tuning for Multi-Agent Diffusion Planning in Cooperative Driving</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.AI</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Haojie Bai et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Combines scene-conditioned diffusion models with multi-agent reinforcement learning for cooperative autonomous driving</li>
+                            <li>VG-GRPO post-training provides stable fine-tuning without mode collapse, crucial for diverse behavior in traffic scenarios</li>
+                            <li>Reduces collision rate from 2.04% to 1.89% through multi-agent coordination, demonstrating safety improvements from cooperation</li>
+                            <li>Addresses challenge of maintaining diversity in generative models while optimizing for safety objectives</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Autonomous driving requires generating diverse behaviors while maintaining safety guarantees. We propose Multi-ORFT, which applies online reinforcement fine-tuning to multi-agent diffusion planning. A scene-conditioned diffusion model generates diverse trajectories, which are then refined using group reward policy optimization (VG-GRPO). This approach maintains the diversity of diffusion models while optimizing for collision-free trajectories. We demonstrate improvements in both safety and realism on complex driving scenarios with multiple vehicles.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation & Perception -->
+            <div class="category-section">
+                <div class="category-title">Navigation & Perception</div>
+
+                <!-- Paper 6 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">6</span>
+                        <span class="h-index">h=26</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11400v1" target="_blank">EagleVision: A Multi-Task Benchmark for Cross-Domain Perception in High-Speed Autonomous Racing</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Zakhar Yagudin et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Introduces LiDAR-based benchmark for 3D object detection and trajectory prediction in high-speed racing context</li>
+                            <li>Emphasizes cross-domain transfer: models trained on one racing venue must generalize to different tracks, vehicle types, and weather</li>
+                            <li>Simultaneously addresses perception tasks (detection) and prediction (future trajectory), critical for real-time decision-making</li>
+                            <li>High-speed racing provides particularly challenging testbed with brief decision windows and safety-critical consequences</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">High-speed autonomous racing demands robust perception under challenging conditions: limited reaction time, dynamic environments, and safety criticality. We present EagleVision, a multi-task benchmark combining 3D object detection and trajectory prediction using LiDAR data. The benchmark emphasizes cross-domain generalization—models must transfer across different racing venues, weather conditions, and vehicle configurations. We analyze domain gaps and propose methods for cross-domain adaptation. EagleVision provides the first large-scale benchmark for perception in high-speed autonomous racing.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 16 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-silver">16</span>
+                        <span class="h-index">h=9</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.12027v1" target="_blank">3DRO: Lidar-level SE(3) Direct Radar Odometry Using a 2D Imaging Radar and a Gyroscope</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Cedric Le Gentil et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Extends Direct Radar Odometry to full SE(3) estimation by integrating gyroscope information for rotation estimation</li>
+                            <li>Achieves LiDAR-level accuracy using only 2D imaging radar and gyroscope—much cheaper sensors than 3D LiDAR</li>
+                            <li>Validated on 643km Boreas-RT dataset with reliable performance across weather conditions (rain, snow, sun glare)</li>
+                            <li>Radar odometry provides weather robustness advantage over LiDAR, important for autonomous vehicles in adverse conditions</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Radar offers a cost-effective alternative to LiDAR for autonomous vehicles, with superior performance in adverse weather. Previous radar odometry methods produced 2D estimates; full 3D localization required additional sensors. We present 3DRO, which combines 2D radar imaging with inertial measurement (gyroscope) to estimate full SE(3) poses. Our direct optimization approach achieves accuracy comparable to LiDAR-based methods while maintaining radar's weather robustness. Validation on the Boreas-RT dataset (643km) demonstrates reliable performance across rain, snow, and changing lighting.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 29 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-bronze">29</span>
+                        <span class="h-index">h=4</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11992v1" target="_blank">ReefMapGS: Enabling Large-Scale Underwater Reconstruction by Closing the Loop Between Multimodal SLAM and Gaussian Splatting</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.CV</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Daniel Yang et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Combines multimodal SLAM (fusion of sonar, visual, and inertial data) with incremental 3D Gaussian Splatting for large-scale underwater reconstruction</li>
+                            <li>COLMAP-free approach enables real-time processing without offline structure-from-motion, critical for long-term deployments</li>
+                            <li>Validated on 700m AUV trajectories in challenging underwater environments with turbidity and dynamic lighting</li>
+                            <li>Enables high-fidelity 3D maps for underwater robotics applications: coral monitoring, archaeological surveying, infrastructure inspection</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Large-scale underwater mapping with autonomous vehicles requires robust SLAM and efficient 3D reconstruction. We present ReefMapGS, which integrates multimodal SLAM (sonar, camera, inertial) with incremental 3D Gaussian Splatting. Unlike prior methods requiring offline structure-from-motion (e.g., COLMAP), ReefMapGS processes data in real-time, enabling long-term deployments. Gaussian splatting provides both efficient rendering and compact memory footprint suitable for onboard computation. Experiments on 700-meter AUV trajectories in coral reef environments demonstrate successful mapping despite challenging underwater conditions.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Human-Robot Interaction & Embodied Cognition -->
+            <div class="category-section">
+                <div class="category-title">Human-Robot Interaction & Embodied Cognition</div>
+
+                <!-- Paper 4 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">4</span>
+                        <span class="h-index">h=32</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11447v1" target="_blank">Safe Human-to-Humanoid Motion Imitation Using Control Barrier Functions</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">eess.SY</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Wenqi Cai, John Abanes, Nikolaos Evangeliou, Anthony Tzes
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes vision-based framework combining human pose estimation with control barrier functions for safety-aware imitation</li>
+                            <li>CBF-QP layer enforces collision avoidance constraints during policy execution, ensuring humanoid remains safe even if human demonstrates collision</li>
+                            <li>Bridges perception (human pose from vision) and control (trajectory constraints), enabling robust imitation without explicit dynamics models</li>
+                            <li>Particularly important for humanoid robots working near humans, where safety constraints cannot be compromised</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Teaching humanoid robots through human demonstration requires ensuring the robot remains safe even when imitating potentially unsafe human motions. We propose a vision-based imitation learning framework that combines human pose tracking with control barrier functions. A CBF-QP controller filters the imitation policy outputs to enforce collision avoidance constraints in real-time. This approach enables humanoids to learn complex motions while maintaining safety guarantees. We demonstrate the method on manipulation tasks involving human-robot interaction in shared workspaces.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 8 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">8</span>
+                        <span class="h-index">h=20</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11423v1" target="_blank">Dyadic Partnership(DP): A Missing Link Towards Full Autonomy in Medical Robotics</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Nassir Navab, Zhongliang Jiang
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes Dyadic Partnership model treating robots and clinicians as equal collaborative agents with complementary capabilities</li>
+                            <li>AI-driven collaboration enables seamless task switching and shared decision-making rather than rigid automation or tele-operation</li>
+                            <li>Particularly important for medical applications where human expertise and judgment remain critical despite automation potential</li>
+                            <li>Framework addresses fundamental challenge: many medical tasks are inherently collaborative and cannot be fully automated</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Medical robotics has pursued two paths: full automation or tele-operation. We propose a third paradigm: Dyadic Partnership, where robots and clinicians collaborate as equal partners. Rather than autonomous systems making independent decisions, dyadic systems enable continuous human-AI collaboration with seamless role switching. Each agent—robot and clinician—contributes complementary expertise: robots provide precision, consistency, and access to imaging data; humans provide judgment, adaptability, and responsibility. We present framework design principles and applications to surgical assistance.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 9 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">9</span>
+                        <span class="h-index">h=19</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11373v1" target="_blank">Minimal Embodiment Enables Efficient Learning of Number Concepts in Robot</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.AI</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Zhegong Shangguan, Alessandro Di Nuovo, Angelo Cangelosi
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Demonstrates that minimal physical embodiment (robot arm with gripper) enables rapid learning of number concepts—core abstract reasoning</li>
+                            <li>Achieves 96.8% accuracy with only 10% of typical supervised training data, showing embodiment dramatically improves sample efficiency</li>
+                            <li>Robot develops biologically-plausible number representations (approximate number sense) through interaction with objects</li>
+                            <li>Findings suggest embodied constraints actually facilitate abstract reasoning, challenging view that embodiment is limitation</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">How do abstract concepts like "number" emerge from physical interaction with the world? We investigate how embodied robots learn counting and cardinality through manipulation. A Franka Panda robot interacts with objects, counting groups and comparing quantities. We find that minimal embodiment—a simple gripper—enables efficient learning of numerical concepts with small amounts of training data. The robot develops approximate number sense representations similar to biological systems. Our results suggest embodied learning is not a limitation but actually accelerates acquisition of abstract reasoning.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 10 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">10</span>
+                        <span class="h-index">h=15</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11417v1" target="_blank">Efficient Emotion-Aware Iconic Gesture Prediction for Robot Co-Speech</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.AI</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Edwin C. Montiel-Vazquez et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes lightweight transformer for predicting iconic gestures (robot hand shapes) conditioned on text and emotion</li>
+                            <li>Outperforms GPT-4o on gesture prediction task, showing specialized models can exceed general-purpose LLMs on embodied tasks</li>
+                            <li>Emotion conditioning enables natural co-speech behavior where gesture expressiveness matches conversational tone</li>
+                            <li>Computational efficiency critical for real-time robot interaction, distinguishing approach from heavy foundation models</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Natural human-robot interaction requires robots to produce appropriate gestures coordinated with speech and emotion. We propose a lightweight transformer architecture for predicting iconic gestures (hand shapes indicating objects or actions) from text and emotion labels. Despite simplicity, our model outperforms GPT-4o on this task, suggesting domain-specialized models remain valuable for embodied AI. The efficient design enables real-time inference on robot platforms. We demonstrate gesture prediction for a humanoid robot engaged in multimodal communication.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 14 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-silver">14</span>
+                        <span class="h-index">h=10</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11306v1" target="_blank">Learning to Forget -- Hierarchical Episodic Memory for Lifelong Robot Deployment</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">cs.AI</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Leonard Bärmann et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Introduces H²-EMV: hierarchical episodic memory with selective forgetting for long-term robot operation</li>
+                            <li>Achieves 45% reduction in memory footprint and 35% reduction in computational cost while improving accuracy by 70% on repeated queries</li>
+                            <li>Demonstrates that forgetting policies (consolidating old experiences, removing redundant memories) are as important as encoding for lifelong learning</li>
+                            <li>Hierarchical structure enables efficient organization of experiences at multiple timescales</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Long-term robot deployment accumulates experience, but storing all memories becomes computationally intractable. We introduce H²-EMV (Hierarchical Episodic Memory with selective forgetting), which intelligently consolidates and prunes memories to maintain performance while reducing storage and computation. The approach uses hierarchical organization at multiple timescales (recent, intermediate, long-term) with selective consolidation of valuable memories. Experiments show that strategic forgetting—removing redundant or low-value experiences—improves both efficiency and accuracy on downstream tasks. This paradigm is essential for embodied agents operating for months or years.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 30 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-bronze">30</span>
+                        <span class="h-index">h=4</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11975v1" target="_blank">M2HRI: An LLM-Driven Multimodal Multi-Agent Framework for Personalized Human-Robot Interaction</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Shaid Hasan et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes multi-robot system where each agent has distinct LLM personality and persistent long-term memory of user interactions</li>
+                            <li>Framework enables personalized experience: robots remember user preferences, adapt communication style, and coordinate behavior</li>
+                            <li>User study with n=105 participants validates that multi-robot teams with personality and memory create more engaging interactions</li>
+                            <li>Demonstrates practical scaling of human-robot interaction concepts to multiple robots with coordinated personalization</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Personalized human-robot interaction requires robots to understand individual user preferences and maintain consistent long-term relationships. We propose M2HRI, a multimodal multi-agent framework where each robot has distinct personality (driven by LLMs) and persistent memory of user interactions. Robots coordinate their behaviors and share personalization information. A user study with 105 participants demonstrates that personality and persistent memory significantly enhance engagement and user satisfaction. The framework enables robot teams to provide personalized, consistent experiences across extended interactions.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Robot Systems -->
+            <div class="category-section">
+                <div class="category-title">Multi-Robot Systems</div>
+
+                <!-- Paper 7 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-gold">7</span>
+                        <span class="h-index">h=24</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11295v1" target="_blank">Modeling, Analysis and Activation of Planar Viscoelastically-combined Rimless Wheels</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Fumihiko Asano et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Introduces novel passive-dynamic walker design combining cross-shaped frames with viscoelastic elements</li>
+                            <li>Viscoelasticity enables rhythmic oscillation and energy return during walking, improving efficiency without active control</li>
+                            <li>Demonstrates stable walking gaits emerge from interaction between mechanics (frame geometry) and materials (elasticity)</li>
+                            <li>Simplified design suggests biologically-inspired passive approaches may achieve locomotion more efficiently than fully actuated systems</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Passive dynamic walking—where robots walk downhill using gravity without active control—is a proven path to efficient locomotion. We extend this paradigm by introducing viscoelastic elements into rimless wheel designs. Cross-shaped frames combined with strategically-placed springs enable stable gaits with minimal actuation. The viscoelasticity stores and releases energy during walking, improving efficiency. We provide mathematical analysis of these systems and experimentally validate walking stability. This work suggests that clever mechanical design can achieve efficient locomotion without heavy computation or actuation.</div>
+                    </div>
+                </div>
+
+                <!-- Paper 17 -->
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="rank-badge rank-silver">17</span>
+                        <span class="h-index">h=9</span>
+                    </div>
+                    <div class="paper-title">
+                        <a href="http://arxiv.org/abs/2604.11954v1" target="_blank">Dynamic Multi-Robot Task Allocation under Uncertainty and Communication Constraints</a>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="meta-pill">cs.RO</span>
+                        <span class="meta-pill">eess.SY</span>
+                        <span class="meta-pill">cs.GT</span>
+                    </div>
+                    <div class="paper-authors">
+                        <strong>Authors:</strong> Maria G. Mendoza et al.
+                    </div>
+                    <div class="contributions">
+                        <div class="contributions-title">Core Contributions</div>
+                        <ul>
+                            <li>Proposes IBR (Iterative Best Response) decentralized policy for multi-robot task allocation without centralized coordination</li>
+                            <li>Handles realistic constraints: communication delays, partial task information, dynamic environment changes</li>
+                            <li>Demonstrates scalability to large systems: successfully allocates tasks for 100+ drones in package delivery scenarios</li>
+                            <li>Game-theoretic approach provides convergence guarantees despite communication limitations</li>
+                        </ul>
+                    </div>
+                    <div class="abstract-toggle">
+                        <button class="toggle-button" onclick="this.parentElement.querySelector('.abstract').classList.toggle('show'); this.textContent = this.parentElement.querySelector('.abstract').classList.contains('show') ? '▼ Hide Abstract' : '▶ Show Abstract'">▶ Show Abstract</button>
+                        <div class="abstract">Multi-robot systems require efficient task allocation, especially when communication bandwidth is limited and task information is uncertain. We propose IBR, an iterative best response algorithm where each robot independently optimizes its task assignments based on local information. Through game-theoretic analysis, we prove convergence even with communication constraints. The approach handles dynamic environments where new tasks arrive continuously. Experiments with up to 100 drones on package delivery tasks demonstrate scalability and efficiency compared to centralized allocation methods.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-04-13</p>
+        </div>
+    </div>
+
+    <script>
+        // Enable/disable abstract toggling
+        document.querySelectorAll('.toggle-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const abstract = this.parentElement.querySelector('.abstract');
+                abstract.classList.toggle('show');
+                this.textContent = abstract.classList.contains('show') ?
+                    '▼ Hide Abstract' : '▶ Show Abstract';
+            });
+        });
+    </script>
+</body>
+</html>

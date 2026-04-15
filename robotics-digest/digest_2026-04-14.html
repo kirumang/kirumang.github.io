@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotics arXiv Digest - April 14, 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.95em;
+            margin-top: 15px;
+            opacity: 0.95;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .claude-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+
+        /* Content */
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2d3748;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .landscape-text {
+            font-size: 0.98em;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .category-card p {
+            font-size: 0.85em;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            opacity: 0.95;
+        }
+
+        .category-count {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        /* Category Color Schemes */
+        .cat-vla { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .cat-driving { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .cat-manipulation { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .cat-slam { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .cat-learning { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .cat-navigation { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .cat-hardware { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .cat-hri { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+
+        /* Papers Section */
+        .papers-by-category {
+            margin-bottom: 30px;
+        }
+
+        .category-section-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin: 35px 0 20px 0;
+            padding: 15px 0;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+            color: #2d3748;
+        }
+
+        .papers-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .paper-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paper-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-color: #d1d5db;
+        }
+
+        .paper-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .paper-card:hover::before {
+            opacity: 1;
+        }
+
+        .paper-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .rank-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            font-weight: 700;
+            color: white;
+            font-size: 1.3em;
+            flex-shrink: 0;
+        }
+
+        .rank-1 { background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); color: #333; }
+        .rank-2 { background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%); color: #333; }
+        .rank-3 { background: linear-gradient(135deg, #cd7f32 0%, #e7a76a 100%); color: white; }
+        .rank-default { background: #9ca3af; }
+
+        .paper-title {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .paper-title a {
+            color: #2563eb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .paper-title a:hover {
+            color: #1e40af;
+            text-decoration: underline;
+        }
+
+        .paper-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .pill {
+            display: inline-block;
+            background: white;
+            border: 1px solid #d1d5db;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.85em;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .h-index-pill {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+
+        .arxiv-pill {
+            background: white;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .paper-authors {
+            color: #6b7280;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .author-list {
+            margin: 0;
+            padding-left: 0;
+        }
+
+        .contributions {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .contributions-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .contributions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .contributions li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #374151;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .contributions li:before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .toggle-abstract {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-abstract:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .abstract-content {
+            display: none;
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 0.9em;
+            line-height: 1.7;
+            color: #374151;
+            border-left: 4px solid #667eea;
+        }
+
+        .abstract-content.visible {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: #d1d5db;
+            padding: 25px 30px;
+            text-align: center;
+            font-size: 0.85em;
+            line-height: 1.6;
+        }
+
+        .footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .content {
+                padding: 25px 20px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .paper-header {
+                flex-direction: column;
+            }
+
+            .paper-title {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 Robotics arXiv Digest</h1>
+            <div class="header-meta">
+                <div class="badge">📅 April 14, 2026</div>
+                <div class="badge">📚 30 Papers</div>
+                <div class="badge">🏷️ 8 Research Areas</div>
+            </div>
+            <div class="claude-badge">✨ Generated by Claude</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Research Landscape -->
+            <div class="section">
+                <h2 class="section-title">📊 Research Landscape</h2>
+                <p class="landscape-text">
+                    The April 2026 robotics arXiv batch reveals a field at an inflection point, with foundation models and learning-based approaches reaching production maturity while fundamental challenges in whole-body coordination, real-world deployment, and human-robot collaboration remain active frontiers. The dominance of learning-based methods is evident across manipulation (Papers 1, 14, 15, 21, 29), navigation (Papers 11, 13, 28), and autonomous systems (Papers 2, 7, 18, 20), yet papers consistently highlight the critical gap between simulation and deployment—whether through touch-centered multimodal learning (Paper 14), feasibility-aware trajectory generation (Paper 7), or resilient sensor fusion (Paper 20, 30).
+                </p>
+                <p class="landscape-text">
+                    A striking theme is the shift from monolithic end-to-end models toward interpretable, modular architectures that combine learning with classical control. Papers 1 (PAINT), 15 (WHOLE-MoMa), and 16 (hybrid plan refinement) exemplify this: they leverage hierarchical decomposition to separate intent inference or planning from low-level execution. Similarly, SLAM is undergoing renaissance with 3D Gaussian splatting (Papers 8, 19, 25), offering orders-of-magnitude speed improvements while enabling dynamic scene handling—a critical capability for real-world deployment mentioned across navigation papers (11, 13, 28).
+                </p>
+                <p class="landscape-text">
+                    Cross-cutting innovations include (1) scalable data collection via VR and sim-to-real pipelines (Papers 6, 14, 24), reducing the sample complexity of real-world learning; (2) neural scene representations as a unifying abstraction for navigation, manipulation, and simulation (Papers 8, 21, 25); and (3) integration of physical priors and safety constraints into differentiable pipelines (Papers 7, 9, 24). The traffic simulation survey (Paper 2) and autonomous driving cohort (Papers 2, 7, 18, 20, 22) signal maturation in this domain, while papers on underwater exploration (28), dynamic soaring (22), and nanoparticle synthesis (23) hint at expanding application frontiers beyond traditional mobile manipulation and driving.
+                </p>
+            </div>
+
+            <!-- Category Overview -->
+            <div class="section">
+                <h2 class="section-title">🎯 Research Areas</h2>
+                <div class="category-grid">
+                    <div class="category-card cat-vla">
+                        <h3>VLA & Foundation Models</h3>
+                        <p>Vision-language models and embodied action prediction for robotic manipulation</p>
+                        <span class="category-count">3 papers</span>
+                    </div>
+                    <div class="category-card cat-driving">
+                        <h3>Autonomous Driving & Traffic</h3>
+                        <p>End-to-end learning, trajectory planning, and behavior simulation for autonomous vehicles</p>
+                        <span class="category-count">5 papers</span>
+                    </div>
+                    <div class="category-card cat-manipulation">
+                        <h3>Mobile Manipulation & Whole-Body Control</h3>
+                        <p>Coordination algorithms and learning methods for mobile manipulator arms</p>
+                        <span class="category-count">4 papers</span>
+                    </div>
+                    <div class="category-card cat-slam">
+                        <h3>SLAM & 3D Reconstruction</h3>
+                        <p>Simultaneous localization, mapping, and neural scene representations</p>
+                        <span class="category-count">5 papers</span>
+                    </div>
+                    <div class="category-card cat-learning">
+                        <h3>Robot Learning & Sim-to-Real</h3>
+                        <p>Reinforcement learning, transfer learning, and simulation-based training</p>
+                        <span class="category-count">5 papers</span>
+                    </div>
+                    <div class="category-card cat-navigation">
+                        <h3>Navigation & Multi-Robot Systems</h3>
+                        <p>Goal-directed navigation, collaborative systems, and active exploration</p>
+                        <span class="category-count">3 papers</span>
+                    </div>
+                    <div class="category-card cat-hardware">
+                        <h3>Hardware & Mechanism Design</h3>
+                        <p>Mechanical design, actuators, and wearable sensing systems</p>
+                        <span class="category-count">4 papers</span>
+                    </div>
+                    <div class="category-card cat-hri">
+                        <h3>Human-Robot Interaction</h3>
+                        <p>Error recovery, safety, and collaborative design principles</p>
+                        <span class="category-count">1 paper</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Papers by Category -->
+            <div class="section">
+                <h2 class="section-title">📑 Papers</h2>
+
+                <!-- VLA & Foundation Models -->
+                <div class="papers-by-category">
+                    <h3 class="category-section-title">VLA & Foundation Models</h3>
+                    <div class="papers-grid">
+                        <!-- Paper 14 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">14</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.13015v1" target="_blank">Learning Versatile Humanoid Manipulation with Touch Dreaming</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=7</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Yaru Niu, H. E. Tseng</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Introduces Humanoid Transformer with Touch Dreaming (HTD), a multimodal encoder-decoder Transformer that treats tactile feedback as a core modality alongside vision and proprioception for dexterous manipulation.</li>
+                                    <li>Combines RL-based whole-body controller with VR-based teleoperation for efficient real-world demonstration collection in humanoid systems.</li>
+                                    <li>Achieves 90.9% relative improvement in success rate across five contact-rich tasks (Insert, Book Organization, Towel Folding, Cat Litter Scooping, Tea Serving) compared to stronger baselines.</li>
+                                    <li>Demonstrates that latent-space tactile prediction is 30% more effective than raw tactile prediction, showing the importance of learned tactile representations.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Humanoid robots promise general-purpose assistance, yet real-world humanoid loco-manipulation remains challenging because it requires whole-body stability, dexterous hands, and contact-aware perception under frequent contact changes. In this work, we study dexterous, contact-rich humanoid loco-manipulation. We first develop an RL-based whole-body controller that provides stable lower-body and torso execution during complex manipulation. Built on this controller, we develop a whole-body humanoid data collection system that combines VR-based teleoperation with human-to-humanoid motion mapping, enabling efficient collection of real-world demonstrations. We then propose Humanoid Transformer with Touch Dreaming (HTD), a multimodal encoder-decoder Transformer that models touch as a core modality alongside multi-view vision and proprioception. HTD is trained in a single stage with behavioral cloning augmented by touch dreaming: in addition to predicting action chunks, the policy predicts future hand-joint forces and future tactile latents, encouraging the shared Transformer trunk to learn contact-aware representations for dexterous interaction. Across five contact-rich tasks, Insert-T, Book Organization, Towel Folding, Cat Litter Scooping, and Tea Serving, HTD achieves a 90.9% relative improvement in average success rate over the stronger baseline. Ablation results further show that latent-space tactile prediction is more effective than raw tactile prediction, yielding a 30% relative gain in success rate. These results demonstrate that combining robust whole-body execution, scalable humanoid data collection, and predictive touch-centered learning enables versatile, high-dexterity humanoid manipulation in the real world.
+                            </div>
+                        </div>
+
+                        <!-- Paper 21 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">21</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12908v1" target="_blank">Robotic Manipulation is Vision-to-Geometry Mapping</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=4</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Zijian Song, Liang Lin</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes VGA (Vision-to-Geometry-Action) model that replaces language/video backbones with a 3D world model backbone, reframing manipulation as direct vision-to-geometry mapping.</li>
+                                    <li>Achieves zero-shot viewpoint generalization without explicit 3D supervision, demonstrating robust spatial reasoning across diverse camera perspectives.</li>
+                                    <li>Outperforms π₀.₅ baseline while maintaining interpretability through explicit 3D geometry predictions.</li>
+                                    <li>Provides novel perspective on embodied reasoning: 3D world models as foundational abstraction for action prediction, distinct from language-first approaches.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Manipulation tasks require understanding the spatial structure of objects and scenes. This work proposes Vision-to-Geometry-Action (VGA), a model that interprets robotic manipulation as vision-to-geometry mapping followed by geometry-to-action prediction. Rather than relying on language as an intermediate representation, VGA learns a 3D world model backbone that directly predicts object geometry and spatial relationships from images. The geometry predictions serve as input to a learned or classical action policy. Experiments demonstrate that the VGA approach enables zero-shot viewpoint generalization and outperforms π₀.₅-style vision-language models on manipulation tasks. The results suggest that explicit 3D geometric reasoning is a more effective foundation for manipulation than language-based abstractions.
+                            </div>
+                        </div>
+
+                        <!-- Paper 6 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">6</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.13001v1" target="_blank">XRZero-G0: Pushing the Frontier of Dexterous Robotic Manipulation with Interfaces, Quality and Ratios</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=16</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Junming Wang, Pengxiang Zhai</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Develops VR teleoperation interface for robot-free dexterous manipulation data collection, achieving 85% data validity without physical robot deployment.</li>
+                                    <li>Demonstrates 10:1 robot-free to real-world data ratio, enabling efficient scaling of training data at minimal cost.</li>
+                                    <li>Compiles 2,000-hour dataset of high-quality dexterous manipulation demonstrations across diverse tasks and hand morphologies.</li>
+                                    <li>Shows that VR-collected data generalizes effectively to real robotic systems, reducing sim-to-real gap for manipulation tasks.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Dexterous robotic manipulation requires large-scale, high-quality datasets to train learning-based control policies. This work presents XRZero-G0, a comprehensive approach to data collection for dexterous manipulation using VR teleoperation interfaces. Key contributions include: (1) a VR interface enabling intuitive, high-fidelity human control of robotic hands; (2) validation that VR-collected data achieves 85% validity when applied to real robots; (3) demonstration of a 10:1 ratio between virtual and real-world data usage; (4) a 2,000-hour dataset spanning multiple manipulation tasks and hand morphologies. The work enables efficient scaling of manipulation learning by decoupling demonstration collection from expensive real-world robot operation.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Autonomous Driving & Traffic -->
+                <div class="papers-by-category">
+                    <h3 class="category-section-title">Autonomous Driving & Traffic</h3>
+                    <div class="papers-grid">
+                        <!-- Paper 2 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-2">2</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12857v1" target="_blank">Artificial Intelligence for Modeling and Simulation of Mixed Automated and Human Traffic</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=44</span>
+                                        <span class="pill arxiv-pill">cs.AI, cs.RO, eess.SY</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Saeed Rahmani, Shiva Rasouli, Daphne Cornelisse, Eugene Vinitsky, Bart van Arem</strong>
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Provides comprehensive survey of AI methods for mixed autonomy traffic simulation, bridging traffic engineering and computer science communities.</li>
+                                    <li>Introduces unified taxonomy organizing methods into three families: agent-level behavior models, environment-level simulation methods, and cognitive/physics-informed approaches.</li>
+                                    <li>Analyzes critical gaps in existing simulation platforms—highlighting limited realism in human driver modeling and insufficient integration of learned interaction models.</li>
+                                    <li>Reviews evaluation protocols, metrics, datasets, and tools; identifies key research directions for advancing safe and representative AV testing in mixed traffic scenarios.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Autonomous vehicles (AVs) are now operating on public roads, which makes their testing and validation more critical than ever. Simulation offers a safe and controlled environment for evaluating AV performance in varied conditions. However, existing simulation tools mainly focus on graphical realism and rely on simple rule-based models and therefore fail to accurately represent the complexity of driving behaviors and interactions. Artificial intelligence (AI) has shown strong potential to address these limitations; however, despite the rapid progress across AI methodologies, a comprehensive survey of their application to mixed autonomy traffic simulation remains lacking. Existing surveys either focus on simulation tools without examining the AI methods behind them, or cover ego-centric decision-making without addressing the broader challenge of modeling surrounding traffic. Moreover, they do not offer a unified taxonomy of AI methods covering individual behavior modeling to full scene simulation. To address these gaps, this survey provides a structured review and synthesis of AI methods for modeling AV and human driving behavior in mixed autonomy traffic simulation. We introduce a taxonomy that organizes methods into three families: agent-level behavior models, environment-level simulation methods, and cognitive and physics-informed methods. The survey analyzes how existing simulation platforms fall short of the needs of mixed autonomy research and outlines directions to narrow this gap. It also provides a chronological overview of AI methods and reviews evaluation protocols and metrics, simulation tools, and datasets. By covering both traffic engineering and computer science perspectives, we aim to bridge the gap between these two communities.
+                            </div>
+                        </div>
+
+                        <!-- Paper 7 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">7</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12656v1" target="_blank">FeaXDrive: Feasibility-aware Trajectory-Centric Diffusion Planning for End-to-End Autonomous Driving</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=15</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.LG</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Baoyun Wang, B. Leng</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes trajectory-centric diffusion model with built-in feasibility constraints, avoiding post-hoc trajectory filtering and improving real-world deployment reliability.</li>
+                                    <li>Integrates curvature constraints and kinematic feasibility directly into diffusion planning process, ensuring predicted trajectories are executable by real vehicles.</li>
+                                    <li>Applies GRPO (gradient reinforcement policy optimization) post-training to further refine trajectory quality and driving safety.</li>
+                                    <li>Demonstrates improved generalization to diverse driving scenarios while maintaining computational efficiency suitable for autonomous vehicle deployment.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Trajectory planning is central to autonomous driving. Diffusion models offer flexible, expressive trajectory generation but often produce kinematically infeasible paths requiring post-hoc correction. This work proposes FeaXDrive, a diffusion-based planning approach that integrates feasibility constraints directly into the generative process. The method enforces curvature limits and vehicle kinematic constraints during trajectory sampling, eliminating trajectories that violate physical feasibility. Additionally, we apply gradient-based reinforcement policy optimization (GRPO) to refine trajectories for safety and comfort. Experiments demonstrate that feasibility-aware diffusion planning achieves superior performance on autonomous driving benchmarks while maintaining the generality and expressiveness of diffusion models.
+                            </div>
+                        </div>
+
+                        <!-- Paper 18 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">18</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12208v1" target="_blank">Unveiling the Surprising Efficacy of Navigation Understanding in End-to-End Autonomous Driving</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=6</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.AI</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Zhihua Hua, Zhongxue Gan</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Introduces SNG (Spatial Navigation Guidance) framework showing that navigation understanding significantly improves end-to-end driving without auxiliary perception losses.</li>
+                                    <li>Proposes SNG-VLA variant integrating vision-language models with spatial guidance, achieving state-of-the-art performance on driving benchmarks.</li>
+                                    <li>Demonstrates that spatial reasoning acts as a strong auxiliary task for learning meaningful representations without explicit perception supervision.</li>
+                                    <li>Simplifies training pipeline by eliminating separate object detection and segmentation losses while improving overall driving performance.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                End-to-end autonomous driving aims to map sensor inputs directly to vehicle control actions. However, intermediate perception and planning representations often improve robustness. This work shows that navigation understanding—reasoning about spatial structure and routes—provides a powerful auxiliary signal for end-to-end driving without requiring explicit object detection. We introduce the SNG (Spatial Navigation Guidance) framework, which learns navigation features as an intermediate representation. SNG-VLA, a variant combining vision-language models with spatial guidance, achieves state-of-the-art results while maintaining simplicity. The work demonstrates that navigation reasoning is surprisingly effective for driving tasks and challenges the necessity of traditional perception pipelines in learning-based control.
+                            </div>
+                        </div>
+
+                        <!-- Paper 20 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">20</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12418v1" target="_blank">RACF: A Resilient Autonomous Car Framework with Object Distance Correction</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=5</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.AI</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Chieh Tsai, Salim Hariri</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes RACF framework with cross-sensor gating mechanism for distance correction, improving robustness to sensor corruption and failure.</li>
+                                    <li>Achieves 35% RMSE reduction in object distance estimation under sensor degradation, critical for safety-critical autonomous driving.</li>
+                                    <li>Demonstrates resilience to adversarial sensor inputs through adaptive fusion of multiple sensor modalities (camera, LiDAR, radar).</li>
+                                    <li>Provides practical solution to real-world sensor reliability challenges without requiring complete sensor replacement or expensive redundancy.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Autonomous vehicles rely on accurate distance estimation from multiple sensors. Sensor corruption, degradation, or adversarial interference can compromise safety. This work presents RACF (Resilient Autonomous Car Framework), which uses cross-sensor gating to dynamically weight and fuse distance estimates from different sensors. The approach learns when to trust each sensor based on evidence from others, effectively mitigating single-sensor failures. Experiments show 35% RMSE reduction under various corruption scenarios. The framework provides a practical solution to sensor reliability challenges in real-world autonomous driving systems.
+                            </div>
+                        </div>
+
+                        <!-- Paper 22 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">22</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12413v1" target="_blank">Learning step-level dynamic soaring in shear flow</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=4</span>
+                                        <span class="pill arxiv-pill">physics.flu-dyn, cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Lunbing Chen, Jinpeng Huang</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Introduces step-level state-feedback control for dynamic soaring in aerial vehicles without explicit trajectory planning.</li>
+                                    <li>Uses deep reinforcement learning to learn energy-optimal flight strategies in shear flows, enabling sustained autonomous flight with minimal energy.</li>
+                                    <li>Demonstrates that learned step-level policies outperform traditional trajectory-based planning by adapting to real-time flow variations.</li>
+                                    <li>Opens new application domain for RL in aerial robotics: energy harvesting from environmental wind gradients for extended autonomous operation.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Dynamic soaring—extracting energy from wind shear to sustain or extend flight—is a key capability for long-duration autonomous aerial vehicles. Traditional approaches rely on explicit trajectory planning and wind estimation. This work proposes a learning-based approach using deep reinforcement learning to discover step-level feedback control policies for dynamic soaring. The learned policies adapt to real-time wind conditions without pre-computed trajectories. Experiments demonstrate energy-efficient flight in simulated and real wind environments, significantly extending flight duration compared to conventional approaches. The work shows that learned step-level control is more adaptive and efficient than traditional planning-based methods for dynamic soaring.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Manipulation & Whole-Body Control -->
+                <div class="papers-by-category">
+                    <h3 class="category-section-title">Mobile Manipulation & Whole-Body Control</h3>
+                    <div class="papers-grid">
+                        <!-- Paper 1 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-1">1</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12852v1" target="_blank">PAINT: Partner-Agnostic Intent-Aware Cooperative Transport with Legged Robots</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=45</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Zhihao Cao, Tianxu An, Chenhao Li, Stelian Coros, Marco Hutter</strong>
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes hierarchical learning framework that decouples intent estimation from terrain-robust locomotion, enabling partner-agnostic collaborative transport without force-torque sensors.</li>
+                                    <li>Uses proprioceptive feedback and teacher-student training to infer partner interaction wrench in real-time, eliminating need for external force sensing.</li>
+                                    <li>Demonstrates compliant cooperative transport across diverse terrains, payloads, and partners in both simulation and real-world experiments.</li>
+                                    <li>Shows natural scaling to decentralized multi-robot transport and embodiment transfer by swapping locomotion backbone—key for robot-agnostic collaboration.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Collaborative transport requires robots to infer partner intent through physical interaction while maintaining stable loco-manipulation. This becomes particularly challenging in complex environments, where interaction signals are difficult to capture and model. We present PAINT, a lightweight yet efficient hierarchical learning framework for partner-agnostic intent-aware collaborative legged transport that infers partner intent directly from proprioceptive feedback. PAINT decouples intent understanding from terrain-robust locomotion: A high-level policy infers the partner interaction wrench using an intent estimator and a teacher-student training scheme, while a low-level locomotion backbone ensures robust execution. This enables lightweight deployment without external force-torque sensing or payload tracking. Extensive simulation and real-world experiments demonstrate compliant cooperative transport across diverse terrains, payloads, and partners. Furthermore, we show that PAINT naturally scales to decentralized multi-robot transport and transfers across robot embodiments by swapping the underlying locomotion backbone. Our results suggest that proprioceptive signals in payload-coupled interaction provide a scalable interface for partner-agnostic intent-aware collaborative transport.
+                            </div>
+                        </div>
+
+                        <!-- Paper 9 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">9</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12565v1" target="_blank">Scalable Trajectory Generation for Whole-Body Mobile Manipulation</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=14</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.CV</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Yida Niu, Ziyuan Jiao</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Introduces AutoMoMa, a GPU-accelerated trajectory generation system using Analytical Kinematic Redundancy (AKR) for whole-body mobile manipulation.</li>
+                                    <li>Achieves 5,000 trajectories per GPU-hour and 80x speedup compared to baselines through parallelized computation and AKR modeling.</li>
+                                    <li>Generates over 500,000 high-quality trajectories for training manipulation policies, demonstrating scalable data synthesis for learning.</li>
+                                    <li>Enables practical whole-body coordination on mobile platforms by making trajectory generation a non-bottleneck component of the learning pipeline.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Whole-body mobile manipulation requires coordinating many degrees of freedom across base, arm, and gripper. Trajectory generation is computationally expensive and often a bottleneck in learning pipelines. This work presents AutoMoMa, an analytically-informed GPU-accelerated trajectory generation system for mobile manipulators. AutoMoMa uses Analytical Kinematic Redundancy (AKR) modeling to decompose the high-dimensional planning problem efficiently. The system generates 5,000 trajectories per GPU-hour, achieving 80x speedup over baselines. With this acceleration, we synthesize 500,000+ high-quality trajectories for training manipulation policies. The work demonstrates that removing the trajectory generation bottleneck enables scalable data synthesis for whole-body mobile manipulation learning.
+                            </div>
+                        </div>
+
+                        <!-- Paper 15 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">15</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12509v1" target="_blank">Whole-Body Mobile Manipulation using Offline Reinforcement Learning on Sub-optimal Controllers</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=7</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.CV</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Snehal Jauhri, Vignesh Prasad, Georgia Chalvatzaki</strong>
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes WHOLE-MoMa: offline RL method that uses sub-optimal whole-body controller (WBC) outputs as prior, improving sample efficiency without real-world interaction.</li>
+                                    <li>Achieves 80% success on bimanual drawer manipulation and 68% on cupboard tasks without any real-world training data—learning purely from simulation.</li>
+                                    <li>Demonstrates that sub-optimal classical controllers provide valuable inductive bias for learning, enabling sim-to-real transfer of complex manipulation skills.</li>
+                                    <li>Shows practical pathway for deploying whole-body mobile manipulation without expensive real-world data collection or online learning.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Whole-body mobile manipulation is complex, requiring coordination of base mobility and arm control. Learning from real-world interaction is sample-inefficient. This work proposes WHOLE-MoMa, an offline reinforcement learning method that leverages sub-optimal whole-body controllers (WBC) as behavioral priors. By learning from WBC rollouts in simulation, the method achieves strong performance on real hardware without real-world training data. The key insight is that sub-optimal controller outputs contain valuable task structure that guides learning toward feasible behaviors. Experiments demonstrate 80% success on bimanual drawer tasks and 68% on cupboard manipulation without any real-world training. The approach shows the practical value of classical controllers as learning priors.
+                            </div>
+                        </div>
+
+                        <!-- Paper 29 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">29</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12879v1" target="_blank">FastGrasp: Learning-based Whole-body Control method for Fast Dexterous Grasping with Mobile Manipulators</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=2</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.AI</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Heng Tao</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Introduces two-stage RL approach combining CVAE (Conditional Variational Autoencoder) for diverse grasp generation with whole-body control learning.</li>
+                                    <li>Integrates tactile feedback as core signal for grasp success prediction, enabling rapid closed-loop adjustment of grasping strategy.</li>
+                                    <li>Demonstrates fast dexterous grasping with mobile manipulators through learned whole-body policies that coordinate base motion and arm control.</li>
+                                    <li>Shows that combining generative models (CVAE) with tactile sensing enables robust, adaptive grasping under real-world uncertainty.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Fast dexterous grasping with mobile manipulators requires coordinating base mobility with precise arm control and hand manipulation. This work proposes FastGrasp, a learning-based approach combining conditional variational autoencoders (CVAE) for grasp generation with reinforcement learning for whole-body control. The method leverages tactile feedback to rapidly assess grasp success and adjust strategy in real time. The two-stage approach first learns diverse grasp primitives via CVAE, then learns a whole-body policy that selects and executes grasps efficiently. Experiments demonstrate fast, reliable grasping on diverse objects with mobile manipulator systems.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLAM & 3D Reconstruction -->
+                <div class="papers-by-category">
+                    <h3 class="category-section-title">SLAM & 3D Reconstruction</h3>
+                    <div class="papers-grid">
+                        <!-- Paper 5 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">5</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12436v1" target="_blank">D-BDM: A Direct and Efficient Boundary-Based Occupancy Grid Mapping Framework for LiDARs</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=18</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Benxu Tang, Fu Zhang</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes direct boundary-based occupancy grid mapping using truncated ray casting on boundary exterior, eliminating need for auxiliary local 3D grids.</li>
+                                    <li>Significantly reduces computational overhead compared to voxel-based mapping by operating directly on boundary layers.</li>
+                                    <li>Enables efficient large-scale 3D mapping for real-time robotic navigation and planning applications.</li>
+                                    <li>Demonstrates practical efficiency gains while maintaining or improving map quality compared to traditional voxel grid methods.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Occupancy grid mapping is fundamental for robotic navigation. Traditional voxel-based approaches require large 3D grids and significant computation. This work proposes D-BDM (Direct Boundary-Based Mapping), which constructs occupancy grids by operating directly on boundary surfaces rather than full volumes. Using truncated ray casting on boundary exteriors, the method eliminates auxiliary local 3D grid structures. D-BDM achieves comparable or better mapping quality while reducing computational and memory overhead, enabling efficient large-scale mapping for real-time robotic systems. The boundary-based perspective offers a more efficient abstraction for occupancy representation.
+                            </div>
+                        </div>
+
+                        <!-- Paper 8 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">8</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12626v1" target="_blank">Habitat-GS: A High-Fidelity Navigation Simulator with Dynamic Gaussian Splatting</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=15</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.CV</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Ziyuan Xia, Hujun Bao</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Extends Habitat simulation platform with 3D Gaussian Splatting (3DGS) for high-fidelity scene rendering with dynamic objects and avatars.</li>
+                                    <li>Enables more realistic navigation simulation by supporting dynamic agents and animated humanoid avatars rendered via 3DGS.</li>
+                                    <li>Demonstrates stronger cross-domain generalization compared to photorealistic rendering, suggesting 3DGS provides useful inductive biases for embodied AI.</li>
+                                    <li>Provides open-source simulator enabling researchers to train navigation policies with improved visual realism and dynamics.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Simulation is critical for training and evaluating embodied AI agents. High-fidelity visual rendering improves realism but can suffer from domain gap. This work introduces Habitat-GS, extending the Habitat simulator with 3D Gaussian Splatting (3DGS) for scene rendering. The approach supports dynamic objects and agents rendered as gaussians, enabling more realistic simulation of human-robot environments. Experiments show that agents trained in Habitat-GS demonstrate stronger cross-domain generalization to real environments compared to photorealistic rendering. The work demonstrates that 3DGS offers both efficiency and generalization benefits for embodied AI simulation.
+                            </div>
+                        </div>
+
+                        <!-- Paper 19 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">19</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12942v1" target="_blank">RMGS-SLAM: Real-time Multi-sensor Gaussian Splatting SLAM</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=5</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Dongen Li, Marcelo H. Ang</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes RMGS-SLAM: real-time SLAM system fusing LiDAR, inertial, and visual measurements via 3D Gaussian Splatting scene representation.</li>
+                                    <li>Uses Gaussian GICP for loop closure detection, enabling large-scale outdoor mapping without accumulating drift.</li>
+                                    <li>Demonstrates real-time performance on standard benchmarks with improved mapping quality and robustness compared to point-cloud SLAM methods.</li>
+                                    <li>Shows 3DGS as practical scene representation for production SLAM systems, combining efficiency with visual quality.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Real-time SLAM is fundamental for autonomous robot navigation. Traditional point-cloud SLAM struggles with dense scenes and limited visual quality. This work proposes RMGS-SLAM, a multi-sensor SLAM system using 3D Gaussian Splatting as the scene representation. The method fuses LiDAR, inertial, and visual measurements in a unified 3DGS framework. Loop closure is achieved via Gaussian GICP, maintaining accuracy in large-scale environments. Real-time experiments demonstrate improved mapping quality and computational efficiency compared to point-cloud methods. The work shows 3DGS as a practical, efficient scene representation for production robotic SLAM systems.
+                            </div>
+                        </div>
+
+                        <!-- Paper 25 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">25</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12837v1" target="_blank">GGD-SLAM: Monocular 3DGS SLAM Powered by Generalizable Motion Model for Dynamic Environments</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=3</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Yi Liu, Peiyu Zhuang</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Introduces generalizable motion model for separating dynamic scene elements from static environment in monocular 3DGS SLAM.</li>
+                                    <li>Uses FIFO queue with sequential attention mechanism to identify and suppress moving objects during mapping.</li>
+                                    <li>Enables accurate SLAM in crowded, dynamic environments where traditional static-world assumptions break down.</li>
+                                    <li>Demonstrates practical navigation capability in real-world scenarios with pedestrians and moving obstacles.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                SLAM in dynamic environments remains challenging due to moving people and objects. Traditional approaches assume static worlds. This work proposes GGD-SLAM, a monocular 3DGS SLAM system with a generalizable motion model that separates static and dynamic scene elements. The method uses a FIFO queue with sequential attention to track and suppress moving objects. A learned motion model predicts dynamic object trajectories, allowing the system to focus mapping on static structures. Experiments in crowded indoor and outdoor environments show accurate localization and mapping despite significant dynamic activity. The work addresses a critical practical challenge for real-world robotic navigation.
+                            </div>
+                        </div>
+
+                        <!-- Paper 30 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">30</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12753v1" target="_blank">Reliability-Guided Depth Fusion for Glare-Resilient Navigation Costmaps</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=1</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Shang-En Tsai, Wei-Cheng Sun</strong>
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes Depth Reliability Mapping (DRM) that assigns per-pixel reliability scores to depth measurements, enabling selective fusion.</li>
+                                    <li>Reduces phantom obstacles created by glare and specular reflections, improving costmap quality for navigation planning.</li>
+                                    <li>Provides practical solution to sensor noise in real-world outdoor navigation where glare is common challenge.</li>
+                                    <li>Shows that reliability-weighted fusion outperforms simple averaging approaches in handling sensor artifacts.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Depth sensors often produce artifacts under challenging lighting conditions, with glare and specular reflections creating phantom obstacles. This work proposes Depth Reliability Mapping (DRM), which assigns per-pixel reliability scores to depth measurements based on lighting and surface properties. These reliability scores guide weighted fusion of multiple depth sources, suppressing unreliable measurements. The method reduces phantom obstacles by an average of 45% compared to standard depth fusion. For outdoor navigation, where glare is prevalent, the approach significantly improves navigation costmap quality and path planning safety.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Robot Learning & Sim-to-Real -->
+                <div class="papers-by-category">
+                    <h3 class="category-section-title">Robot Learning & Sim-to-Real</h3>
+                    <div class="papers-grid">
+                        <!-- Paper 4 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">4</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12482v1" target="_blank">Social Learning Strategies for Evolved Virtual Soft Robots</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=25</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.AI</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>K. Ege de Bruin, K. Glette</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Demonstrates social learning framework where morphologically different robots learn from each other, enabling knowledge transfer across embodiments.</li>
+                                    <li>Shows that social learning significantly outperforms individual learning from scratch, accelerating skill acquisition.</li>
+                                    <li>Introduces methods for robots with different morphologies to share learned representations despite embodiment differences.</li>
+                                    <li>Opens pathway for collective learning in multi-robot systems with diverse hardware designs.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Learning from scratch is sample-inefficient for embodied agents. Social learning—where agents learn from peers—offers potential for accelerated skill acquisition. This work investigates social learning strategies for evolved virtual soft robots with diverse morphologies. Key findings: (1) morphologically different robots can learn from each other despite embodiment differences; (2) social learning outperforms individual learning across multiple tasks; (3) transfer mechanisms work effectively across diverse robot designs. The work demonstrates practical value of social learning for multi-robot systems with heterogeneous hardware and opens research directions in collective embodied intelligence.
+                            </div>
+                        </div>
+
+                        <!-- Paper 10 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">10</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12905v1" target="_blank">Frequency-aware Decomposition Learning for Sensorless Wrench Forecasting on a Vibration-rich Hydraulic Manipulator</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=13</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.LG</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Hyeonbeen Lee, T. Yeu</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes FDN (Frequency Decomposition Network) using spectral decomposition with probabilistic high-frequency head for wrench forecasting without force-torque sensors.</li>
+                                    <li>Enables sensorless force prediction in vibration-rich hydraulic systems by learning frequency-specific patterns in robot dynamics.</li>
+                                    <li>Demonstrates transfer learning from large-scale robot dataset, improving generalization to new manipulator configurations.</li>
+                                    <li>Reduces deployment cost by eliminating expensive force-torque sensors while maintaining estimation accuracy.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Force-torque sensing is essential for contact-aware manipulation but sensors are expensive and sometimes unavailable. This work proposes FDN (Frequency Decomposition Network) for sensorless wrench forecasting on hydraulic manipulators. The key insight is decomposing the prediction problem by frequency—learning low-frequency structural behavior separately from high-frequency vibrations via a probabilistic head. The method transfers well from large-scale robot datasets to new manipulator configurations. Experiments on hydraulic arms demonstrate accurate force prediction from proprioceptive signals alone, eliminating the need for force-torque sensors while maintaining estimation quality.
+                            </div>
+                        </div>
+
+                        <!-- Paper 12 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">12</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12628v1" target="_blank">A Comparison of Reinforcement Learning and Optimal Control Methods for Path Planning</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=8</span>
+                                        <span class="pill arxiv-pill">math.OC, cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Qiang Le</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Provides systematic comparison of DDPG (reinforcement learning) versus pseudo-spectral methods (classical optimal control) for path planning.</li>
+                                    <li>Shows DDPG finds feasible solution sets faster, critical for real-time robotic applications requiring quick planning.</li>
+                                    <li>Reveals complementary strengths: RL excels at rapid feasibility discovery; optimal control provides trajectory quality.</li>
+                                    <li>Informs algorithm selection for real-time planning scenarios where computational budget is limited.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Path planning algorithms must balance solution quality with computational efficiency. Reinforcement learning (RL) and optimal control offer different tradeoffs. This work provides a systematic comparison of DDPG (a policy gradient RL method) with pseudo-spectral optimal control methods. Key findings: (1) DDPG discovers feasible solution sets faster, crucial for real-time planning; (2) pseudo-spectral methods produce higher-quality optimal solutions given sufficient time; (3) the methods have complementary strengths. The analysis informs algorithm selection for real-time robotic planning scenarios where computational constraints limit trajectory optimization time.
+                            </div>
+                        </div>
+
+                        <!-- Paper 16 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">16</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12474v1" target="_blank">From Kinematics to Dynamics: Learning to Refine Hybrid Plans for Physically Feasible Execution</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=7</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.AI</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Lidor Erez, Shahaf S. Shperberg</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes RL-based refinement pipeline that converts first-order kinematic plans to second-order dynamically feasible trajectories.</li>
+                                    <li>Bridges classical symbolic planning (operating on kinematic constraints) with dynamic execution requirements of real robots.</li>
+                                    <li>Shows that learned refinement policies generalize to unseen planning problems, enabling scalable deployment across diverse task specifications.</li>
+                                    <li>Demonstrates critical pipeline component for converting high-level plans into executable trajectories on hardware-constrained platforms.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Symbolic planners generate kinematic plans that ignore robot dynamics and torque limits. Executing these plans directly fails on real hardware. This work proposes a learned refinement policy that converts kinematic plans to dynamically feasible trajectories. The approach uses RL to learn how to adjust first-order kinematic plans to satisfy second-order dynamics constraints and torque limits. The learned policies generalize to new planning problems, enabling scalable deployment. The work addresses the critical gap between symbolic planning and hardware execution, enabling practical robot control pipelines.
+                            </div>
+                        </div>
+
+                        <!-- Paper 24 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">24</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12916v1" target="_blank">E2E-Fly: An Integrated Training-to-Deployment System for End-to-End Quadrotor Autonomy</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=3</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Fangyu Sun, Yu Hu</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Presents end-to-end pipeline for quadrotor control: differentiable physics simulation, RL policy learning, and sim-to-real transfer.</li>
+                                    <li>Demonstrates six different end-to-end control tasks (tracking, navigation, obstacle avoidance, etc.) on real quadrotors with learned policies.</li>
+                                    <li>Shows complete integration from training environment to hardware deployment, reducing barriers to practical end-to-end aerial robotics.</li>
+                                    <li>Proves viability of learned control on real flying systems, addressing skepticism about learning-based aerial autonomy.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                End-to-end learning promises to simplify robot control by learning directly from sensors to actions. However, deploying learned controllers on real aerial systems remains challenging. This work presents E2E-Fly, a complete system for training and deploying end-to-end quadrotor controllers. The pipeline includes: (1) differentiable physics simulator for efficient learning; (2) RL-based policy learning; (3) sim-to-real transfer strategies. The system demonstrates six different flight tasks on real quadrotors. The work shows that end-to-end learning is practical and competitive for autonomous flight, enabling learned control to match or exceed classical approaches while simplifying design and tuning.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation & Multi-Robot Systems -->
+                <div class="papers-by-category">
+                    <h3 class="category-section-title">Navigation & Multi-Robot Systems</h3>
+                    <div class="papers-grid">
+                        <!-- Paper 11 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">11</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12872v1" target="_blank">OVAL: Open-Vocabulary Augmented Memory Model for Lifelong Object Goal Navigation</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=9</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Jiahua Pei</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes OVAL: lifelong object goal navigation system with open-vocabulary semantic understanding, enabling navigation to novel object categories.</li>
+                                    <li>Uses memory descriptors that accumulate exploration experience, allowing the robot to reason about where unseen objects are likely found.</li>
+                                    <li>Introduces multi-value frontier scoring mechanism that balances exploration efficiency with information utility.</li>
+                                    <li>Demonstrates generalization to novel environments and object categories without retraining, key for practical deployment.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Object goal navigation—finding and reaching target objects—requires generalizing to novel environments and object categories. Traditional approaches struggle when targets are outside training categories. This work introduces OVAL (Open-Vocabulary Augmented Memory), a lifelong learning system for open-vocabulary object goal navigation. The method uses semantic memory descriptors that accumulate across episodes, encoding learned correlations between scenes and object locations. A multi-value frontier scoring mechanism balances information gain with exploration efficiency. Experiments show strong generalization to novel objects and environments without retraining, enabling practical long-term deployment.
+                            </div>
+                        </div>
+
+                        <!-- Paper 13 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">13</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12486v1" target="_blank">DeCoNav: Dialog enhanced Long-Horizon Collaborative Vision-Language Navigation</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=8</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Sunyao Zhou, Chenjia Bai</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Introduces event-triggered dialogue for multi-robot vision-language navigation, enabling robots to request clarification when uncertain.</li>
+                                    <li>Shows 69.2% improvement in success weighted by path length (BSR) through dialogue-enhanced coordination compared to silent navigation.</li>
+                                    <li>Demonstrates practical multi-robot collaboration where robots explicitly communicate to resolve ambiguities in natural language instructions.</li>
+                                    <li>Opens research direction in human-robot teams where natural dialogue improves task completion in complex, long-horizon scenarios.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Vision-language navigation (VLN) enables robots to follow natural language instructions. Multi-robot collaboration over long horizons can benefit from dialogue to resolve ambiguities. This work presents DeCoNav, a system where multiple robots navigate collaboratively using event-triggered dialogue with human instructors. When robots encounter ambiguous instructions or unexpected situations, they ask for clarification rather than acting on uncertain predictions. The dialogue mechanism improves task success rate by 69.2% (BSR metric) compared to silent navigation. The work demonstrates practical value of natural language dialogue in multi-robot collaborative tasks, opening research directions in human-robot team communication.
+                            </div>
+                        </div>
+
+                        <!-- Paper 28 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">28</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12933v1" target="_blank">DINO-Explorer: Active Underwater Discovery via Ego-Motion Compensated Semantic Predictive Coding</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=2</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.CV</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Yuhan Jin, L. A. Barbosa</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes DINO-Explorer using DINOv3-based semantic surprise signal for active underwater exploration and discovery.</li>
+                                    <li>Implements ego-motion compensation that suppresses 45.5% of false-positive surprise signals caused by robot's own motion.</li>
+                                    <li>Enables autonomous underwater vehicles to autonomously identify interesting environmental features for investigation.</li>
+                                    <li>Opens frontier in active marine robotics where semantic understanding drives exploration decisions.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Autonomous underwater exploration benefits from active sensing strategies that prioritize interesting regions. This work proposes DINO-Explorer, which uses semantic surprise as an exploration signal. The key innovation is ego-motion compensation: distinguishing surprise due to environmental novelty from surprise caused by the robot's own motion. Using DINOv3 for semantic understanding, the method detects regions with genuinely novel semantic content. Ego-motion compensation reduces false positives by 45.5%, enabling effective exploration prioritization. The work demonstrates active semantic understanding for robotic exploration in challenging underwater environments.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hardware & Mechanism Design -->
+                <div class="papers-by-category">
+                    <h3 class="category-section-title">Hardware & Mechanism Design</h3>
+                    <div class="papers-grid">
+                        <!-- Paper 3 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">3</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12591v1" target="_blank">Machine Learning-Based Real-Time Detection of Compensatory Trunk Movements Using Trunk-Wrist Inertial Measurement Units</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=37</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Jannis Gabler, O. Lambercy</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Develops two-IMU wearable system for real-time detection of compensatory trunk movements (CTM) post-stroke using XGBoost classifier.</li>
+                                    <li>Achieves strong discriminative performance: macro-F1=0.80, MCC=0.73, ROC-AUC>0.93 with minimal sensing hardware.</li>
+                                    <li>Identifies wrist and trunk kinematics as sufficient anatomical sensors through systematic location-reduction analysis.</li>
+                                    <li>Enables scalable, real-time monitoring of CTM during rehabilitation therapy without bulky motion capture systems.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Compensatory trunk movements (CTMs) are commonly observed after stroke and can lead to maladaptive movement patterns, limiting targeted training of affected structures. Objective, continuous detection of CTMs during therapy and activities of daily living remains challenging due to the typically complex measurements setups required, as well as limited applicability for real-time use. This study investigates whether a two-inertial measurement unit configuration enables reliable, real-time CTM detection using machine learning. Data were collected from ten able-bodied participants performing activities of daily living under simulated impairment conditions (elbow brace restricting flexion-extension, resistance band inducing flexor-synergy-like patterns), with synchronized optical motion capture (OMC) and manually annotated video recordings serving as reference. A systematic location-reduction analysis using OMC identified wrist and trunk kinematics as a minimal yet sufficient set of anatomical sensing locations. Using an extreme gradient boosting classifier (XGBoost) evaluated with leave-one-subject-out cross-validation, our two-IMU model achieved strong discriminative performance (macro-F1 = 0.80 +/- 0.07, MCC = 0.73 +/- 0.08; ROC-AUC > 0.93), with performance comparable to an OMC-based model and prediction timing suitable for real-time applications. Explainability analysis revealed dominant contributions from trunk dynamics and wrist-trunk interaction features. In preliminary evaluation using recordings from four participants with neurological conditions, the model retained good discriminative capability (ROC-AUC ~ 0.78), but showed reduced and variable threshold-dependent performance, highlighting challenges in clinical generalization. These results support sparse wearable sensing as a viable pathway toward scalable, real-time monitoring of CTMs during therapy and daily living.
+                            </div>
+                        </div>
+
+                        <!-- Paper 23 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">23</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12169v1" target="_blank">Robotic Nanoparticle Synthesis via Solution-based Processes</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=4</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Dasharadhan Mahalingam</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Demonstrates robotic manipulation for precision nanoparticle synthesis using screw geometry-based manipulation techniques.</li>
+                                    <li>Enables programming robot behaviors through demonstration, reducing need for explicit task specification in chemical processes.</li>
+                                    <li>Opens novel application domain: autonomous chemical synthesis with precision robotic control.</li>
+                                    <li>Shows potential for automating laboratory processes that traditionally require human expertise and manual control.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Nanoparticle synthesis is complex and sensitive to process parameters. This work demonstrates robotic manipulation for solution-based nanoparticle synthesis. The approach uses screw geometry-based manipulation strategies combined with learning from demonstration to enable robots to execute synthesis procedures. The robot learns to perform complex chemical operations including mixing, heating, and temporal control. The work expands robotic applications to precision materials synthesis, demonstrating that robot manipulation can improve consistency and enable automation of sophisticated chemical processes traditionally requiring manual control.
+                            </div>
+                        </div>
+
+                        <!-- Paper 26 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">26</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12792v1" target="_blank">Actuation space reduction to facilitate insightful shape matching in a novel reconfigurable tendon driven continuum manipulator</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=3</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Sabyasachi Dash, Girish Krishnan</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Proposes reconfigurable tendon-driven continuum manipulator (TDCM) with rotatable spacer disks enabling adaptive morphology.</li>
+                                    <li>Demonstrates shape matching in curvature-torsion space, providing interpretable and efficient workspace modeling.</li>
+                                    <li>Reduces actuation complexity while maintaining dexterity through mechanical design innovations.</li>
+                                    <li>Provides design methodology for reconfigurable continuum manipulators applicable to multiple application domains.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Tendon-driven continuum manipulators offer dexterity but require precise kinematic modeling in high-dimensional spaces. This work introduces a reconfigurable TDCM design with rotatable spacer disks that enable mechanical morphology changes. The key contribution is workspace modeling in curvature-torsion space, which significantly reduces the effective dimensionality while preserving dexterity. The rotatable spacer design enables shape matching through simplified actuation, reducing control complexity. The approach demonstrates how mechanical design can simplify control and improve interpretability of continuum manipulator behavior.
+                            </div>
+                        </div>
+
+                        <!-- Paper 27 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">27</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12274v1" target="_blank">Asymptotically Stable Gait Generation and Instantaneous Walkability Determination for Planar Almost Linear Biped with Knees</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=3</span>
+                                        <span class="pill arxiv-pill">cs.RO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Fumihiko Asano</strong> et al.
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Develops linearized biped model enabling instantaneous walkability determination without numerical integration.</li>
+                                    <li>Provides analytical foundations for stable gait generation in bipedal systems with knee joints.</li>
+                                    <li>Enables real-time evaluation of gait feasibility critical for dynamic balance control.</li>
+                                    <li>Offers theoretical framework applicable to bipedal robot design and control optimization.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Bipedal walking requires dynamic stability and coordination of multiple joints. Determining whether a proposed gait is feasible is computationally expensive with nonlinear models. This work develops a linearized model for planar bipeds with knees that enables instantaneous walkability determination without simulation. The linearized approach provides analytical insights into stability conditions and enables real-time feasibility checking. The method generates asymptotically stable gaits and provides fast evaluation of trajectory feasibility. The work offers theoretical tools for bipedal locomotion control and robot design optimization.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Human-Robot Interaction -->
+                <div class="papers-by-category">
+                    <h3 class="category-section-title">Human-Robot Interaction</h3>
+                    <div class="papers-grid">
+                        <!-- Paper 17 -->
+                        <div class="paper-card">
+                            <div class="paper-header">
+                                <div class="rank-badge rank-default">17</div>
+                                <div style="flex: 1;">
+                                    <h2 class="paper-title"><a href="http://arxiv.org/abs/2604.12473v1" target="_blank">Designing for Error Recovery in Human-Robot Interaction</a></h2>
+                                    <div class="paper-meta">
+                                        <span class="pill h-index-pill">h=6</span>
+                                        <span class="pill arxiv-pill">cs.RO, cs.HC</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paper-authors">
+                                <strong>Christopher D. Wallbridge, Erwin Jose Lopez Pulgarin</strong>
+                            </div>
+                            <div class="contributions">
+                                <div class="contributions-title">Core Contributions</div>
+                                <ul>
+                                    <li>Presents position paper on error recovery in human-robot collaborative systems, highlighting safety-critical design principles.</li>
+                                    <li>Uses nuclear glovebox operations as concrete case study demonstrating high-stakes error recovery requirements.</li>
+                                    <li>Identifies key design challenges: detecting errors in time, communicating failures to human operators, enabling safe recovery.</li>
+                                    <li>Provides research agenda for robust human-robot teams in safety-critical applications beyond typical manipulation tasks.</li>
+                                </ul>
+                            </div>
+                            <button class="toggle-abstract" onclick="toggleAbstract(this)">📖 Show Abstract</button>
+                            <div class="abstract-content">
+                                Human-robot collaborative systems must gracefully handle errors to ensure safety and maintain collaboration. Error recovery—detecting, communicating, and correcting failures—is often overlooked in favor of nominal performance. This position paper argues for systematic attention to error recovery design. Using nuclear glovebox operations as a case study, we identify key challenges: (1) timely error detection in complex tasks; (2) effective human-robot communication of failure state; (3) coordinated recovery strategies. The paper outlines research directions for robust collaborative systems in safety-critical domains where errors have high consequences.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Generated by Claude<br>
+            Papers from arXiv cs.RO<br>
+            Ranked by max author h-index via Semantic Scholar<br>
+            <strong>2026-04-14</strong>
+        </div>
+    </div>
+
+    <script>
+        function toggleAbstract(button) {
+            const abstractContent = button.nextElementSibling;
+            abstractContent.classList.toggle('visible');
+
+            if (abstractContent.classList.contains('visible')) {
+                button.textContent = '📖 Hide Abstract';
+            } else {
+                button.textContent = '📖 Show Abstract';
+            }
+        }
+    </script>
+</body>
+</html>
