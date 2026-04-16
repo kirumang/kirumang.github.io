@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotics arXiv Digest — 2026-04-15</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; background: #f0f2f5; color: #1a1a2e; line-height: 1.6; }
+  .container { max-width: 900px; margin: 0 auto; padding: 20px 16px; }
+  header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; padding: 32px 28px; border-radius: 16px; margin-bottom: 28px; }
+  header h1 { font-size: 1.9em; margin-bottom: 8px; }
+  header .meta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 12px; }
+  header .meta-pill { background: rgba(255,255,255,0.15); padding: 4px 14px; border-radius: 20px; font-size: 0.88em; }
+  .badge-claude { background: rgba(217,143,64,0.85); padding: 4px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 600; }
+  .landscape { background: white; border-radius: 14px; padding: 28px; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .landscape h2 { font-size: 1.35em; margin-bottom: 16px; color: #1a1a2e; }
+  .landscape p { margin-bottom: 14px; color: #333; font-size: 0.97em; }
+  .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .cat-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); border-left: 4px solid #ccc; }
+  .cat-card h3 { font-size: 1.0em; margin-bottom: 6px; }
+  .cat-card .cat-desc { font-size: 0.84em; color: #666; margin-bottom: 8px; }
+  .cat-card ul { list-style: none; padding: 0; }
+  .cat-card ul li { font-size: 0.82em; color: #444; padding: 2px 0; }
+  .cat-card ul li::before { content: "•"; margin-right: 6px; color: #999; }
+  .section-header { padding: 16px 22px; border-radius: 12px; margin: 28px 0 16px 0; color: white; font-size: 1.15em; font-weight: 700; }
+  .paper-card { background: white; border-radius: 12px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; overflow: hidden; transition: box-shadow 0.2s; }
+  .paper-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .paper-rank { min-width: 68px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 18px 8px; gap: 8px; background: #fafafa; }
+  .rank-num { font-size: 1.5em; font-weight: 800; color: #888; }
+  .rank-gold { color: #d4a017; }
+  .h-badge { background: #e3f0ff; color: #1a6dd4; font-size: 0.75em; font-weight: 700; padding: 3px 10px; border-radius: 12px; white-space: nowrap; }
+  .paper-body { padding: 18px 20px; flex: 1; min-width: 0; }
+  .paper-title { font-size: 1.05em; font-weight: 700; margin-bottom: 8px; }
+  .paper-title a { color: #1a1a2e; text-decoration: none; }
+  .paper-title a:hover { color: #0f3460; text-decoration: underline; }
+  .paper-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .pill { background: #f0f2f5; padding: 2px 10px; border-radius: 10px; font-size: 0.78em; color: #555; }
+  .pill-cat { background: #eef4ff; color: #3366aa; }
+  .pill-author { background: #fff4e5; color: #996600; }
+  .authors-list { font-size: 0.85em; color: #666; margin-bottom: 10px; }
+  .contributions-label { font-size: 0.82em; font-weight: 700; color: #444; margin-bottom: 4px; }
+  .contributions ul { list-style: none; padding: 0; }
+  .contributions ul li { font-size: 0.88em; color: #333; padding: 3px 0; padding-left: 16px; position: relative; }
+  .contributions ul li::before { content: "▸"; position: absolute; left: 0; color: #0f3460; }
+  .abstract-toggle { margin-top: 10px; }
+  .abstract-toggle summary { cursor: pointer; font-size: 0.84em; color: #0f3460; font-weight: 600; user-select: none; }
+  .abstract-toggle summary:hover { text-decoration: underline; }
+  .abstract-text { margin-top: 8px; font-size: 0.85em; color: #555; line-height: 1.55; padding: 12px; background: #f8f9fa; border-radius: 8px; }
+  footer { text-align: center; padding: 28px 16px; color: #999; font-size: 0.82em; }
+
+  /* Category colors */
+  .cat-vla { border-left-color: #e74c3c; }
+  .sec-vla { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+  .cat-learning { border-left-color: #3498db; }
+  .sec-learning { background: linear-gradient(135deg, #3498db, #2980b9); }
+  .cat-perception { border-left-color: #2ecc71; }
+  .sec-perception { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+  .cat-driving { border-left-color: #f39c12; }
+  .sec-driving { background: linear-gradient(135deg, #f39c12, #e67e22); }
+  .cat-uav { border-left-color: #9b59b6; }
+  .sec-uav { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+  .cat-control { border-left-color: #1abc9c; }
+  .sec-control { background: linear-gradient(135deg, #1abc9c, #16a085); }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.4em; }
+    .paper-rank { min-width: 50px; padding: 12px 4px; }
+    .rank-num { font-size: 1.2em; }
+    .paper-body { padding: 14px; }
+    .categories-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>🤖 Robotics arXiv Digest</h1>
+  <p style="opacity:0.85; font-size:0.95em;">Tuesday, April 15, 2026</p>
+  <div class="meta">
+    <span class="meta-pill">📄 27 papers</span>
+    <span class="meta-pill">📂 6 research areas</span>
+    <span class="badge-claude">✨ Generated by Claude</span>
+  </div>
+</header>
+
+<!-- RESEARCH LANDSCAPE -->
+<div class="landscape">
+  <h2>🔭 Research Landscape</h2>
+
+  <p>Today's batch reveals a robotics community deeply invested in <strong>bridging foundation models with physical control</strong>. Six papers (VLAJS, HiVLA, EEAgent, Goal2Skill, ESCAPE, EmbodiedClaw) all tackle the same fundamental tension: Vision-Language-Action models offer powerful semantic reasoning but struggle with precise, high-frequency motor execution. The emerging consensus is hierarchical decoupling — using VLMs for planning and separate action experts for control — with HiVLA's cascaded cross-attention DiT and VLAJS's annealed directional regularization representing two distinct integration strategies. Goal2Skill and ESCAPE both emphasize that persistent memory and closed-loop recovery are non-negotiable for long-horizon tasks, with ESCAPE's depth-free spatial memory being particularly notable for its lightweight approach.</p>
+
+  <p>A second strong theme is the <strong>maturation of radar-based perception</strong> as a viable alternative to vision and LiDAR. RadarSplat-RIO introduces the first radar bundle adjustment via Gaussian Splatting, achieving 90% translational error reduction over prior methods. UNRIO pushes further by operating directly on raw IQ signals rather than processed point clouds, while frequency-domain radar processing for multi-object tracking challenges the dominant feature-based paradigm. Together, these papers signal that radar SLAM is transitioning from proof-of-concept to competitive performance.</p>
+
+  <p>Cross-cutting both themes, there is growing attention to <strong>understanding why training strategies work</strong>, not just whether they work. The Sim-and-Real Co-Training analysis identifies two mechanistic effects (structured representation alignment and importance reweighting) underlying co-training's success, while the Diffusion Sequence Models paper systematically compares deterministic and generative meta-models for system identification. This analytical turn — papers that explain mechanisms rather than just report benchmarks — suggests the field is maturing beyond pure empirical scaling toward principled design of robot learning systems.</p>
+</div>
+
+<!-- CATEGORY OVERVIEW -->
+<div class="categories-grid">
+  <div class="cat-card cat-vla">
+    <h3>🧠 VLA &amp; Foundation Models</h3>
+    <p class="cat-desc">Hierarchical VLA architectures, VLM-based planning, and embodied agents leveraging large-scale pretraining for manipulation.</p>
+    <ul>
+      <li>VLAJS — VLA-guided RL jump-starting</li>
+      <li>HiVLA — Visual-grounded hierarchical VLA</li>
+      <li>EEAgent — Self-evolving embodied agent</li>
+      <li>EmbodiedClaw — Conversational AI dev workflow</li>
+      <li>Goal2Skill — Adaptive long-horizon planning</li>
+      <li>ESCAPE — Episodic spatial memory manipulation</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-learning">
+    <h3>🔬 Robot Learning &amp; Simulation</h3>
+    <p class="cat-desc">Sim-to-real transfer, meta-learning for dynamics, failure detection, reward design, and data collection infrastructure.</p>
+    <ul>
+      <li>Diffusion Meta-Learning — Generative dynamics</li>
+      <li>FIDeL — Failure detection in imitation learning</li>
+      <li>Sim-Real Co-Training — Mechanistic analysis</li>
+      <li>CoUR — LLM-guided reward functions</li>
+      <li>UMI-3D — LiDAR-enhanced data collection</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-perception">
+    <h3>📡 Perception, Radar &amp; SLAM</h3>
+    <p class="cat-desc">Radar-centric odometry and tracking, Gaussian splatting for radar BA, and 360° robotic vision systems.</p>
+    <ul>
+      <li>RobotPan — 360° surround-view Gaussians</li>
+      <li>RadarSplat-RIO — Radar bundle adjustment</li>
+      <li>UNRIO — Raw IQ radar-inertial odometry</li>
+      <li>Radar MOT — Frequency-domain tracking</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-driving">
+    <h3>🚗 Autonomous Driving &amp; Motion Planning</h3>
+    <p class="cat-desc">Hybrid MPC-RL driving, composable planner frameworks, pedestrian comfort, and sampling-based extraction planning.</p>
+    <ul>
+      <li>MPC-RL — Coupled control for intersections</li>
+      <li>Mosaic — Composable rule+learned planners</li>
+      <li>Pedestrian Comfort — Empirical prediction</li>
+      <li>Scale-Invariant Sampling — Object extraction</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-uav">
+    <h3>🛸 UAV &amp; Multi-Robot Systems</h3>
+    <p class="cat-desc">UAV vision-language navigation, energy-aware UAV routing, and adaptive edge computing for human-robot environments.</p>
+    <ul>
+      <li>UAV-VLN Survey — Comprehensive roadmap</li>
+      <li>Edge Architectures — Self-adaptive computing</li>
+      <li>BER — Wind-aware UAV delivery routing</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-control">
+    <h3>⚙️ Control, Kinematics &amp; Hardware</h3>
+    <p class="cat-desc">Passive walking stability, neuromorphic sensing, surgical microrobots, neuro-fuzzy control, and singularity-robust IK.</p>
+    <ul>
+      <li>Rimless Wheel — Passive walking stability</li>
+      <li>Neuromorphic Ring Attractor — Joint estimation</li>
+      <li>Nematode Microrobot — Vascular surgery</li>
+      <li>DGFNC — Fuzzy-neuro parallel robot control</li>
+      <li>Singularity IK — Unified survey &amp; benchmark</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 1: VLA & Foundation Models -->
+<!-- ============================================ -->
+<div class="section-header sec-vla">🧠 VLA &amp; Foundation Models</div>
+
+<!-- Paper: VLAJS -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num rank-gold">2</span>
+    <span class="h-badge">h=25</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13733v1" target="_blank">Jump-Start Reinforcement Learning with Vision-Language-Action Regularization</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.LG</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">L. Roveda · h=25</span>
+    </div>
+    <div class="authors-list">Angelo Moroncelli, Roberto Zanetti, Marco Maccarini, Loris Roveda</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Introduces a directional action-consistency regularization that softly aligns RL actions with VLA suggestions during early training, avoiding the brittleness of strict imitation or demonstration requirements</li>
+        <li>VLA guidance is applied sparsely and annealed over time, so the RL agent can eventually surpass the guiding policy — unlike distillation approaches that permanently anchor to the teacher</li>
+        <li>Reduces required environment interactions by over 50% on several tasks compared to vanilla PPO, addressing the core sample efficiency bottleneck in sparse-reward manipulation</li>
+        <li>Demonstrates zero-shot sim-to-real transfer on a real Franka Panda under clutter, object variation, and external perturbations — validating that the VLA regularization does not compromise transfer robustness</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Reinforcement learning (RL) enables high-frequency, closed-loop control for robotic manipulation, but scaling to long-horizon tasks with sparse or imperfect rewards remains difficult due to inefficient exploration and poor credit assignment. Vision-Language-Action (VLA) models leverage large-scale multimodal pretraining to provide generalist, task-level reasoning, but current limitations hinder their direct use in fast and precise manipulation. In this paper, we propose Vision-Language-Action Jump-Starting (VLAJS), a method that bridges sparse VLA guidance with on-policy RL to improve exploration and learning efficiency. VLAJS treats VLAs as transient sources of high-level action suggestions that bias early exploration and improve credit assignment, while preserving the high-frequency, state-based control of RL. Our approach augments Proximal Policy Optimization (PPO) with a directional action-consistency regularization that softly aligns the RL agent's actions with VLA guidance during early training, without enforcing strict imitation, requiring demonstrations, or relying on continuous teacher queries. VLA guidance is applied sparsely and annealed over time, allowing the agent to adapt online and ultimately surpass the guiding policy. We evaluate VLAJS on six challenging manipulation tasks: lifting, pick-and-place, peg reorientation, peg insertion, poking, and pushing in simulation, and validate a subset on a real Franka Panda robot. VLAJS consistently outperforms PPO and distillation-style baselines in sample efficiency, reducing required environment interactions by over 50% in several tasks. Real-world experiments demonstrate zero-shot sim-to-real transfer and robust execution under clutter, object variation, and external perturbations.</div></details>
+  </div>
+</div>
+
+<!-- Paper: HiVLA -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">12</span>
+    <span class="h-badge">h=8</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14125v1" target="_blank">HiVLA: A Visual-Grounded-Centric Hierarchical Embodied Manipulation System</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Jiangmiao Pang · h=8</span>
+    </div>
+    <div class="authors-list">Tianshuo Yang, Guanyu Chen, Yutian Chen, Zhixuan Liang, Yitian Liu</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Decouples VLM planning from motor control by having the VLM output structured plans (subtask + bounding box) rather than raw actions — preserving zero-shot reasoning that fine-tuning on control data typically destroys</li>
+        <li>Introduces a cascaded cross-attention mechanism in a flow-matching Diffusion Transformer that sequentially fuses global context, high-resolution object crops, and skill semantics for precise execution</li>
+        <li>Significantly outperforms end-to-end VLA baselines on long-horizon skill composition and fine-grained manipulation of small objects in cluttered scenes — the exact scenarios where monolithic models struggle most</li>
+        <li>The decoupled architecture enables independent improvement of the planner and executor, offering a more modular path to scaling than retraining entire VLA models</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">While end-to-end Vision-Language-Action (VLA) models offer a promising paradigm for robotic manipulation, fine-tuning them on narrow control data often compromises the profound reasoning capabilities inherited from their base Vision-Language Models (VLMs). To resolve this fundamental trade-off, we propose HiVLA, a visual-grounded-centric hierarchical framework that explicitly decouples high-level semantic planning from low-level motor control. In high-level part, a VLM planner first performs task decomposition and visual grounding to generate structured plans, comprising a subtask instruction and a precise target bounding box. Then, to translate this plan into physical actions, we introduce a flow-matching Diffusion Transformer (DiT) action expert in low-level part equipped with a novel cascaded cross-attention mechanism. This design sequentially fuses global context, high-resolution object-centric crops and skill semantics, enabling the DiT to focus purely on robust execution. Our decoupled architecture preserves the VLM's zero-shot reasoning while allowing independent improvement of both components. Extensive experiments in simulation and the real world demonstrate that HiVLA significantly outperforms state-of-the-art end-to-end baselines, particularly excelling in long-horizon skill composition and the fine-grained manipulation of small objects in cluttered scenes.</div></details>
+  </div>
+</div>
+
+<!-- Paper: EEAgent -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">6</span>
+    <span class="h-badge">h=14</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13533v1" target="_blank">Evolvable Embodied Agent for Robotic Manipulation via Long Short-Term Reflection and Optimization</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-author">Xulong Zhang · h=14</span>
+    </div>
+    <div class="authors-list">Jianzong Wang, Botao Zhao, Yayun He, Junqing Peng, Xulong Zhang</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Proposes a long short-term reflective optimization (LSTRO) mechanism that dynamically refines VLM prompts using both accumulated past experience and newly learned lessons — enabling continuous self-improvement without retraining</li>
+        <li>Unlike prior prompt-learning methods that treat all past experiences uniformly, LSTRO separately distills long-term patterns (persistent knowledge) from short-term corrections (task-specific fixes)</li>
+        <li>Sets new state-of-the-art on six VIMA-Bench tasks, with the largest gains in complex multi-step scenarios where prior methods plateau</li>
+        <li>Demonstrates that meaningful introspection on failures — not just success replay — is the key driver of self-evolution in embodied agents</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Achieving general-purpose robotics requires empowering robots to adapt and evolve based on their environment and feedback. Traditional methods face limitations such as extensive training requirements, difficulties in cross-task generalization, and lack of interpretability. Prompt learning offers new opportunities for self-evolving robots without extensive training, but simply reflecting on past experiences.However, extracting meaningful insights from task successes and failures remains a challenge. To this end, we propose the evolvable embodied agent (EEAgent) framework, which leverages large vision-language models (VLMs) for better environmental interpretation and policy planning. To enhance reflection on past experiences, we propose a long short-term reflective optimization (LSTRO) mechanism that dynamically refines prompts based on both past experiences and newly learned lessons, facilitating continuous self-evolution, thereby enhancing overall task success rates. Evaluations on six VIMA-Bench tasks reveal that our approach sets a new state-of-the-art, notably outperforming baselines in complex scenarios.</div></details>
+  </div>
+</div>
+
+<!-- Paper: EmbodiedClaw -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">16</span>
+    <span class="h-badge">h=6</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13800v1" target="_blank">EmbodiedClaw: Conversational Workflow Execution for Embodied AI Development</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Guiyao Tie · h=6</span>
+    </div>
+    <div class="authors-list">Xueyang Zhou, Yihan Sun, Xijie Gong, Guiyao Tie, Pan Zhou</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Introduces a paradigm shift from manual toolchains to conversationally executable workflows — users describe embodied AI development goals in natural language and the system plans and executes the pipeline</li>
+        <li>Turns high-frequency research activities (environment creation, trajectory synthesis, model evaluation, asset expansion) into composable, executable skills orchestrated by a conversational agent</li>
+        <li>Human researcher studies show reduced manual engineering effort while improving executability, consistency, and reproducibility of embodied AI experiments</li>
+        <li>Addresses the growing engineering bottleneck as embodied AI moves to multi-task, multi-scene, multi-model settings where manual pipeline management becomes unsustainable</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Embodied AI research is increasingly moving beyond single-task, single-environment policy learning toward multi-task, multi-scene, and multi-model settings. This shift substantially increases the engineering overhead and development time required for stages such as evaluation environment construction, trajectory collection, model training, and evaluation. To address this challenge, we propose a new paradigm for embodied AI development in which users express goals and constraints through conversation, and the system automatically plans and executes the development workflow. We instantiate this paradigm with EmbodiedClaw, a conversational agent that turns high-frequency, high-cost embodied research activities, including environment creation and revision, benchmark transformation, trajectory synthesis, model evaluation, and asset expansion, into executable skills. Experiments on end-to-end workflow tasks, capability-specific evaluations, human researcher studies, and ablations show that EmbodiedClaw reduces manual engineering effort while improving executability, consistency, and reproducibility. These results suggest a shift from manual toolchains to conversationally executable workflows for embodied AI development.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Goal2Skill -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">21</span>
+    <span class="h-badge">h=4</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13942v1" target="_blank">Goal2Skill: Long-Horizon Manipulation with Adaptive Planning and Reflection</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Zejun Yang · h=4</span>
+    </div>
+    <div class="authors-list">Zhen Liu, Xinyu Ning, Zhe Hu, Xinxin Xie, Weize Li</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Proposes a dual-system framework that separates VLM-based agentic planning (with structured task memory, goal decomposition, outcome verification) from VLA-based diffusion action generation — creating a closed planning-execution loop</li>
+        <li>Achieves 32.4% average success rate on RMBench long-horizon tasks vs. 9.8% for the strongest baseline — a 3.3× improvement driven by memory-aware reasoning and adaptive replanning</li>
+        <li>Uses geometry-preserving filtered observations for the low-level executor, addressing the visual noise that degrades diffusion-based action generation in cluttered environments</li>
+        <li>Ablation studies confirm that structured memory and closed-loop error recovery are independently essential — removing either causes disproportionate performance drops on multi-stage tasks</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Recent vision-language-action (VLA) systems have demonstrated strong capabilities in embodied manipulation. However, most existing VLA policies rely on limited observation windows and end-to-end action prediction, which makes them brittle in long-horizon, memory-dependent tasks with partial observability, occlusions, and multi-stage dependencies. Such tasks require not only precise visuomotor control, but also persistent memory, adaptive task decomposition, and explicit recovery from execution failures. To address these limitations, we propose a dual-system framework for long-horizon embodied manipulation. Our framework explicitly separates high-level semantic reasoning from low-level motor execution. A high-level planner, implemented as a VLM-based agentic module, maintains structured task memory and performs goal decomposition, outcome verification, and error-driven correction. A low-level executor, instantiated as a VLA-based visuomotor controller, carries out each sub-task through diffusion-based action generation conditioned on geometry-preserving filtered observations. Together, the two systems form a closed loop between planning and execution, enabling memory-aware reasoning, adaptive replanning, and robust online recovery. Experiments on representative RMBench tasks show that the proposed framework substantially outperforms representative baselines, achieving a 32.4% average success rate compared with 9.8% for the strongest baseline. Ablation studies further confirm the importance of structured memory and closed-loop recovery for long-horizon manipulation.</div></details>
+  </div>
+</div>
+
+<!-- Paper: ESCAPE -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">23</span>
+    <span class="h-badge">h=3</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13633v1" target="_blank">ESCAPE: Episodic Spatial Memory and Adaptive Execution Policy for Long-Horizon Mobile Manipulation</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Li Jiang · h=3</span>
+    </div>
+    <div class="authors-list">Jingjing Qian, Zeyuan He, Chen Shi, Lei Xiao, Li Jiang</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Builds a depth-free, persistent 3D spatial memory via autoregressive spatio-temporal fusion — eliminating the need for depth sensors that add cost and fail in reflective or transparent surfaces</li>
+        <li>Introduces an adaptive execution policy that dynamically switches between proactive global navigation and reactive local manipulation to opportunistically engage targets, reducing redundant exploration</li>
+        <li>Achieves 65.09% (seen) and 60.79% (unseen) success rates on ALFRED benchmark — state-of-the-art — with particularly strong path-length-weighted metrics indicating efficient trajectories</li>
+        <li>Maintains robust performance (61.24%/56.04%) even without step-by-step instructions, demonstrating that the spatial memory enables autonomous task inference over long horizons</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Coordinating navigation and manipulation with robust performance is essential for embodied AI in complex indoor environments. However, as tasks extend over long horizons, existing methods often struggle due to catastrophic forgetting, spatial inconsistency, and rigid execution. To address these issues, we propose ESCAPE (Episodic Spatial Memory Coupled with an Adaptive Policy for Execution), operating through a tightly coupled perception-grounding-execution workflow. For robust perception, ESCAPE features a Spatio-Temporal Fusion Mapping module to autoregressively construct a depth-free, persistent 3D spatial memory, alongside a Memory-Driven Target Grounding module for precise interaction mask generation. To achieve flexible action, our Adaptive Execution Policy dynamically orchestrates proactive global navigation and reactive local manipulation to seize opportunistic targets. ESCAPE achieves state-of-the-art performance on the ALFRED benchmark, reaching 65.09% and 60.79% success rates in test seen and unseen environments with step-by-step instructions. By reducing redundant exploration, our ESCAPE attains substantial improvements in path-length-weighted metrics and maintains robust performance (61.24% / 56.04%) even without detailed guidance for long-horizon tasks.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 2: Robot Learning & Simulation -->
+<!-- ============================================ -->
+<div class="section-header sec-learning">🔬 Robot Learning &amp; Simulation</div>
+
+<!-- Paper: Diffusion Sequence Models -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num rank-gold">3</span>
+    <span class="h-badge">h=25</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13366v1" target="_blank">Diffusion Sequence Models for Generative In-Context Meta-Learning of Robot Dynamics</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.LG</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-author">L. Roveda · h=25</span>
+    </div>
+    <div class="authors-list">Angelo Moroncelli, Matteo Rufolo, Gunes Cagin Aydin, Asad Ali Shahid, Loris Roveda</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Frames system identification as an in-context meta-learning problem, enabling models to adapt to new dynamics from a short context window without retraining — critical for real-time adaptive control</li>
+        <li>Introduces inpainting diffusion (learning joint input-observation distributions) alongside conditioned diffusion models, showing that inpainting achieves the best out-of-distribution robustness by capturing richer correlations</li>
+        <li>Demonstrates that warm-started sampling allows diffusion models to meet real-time control constraints — resolving the key practical objection to generative models in control loops</li>
+        <li>Provides the first systematic comparison of deterministic vs. generative sequence models for dynamics prediction, revealing that generative approaches significantly outperform under distribution shift while deterministic Transformers excel in-distribution</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Accurate modeling of robot dynamics is essential for model-based control, yet remains challenging under distributional shifts and real-time constraints. In this work, we formulate system identification as an in-context meta-learning problem and compare deterministic and generative sequence models for forward dynamics prediction. We take a Transformer-based meta-model, as a strong deterministic baseline, and introduce to this setting two complementary diffusion-based approaches: (i) inpainting diffusion (Diffuser), which learns the joint input-observation distribution, and (ii) conditioned diffusion models (CNN and Transformer), which generate future observations conditioned on control inputs. Through large-scale randomized simulations, we analyze performance across in-distribution and out-of-distribution regimes, as well as computational trade-offs relevant for control. We show that diffusion models significantly improve robustness under distribution shift, with inpainting diffusion achieving the best performance in our experiments. Finally, we demonstrate that warm-started sampling enables diffusion models to operate within real-time constraints, making them viable for control applications. These results highlight generative meta-models as a promising direction for robust system identification in robotics.</div></details>
+  </div>
+</div>
+
+<!-- Paper: FIDeL -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">10</span>
+    <span class="h-badge">h=9</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13788v1" target="_blank">Failure Identification in Imitation Learning Via Statistical and Semantic Filtering</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-author">Jean-Baptiste Mouret · h=9</span>
+    </div>
+    <div class="authors-list">Quentin Rolland, Fabrice Mayran de Chamisso, Jean-Baptiste Mouret</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Introduces FIDeL, a policy-independent failure detection module that works with any imitation learning policy by building a compact nominal representation from demonstrations and using optimal transport matching</li>
+        <li>Combines conformal prediction (for statistically principled spatio-temporal anomaly thresholds) with VLM semantic filtering (to distinguish benign deviations from genuine failures) — a novel two-stage pipeline</li>
+        <li>Achieves +5.30% AUROC in anomaly detection and +17.38% failure-detection accuracy over prior methods on BotFails, a new multimodal benchmark of real-world robot failures</li>
+        <li>Addresses a practical gap: most anomaly detection methods flag any deviation, but robots frequently encounter benign novelties (new objects, lighting changes) that should not trigger failure responses</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Imitation learning (IL) policies in robotics deliver strong performance in controlled settings but remain brittle in real-world deployments: rare events such as hardware faults, defective parts, unexpected human actions, or any state that lies outside the training distribution can lead to failed executions. Vision-based Anomaly Detection (AD) methods emerged as an appropriate solution to detect these anomalous failure states but do not distinguish failures from benign deviations. We introduce FIDeL (Failure Identification in Demonstration Learning), a policy-independent failure detection module. Leveraging recent AD methods, FIDeL builds a compact representation of nominal demonstrations and aligns incoming observations via optimal transport matching to produce anomaly scores and heatmaps. Spatio-temporal thresholds are derived with an extension of conformal prediction, and a Vision-Language Model (VLM) performs semantic filtering to discriminate benign anomalies from genuine failures. We also introduce BotFails, a multimodal dataset of real-world tasks for failure detection in robotics. FIDeL consistently outperforms state-of-the-art baselines, yielding +5.30% percent AUROC in anomaly detection and +17.38% percent failure-detection accuracy on BotFails compared to existing methods.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Sim-Real Co-Training -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">13</span>
+    <span class="h-badge">h=8</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13645v1" target="_blank">A Mechanistic Analysis of Sim-and-Real Co-Training in Generative Robot Policies</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">cs.LG</span>
+      <span class="pill pill-author">Zhenyu Jiang · h=8</span>
+    </div>
+    <div class="authors-list">Yu Lei, Minghuan Liu, Abhiram Maddukuri, Zhenyu Jiang, Yuke Zhu</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Identifies two mechanistic effects governing sim-real co-training: "structured representation alignment" (balancing cross-domain alignment with domain discernibility) and "importance reweighting effect" (domain-dependent action modulation) — with the former being primary</li>
+        <li>Provides the first theoretical framework explaining when and why co-training helps or hurts, moving beyond empirical trial-and-error that has characterized prior work</li>
+        <li>Validates the theory through controlled toy experiments and extensive sim-and-real manipulation experiments, showing the effects are consistent across settings</li>
+        <li>The analysis motivates a simple practical method that consistently improves upon prior co-training approaches, demonstrating that mechanistic understanding directly translates to better algorithms</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Co-training, which combines limited in-domain real-world data with abundant surrogate data such as simulation or cross-embodiment robot data, is widely used for training generative robot policies. Despite its empirical success, the mechanisms that determine when and why co-training is effective remain poorly understood. We investigate the mechanism of sim-and-real co-training through theoretical analysis and empirical study, and identify two intrinsic effects governing performance. The first, "structured representation alignment", reflects a balance between cross-domain representation alignment and domain discernibility, and plays a primary role in downstream performance. The second, the "importance reweighting effect", arises from domain-dependent modulation of action weighting and operates at a secondary level. We validate these effects with controlled experiments on a toy model and extensive sim-and-sim and sim-and-real robot manipulation experiments. Our analysis offers a unified interpretation of recent co-training techniques and motivates a simple method that consistently improves upon prior approaches. More broadly, our aim is to examine the inner workings of co-training and to facilitate research in this direction.</div></details>
+  </div>
+</div>
+
+<!-- Paper: CoUR -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">25</span>
+    <span class="h-badge">h=2</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13504v1" target="_blank">Chain of Uncertain Rewards with Large Language Models for Reinforcement Learning</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.LG</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Shentong Mo · h=2</span>
+    </div>
+    <div class="authors-list">Shentong Mo</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Introduces code uncertainty quantification with similarity selection — combining textual and semantic analyses to identify and reuse relevant reward components, avoiding the redundant evaluations that plague LLM-based reward design</li>
+        <li>Uses Bayesian optimization on decoupled reward terms rather than optimizing monolithic reward functions, enabling more efficient and interpretable search for optimal feedback signals</li>
+        <li>Comprehensively evaluated across 9 IsaacGym environments and all 20 Bidexterous Manipulation benchmark tasks — a scale of evaluation rarely seen in LLM-for-RL work</li>
+        <li>Achieves better performance while significantly lowering the cost of reward evaluations — addressing the compute-intensive nature of iterative reward refinement with LLMs</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Designing effective reward functions is a cornerstone of reinforcement learning (RL), yet it remains a challenging and labor-intensive process due to the inefficiencies and inconsistencies inherent in traditional methods. Existing methods often rely on extensive manual design and evaluation steps, which are prone to redundancy and overlook local uncertainties at intermediate decision points. To address these challenges, we propose the Chain of Uncertain Rewards (CoUR), a novel framework that integrates large language models (LLMs) to streamline reward function design and evaluation in RL environments. Specifically, our CoUR introduces code uncertainty quantification with a similarity selection mechanism that combines textual and semantic analyses to identify and reuse the most relevant reward function components. By reducing redundant evaluations and leveraging Bayesian optimization on decoupled reward terms, CoUR enables a more efficient and robust search for optimal reward feedback. We comprehensively evaluate CoUR across nine original environments from IsaacGym and all 20 tasks from the Bidexterous Manipulation benchmark. The experimental results demonstrate that CoUR not only achieves better performance but also significantly lowers the cost of reward evaluations.</div></details>
+  </div>
+</div>
+
+<!-- Paper: UMI-3D -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">26</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14089v1" target="_blank">UMI-3D: Extending Universal Manipulation Interface from Vision-Limited to 3D Spatial Perception</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-author">Ziming Wang · h=0</span>
+    </div>
+    <div class="authors-list">Ziming Wang</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Adds a lightweight, low-cost LiDAR to the UMI wrist-mounted interface, replacing monocular visual SLAM with LiDAR-centric SLAM that provides accurate metric-scale pose estimation under occlusions and dynamic scenes</li>
+        <li>Despite maintaining the original 2D visuomotor policy formulation, the improved data quality from LiDAR-enhanced collection directly translates into better policy performance — showing that data collection infrastructure matters as much as model architecture</li>
+        <li>Enables tasks that are infeasible with vision-only UMI: large deformable object manipulation and articulated object operation, where monocular SLAM tracking frequently fails</li>
+        <li>All hardware and software are open-sourced, supporting end-to-end data acquisition, alignment, training, and deployment while preserving UMI's original portability</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">We present UMI-3D, a multimodal extension of the Universal Manipulation Interface (UMI) for robust and scalable data collection in embodied manipulation. While UMI enables portable, wrist-mounted data acquisition, its reliance on monocular visual SLAM makes it vulnerable to occlusions, dynamic scenes, and tracking failures, limiting its applicability in real-world environments. UMI-3D addresses these limitations by introducing a lightweight and low-cost LiDAR sensor tightly integrated into the wrist-mounted interface, enabling LiDAR-centric SLAM with accurate metric-scale pose estimation under challenging conditions. We further develop a hardware-synchronized multimodal sensing pipeline and a unified spatiotemporal calibration framework that aligns visual observations with LiDAR point clouds, producing consistent 3D representations of demonstrations. Despite maintaining the original 2D visuomotor policy formulation, UMI-3D significantly improves the quality and reliability of collected data, which directly translates into enhanced policy performance. Extensive real-world experiments demonstrate that UMI-3D not only achieves high success rates on standard manipulation tasks, but also enables learning of tasks that are challenging or infeasible for the original vision-only UMI setup, including large deformable object manipulation and articulated object operation. The system supports an end-to-end pipeline for data acquisition, alignment, training, and deployment, while preserving the portability and accessibility of the original UMI. All hardware and software components are open-sourced to facilitate large-scale data collection and accelerate research in embodied intelligence.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 3: Perception, Radar & SLAM -->
+<!-- ============================================ -->
+<div class="section-header sec-perception">📡 Perception, Radar &amp; SLAM</div>
+
+<!-- Paper: RobotPan -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">9</span>
+    <span class="h-badge">h=11</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13476v1" target="_blank">RobotPan: A 360° Surround-View Robotic Vision System for Embodied Perception</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-author">Qiang Zhang · h=11</span>
+    </div>
+    <div class="authors-list">Jiahao Ma, Qiang Zhang, Peiran Liu, Zeran Su, Pihai Sun</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Combines six cameras with LiDAR into a 360° surround-view system specifically designed for robotic deployment — addressing the narrow forward-facing views that limit teleoperation and autonomous navigation</li>
+        <li>Predicts metric-scaled, compact 3D Gaussians from sparse calibrated views using hierarchical spherical voxel priors that allocate fine resolution near the robot and coarser resolution at distance — a principled way to manage computational budgets</li>
+        <li>Online fusion mechanism selectively updates dynamic content while preventing unbounded growth in static regions, enabling long-sequence deployment without memory explosion</li>
+        <li>Releases a multi-sensor dataset covering navigation, manipulation, and locomotion on real platforms — filling a gap in benchmarks for 360° novel view synthesis in robotics</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Surround-view perception is increasingly important for robotic navigation and loco-manipulation, especially in human-in-the-loop settings such as teleoperation, data collection, and emergency takeover. However, current robotic visual interfaces are often limited to narrow forward-facing views, or, when multiple on-board cameras are available, require cumbersome manual switching that interrupts the operator's workflow. Both configurations suffer from motion-induced jitter that causes simulator sickness in head-mounted displays. We introduce a surround-view robotic vision system that combines six cameras with LiDAR to provide full 360° visual coverage, while meeting the geometric and real-time constraints of embodied deployment. We further present RobotPan, a feed-forward framework that predicts metric-scaled and compact 3D Gaussians from calibrated sparse-view inputs for real-time rendering, reconstruction, and streaming. RobotPan lifts multi-view features into a unified spherical coordinate representation and decodes Gaussians using hierarchical spherical voxel priors, allocating fine resolution near the robot and coarser resolution at larger radii to reduce computational redundancy without sacrificing fidelity. To support long sequences, our online fusion updates dynamic content while preventing unbounded growth in static regions by selectively updating appearance. Finally, we release a multi-sensor dataset tailored to 360° novel view synthesis and metric 3D reconstruction for robotics, covering navigation, manipulation, and locomotion on real platforms. Experiments show that RobotPan achieves competitive quality against prior feed-forward reconstruction and view-synthesis methods while producing substantially fewer Gaussians, enabling practical real-time embodied deployment.</div></details>
+  </div>
+</div>
+
+<!-- Paper: RadarSplat-RIO -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">18</span>
+    <span class="h-badge">h=6</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13492v1" target="_blank">RadarSplat-RIO: Indoor Radar-Inertial Odometry with Gaussian Splatting-Based Radar Bundle Adjustment</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-author">Pou-Chun Kung · h=6</span>
+    </div>
+    <div class="authors-list">Pou-Chun Kung, Yuan Tian, Zhengqin Li, Yue Liu, Eric Whitmire</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Presents the first radar bundle adjustment framework enabled by Gaussian Splatting — jointly optimizing sensor poses and scene geometry using full range-azimuth-Doppler data, bringing multi-frame BA benefits to radar for the first time</li>
+        <li>Reduces average absolute translational error by 90% and rotational error by 80% over prior radar-inertial odometry, transforming radar from a drift-prone sensor into a competitive localization modality</li>
+        <li>Unlike visual BA which requires texture-rich environments, radar BA operates in featureless indoor environments where cameras and LiDAR may fail due to reflective surfaces or poor lighting</li>
+        <li>GS provides a dense, differentiable scene representation that naturally handles the sparse, noisy nature of radar returns — an elegant match that prior point-based radar methods lack</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Radar is more resilient to adverse weather and lighting conditions than visual and Lidar simultaneous localization and mapping (SLAM). However, most radar SLAM pipelines still rely heavily on frame-to-frame odometry, which leads to substantial drift. While loop closure can correct long-term errors, it requires revisiting places and relies on robust place recognition. In contrast, visual odometry methods typically leverage bundle adjustment (BA) to jointly optimize poses and map within a local window. However, an equivalent BA formulation for radar has remained largely unexplored. We present the first radar BA framework enabled by Gaussian Splatting (GS), a dense and differentiable scene representation. Our method jointly optimizes radar sensor poses and scene geometry using full range-azimuth-Doppler data, bringing the benefits of multi-frame BA to radar for the first time. When integrated with an existing radar-inertial odometry frontend, our approach significantly reduces pose drift and improves robustness. Across multiple indoor scenes, our radar BA achieves substantial gains over the prior radar-inertial odometry, reducing average absolute translational and rotational errors by 90% and 80%, respectively.</div></details>
+  </div>
+</div>
+
+<!-- Paper: UNRIO -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">24</span>
+    <span class="h-badge">h=2</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13584v1" target="_blank">UNRIO: Uncertainty-Aware Velocity Learning for Radar-Inertial Odometry</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Anthony Rowe · h=2</span>
+    </div>
+    <div class="authors-list">Jui-Te Huang, Tinashu Huang, Anthony Rowe, Michael Kaess</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Estimates ego-velocity directly from raw mmWave radar IQ signals using a transformer-based architecture, bypassing the handcrafted signal processing pipelines that discard latent spectral information</li>
+        <li>Three-stage training — geometric pretraining on LiDAR depth, velocity fine-tuning, and uncertainty calibration via negative log-likelihood loss — produces well-calibrated uncertainty estimates that can weight measurements in downstream optimization</li>
+        <li>Particularly strong on lateral-motion trajectories where sparse point clouds cause conventional velocity estimators to fail — a common scenario in indoor robotics with sideways maneuvers</li>
+        <li>Propagates learned uncertainties into a sliding-window pose graph fusing radar velocity factors with IMU preintegration, showing that uncertainty-aware fusion significantly outperforms fixed-weight approaches</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">We present UNRIO, an uncertainty-aware radar-inertial odometry system that estimates ego-velocity directly from raw mmWave radar IQ signals rather than processed point clouds. Existing radar-inertial odometry methods rely on handcrafted signal processing pipelines that discard latent information in the raw spectrum and require careful parameter tuning. To address this, we propose a transformer-based neural network built on the GRT architecture that processes the full 4-D spectral cube to predict body-frame velocity in two modes: a direct linear velocity estimate and a per-anglebin Doppler velocity map. The network is trained in three stages: geometric pretraining on LiDAR-projected depth, velocity or Doppler fine-tuning, and uncertainty calibration via negative log-likelihood loss, enabling it to produce uncertainty estimates alongside its predictions. These uncertainty estimates are propagated into a sliding-window pose graph that fuses radar velocity factors with IMU preintegration measurements. We train and evaluate UNRIO on the IQ1M dataset across diverse indoor environments with both forward and lateral motion patterns unseen during training. Our method achieves the lowest relative pose error on the majority of sequences, with particularly strong gains over classical DSP baselines on Lateral-motion trajectories where sparse point clouds degrade conventional velocity estimators.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Radar MOT -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">15</span>
+    <span class="h-badge">h=6</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14013v1" target="_blank">Towards Multi-Object-Tracking with Radar on a Fast Moving Vehicle</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-author">Ilya Shimchik · h=6</span>
+    </div>
+    <div class="authors-list">Tim Hansen, Arturo Gomez-Chavez, Ilya Shimchik, Andreas Birk</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Advocates processing radar data in the frequency domain rather than feature-based methods, achieving higher robustness against noise and structural errors — particularly under high ego-motion dynamics</li>
+        <li>The correlation-based frequency domain approach naturally provides information about all moving structures in the scene simultaneously, unlike feature-based methods that must detect and track individual objects separately</li>
+        <li>Demonstrates radar-only odometry (without sensor fusion) on the Boreas dataset using Fourier SOFT in 2D, showing that pure radar can support autonomous racing scenarios like overtaking maneuvers</li>
+        <li>Highlights a neglected advantage of frequency-domain processing: inherent multi-object awareness from correlation peaks, which could simplify the tracking pipeline significantly</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">We promote in this paper the processing of radar data in the frequency domain to achieve higher robustness against noise and structural errors, especially in comparison to feature-based methods. This holds also for high dynamics in the scene, i.e., ego-motion of the vehicle with the sensor plus the presence of an unknown number of other moving objects. In addition to the high robustness, the processing in the frequency domain has the so far neglected advantage that the underlying correlation based methods used for, e.g., registration, provide information about all moving structures in the scene. A typical automotive application case is overtaking maneuvers, which in the context of autonomous racing are used here as a motivating example. Initial experiments and results with Fourier SOFT in 2D (FS2D) are presented that use the Boreas dataset to demonstrate radar-only-odometry, i.e., radar-odometry without sensor-fusion, to support our arguments.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 4: Autonomous Driving & Motion Planning -->
+<!-- ============================================ -->
+<div class="section-header sec-driving">🚗 Autonomous Driving &amp; Motion Planning</div>
+
+<!-- Paper: MPC-RL -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num rank-gold">1</span>
+    <span class="h-badge">h=44</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13891v1" target="_blank">Beyond Conservative Automated Driving in Multi-Agent Scenarios via Coupled MPC and Deep RL</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-author">B. Arem · h=44</span>
+    </div>
+    <div class="authors-list">Saeed Rahmani, Gözde Körpe, Zhenlin, Xu, Bruno Brito</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Couples MPC's structured constraint handling with deep RL's adaptive learning to overcome MPC's overly conservative behavior at unsignalized intersections — reducing collision rate by 21% and improving success rate by 6.5% vs. pure MPC</li>
+        <li>The MPC backbone provides cross-scenario robustness: zero-shot transfer to highway merging works substantially better than end-to-end PPO, which collapses in the new scenario without retraining</li>
+        <li>Training converges faster than end-to-end RL due to the MPC structure reducing the learning burden — the RL component only needs to learn residual corrections rather than full driving behavior</li>
+        <li>Demonstrates the framework across three traffic-density levels, showing consistent advantages over both pure MPC and pure RL — the hybrid outperforms either paradigm in isolation across the full difficulty spectrum</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Automated driving at unsignalized intersections is challenging due to complex multi-vehicle interactions and the need to balance safety and efficiency. Model Predictive Control (MPC) offers structured constraint handling through optimization but relies on hand-crafted rules that often produce overly conservative behavior. Deep Reinforcement Learning (RL) learns adaptive behaviors from experience but often struggles with safety assurance and generalization to unseen environments. In this study, we present an integrated MPC-RL framework to improve navigation performance in multi-agent scenarios. Experiments show that MPC-RL outperforms standalone MPC and end-to-end RL across three traffic-density levels. Collectively, MPC-RL reduces the collision rate by 21% and improves the success rate by 6.5% compared to pure MPC. We further evaluate zero-shot transfer to a highway merging scenario without retraining. Both MPC-based methods transfer substantially better than end-to-end PPO, which highlights the role of the MPC backbone in cross-scenario robustness. The framework also shows faster loss stabilization than end-to-end RL during training, which indicates a reduced learning burden. These results suggest that the integrated approach can improve the balance between safety performance and efficiency in multi-agent intersection scenarios, while the MPC component provides a strong foundation for generalization across driving environments. The implementation code is available open-source.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Mosaic -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">20</span>
+    <span class="h-badge">h=5</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13853v1" target="_blank">Mosaic: An Extensible Framework for Composing Rule-Based and Learned Motion Planners</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Jan-Hendrik Pauls · h=5</span>
+    </div>
+    <div class="authors-list">Nick Le Large, Marlon Steiner, Lingguang Wang, Willi Poh, Jan-Hendrik Pauls</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Introduces arbitration graphs to compose rule-based and learned planners with unified scoring and trajectory verification — every decision is transparent and traceable, unlike black-box ensemble methods</li>
+        <li>Sets new state-of-the-art on nuPlan Val14 (95.48 CLS-NR, 93.98 CLS-R) while reducing at-fault collisions by 30% compared to either constituent planner alone — achieved without retraining or additional data</li>
+        <li>On the interPlan benchmark for highly interactive scenarios, Mosaic scores 54.30 CLS-R, outperforming its best constituent planner by 23.3% — showing that composition provides emergent capabilities beyond what individual planners offer</li>
+        <li>The higher-level trajectory verification introduces redundancy that limits emergency braking to rare cases where all planners fail, providing a practical safety architecture rather than theoretical guarantees</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Safe and explainable motion planning remains a central challenge in autonomous driving. While rule-based planners offer predictable and explainable behavior, they often fail to grasp the complexity and uncertainty of real-world traffic. Conversely, learned planners exhibit strong adaptability but suffer from reduced transparency and occasional safety violations. We introduce Mosaic, an extensible framework for structured decision-making that integrates both paradigms through arbitration graphs. By decoupling trajectory verification and scoring from the generation of trajectories by individual planners, every decision becomes transparent and traceable. Trajectory verification at a higher level introduces redundancy between the planners, limiting emergency braking to the rare case where all planners fail to produce a valid trajectory. Through unified scoring and optimal trajectory selection, rule-based and learned planners with complementary strengths and weaknesses can be combined to yield the best of both worlds. In experimental evaluation on nuPlan, Mosaic achieves 95.48 CLS-NR and 93.98 CLS-R on the Val14 closed-loop benchmark, setting a new state of the art, while reducing at-fault collisions by 30% compared to either planner in isolation. On the interPlan benchmark, focused on highly interactive and difficult scenarios, Mosaic scores 54.30 CLS-R, outperforming its best constituent planner by 23.3% - all without retraining or requiring additional data. The code is available at github.com/KIT-MRT/mosaic.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Pedestrian Comfort -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">22</span>
+    <span class="h-badge">h=3</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13677v1" target="_blank">Empirical Prediction of Pedestrian Comfort in Mobile Robot Pedestrian Encounters</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-author">Alireza Jafari · h=3</span>
+    </div>
+    <div class="authors-list">Alireza Jafari, Hong-Son Nguyen, Yen-Chen Liu</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Provides empirical evidence linking robot-pedestrian interaction kinematics (minimum distance, projected time-to-collision) to subjective comfort — finding moderate but statistically significant correlations</li>
+        <li>Designs a composite comfort estimator using all studied kinematic variables that achieves an odds ratio of 3.67 — when it identifies a pedestrian as comfortable, they are nearly 4× more likely to actually be comfortable</li>
+        <li>Addresses a gap in social robot navigation: most studies optimize for objective safety (collision avoidance) but ignore the pedestrian's subjective experience, which matters for public acceptance</li>
+        <li>The predictors are lightweight enough to integrate directly into path planners, providing a practical mechanism for incorporating human comfort into real-time robot navigation decisions</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Mobile robots joining public spaces like sidewalks must care for pedestrian comfort. Many studies consider pedestrians' objective safety, for example, by developing collision avoidance algorithms, but not enough studies take the pedestrian's subjective safety or comfort into consideration. Quantifying comfort is a major challenge that hinders mobile robots from understanding and responding to human emotions. We empirically look into the relationship between the mobile robot-pedestrian interaction kinematics and subjective comfort. We perform one-on-one experimental trials, each involving a mobile robot and a volunteer. Statistical analysis of pedestrians' reported comfort versus the kinematic variables shows moderate but significant correlations for most variables. Based on these empirical findings, we design three comfort estimators/predictors derived from the minimum distance, the minimum projected time-to-collision, and a composite estimator. The composite estimator employs all studied kinematic variables and reaches the highest prediction rate and classifying performance among the predictors. The composite predictor has an odds ratio of 3.67. In simple terms, when it identifies a pedestrian as comfortable, it is almost 4 times more likely that the pedestrian is comfortable rather than uncomfortable. The study provides a comfort quantifier for incorporating pedestrian feelings into path planners for more socially compliant robots.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Scale-Invariant Sampling -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">19</span>
+    <span class="h-badge">h=5</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14026v1" target="_blank">Scale-Invariant Sampling in Multi-Arm Bandit Motion Planning for Object Extraction</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Marc Toussaint · h=5</span>
+    </div>
+    <div class="authors-list">Servet B. Bayraktar, Andreas Orthey, Marc Toussaint</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Proposes scale-invariant sampling that uses a grow-shrink search to discover useful high-entropy sampling scales, then exploits those scales via PCA to find useful extraction directions — addressing the fundamental sampling bottleneck in tight-clearance disassembly</li>
+        <li>Improves success rate by one order of magnitude on 7 out of 8 challenging 3D extraction scenarios involving bolts, gears, rods, pins, and sockets — problems where millimeter-scale clearances make uniform sampling nearly useless</li>
+        <li>Embeds the sampler into a multi-arm bandit RRT planner, providing a principled exploration-exploitation trade-off over sampling strategies rather than committing to a single approach</li>
+        <li>Outperforms both classical methods (uniform, obstacle-based, narrow-passage sampling) and modern approaches (mate vectors, physics-based planning) on disassembly tasks — establishing scale-invariance as an essential concept for extraction planning</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Object extraction tasks often occur in disassembly problems, where bolts, screws, or pins have to be removed from tight, narrow spaces. In such problems, the distance to the environment is often on the millimeter scale. Sampling-based planners can solve such problems and provide completeness guarantees. However, sampling becomes a bottleneck, since almost all motions will result in collisions with the environment. To overcome this problem, we propose a novel scale-invariant sampling strategy which explores the configuration space using a grow-shrink search to find useful, high-entropy sampling scales. Once a useful sampling scale has been found, our framework exploits this scale by using a principal components analysis (PCA) to find useful directions for object extraction. We embed this sampler into a multi-arm bandit rapidly-exploring random tree (MAB-RRT) planner and test it on eight challenging 3D object extraction scenarios, involving bolts, gears, rods, pins, and sockets. To evaluate our framework, we compare it with classical sampling strategies like uniform sampling, obstacle-based sampling, and narrow-passage sampling, and with modern strategies like mate vectors, physics-based planning, and disassembly breadth first search. Our experiments show that scale-invariant sampling improves success rate by one order of magnitude on 7 out of 8 scenarios. This demonstrates that scale-invariant sampling is an important concept for general purpose object extraction in disassembly tasks.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 5: UAV & Multi-Robot Systems -->
+<!-- ============================================ -->
+<div class="section-header sec-uav">🛸 UAV &amp; Multi-Robot Systems</div>
+
+<!-- Paper: UAV-VLN Survey -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">7</span>
+    <span class="h-badge">h=12</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13654v1" target="_blank">Vision-and-Language Navigation for UAVs: Progress, Challenges, and a Research Roadmap</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Kangli Wang · h=12</span>
+    </div>
+    <div class="authors-list">Hanxuan Chen, Jie Zheng, Siqi Yang, Tianle Zeng, Siwei Feng</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Provides the first comprehensive survey of UAV Vision-and-Language Navigation, establishing a taxonomy from early modular systems through deep learning to contemporary VLM/VLA agentic architectures</li>
+        <li>Identifies the emerging integration of generative world models with VLA architectures for physically-grounded reasoning as a key frontier — a trend that parallels developments in ground robot manipulation</li>
+        <li>Systematically catalogs the critical deployment gaps: sim-to-real transfer, robust outdoor perception, linguistic ambiguity handling, and efficient large-model deployment on resource-constrained UAV hardware</li>
+        <li>Proposes a forward-looking roadmap covering multi-agent swarm coordination and air-ground collaborative robotics — positioning these as the next major research frontiers</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Vision-and-Language Navigation for Unmanned Aerial Vehicles (UAV-VLN) represents a pivotal challenge in embodied artificial intelligence, focused on enabling UAVs to interpret high-level human commands and execute long-horizon tasks in complex 3D environments. This paper provides a comprehensive and structured survey of the field, from its formal task definition to the current state of the art. We establish a methodological taxonomy that charts the technological evolution from early modular and deep learning approaches to contemporary agentic systems driven by large foundation models, including Vision-Language Models (VLMs), Vision-Language-Action (VLA) models, and the emerging integration of generative world models with VLA architectures for physically-grounded reasoning. The survey systematically reviews the ecosystem of essential resources simulators, datasets, and evaluation metrics that facilitates standardized research. Furthermore, we conduct a critical analysis of the primary challenges impeding real-world deployment: the simulation-to-reality gap, robust perception in dynamic outdoor settings, reasoning with linguistic ambiguity, and the efficient deployment of large models on resource-constrained hardware. By synthesizing current benchmarks and limitations, this survey concludes by proposing a forward-looking research roadmap to guide future inquiry into key frontiers such as multi-agent swarm coordination and air-ground collaborative robotics.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Edge Architectures -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">8</span>
+    <span class="h-badge">h=11</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13542v1" target="_blank">Self-adaptive Multi-Access Edge Architectures: A Robotics Case</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.DC</span>
+      <span class="pill pill-cat">cs.SE</span>
+      <span class="pill pill-author">M. T. Moghaddam · h=11</span>
+    </div>
+    <div class="authors-list">Mahyar T Moghaddam, Joakim Leed, Anders Frandsen</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Presents a MAPE-K-based self-adaptation supervisor for distributed edge offloading in mixed human-robot environments, automatically scaling infrastructure and offloading computation based on response time and power consumption monitoring</li>
+        <li>Uses neural network inference for human mobility prediction to enable proactive robot path planning — the compute-intensive task that motivates the edge offloading architecture</li>
+        <li>Built on Kubernetes with heterogeneous processing units, providing a practical deployment framework rather than a theoretical architecture proposal</li>
+        <li>Results show notable improvements in service quality over traditional static deployments, demonstrating that adaptive edge computing can meaningfully improve AI-driven robotics systems in real settings</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">The growth of compute-intensive AI tasks highlights the need to mitigate the processing costs and improve performance and energy efficiency. This necessitates the integration of intelligent agents as architectural adaptation supervisors tasked with adaptive scaling of the infrastructure and efficient offloading of computation within the continuum. This paper presents a self-adaptation approach for an efficient computing system of a mixed human-robot environment. The computation task is associated with a Neural Network algorithm that leverages sensory data to predict human mobility behaviors, to enhance mobile robots' proactive path planning, and ensure human safety. To streamline neural network processing, we built a distributed edge offloading system with heterogeneous processing units, orchestrated by Kubernetes. By monitoring response times and power consumption, the MAPE-K-based adaptation supervisor makes informed decisions on scaling and offloading. Results show notable improvements in service quality over traditional setups, demonstrating the effectiveness of the proposed approach for AI-driven systems.</div></details>
+  </div>
+</div>
+
+<!-- Paper: BER -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">11</span>
+    <span class="h-badge">h=9</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13441v1" target="_blank">Robust Energy-Aware Routing for Air-Ground Cooperative Multi-UAV Delivery in Wind-Uncertain Environments</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Haoang Li · h=9</span>
+    </div>
+    <div class="authors-list">Tianshun Li, Hongliang Lu, Yanggang Sheng, Zhongzhen Wang, Haoang Li</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Formulates truck-assisted UAV delivery as routing on a time-dependent energy graph whose edge costs evolve with wind-induced aerodynamic effects — capturing the dynamic nature of real-world energy consumption</li>
+        <li>BER continuously evaluates return feasibility during flight while balancing instantaneous energy expenditure against uncertainty-aware risk, preventing the mission-critical failure of stranded UAVs</li>
+        <li>Embedded in a hierarchical aerial-ground architecture combining task allocation, routing, and decentralized trajectory execution — a complete system rather than an isolated algorithm</li>
+        <li>Significantly improves mission success rates and reduces wind-induced failures compared to static and greedy baselines in Unreal Engine simulations with quasi-real wind logs</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Ensuring energy feasibility under wind uncertainty is critical for the safety and reliability of UAV delivery missions. In realistic truck-drone logistics systems, UAVs must deliver parcels and safely return under time-varying wind conditions that are only partially observable during flight. However, most existing routing approaches assume static or deterministic energy models, making them unreliable in dynamic wind environments. We propose Battery-Efficient Routing (BER), an online risk-sensitive planning framework for wind-sensitive truck-assisted UAV delivery. The problem is formulated as routing on a time dependent energy graph whose edge costs evolve according to wind-induced aerodynamic effects. BER continuously evaluates return feasibility while balancing instantaneous energy expenditure and uncertainty-aware risk. The approach is embedded in a hierarchical aerial-ground delivery architecture that combines task allocation, routing, and decentralized trajectory execution. Extensive simulations on synthetic ER graphs generated in Unreal Engine environments and quasi-real wind logs demonstrate that BER significantly improves mission success rates and reduces wind-induced failures compared with static and greedy baselines. These results highlight the importance of integrating real-time energy budgeting and environmental awareness for UAV delivery planning under dynamic wind conditions.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 6: Control, Kinematics & Hardware -->
+<!-- ============================================ -->
+<div class="section-header sec-control">⚙️ Control, Kinematics &amp; Hardware</div>
+
+<!-- Paper: Rimless Wheel -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">4</span>
+    <span class="h-badge">h=24</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13530v1" target="_blank">Stability Principle Underlying Passive Dynamic Walking of Rimless Wheel</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">F. Asano · h=24</span>
+    </div>
+    <div class="authors-list">Fumihiko Asano</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Revisits the rimless wheel — the simplest passive dynamic walking model — to uncover a deeper stability principle beyond the known kinetic energy recurrence formula</li>
+        <li>Reconsiders stance phase stability through linearization of the equation of motion, connecting asymptotic stability directly to the energy conservation law rather than treating them as separate phenomena</li>
+        <li>Provides rigorous mathematical analysis showing how the two necessary conditions for stability (impact posture constraint and restored mechanical energy constraint) arise from fundamental physics</li>
+        <li>Deepens theoretical understanding of why passive dynamic walking is inherently stable — knowledge that informs the design of energy-efficient bipedal robots and control strategies</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Rimless wheels are known as the simplest model for passive dynamic walking. It is known that the passive gait generated only by gravity effect always becomes asymptotically stable and 1-period because a rimless wheel automatically achieves the two necessary conditions for guaranteeing the asymptotic stability; one is the constraint on impact posture and the other is the constraint on restored mechanical energy. The asymptotic stability is then easily shown by the recurrence formula of kinetic energy. There is room, however, for further research into the inherent stability principle. In this paper, we reconsider the stability of the stance phase based on the linearization of the equation of motion, and investigate the relation between the stability and energy conservation law. Through the mathematical analysis, we provide a greater understanding of the inherent stability principle.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Neuromorphic Spiking -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">5</span>
+    <span class="h-badge">h=17</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14021v1" target="_blank">Neuromorphic Spiking Ring Attractor for Proprioceptive Joint-State Estimation</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Elisa Donati · h=17</span>
+    </div>
+    <div class="authors-list">Federica Ferrari, Flavia Davidhi, Bernard Maacaron, Alberto Motta, Luuk van Keeken</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Implements a biologically inspired spiking ring-attractor network for joint angle estimation through self-sustaining population activity — one of the first neuromorphic approaches to proprioceptive state estimation</li>
+        <li>Achieves reduced drift and improved accuracy compared to unbounded models by incorporating boundary conditions that confine activity within mechanical joint limits — a practical constraint often ignored in attractor models</li>
+        <li>Demonstrates a near-linear relationship between bump velocity and synaptic modulation, providing a predictable and controllable encoding scheme for integration into control loops</li>
+        <li>The compact, hardware-compatible design maintains multi-second stability, making it viable for deployment on neuromorphic chips in resource-constrained robotic systems</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Maintaining stable internal representations of continuous variables is fundamental for effective robotic control. Continuous attractor networks provide a biologically inspired mechanism for encoding such variables, yet neuromorphic realizations have rarely addressed proprioceptive estimation under resource constraints. This work introduces a spiking ring-attractor network representing a robot joint angle through self-sustaining population activity. Local excitation and broad inhibition support a stable activity bump, while velocity-modulated asymmetries drive its translation and boundary conditions confine motion within mechanical limits. The network reproduces smooth trajectory tracking and remains stable near joint limits, showing reduced drift and improved accuracy compared to unbounded models. Such compact hardware-compatible implementation preserves multi-second stability demonstrating a near-linear relationship between bump velocity and synaptic modulation.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Nematode Microrobot -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">14</span>
+    <span class="h-badge">h=7</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13513v1" target="_blank">A Transformable Slender Microrobot Inspired by Nematode Parasites for Interventional Endovascular Surgery</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">D. Fan · h=7</span>
+    </div>
+    <div class="authors-list">Xin Yang, Dongliang Fan, Yunteng Ma, Yuxuan Liao, Diancheng Li</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Creates a magnetic microrobot with aspect ratio &gt;100 (sub-200μm diameter, &gt;20mm length) that mimics nematode parasites' ability to navigate the vascular system — achieving both versatility and maneuverability that prior designs sacrifice one for the other</li>
+        <li>Demonstrates remarkable flexibility (max curvature 0.904 mm⁻¹) and speed (125 mm/s), enabling passage through sharp turns with 0.84 mm radius and holes distributed in 3D space</li>
+        <li>Shows potential surgical applications: navigating narrow vessel molds, wrapping and transporting a drug 95× its own weight by body deformation, and releasing the drug at a target position</li>
+        <li>Demonstrates injectable deployment through a standard medical syringe needle (1.2 mm diameter) and self-winding embolization in aneurysm phantoms — two critical capabilities for clinical translation</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Cardiovascular diseases account for around 17.9 million deaths per year globally, the treatment of which is challenging considering the confined space and complex topology of the vascular network and high risks during operations. Robots, although promising, still face the dilemma of possessing versatility or maneuverability after decades of development. Inspired by nematodes, the parasites living, feeding, and moving in the human body's vascular system, this work develops a transformable slender magnetic microrobot. Based on the experiments and analyses, we optimize the fabrication and geometry of the robot and finally create a slender prototype with an aspect ratio larger than 100 (smaller than 200 microns in diameter and longer than 20 mm in length), which possesses uniformly distributed magnetic beads on the body of an ultrathin polymer string and a big bead on the head. This prototype shows great flexibility (largest curvature 0.904 mm-1) and locomotion capability (the maximum speed: 125 mm/s). Moreover, the nematode-inspired robot can pass through sharp turns with a radius of 0.84 mm and holes distributed in three-dimensional (3D) space. We also display the potential application in interventional surgery of the microrobot by navigating it through a narrow blood vessel mold to wrap and transport a drug (95 times heavier than the robot) by deforming the robot's slender body and releasing the drug to the aim position finally. Moreover, the robot also demonstrates the possible applications in embolization by transforming and winding itself into an aneurysms phantom and exhibits its outstanding injectability by being successfully withdrawn and injected through a medical needle (diameter: 1.2 mm) of a syringe.</div></details>
+  </div>
+</div>
+
+<!-- Paper: DGFNC -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">17</span>
+    <span class="h-badge">h=6</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13763v1" target="_blank">A Dynamic-Growing Fuzzy-Neuro Controller, Application to a 3PSP Parallel Robot</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">M. Ghaemi · h=6</span>
+    </div>
+    <div class="authors-list">Mohsen Jalaeian-Farimani, Mohammad-R Akbarzadeh-T, Alireza Akbarzadeh, Mostafa Ghaemi</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Proposes a conservative rule-addition mechanism for the Dynamic Growing Fuzzy Neural Controller that eliminates the need for rule pruning — reducing architectural complexity while maintaining adaptability</li>
+        <li>Combines the DGFNC with an adaptive strategy that handles parameter variation and a sliding mode-based nonlinear controller that ensures Lyapunov stability — providing formal stability guarantees lacking in pure neural approaches</li>
+        <li>Achieves faster response with less computation than comparable self-organizing fuzzy-neuro methods, addressing the real-time constraint critical for parallel robot control</li>
+        <li>Validated on a 3PSP parallel robot — chosen specifically for its complex coupled dynamics that stress-test the controller's ability to handle multi-axis coordination</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">To date, various paradigms of soft-Computing have been used to solve many modern problems. Among them, a self organizing combination of fuzzy systems and neural networks can make a powerful decision making system. Here, a Dynamic Growing Fuzzy Neural Controller (DGFNC) is combined with an adaptive strategy and applied to a 3PSP parallel robot position control problem. Specifically, the dynamic growing mechanism is considered in more detail. In contrast to other self-organizing methods, DGFNC adds new rules more conservatively; hence the pruning mechanism is omitted. Instead, the adaptive strategy 'adapts' the control system to parameter variation. Furthermore, a sliding mode-based nonlinear controller ensures system stability. The resulting general control strategy aims to achieve faster response with less computation while maintaining overall stability. Finally, the 3PSP is chosen due to its complex dynamics and the utility of such approaches in modern industrial systems. Several simulations support the merits of the proposed DGFNC strategy as applied to the 3PSP robot.</div></details>
+  </div>
+</div>
+
+<!-- Paper: Singularity IK -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">27</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.13405v1" target="_blank">Singularity Avoidance in Inverse Kinematics: A Unified Treatment of Classical and Learning-based Methods</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-15</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Vishnu Rudrasamudram · h=0</span>
+    </div>
+    <div class="authors-list">Vishnu Rudrasamudram, Hariharasudan Malaichamee</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Provides the first unified survey bridging classical singularity-robust IK (Jacobian regularization, Riemannian tracking, constrained optimization) with modern learning-based approaches — filling a significant gap in the literature</li>
+        <li>Proposes a standardized benchmarking protocol and evaluates 12 IK solvers on the Franka Panda across four complementary panels: error degradation by condition number, velocity amplification, OOD robustness, and computational cost</li>
+        <li>Reveals that pure learning methods fail dramatically (MLP: 0% success, ~10mm error) even on well-conditioned targets, while hybrid warm-start architectures (IKFlow, CycleIK, GGIK) rescue performance via classical refinement</li>
+        <li>Shows DLS converging from initial errors up to 207mm, confirming that classical methods remain the reliable backbone while learning primarily helps with initialization — an important finding that tempers enthusiasm for end-to-end learned IK</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Singular configurations cause loss of task-space mobility, unbounded joint velocities, and solver divergence in inverse kinematics (IK) for serial manipulators. No existing survey bridges classical singularity-robust IK with rapidly growing learning-based approaches. We provide a unified treatment spanning Jacobian regularization, Riemannian manipulability tracking, constrained optimization, and modern data-driven paradigms. A systematic taxonomy classifies methods by retained geometric structure and robustness guarantees (formal vs. empirical). We address a critical evaluation gap by proposing a benchmarking protocol and presenting experimental results: 12 IK solvers are evaluated on the Franka Panda under position-only IK across four complementary panels measuring error degradation by condition number, velocity amplification, out-of-distribution robustness, and computational cost. Results show that pure learning methods fail even on well-conditioned targets (MLP: 0% success, approx. 10 mm mean error), while hybrid warm-start architectures - IKFlow (59% to 100%), CycleIK(0% to 98.6%), GGIK (0% to 100%) - rescue learned solvers via classical refinement, with DLS converging from initial errors up to 207 mm. Deeper singularity-regime evaluation is identified as immediate future work.</div></details>
+  </div>
+</div>
+
+<footer>
+  Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-04-15
+</footer>
+
+</div>
+</body>
+</html>
