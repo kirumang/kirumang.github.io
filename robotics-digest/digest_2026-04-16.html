@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotics arXiv Digest — 2026-04-16</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; background: #f0f2f5; color: #1a1a2e; line-height: 1.6; }
+  .container { max-width: 900px; margin: 0 auto; padding: 20px 16px; }
+  header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; padding: 32px 28px; border-radius: 16px; margin-bottom: 28px; }
+  header h1 { font-size: 1.9em; margin-bottom: 8px; }
+  header .meta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 12px; }
+  header .meta-pill { background: rgba(255,255,255,0.15); padding: 4px 14px; border-radius: 20px; font-size: 0.88em; }
+  .badge-claude { background: rgba(217,143,64,0.85); padding: 4px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 600; }
+  .landscape { background: white; border-radius: 14px; padding: 28px; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .landscape h2 { font-size: 1.35em; margin-bottom: 16px; color: #1a1a2e; }
+  .landscape p { margin-bottom: 14px; color: #333; font-size: 0.97em; }
+  .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .cat-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); border-left: 4px solid #ccc; }
+  .cat-card h3 { font-size: 1.0em; margin-bottom: 6px; }
+  .cat-card .cat-desc { font-size: 0.84em; color: #666; margin-bottom: 8px; }
+  .cat-card ul { list-style: none; padding: 0; }
+  .cat-card ul li { font-size: 0.82em; color: #444; padding: 2px 0; }
+  .cat-card ul li::before { content: "•"; margin-right: 6px; color: #999; }
+  .section-header { padding: 16px 22px; border-radius: 12px; margin: 28px 0 16px 0; color: white; font-size: 1.15em; font-weight: 700; }
+  .paper-card { background: white; border-radius: 12px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; overflow: hidden; transition: box-shadow 0.2s; }
+  .paper-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .paper-rank { min-width: 68px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 18px 8px; gap: 8px; background: #fafafa; }
+  .rank-num { font-size: 1.5em; font-weight: 800; color: #888; }
+  .rank-gold { color: #d4a017; }
+  .h-badge { background: #e3f0ff; color: #1a6dd4; font-size: 0.75em; font-weight: 700; padding: 3px 10px; border-radius: 12px; white-space: nowrap; }
+  .paper-body { padding: 18px 20px; flex: 1; min-width: 0; }
+  .paper-title { font-size: 1.05em; font-weight: 700; margin-bottom: 8px; }
+  .paper-title a { color: #1a1a2e; text-decoration: none; }
+  .paper-title a:hover { color: #0f3460; text-decoration: underline; }
+  .paper-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .pill { background: #f0f2f5; padding: 2px 10px; border-radius: 10px; font-size: 0.78em; color: #555; }
+  .pill-cat { background: #eef4ff; color: #3366aa; }
+  .pill-author { background: #fff4e5; color: #996600; }
+  .authors-list { font-size: 0.85em; color: #666; margin-bottom: 10px; }
+  .contributions-label { font-size: 0.82em; font-weight: 700; color: #444; margin-bottom: 4px; }
+  .contributions ul { list-style: none; padding: 0; }
+  .contributions ul li { font-size: 0.88em; color: #333; padding: 3px 0; padding-left: 16px; position: relative; }
+  .contributions ul li::before { content: "▸"; position: absolute; left: 0; color: #0f3460; }
+  .abstract-toggle { margin-top: 10px; }
+  .abstract-toggle summary { cursor: pointer; font-size: 0.84em; color: #0f3460; font-weight: 600; user-select: none; }
+  .abstract-toggle summary:hover { text-decoration: underline; }
+  .abstract-text { margin-top: 8px; font-size: 0.85em; color: #555; line-height: 1.55; padding: 12px; background: #f8f9fa; border-radius: 8px; }
+  footer { text-align: center; padding: 28px 16px; color: #999; font-size: 0.82em; }
+
+  /* Category colors */
+  .cat-vla { border-left-color: #e74c3c; }
+  .sec-vla { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+  .cat-slam { border-left-color: #3498db; }
+  .sec-slam { background: linear-gradient(135deg, #3498db, #2980b9); }
+  .cat-sensing { border-left-color: #2ecc71; }
+  .sec-sensing { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+  .cat-manip { border-left-color: #f39c12; }
+  .sec-manip { background: linear-gradient(135deg, #f39c12, #e67e22); }
+  .cat-nav { border-left-color: #9b59b6; }
+  .sec-nav { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+  .cat-loco { border-left-color: #e91e63; }
+  .sec-loco { background: linear-gradient(135deg, #e91e63, #c2185b); }
+  .cat-safety { border-left-color: #1abc9c; }
+  .sec-safety { background: linear-gradient(135deg, #1abc9c, #16a085); }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.4em; }
+    .paper-rank { min-width: 50px; padding: 12px 4px; }
+    .rank-num { font-size: 1.2em; }
+    .paper-body { padding: 14px; }
+    .categories-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>🤖 Robotics arXiv Digest</h1>
+  <p style="opacity:0.85; font-size:0.95em;">Thursday, April 16, 2026</p>
+  <div class="meta">
+    <span class="meta-pill">📄 28 papers</span>
+    <span class="meta-pill">📂 7 research areas</span>
+    <span class="badge-claude">✨ Generated by Claude</span>
+  </div>
+</header>
+
+<!-- RESEARCH LANDSCAPE -->
+<div class="landscape">
+  <h2>🔭 Research Landscape</h2>
+
+  <p>Today's batch reveals a robotics community converging on <strong>policy learning architectures that reason beyond single-step action prediction</strong>. The World-Value-Action (WAV) model tackles the exponential decay problem of feasible trajectories in action space by moving planning into a learned latent space with trajectory value functions, while HiST-AT introduces hierarchical spatiotemporal tokenization for in-context imitation learning, and R3D diagnoses why 3D policy learning has historically underperformed — pinpointing missing data augmentation and Batch Normalization as culprits rather than fundamental architectural limitations. Together with ADAPT's affordance-aware planning and DockAnywhere's viewpoint-invariant demonstration generation, these papers collectively argue that the next leap in robot manipulation requires structured reasoning about <em>what will happen</em> and <em>whether it should happen</em>, not just faster imitation of demonstrations.</p>
+
+  <p>A second prominent thread is <strong>SLAM and localization in extreme or degraded environments</strong>. The CAVERS dataset provides the first multimodal SLAM benchmark inside a natural karstic cave with motion-capture ground truth, while CAL2M tackles kilometer-scale SLAM using Visual Geometry Foundation Models without any calibration. Meanwhile, two 4D radar papers — Graph Theoretical Outlier Rejection for open-pit mines and 4D Radar Gaussian Modeling with RCS — demonstrate that radar is maturing as a primary sensing modality for GPS-denied, visually degraded settings. The Dual Pose-Graph system for drone racing achieves 56–74% ATE reduction by fusing semantic landmark detection with odometry, showing that domain structure can compensate for sensor limitations at extreme speeds.</p>
+
+  <p>A cross-cutting observation is the growing investment in <strong>infrastructure and datasets as first-class research contributions</strong>. DigiForest deploys heterogeneous robots (aerial, legged, marsupial) for precision forestry across multiple European sites; HRDexDB provides 1.4K grasping trials with synchronized tactile, visual, and kinematic data across human and robotic hands; and the multi-platform LiDAR forestry dataset links point clouds with decades of ecological flux measurements. The DEX-Mouse open-source teleoperation interface (under $150) further lowers the barrier to collecting dexterous manipulation data. This infrastructure turn suggests the community recognizes that scaling robot capabilities requires not just better algorithms but better data pipelines and benchmarks.</p>
+</div>
+
+<!-- CATEGORY OVERVIEW -->
+<div class="categories-grid">
+  <div class="cat-card cat-vla">
+    <h3>🧠 VLA &amp; Policy Learning</h3>
+    <p class="cat-desc">Latent-space planning, hierarchical action tokenization, 3D policy architectures, affordance reasoning, and viewpoint-invariant imitation.</p>
+    <ul>
+      <li>#6 HiST-AT — Hierarchical spatiotemporal tokenizer</li>
+      <li>#10 WAV — World-Value-Action implicit planning</li>
+      <li>#12 ADAPT — Affordance-aware commonsense planning</li>
+      <li>#17 DockAnywhere — View-generalized mobile manipulation</li>
+      <li>#21 R3D — Revisiting 3D policy learning</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-slam">
+    <h3>📍 SLAM &amp; Localization</h3>
+    <p class="cat-desc">Visual-inertial-ranging fusion, calibration-free large-scale SLAM, cave datasets, and semantic pose graphs for drone racing.</p>
+    <ul>
+      <li>#2 Sylvester Pose — Efficient closed-form solvers</li>
+      <li>#3 Dual Pose-Graph — Semantic drone racing loc.</li>
+      <li>#16 CAVERS — Cave multimodal SLAM dataset</li>
+      <li>#27 CAL2M — Calibration-free km-scale SLAM</li>
+      <li>#28 CT-VIR — Continuous-time VIR fusion</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-sensing">
+    <h3>🌲 Radar, LiDAR &amp; Field Sensing</h3>
+    <p class="cat-desc">Precision forestry with heterogeneous robots, multi-platform LiDAR datasets, and 4D radar scan matching advances.</p>
+    <ul>
+      <li>#1 DigiForest — Digital forestry with autonomous robots</li>
+      <li>#7 Multi-platform LiDAR — Forest inventory dataset</li>
+      <li>#8 Graph PCM — 4D radar outlier rejection</li>
+      <li>#24 4D Radar Gaussian — RCS-aware scan matching</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-manip">
+    <h3>🤲 Manipulation &amp; Grasping</h3>
+    <p class="cat-desc">Differentiable regrasp planning, large-scale dexterous grasping datasets, low-cost teleoperation, and POMDP-based object search.</p>
+    <ul>
+      <li>#4 Differentiable Regrasp — EBM pose connectivity</li>
+      <li>#14 HRDexDB — Human &amp; robotic dexterous grasps</li>
+      <li>#18 GNPF-kCT — POMDP object search in 3D</li>
+      <li>#20 DEX-Mouse — $150 teleoperation interface</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-nav">
+    <h3>🗺️ Navigation &amp; Path Planning</h3>
+    <p class="cat-desc">Bio-inspired path planning, coverage planning benchmarks, multi-UAV trajectory optimization, and assistive trajectory frameworks.</p>
+    <ul>
+      <li>#13 NEAT-NC — Neuro-evolution navigation cells</li>
+      <li>#19 Enhanced Tube-RRT* — Multi-UAV cascaded transport</li>
+      <li>#22 MHHTOF — Assistive trajectory optimization</li>
+      <li>#26 Hex Coverage — Maritime CPP benchmark</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-loco">
+    <h3>🦿 Humanoid &amp; Legged Locomotion</h3>
+    <p class="cat-desc">Multi-skill switching for humanoids and passive body dynamics for energy-efficient biped walking and running.</p>
+    <ul>
+      <li>#9 Switch — Agile humanoid skill transitions</li>
+      <li>#15 Passive Biped — Body dynamics exploit for RL</li>
+    </ul>
+  </div>
+  <div class="cat-card cat-safety">
+    <h3>🛡️ Sim2Real, Control &amp; Safety</h3>
+    <p class="cat-desc">Abstract sim2real transfer, energy-regularized neural MPC, conformal-prediction HRC safety, and robotic waste management.</p>
+    <ul>
+      <li>#5 Abstract Sim2Real — Coarse simulator transfer</li>
+      <li>#11 Safe HRC — Conformal prediction guarantees</li>
+      <li>#23 Smart Waste — Robotic bio-digestor framework</li>
+      <li>#25 Energy MPC — Regularized neural MPC for UAVs</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- VLA & POLICY LEARNING -->
+<!-- ============================================ -->
+<div class="section-header sec-vla">🧠 VLA &amp; Policy Learning</div>
+
+<!-- Paper #6: HiST-AT -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">6</span>
+    <span class="h-badge">h=21</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15215v1">A Hierarchical Spatiotemporal Action Tokenizer for In-Context Imitation Learning in Robotics</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Quoc-Huy Tran · h=21</span>
+    </div>
+    <div class="authors-list">Fawad Javed Fateh, Ali Shah Ali, Murad Popattia, Usman Nizamani, Andrey Konin</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Introduces a two-level vector quantization hierarchy where a lower level assigns actions to fine-grained subclusters and an upper level groups these into coarser clusters — unlike flat VQ approaches, this preserves both local action precision and global structure</li>
+        <li>Extends the spatial tokenizer with temporal cues by jointly recovering input actions and their timestamps, enabling the model to capture motion dynamics rather than treating actions as unordered sets</li>
+        <li>Achieves new state-of-the-art on multiple simulation and real-robot manipulation benchmarks for in-context imitation learning, where the agent must generalize from a handful of demonstrations at test time</li>
+        <li>Demonstrates that the hierarchical design consistently outperforms its non-hierarchical counterpart, suggesting that multi-resolution action representations are key to efficient few-shot policy transfer</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">We present a novel hierarchical spatiotemporal action tokenizer for in-context imitation learning. We first propose a hierarchical approach, which consists of two successive levels of vector quantization. In particular, the lower level assigns input actions to fine-grained subclusters, while the higher level further maps fine-grained subclusters to clusters. Our hierarchical approach outperforms the non-hierarchical counterpart, while mainly exploiting spatial information by reconstructing input actions. Furthermore, we extend our approach by utilizing both spatial and temporal cues, forming a hierarchical spatiotemporal action tokenizer, namely HiST-AT. Specifically, our hierarchical spatiotemporal approach conducts multi-level clustering, while simultaneously recovering input actions and their associated timestamps. Finally, extensive evaluations on multiple simulation and real robotic manipulation benchmarks show that our approach establishes a new state-of-the-art performance in in-context imitation learning.</div></details>
+  </div>
+</div>
+
+<!-- Paper #10: WAV Model -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">10</span>
+    <span class="h-badge">h=10</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14732v1">World-Value-Action Model: Implicit Planning for Vision-Language-Action Systems</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.LG</span>
+      <span class="pill pill-author">Hongyin Zhang · h=10</span>
+    </div>
+    <div class="authors-list">Runze Li, Hongyin Zhang, Junxi Jin, Qixin Zeng, Zifeng Zhuang</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Provides a theoretical analysis showing that planning directly in action space suffers from exponential probability decay of feasible trajectories with increasing horizon — motivating the shift to latent-space inference</li>
+        <li>Unifies world model, trajectory value function, and action generation into a single framework where the model progressively concentrates probability mass on high-value, dynamically feasible trajectories</li>
+        <li>Unlike explicit trajectory optimizers like CEM or MPPI, WAV performs implicit planning through structured latent representations, avoiding the computational cost of forward rollouts during inference</li>
+        <li>Demonstrates significant improvements in task success rate, generalization, and robustness over state-of-the-art VLA methods, with particularly strong gains in long-horizon and compositional scenarios</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Vision-Language-Action (VLA) models have emerged as a promising paradigm for building embodied agents that ground perception and language into action. However, most existing approaches rely on direct action prediction, lacking the ability to reason over long-horizon trajectories and evaluate their consequences, which limits performance in complex decision-making tasks. In this work, we introduce World-Value-Action (WAV) model, a unified framework that enables implicit planning in VLA systems. Rather than performing explicit trajectory optimization, WAV model learn a structured latent representation of future trajectories conditioned on visual observations and language instructions. A learned world model predicts future states, while a trajectory value function evaluates their long-horizon utility. Action generation is then formulated as inference in this latent space, where the model progressively concentrates probability mass on high-value and dynamically feasible trajectories. We provide a theoretical perspective showing that planning directly in action space suffers from an exponential decay in the probability of feasible trajectories as the horizon increases. In contrast, latent-space inference reshapes the search distribution toward feasible regions, enabling efficient long-horizon decision making. Extensive simulations and real-world experiments demonstrate that the WAV model consistently outperforms state-of-the-art methods, achieving significant improvements in task success rate, generalization ability, and robustness, especially in long-horizon and compositional scenarios.</div></details>
+  </div>
+</div>
+
+<!-- Paper #12: ADAPT -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">12</span>
+    <span class="h-badge">h=9</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14902v1">ADAPT: Benchmarking Commonsense Planning under Unspecified Affordance Constraints</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">cs.CL</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Jia-Fong Yeh · h=9</span>
+    </div>
+    <div class="authors-list">Pei-An Chen, Yong-Ching Liang, Jia-Fong Yeh, Hung-Ting Su, Yi-Ting Chen</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Introduces DynAfford, a benchmark where object affordances change dynamically over time and are never specified in the instruction — forcing agents to perceive states, infer preconditions, and adapt on the fly rather than blindly following commands</li>
+        <li>ADAPT is a plug-and-play module that augments any existing task planner with explicit affordance reasoning, checking whether target objects can actually be manipulated before committing to actions</li>
+        <li>A domain-adapted, LoRA-finetuned VLM used as the affordance inference backend outperforms GPT-4o, demonstrating that task-aligned fine-tuning beats scale for grounded physical reasoning</li>
+        <li>Shows significant robustness improvements across both seen and unseen environments, highlighting that affordance awareness is a missing piece in current embodied AI pipelines</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Intelligent embodied agents should not simply follow instructions, as real-world environments often involve unexpected conditions and exceptions. However, existing methods usually focus on directly executing instructions, without considering whether the target objects can actually be manipulated, meaning they fail to assess available affordances. To address this limitation, we introduce DynAfford, a benchmark that evaluates embodied agents in dynamic environments where object affordances may change over time and are not specified in the instruction. DynAfford requires agents to perceive object states, infer implicit preconditions, and adapt their actions accordingly. To enable this capability, we introduce ADAPT, a plug-and-play module that augments existing planners with explicit affordance reasoning. Experiments demonstrate that incorporating ADAPT significantly improves robustness and task success across both seen and unseen environments. We also show that a domain-adapted, LoRA-finetuned vision-language model used as the affordance inference backend outperforms a commercial LLM (GPT-4o), highlighting the importance of task-aligned affordance grounding.</div></details>
+  </div>
+</div>
+
+<!-- Paper #17: DockAnywhere -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">17</span>
+    <span class="h-badge">h=5</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15023v1">DockAnywhere: Data-Efficient Visuomotor Policy Learning for Mobile Manipulation via Novel Demonstration Generation</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Ziyu Shan · h=5</span>
+    </div>
+    <div class="authors-list">Ziyu Shan, Yuheng Zhou, Gaoyuan Wu, Ziheng Ji, Zhenyu Wu</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Identifies the "view generalization problem" in mobile manipulation — where docking point shifts between training and deployment cause visuomotor policies to fail — and solves it by lifting a single demonstration to diverse feasible docking configurations</li>
+        <li>Decouples docking-dependent base motions from contact-rich manipulation skills that remain invariant across viewpoints, enabling structure-preserving augmentation of demonstrations</li>
+        <li>Synthesizes visual observations in 3D by representing robot and objects as point clouds and applying point-level spatial editing, ensuring observation-action consistency across viewpoints without requiring additional real demonstrations</li>
+        <li>Achieves substantial success rate improvements on both ManiSkill and real-world platforms, with strong generalization to completely novel docking points unseen during training</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Mobile manipulation is a fundamental capability that enables robots to interact in expansive environments such as homes and factories. Most existing approaches follow a two-stage paradigm, where the robot first navigates to a docking point and then performs fixed-base manipulation using powerful visuomotor policies. However, real-world mobile manipulation often suffers from the view generalization problem due to shifts of docking points. To address this issue, we propose a novel low-cost demonstration generation framework named DockAnywhere, which improves viewpoint generalization under docking variability by lifting a single demonstration to diverse feasible docking configurations. Specifically, DockAnywhere lifts a trajectory to any feasible docking points by decoupling docking-dependent base motions from contact-rich manipulation skills that remain invariant across viewpoints. Feasible docking proposals are sampled under feasibility constraints, and corresponding trajectories are generated via structure-preserving augmentation. Visual observations are synthesized in 3D space by representing the robot and objects as point clouds and applying point-level spatial editing to ensure the consistency of observation and action across viewpoints. Extensive experiments on ManiSkill and real-world platforms demonstrate that DockAnywhere substantially improves policy success rates and easily generalizes to novel viewpoints from unseen docking points during training, significantly enhancing the generalization capability of mobile manipulation policy in real-world deployment.</div></details>
+  </div>
+</div>
+
+<!-- Paper #21: R3D -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">21</span>
+    <span class="h-badge">h=3</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15281v1">R3D: Revisiting 3D Policy Learning</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Zhengdong Hong · h=3</span>
+    </div>
+    <div class="authors-list">Zhengdong Hong, Shenrui Wu, Haozhe Cui, Boyi Zhao, Ran Ji</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Systematically diagnoses why 3D policy learning has underperformed expectations: the omission of 3D data augmentation and the adverse effects of Batch Normalization — rather than inherent limitations of 3D representations — are the primary culprits</li>
+        <li>Proposes a new architecture pairing a scalable transformer-based 3D encoder with a diffusion decoder, engineered for training stability at scale and designed to leverage large-scale 3D pre-training</li>
+        <li>Significantly outperforms state-of-the-art 3D baselines on challenging manipulation benchmarks, establishing that 3D policy learning can be competitive when training recipes are corrected</li>
+        <li>Opens the door to scaling 3D imitation learning by removing the instabilities and overfitting problems that previously prevented adopting powerful 3D perception models for robot control</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">3D policy learning promises superior generalization and cross-embodiment transfer, but progress has been hindered by training instabilities and severe overfitting, precluding the adoption of powerful 3D perception models. In this work, we systematically diagnose these failures, identifying the omission of 3D data augmentation and the adverse effects of Batch Normalization as primary causes. We propose a new architecture coupling a scalable transformer-based 3D encoder with a diffusion decoder, engineered specifically for stability at scale and designed to leverage large-scale pre-training. Our approach significantly outperforms state-of-the-art 3D baselines on challenging manipulation benchmarks, establishing a new and robust foundation for scalable 3D imitation learning. Project Page: https://r3d-policy.github.io/</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLAM & LOCALIZATION -->
+<!-- ============================================ -->
+<div class="section-header sec-slam">📍 SLAM &amp; Localization</div>
+
+<!-- Paper #2: Sylvester Pose -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num rank-gold">2</span>
+    <span class="h-badge">h=39</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14747v1">Efficient closed-form approaches for pose estimation using Sylvester forms</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">E. Malis · h=39</span>
+    </div>
+    <div class="authors-list">Jana Vráblíková, Ezio Malis, Laurent Busé</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Introduces a new class of resultant-based solvers that exploit Sylvester forms to reduce the algebraic complexity of closed-form pose estimation — unlike prior resultant approaches that use larger elimination matrices</li>
+        <li>Demonstrates numerical accuracy on par with state-of-the-art solvers while achieving faster computational times, which is critical for real-time applications like visual servoing and SLAM</li>
+        <li>Applies the framework to both 3D-to-3D and 3D-to-2D correspondence problems (PnP), showing the generality of the Sylvester form approach across different pose estimation variants</li>
+        <li>Leverages careful rotation parametrization to reduce the optimization to a polynomial system, then uses the structure of Sylvester matrices to avoid the full resultant computation</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Solving non-linear least-squares problem for pose estimation (rotation and translation) is often a time consuming yet fundamental problem in several real-time computer vision applications. With an adequate rotation parametrization, the optimization problem can be reduced to the solution of a system of polynomial equations and solved in closed form. Recent advances in efficient closed form solvers utilizing resultant matrices have shown a promising research direction to decrease the computation time while preserving the estimation accuracy. In this paper, we propose a new class of resultant-based solvers that exploit Sylvester forms to further reduce the complexity of the resolution. We demonstrate that our proposed methods are numerically as accurate as the state-of-the-art solvers, and outperform them in terms of computational time. We show that this approach can be applied for pose estimation in two different types of problems: estimating a pose from 3D to 3D correspondences, and estimating a pose from 3D points to 2D points correspondences.</div></details>
+  </div>
+</div>
+
+<!-- Paper #3: Dual Pose-Graph -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num rank-gold">3</span>
+    <span class="h-badge">h=28</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15168v1">Dual Pose-Graph Semantic Localization for Vision-Based Autonomous Drone Racing</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">P. Campoy · h=28</span>
+    </div>
+    <div class="authors-list">David Perez-Saura, Miguel Fernandez-Cortizas, Alvaro J. Gaona, Pascual Campoy</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Proposes a dual pose-graph architecture where a temporary graph accumulates multiple gate observations between keyframes and optimizes them into a single refined constraint per landmark before promoting it to a persistent main graph — preventing graph growth from degrading real-time performance</li>
+        <li>Achieves 56% to 74% reduction in Absolute Trajectory Error compared to standalone VIO on the TII-RATM dataset, demonstrating that structured racing environments can be exploited for robust localization</li>
+        <li>Ablation study confirms the dual-graph design achieves 10–12% higher accuracy than a single-graph baseline at identical computational cost, validating the information-preserving design</li>
+        <li>Successfully deployed in the A2RL competition for real-time onboard localization during high-speed flight, reducing drift by up to 4.2 m per lap compared to the odometry baseline</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Autonomous drone racing demands robust real-time localization under extreme conditions: high-speed flight, aggressive maneuvers, and payload-constrained platforms that often rely on a single camera for perception. Existing visual SLAM systems, while effective in general scenarios, struggle with motion blur and feature instability inherent to racing dynamics, and do not exploit the structured nature of racing environments. In this work, we present a dual pose-graph architecture that fuses odometry with semantic detections for robust localization. A temporary graph accumulates multiple gate observations between keyframes and optimizes them into a single refined constraint per landmark, which is then promoted to a persistent main graph. This design preserves the information richness of frequent detections while preventing graph growth from degrading real-time performance. The system is designed to be sensor-agnostic, although in this work we validate it using monocular visual-inertial odometry and visual gate detections. Experimental evaluation on the TII-RATM dataset shows a 56% to 74% reduction in ATE compared to standalone VIO, while an ablation study confirms that the dual-graph architecture achieves 10% to 12% higher accuracy than a single-graph baseline at identical computational cost. Deployment in the A2RL competition demonstrated that the system performs real-time onboard localization during flight, reducing the drift of the odometry baseline by up to 4.2 m per lap.</div></details>
+  </div>
+</div>
+
+<!-- Paper #16: CAVERS -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">16</span>
+    <span class="h-badge">h=5</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15052v1">CAVERS: Multimodal SLAM Data from a Natural Karstic Cave with Ground Truth Motion Capture</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Marcello Chiaberge · h=5</span>
+    </div>
+    <div class="authors-list">Giacomo Franchini, David Rodríguez-Martínez, Alfonso Martínez-Petersen, C. J. Pérez-del-Pulgar, Marcello Chiaberge</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Provides the first multimodal SLAM dataset from a natural karstic cave with mm-accurate 6-DoF ground truth at 120 Hz from a motion capture system installed directly inside the cave — a uniquely challenging environment with irregular geometry, reflective wet surfaces, and zero ambient light</li>
+        <li>Combines RGB-D-I, thermal-IR, and LiDAR sensing across 24 sequences (~335 GB) in both handheld and rover configurations under full darkness and artificial illumination conditions</li>
+        <li>Benchmarks seven state-of-the-art SLAM/odometry algorithms spanning visual, visual-inertial, thermal-inertial, and LiDAR pipelines, establishing quantitative baselines for cave perception</li>
+        <li>Addresses a critical gap: existing subterranean datasets focus on mines or tunnels, which have regular geometry fundamentally different from the branching, irregular passages of natural caves</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Autonomous robots operating in natural karstic caves face perception and navigation challenges that are qualitatively distinct from those encountered in mines or tunnels: irregular geometry, reflective wet surfaces, near-zero ambient light, and complex branching passages. Yet publicly available datasets targeting this environment remain scarce and offer limited sensing modalities and environmental diversity. We present CAVERS, a multimodal dataset acquired in two structurally distinct rooms of Cueva de la Victoria, Málaga, Spain, comprising 24 sequences totaling approximately 335 GB of recorded data. The sensor suite combines an Intel RealSense D435i RGB-D-I camera, an Optris PI640i near-IR thermal camera, and a Velodyne VLP-16 LiDAR, operated both handheld and mounted on a wheeled rover under full darkness and artificial illumination. For most of the sequences, mm-accurate 6-DoF ground truth pose and velocity at 120 Hz are provided by an Optirack motion capture system installed directly inside the cave. We benchmark seven state-of-the-art SLAM and odometry algorithms spanning visual, visual-inertial, thermal-inertial, and LiDAR-based pipelines, as well as a 3D reconstruction pipeline, demonstrating the dataset's usability.</div></details>
+  </div>
+</div>
+
+<!-- Paper #27: CAL2M -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">27</span>
+    <span class="h-badge">h=1</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14795v1">Keep It CALM: Toward Calibration-Free Kilometer-Level SLAM with Visual Geometry Foundation Models via an Assistant Eye</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Tianchen Deng · h=1</span>
+    </div>
+    <div class="authors-list">Tianjun Zhang, Fengyi Zhang, Tianchen Deng, Lin Zhang, Hesheng Wang</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Argues that single linear transforms (Sim3, SL4) are fundamentally insufficient for aligning Visual Geometry Foundation Model outputs at kilometer scale, because VGFMs introduce complex non-linear geometric distortions that accumulate into trajectory drift</li>
+        <li>Introduces an "assistant eye" that exploits the prior of constant physical spacing to eliminate scale ambiguity without any temporal or spatial pre-calibration — a completely novel approach to calibration-free SLAM</li>
+        <li>Proposes an epipolar-guided intrinsic and pose correction model that rectifies rotation and translation errors caused by inaccurate intrinsics through fundamental matrix decomposition</li>
+        <li>Uses anchor propagation for globally consistent mapping, applying nonlinear transformations to elastically align sub-maps rather than rigid transforms, effectively eliminating geometric misalignment at scale</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Visual Geometry Foundation Models (VGFMs) demonstrate remarkable zero-shot capabilities in local reconstruction. However, deploying them for kilometer-level Simultaneous Localization and Mapping (SLAM) remains challenging. In such scenarios, current approaches mainly rely on linear transforms (e.g., Sim3 and SL4) for sub-map alignment, while we argue that a single linear transform is fundamentally insufficient to model the complex, non-linear geometric distortions inherent in VGFM outputs. Forcing such rigid alignment leads to the rapid accumulation of uncorrected residuals, eventually resulting in significant trajectory drift and map divergence. To address these limitations, we present CAL2M (Calibration-free Assistant-eye based Large-scale Localization and Mapping), a plug-and-play framework compatible with arbitrary VGFMs. Distinct from traditional systems, CAL2M introduces an "assistant eye" solely to leverage the prior of constant physical spacing, effectively eliminating scale ambiguity without any temporal or spatial pre-calibration. Furthermore, leveraging the assumption of accurate feature matching, we propose an epipolar-guided intrinsic and pose correction model. Supported by an online intrinsic search module, it can effectively rectify rotation and translation errors caused by inaccurate intrinsics through fundamental matrix decomposition. Finally, to ensure accurate mapping, we introduce a globally consistent mapping strategy based on anchor propagation. By constructing and fusing anchors across the trajectory, we establish a direct local-to-global mapping relationship. This enables the application of nonlinear transformations to elastically align sub-maps, effectively eliminating geometric misalignments and ensuring a globally consistent reconstruction. The source code of CAL2M will be publicly available at https://github.com/IRMVLab/CALM.</div></details>
+  </div>
+</div>
+
+<!-- Paper #28: CT-VIR -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">28</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14545v1">CT-VIR: Continuous-Time Visual-Inertial-Ranging Fusion for Indoor Localization with Sparse Anchors</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Yu-An Liu · h=0</span>
+    </div>
+    <div class="authors-list">Yu-An Liu, Li Zhang</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Addresses the practical constraint that high-accuracy UWB localization requires well-deployed anchors — which is often infeasible in narrow or low-power environments — by constructing virtual anchors from VIO motion priors and UWB measurements</li>
+        <li>Parameterizes the pose trajectory using B-splines in continuous time, enabling natural handling of asynchronous multi-sensor sampling without the discrete-time alignment issues that plague filtering and standard optimization methods</li>
+        <li>Formulates inertial, visual, and ranging constraints as factors in a sliding-window graph, jointly optimizing spline control points and auxiliary parameters for a continuous-time trajectory estimate</li>
+        <li>Demonstrates effectiveness on public datasets and real-world experiments, showing that spline-based continuous-time fusion can balance positioning accuracy, trajectory consistency, and computational efficiency</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Visual-inertial odometry (VIO) is widely used for mobile robot localization, but its long-term accuracy degrades without global constraints. Incorporating ranging sensors such as ultra-wideband (UWB) can mitigate drift; however, high-accuracy ranging usually requires well-deployed anchors, which is difficult to ensure in narrow or low-power environments. Moreover, most existing visual-inertial-ranging (VIR) fusion methods rely on discrete time-based filtering or optimization, making it difficult to balance positioning accuracy, trajectory consistency, and fusion efficiency under asynchronous multi-sensor sampling. To address these issues, we propose a spline-based continuous-time state estimation method for VIR fusion localization. In the preprocessing stage, VIO motion priors and UWB ranging measurements are used to construct virtual anchors and reject outliers, thereby alleviating geometric degeneration and improving range reliability. In the estimation stage, the pose trajectory is parameterized in continuous time using a B-spline, while inertial, visual, and ranging constraints are formulated as factors in a sliding-window graph. The spline control points, together with a small set of auxiliary parameters, are then jointly optimized to obtain a continuous-time trajectory estimate. Evaluations on public datasets and real-world experiments demonstrate the effectiveness and practical potential of the proposed approach.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- RADAR, LIDAR & FIELD SENSING -->
+<!-- ============================================ -->
+<div class="section-header sec-sensing">🌲 Radar, LiDAR &amp; Field Sensing</div>
+
+<!-- Paper #1: DigiForest -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num rank-gold">1</span>
+    <span class="h-badge">h=81</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14652v1">DigiForest: Digital Analytics and Robotics for Sustainable Forestry</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">C. Stachniss · h=81</span>
+    </div>
+    <div class="authors-list">Marco Camurri, Enrico Tomelleri, Matías Mattamala, Sebastián Barbas Laina, Martin Jacquet</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Deploys a complete precision forestry pipeline spanning autonomous data collection with heterogeneous robots (aerial, legged, and marsupial), automated tree trait extraction, a decision support system for growth forecasting, and autonomous selective logging harvesters</li>
+        <li>Validates all four components in real-world forests across Finland, UK, and Switzerland — not just in simulation — demonstrating that the full technology stack works under actual forestry conditions</li>
+        <li>Addresses a critical EU policy need: forests cover ~40% of European land and are central to climate neutrality and biodiversity goals, but current management practices lack the automation needed for tree-level precision at scale</li>
+        <li>The marsupial robot design — where a legged robot deploys from an aerial platform — represents a novel approach to sub-canopy data collection that avoids the limitations of either platform alone</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Covering one third of Earth's land surface, forests are vital to global biodiversity, climate regulation, and human well-being. In Europe, forests and woodlands reach approximately 40% of land area, and the forestry sector is central to achieving the EU's climate neutrality and biodiversity goals; these emphasize sustainable forest management, increased use of long-lived wood products, and resilient forest ecosystems. To meet these goals and properly address their inherent challenges, current practices require further innovation. This chapter introduces DigiForest, a novel, large-scale precision forestry approach leveraging digital technologies and autonomous robotics. DigiForest is structured around four main components: (1) autonomous, heterogeneous mobile robots (aerial, legged, and marsupial) for tree-level data collection; (2) automated extraction of tree traits to build forest inventories; (3) a Decision Support System (DSS) for forecasting forest growth and supporting decision-making; and (4) low-impact selective logging using purpose-built autonomous harvesters. These technologies have been extensively validated in real-world conditions in several locations, including forests in Finland, the UK, and Switzerland.</div></details>
+  </div>
+</div>
+
+<!-- Paper #7: LiDAR Dataset -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">7</span>
+    <span class="h-badge">h=19</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14635v1">A multi-platform LiDAR dataset for standardized forest inventory measurement at long term ecological monitoring sites</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">K. Ellenrieder · h=19</span>
+    </div>
+    <div class="authors-list">Michael R. Chang, Anna Candotti, Karl von Ellenrieder, Enrico Tomelleri, Marco Camurri</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Integrates UAV-borne, terrestrial, and backpack mobile laser scanning from an ICOS forest plot into a single curated dataset — explicitly designed for calibration, benchmarking, and linking 3D structure with ecological observations and allometric models</li>
+        <li>Uses marker-free, SLAM-aware protocols to reduce both field and processing time while maintaining registration quality — a practical innovation for repeated forest inventories at scale</li>
+        <li>Situates acquisitions at a long-term ICOS monitoring site with decades of ecological and flux measurements, creating a unique bridge between remote sensing and established ecological science</li>
+        <li>Provides 333 million TLS points with complementary ULS/MLS data in LAZ and E57 formats with UTM coordinates, enabling benchmarks for registration, segmentation, quantitative structure models, and biomass estimation</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">We present a curated multi-platform LiDAR reference dataset from an instrumented ICOS forest plot, explicitly designed to support calibration, benchmarking, and integration of 3D structural data with ecological observations and standard allometric models. The dataset integrates UAV-borne laser scanning (ULS) to measure canopy coverage, terrestrial laser scanning (TLS) for detailed stem mapping, and backpack mobile laser scanning (MLS) with real-time SLAM for efficient sub-canopy acquisition. We focus on the control plot with the most complete and internally consistent registration, where TLS point clouds (~333 million points) are complemented by ULS and MLS data capturing canopy and understory strata. Marker-free, SLAM-aware protocols were used to reduce field and processing time, while manual and automated methods were combined. Final products are available in LAZ and E57 formats with UTM coordinates, together with registration reports for reproducibility. The dataset provides a benchmark for testing registration methods, evaluating scanning efficiency, and linking point clouds with segmentation, quantitative structure models, and allometric biomass estimation. By situating the acquisitions at a long-term ICOS site, it is explicitly linked to 3D structure with decades of ecological and flux measurements. More broadly, it illustrates how TLS, MLS, and ULS can be combined for repeated inventories and digital twins of forest ecosystems.</div></details>
+  </div>
+</div>
+
+<!-- Paper #8: Graph PCM 4D Radar -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">8</span>
+    <span class="h-badge">h=13</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14857v1">Graph Theoretical Outlier Rejection for 4D Radar Registration in Feature-Poor Environments</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Daniel Adolfsson · h=13</span>
+    </div>
+    <div class="authors-list">Georg Dorndorf, Daniel Adolfsson, Masrur Doostdar</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Integrates graph-based pairwise consistency maximization (PCM) into the ICP loop for 4D radar, with a radar-adapted scoring function that incorporates anisotropic, per-detection uncertainty from a measurement model — unlike standard PCM that assumes isotropic noise</li>
+        <li>Reduces segment relative position error by 29.6% on 1 m segments and up to 55% on 100 m segments compared to the GICP baseline on real open-pit mine data — a setting where feature poverty makes correspondence reliability particularly poor</li>
+        <li>Uses a greedy heuristic to approximate maximum clique finding in the consistency graph, keeping the method suitable for online use despite the combinatorial nature of the outlier rejection problem</li>
+        <li>Specifically targets open-pit mines where the lack of distinctive landmarks compounds radar's inherent challenges of scan sparsity and multipath reflections, demonstrating practical viability in industrial settings</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Automotive 4D imaging radar is well suited for operation in dusty and low-visibility environments, but scan registration remains challenging due to scan sparsity and spurious detections caused by noise and multipath reflections. This difficulty is compounded in feature-poor open-pit mines, where the lack of distinctive landmarks reduces correspondence reliability. We integrate graph-based pairwise consistency maximization (PCM) as an outlier rejection step within the iterative closest points (ICP) loop. We propose a radar-adapted pairwise distance-invariant scoring function for graph-based (PCM) that incorporates anisotropic, per-detection uncertainty derived from a radar measurement model. The consistency maximization problem is approximated with a greedy heuristic that finds a large clique in the pairwise consistency graph. The refined correspondence set improves robustness when the initial association set is heavily contaminated. We evaluate a standard Euclidean distance residual and our uncertainty-aware residual on an open-pit mine dataset collected with a 4D imaging radar. Compared to the generalized ICP (GICP) baseline without PCM, our method reduces segment relative position error (RPE) by 29.6% on 1 m segments and by up to 55% on 100 m segments. The presented method is intended for integration into localization pipelines and is suitable for online use due to the greedy heuristic in graph-based (PCM).</div></details>
+  </div>
+</div>
+
+<!-- Paper #24: 4D Radar Gaussian -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">24</span>
+    <span class="h-badge">h=2</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14868v1">4D Radar Gaussian Modeling and Scan Matching with RCS</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Fernando Amodeo · h=2</span>
+    </div>
+    <div class="authors-list">Fernando Amodeo, Luis Merino, Fernando Caballero</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Incorporates Radar Cross Section (RCS) — a measure of how much radar energy an object reflects — into 3D Gaussian scene models, whereas prior 4D radar work typically discards RCS information during modeling and matching</li>
+        <li>Extends previous 3D Gaussian modeling and scan matching frameworks to model the physical behavior of RCS, enriching scene representations beyond just geometric position and Doppler velocity</li>
+        <li>Demonstrates that including RCS improves scan matching performance by providing additional discriminative information about surface materials and geometry, which is especially valuable when spatial features alone are ambiguous</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">4D millimeter-wave (mmWave) radars are increasingly used in robotics, as they offer robustness against adverse environmental conditions. Besides the usual XYZ position, they provide Doppler velocity measurements as well as Radar Cross Section (RCS) information for every point. While Doppler is widely used to filter out dynamic points, RCS is often overlooked and not usually used in modeling and scan matching processes. Building on previous 3D Gaussian modeling and scan matching work, we propose incorporating the physical behavior of RCS in the model, in order to further enrich the summarized information about the scene, and improve the scan matching process.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- MANIPULATION & GRASPING -->
+<!-- ============================================ -->
+<div class="section-header sec-manip">🤲 Manipulation &amp; Grasping</div>
+
+<!-- Paper #4: Differentiable Regrasp -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">4</span>
+    <span class="h-badge">h=27</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14733v1">Differentiable Object Pose Connectivity Metrics for Regrasp Sequence Optimization</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Weiwei Wan · h=27</span>
+    </div>
+    <div class="authors-list">Liang Qin, Weiwei Wan, Kensuke Harada</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Replaces brittle discrete search over intermediate placements with a continuous, differentiable energy landscape for measuring pose-pair connectivity — enabling gradient-based optimization of intermediate object poses during regrasp planning</li>
+        <li>Models grasp feasibility under an object pose using an Energy-Based Model (EBM) and exploits energy additivity to construct a smooth connectivity metric, providing informative gradients that discrete approaches fundamentally cannot</li>
+        <li>Introduces an adaptive iterative deepening strategy that automatically determines the minimum number of intermediate regrasp steps, eliminating the need to pre-specify the number of regrasps</li>
+        <li>Demonstrates cross-end-effector transfer: a model trained with suction constraints can guide parallel gripper manipulation, suggesting the learned energy landscape captures general pose connectivity rather than gripper-specific feasibility</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Regrasp planning is often required when one pick-and-place cannot transfer an object from an initial pose to a goal pose while maintaining grasp feasibility. The main challenge is to reason about shared-grasp connectivity across intermediate poses, where discrete search becomes brittle. We propose an implicit multi-step regrasp planning framework based on differentiable pose sequence connectivity metrics. We model grasp feasibility under an object pose using an Energy-Based Model (EBM) and leverage energy additivity to construct a continuous energy landscape that measures pose-pair connectivity, enabling gradient-based optimization of intermediate object poses. An adaptive iterative deepening strategy is introduced to determine the minimum number of intermediate steps automatically. Experiments show that the proposed cost formulation provides smooth and informative gradients, improving planning robustness over other alternatives. They also demonstrate generalization to unseen grasp poses and cross-end-effector transfer, where a model trained with suction constraints can guide parallel gripper grasp manipulation. The multi-step planning results further highlight the effectiveness of adaptive deepening and minimum-step search.</div></details>
+  </div>
+</div>
+
+<!-- Paper #14: HRDexDB -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">14</span>
+    <span class="h-badge">h=8</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14944v1">HRDexDB: A Large-Scale Dataset of Dexterous Human and Robotic Hand Grasps</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-author">Hanbyul Joo · h=8</span>
+    </div>
+    <div class="authors-list">Jongbin Lim, Taeyun Ha, Mingi Choi, Jisoo Kim, Byungjun Kim</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Provides closely aligned captures of human dexterity and robotic execution on the same 100 objects under comparable grasping motions — enabling direct cross-domain comparison that existing datasets (which cover either humans or robots, not both) cannot support</li>
+        <li>Includes 1.4K grasping trials with synchronized high-resolution tactile signals, multi-view video, egocentric video, and high-precision 3D motion capture for both agent and manipulated object</li>
+        <li>Captures both successes and failures, providing negative examples that are critical for learning robust policies but are typically absent from curated datasets</li>
+        <li>Serves as a foundational benchmark for multi-modal policy learning and cross-domain dexterous manipulation transfer — the aligned human-robot format specifically enables studying how human grasping strategies translate to different robot hand embodiments</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">We present HRDexDB, a large-scale, multi-modal dataset of high-fidelity dexterous grasping sequences featuring both human and diverse robotic hands. Unlike existing datasets, HRDexDB provides a comprehensive collection of grasping trajectories across human hands and multiple robot hand embodiments, spanning 100 diverse objects. Leveraging state-of-the-art vision methods and a new dedicated multi-camera system, our HRDexDB offers high-precision spatiotemporal 3D ground-truth motion for both the agent and the manipulated object. To facilitate the study of physical interaction, HRDexDB includes high-resolution tactile signals, synchronized multi-view video, and egocentric video streams. The dataset comprises 1.4K grasping trials, encompassing both successes and failures, each enriched with visual, kinematic, and tactile modalities. By providing closely aligned captures of human dexterity and robotic execution on the same target objects under comparable grasping motions, HRDexDB serves as a foundational benchmark for multi-modal policy learning and cross-domain dexterous manipulation.</div></details>
+  </div>
+</div>
+
+<!-- Paper #18: POMDP Object Search -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">18</span>
+    <span class="h-badge">h=5</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14965v1">POMDP-based Object Search with Growing State Space and Hybrid Action Domain</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Shoudong Huang · h=5</span>
+    </div>
+    <div class="authors-list">Yongbo Chen, Hesheng Wang, Shoudong Huang, Hanna Kurniawati</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Formulates object search as a high-dimensional POMDP with a growing state space and hybrid (continuous+discrete) action spaces in 3D — handling the realistic complexity that state and action spaces expand as the robot discovers new objects and areas</li>
+        <li>Proposes GNPF-kCT, a novel online POMDP solver combining belief tree reuse for growing state spaces, a neural process network to filter useless primitive actions, and k-center clustering for efficient high-dimensional action space refinement</li>
+        <li>Outperforms both POMDP-based baselines and state-of-the-art LLM-based object search methods in Gazebo simulations with Fetch and Stretch robots under the same computational and perception constraints</li>
+        <li>Introduces a "guessed target object" strategy with a grid-world model to handle limited-information scenarios, providing useful search guidance when reward signals are sparse or absent</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Efficiently locating target objects in complex indoor environments with diverse furniture, such as shelves, tables, and beds, is a significant challenge for mobile robots. This difficulty arises from factors like localization errors, limited fields of view, and visual occlusion. We address this by framing the object-search task as a highdimensional Partially Observable Markov Decision Process (POMDP) with a growing state space and hybrid (continuous and discrete) action spaces in 3D environments. Based on a meticulously designed perception module, a novel online POMDP solver named the growing neural process filtered k-center clustering tree (GNPF-kCT) is proposed to tackle this problem. Optimal actions are selected using Monte Carlo Tree Search (MCTS) with belief tree reuse for growing state space, a neural process network to filter useless primitive actions, and k-center clustering hypersphere discretization for efficient refinement of high-dimensional action spaces. A modified upper-confidence bound (UCB), informed by belief differences and action value functions within cells of estimated diameters, guides MCTS expansion. Theoretical analysis validates the convergence and performance potential of our method. To address scenarios with limited information or rewards, we also introduce a guessed target object with a grid-world model as a key strategy to enhance search efficiency. Extensive Gazebo simulations with Fetch and Stretch robots demonstrate faster and more reliable target localization than POMDP-based baselines and state-of-the-art (SOTA) non-POMDP-based solvers, especially large language model (LLM) based methods, in object search under the same computational constraints and perception systems. Real-world tests in office environments confirm the practical applicability of our approach.</div></details>
+  </div>
+</div>
+
+<!-- Paper #20: DEX-Mouse -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">20</span>
+    <span class="h-badge">h=4</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15013v1">DEX-Mouse: A Low-cost Portable and Universal Interface with Force Feedback for Data Collection of Dexterous Robotic Hands</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Wook Ko · h=4</span>
+    </div>
+    <div class="authors-list">Joonho Koh, Haechan Jung, Nayoung Kim, Wook Ko, Changjoo Nam</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Builds a complete dexterous hand teleoperation interface for under $150 from commercial off-the-shelf components — dramatically undercutting MoCap glove systems that cost thousands and require per-operator calibration</li>
+        <li>Achieves operator-agnostic, calibration-free operation with integrated kinesthetic force feedback, enabling immediate deployment across diverse environments and platforms without structural modification</li>
+        <li>Supports an "attached configuration" where the robot hand mounts directly on the operator's forearm, producing robot-aligned demonstration data and reducing perceived workload compared to spatially separated setups across all compared interfaces</li>
+        <li>Operators achieved 86.67% task completion rate across various dexterous manipulation tasks in the attached configuration, with the full hardware and software stack open-sourced for community adoption</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Data-driven dexterous hand manipulation requires large-scale, physically consistent demonstration data. Simulation and video-based methods suffer from sim-to-real gaps and retargeting problems, while MoCap glove-based teleoperation systems require per-operator calibration and lack portability, as the robot hand is typically fixed to a stationary arm. Portable alternatives improve mobility but lack cross-platform and cross-operator compatibility. We present DEX-Mouse, a portable, calibration-free hand-held teleoperation interface with integrated kinesthetic force feedback, built from commercial off-the-shelf components under USD 150. The operator-agnostic design requires no calibration or structural modification, enabling immediate deployment across diverse environments and platforms. The interface supports a configuration in which the target robot hand is mounted directly on the forearm of an operator, producing robot-aligned data. In a comparative user study across various dexterous manipulation tasks, operators using the proposed system achieved an 86.67% task completion rate under the attached configuration. Also, we found that the attached configuration reduced the perceived workload of the operators compared to spatially separated teleoperation setups across all compared interfaces. The complete hardware and software stack, including bill of materials, CAD models, and firmware, is open-sourced at https://dex-mouse.github.io/ to facilitate replication and adoption.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- NAVIGATION & PATH PLANNING -->
+<!-- ============================================ -->
+<div class="section-header sec-nav">🗺️ Navigation &amp; Path Planning</div>
+
+<!-- Paper #13: NEAT-NC -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">13</span>
+    <span class="h-badge">h=8</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15076v1">NEAT-NC: NEAT guided Navigation Cells for Robot Path Planning</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">cs.NE</span>
+      <span class="pill pill-author">K. Slimani · h=8</span>
+    </div>
+    <div class="authors-list">Hibatallah Meliani, Khadija Slimani, Samira Khoulji</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Draws directly from neuroscience — using place cells, grid cells, head direction cells, border cells, and speed cells as inputs to an evolving neural network — to model hippocampal spatial cognition for robot path planning</li>
+        <li>Evolves recurrent neural network topologies using NEAT (Neuro-Evolution of Augmenting Topology) that grow in complexity to match the environment, rather than using fixed architectures that may be over- or under-specified</li>
+        <li>Evaluates across both static and dynamic scenarios, showing that the biological navigation cell representation improves NEAT's ability to adapt to complex and varying environments</li>
+        <li>Suggests the approach is well-suited for real-time dynamic path planning in robotics and games, where the environment changes faster than a fixed planner can re-plan</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">To navigate a space, the brain makes an internal representation of the environment using different cells such as place cells, grid cells, head direction cells, border cells, and speed cells. All these cells, along with sensory inputs, enable an organism to explore the space around it. Inspired by these biological principles, we developed NEATNC, a Neuro-Evolution of Augmenting Topology guided Navigation Cells. The goal of the paper is to improve NEAT algorithm performance in path planning in dynamic environments using spatial cognitive cells. This approach uses navigation cells as inputs and evolves recurrent neural networks, representing the hippocampus part of the brain. The performance of the proposed algorithm is evaluated in different static and dynamic scenarios. This study highlights NEAT's adaptability to complex and different environments, showcasing the utility of biological theories. This suggests that our approach is well-suited for real-time dynamic path planning for robotics and games.</div></details>
+  </div>
+</div>
+
+<!-- Paper #19: Multi-UAV Trajectory -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">19</span>
+    <span class="h-badge">h=4</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15074v1">Trajectory Planning for a Multi-UAV Rigid-Payload Cascaded Transportation System Based on Enhanced Tube-RRT*</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-author">Tianhua Gao · h=4</span>
+    </div>
+    <div class="authors-list">Jianqiao Yu, Jia Li, Tianhua Gao</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Develops Enhanced Tube-RRT* with active hybrid sampling and adaptive expansion that achieves higher success and effective sampling rates than STube-RRT* and AETube-RRT* in densely cluttered environments</li>
+        <li>Explicitly incorporates trajectory smoothness cost into the edge cost function to reduce excessive turns — directly mitigating cable-induced oscillations that plague tethered multi-UAV payload systems</li>
+        <li>Formulates a convex quadratic program in Stage II that jointly considers payload translational/rotational dynamics, cable tension constraints, and collision safety to produce smooth, collision-free payload trajectories</li>
+        <li>Validates the complete two-stage framework with centralized geometric control, demonstrating practical feasibility for payload attitude maneuvering in dense obstacle fields where existing methods struggle</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">This paper presents a two-stage trajectory planning framework for a multi-UAV rigid-payload cascaded transportation system, aiming to address planning challenges in densely cluttered environments. In Stage I, an Enhanced Tube-RRT* algorithm is developed by integrating active hybrid sampling and an adaptive expansion strategy, enabling rapid generation of a safe and feasible virtual tube in environments with dense obstacles. Moreover, a trajectory smoothness cost is explicitly incorporated into the edge cost to reduce excessive turns and thereby mitigate cable-induced oscillations. Simulation results demonstrate that the proposed Enhanced Tube-RRT* achieves a higher success rate and effective sampling rate than mixed-sampling Tube-RRT* (STube-RRT*) and adaptive-extension Tube-RRT* (AETube-RRT*), while producing a shorter optimal path with a smaller cumulative turning angle. In Stage II, a convex quadratic program is formulated by considering payload translational and rotational dynamics, cable tension constraints, and collision-safety constraints, yielding a smooth, collision-free desired payload trajectory. Finally, a centralized geometric control scheme is applied to the cascaded system to validate the effectiveness and feasibility of the proposed planning framework, offering a practical solution for payload attitude maneuvering in densely cluttered environments.</div></details>
+  </div>
+</div>
+
+<!-- Paper #22: MHHTOF -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">22</span>
+    <span class="h-badge">h=3</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14986v1">Momentum-constrained Hybrid Heuristic Trajectory Optimization Framework with Residual-enhanced DRL for Visually Impaired Scenarios</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Yongbin Yu · h=3</span>
+    </div>
+    <div class="authors-list">Yuting Zeng, Zhiwen Zheng, Jingya Wang, You Zhou, JiaLing Xiao</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Introduces momentum constraints into heuristic trajectory optimization to suppress abrupt velocity and acceleration changes — directly addressing the comfort requirements of assistive navigation for visually impaired users</li>
+        <li>A residual-enhanced DRL module refines candidate trajectories, combining the coverage of heuristic sampling with the temporal modeling and generalization capabilities of learned policies</li>
+        <li>Proposes a dual-stage cost mechanism: Frenet-space costs ensure trajectory consistency while Cartesian-space reward-driven adaptive weights integrate user preferences for interpretable, user-centric decision-making</li>
+        <li>Converges in nearly half the iterations of baselines while achieving lower and more stable costs, with stable velocity/acceleration profiles and reduced risk in complex dynamic scenarios</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Safe and efficient assistive planning for visually impaired scenarios remains challenging, since existing methods struggle with multi-objective optimization, generalization, and interpretability. In response, this paper proposes a Momentum-Constrained Hybrid Heuristic Trajectory Optimization Framework (MHHTOF). To balance multiple objectives of comfort and safety, the framework designs a Heuristic Trajectory Sampling Cluster (HTSC) with a Momentum-Constrained Trajectory Optimization (MTO), which suppresses abrupt velocity and acceleration changes. In addition, a novel residual-enhanced deep reinforcement learning (DRL) module refines candidate trajectories, advancing temporal modeling and policy generalization. Finally, a dual-stage cost modeling mechanism (DCMM) is introduced to regulate optimization, where costs in the Frenet space ensure consistency, and reward-driven adaptive weights in the Cartesian space integrate user preferences for interpretability and user-centric decision-making. Experimental results show that the proposed framework converges in nearly half the iterations of baselines and achieves lower and more stable costs. In complex dynamic scenarios, MHHTOF further demonstrates stable velocity and acceleration curves with reduced risk, confirming its advantages in robustness, safety, and efficiency.</div></details>
+  </div>
+</div>
+
+<!-- Paper #26: Coverage Path Planning -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">26</span>
+    <span class="h-badge">h=1</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15202v1">Benchmarking Classical Coverage Path Planning Heuristics on Irregular Hexagonal Grids for Maritime Coverage Scenarios</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.AI</span>
+      <span class="pill pill-cat">math.OC</span>
+      <span class="pill pill-author">Gonzalo A. Ruz · h=1</span>
+    </div>
+    <div class="authors-list">Carlos S. Sepúlveda, Gonzalo A. Ruz</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Provides a reproducible benchmark of 17 deterministic heuristics from 7 families on 10,000 Hamiltonian-feasible hexagonal graph instances — filling a gap where classical coverage methods were typically compared on small ad hoc examples or rectangular grids</li>
+        <li>Reveals that the strongest classical Hamiltonian baseline is a Warnsdorff variant using index-based tie-breaking with a terminal-inclusive residual-degree policy, reaching 79.0% Hamiltonian success — and that this underreported implementation detail materially affects performance</li>
+        <li>Shows that heuristics with explicit shortest-path reconnection reliably solve relaxed coverage but almost never produce zero-revisit tours, highlighting a fundamental limitation of greedy approaches on sparse geometric graphs with bottlenecks</li>
+        <li>Targets maritime surveillance, search-and-rescue, and environmental monitoring scenarios where hexagonal grids naturally model operational areas, providing the community with a controlled testbed for heuristic analysis</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Coverage path planning on irregular hexagonal grids is relevant to maritime surveillance, search and rescue and environmental monitoring, yet classical methods are often compared on small ad hoc examples or on rectangular grids. This paper presents a reproducible benchmark of deterministic single-vehicle coverage path planning heuristics on irregular hexagonal graphs derived from synthetic but maritime-motivated areas of interest. The benchmark contains 10,000 Hamiltonian-feasible instances spanning compact, elongated, and irregular morphologies, 17 heuristics from seven families, and a common evaluation protocol covering Hamiltonian success, complete-coverage success, revisits, path length, heading changes, and CPU latency. Across the released dataset, heuristics with explicit shortest-path reconnection solve the relaxed coverage task reliably but almost never produce zero-revisit tours. Exact Depth-First Search confirms that every released instance is Hamiltonian-feasible. The strongest classical Hamiltonian baseline is a Warnsdorff variant that uses an index-based tie-break together with a terminal-inclusive residual-degree policy, reaching 79.0% Hamiltonian success. The dominant design choice is not tie-breaking alone, but how the residual degree is defined when the endpoint is reserved until the final move. This shows that underreported implementation details can materially affect performance on sparse geometric graphs with bottlenecks. The benchmark is intended as a controlled testbed for heuristic analysis rather than as a claim of operational optimality at fleet scale.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- HUMANOID & LEGGED LOCOMOTION -->
+<!-- ============================================ -->
+<div class="section-header sec-loco">🦿 Humanoid &amp; Legged Locomotion</div>
+
+<!-- Paper #9: Switch -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">9</span>
+    <span class="h-badge">h=13</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14834v1">Switch: Learning Agile Skills Switching for Humanoid Robots</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Yinhuai Wang · h=13</span>
+    </div>
+    <div class="authors-list">Yuen-Fui Lau, Qihan Zhao, Yinhuai Wang, Runyi Yu, Hok Wai Tsui</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Addresses a critical safety gap in humanoid locomotion: existing approaches train individual agile skills well but struggle with flexible transitions between them, creating dangerous instability during skill changes</li>
+        <li>Builds a Skill Graph from kinematic similarity within multi-skill motion data, establishing which cross-skill transitions are physically feasible before training — rather than discovering transitions through trial and error</li>
+        <li>An online skill scheduler performs real-time graph search to find optimal feasible transition paths when switching skills or recovering from tracking deviations, ensuring stable execution without offline pre-computation</li>
+        <li>Demonstrates high success rates for agile skill transitions while maintaining strong motion imitation performance — showing that transition quality and individual skill quality are not in fundamental conflict</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Recent advancements in whole-body control through deep reinforcement learning have enabled humanoid robots to achieve remarkable progress in real-world challenging locomotion skills. However, existing approaches often struggle with flexible transitions between distinct skills, creating safety concerns and practical limitations. To address this challenge, we introduce a hierarchical multi-skill system, Switch, enabling seamless skill transitions at any moment. Our approach comprises three key components: (1) a Skill Graph (SG) that establishes potential cross-skill transitions based on kinematic similarity within multi-skill motion data, (2) a whole-body tracking policy trained on this skill graph through deep reinforcement learning, and (3) an online skill scheduler to drive the tracking policy for robust skill execution and smooth transitions. For skill switching or significant tracking deviations, the scheduler performs online graph search to find the optimal feasible path, which ensures efficient, stable, and real-time execution of diverse locomotion skills. Comprehensive experiments demonstrate that Switch empowers humanoid to execute agile skill transitions with high success rates while maintaining strong motion imitation performance.</div></details>
+  </div>
+</div>
+
+<!-- Paper #15: Passive Biped -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">15</span>
+    <span class="h-badge">h=6</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14565v1">Model-Based Reinforcement Learning Exploits Passive Body Dynamics for High-Performance Biped Robot Locomotion</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-author">Tomoya Kamimura · h=6</span>
+    </div>
+    <div class="authors-list">Tomoya Kamimura, Haruka Washiyama, Akihito Sano</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Shows that biped robots with passive elements (springs) trained via model-based deep RL converge to stable limit cycles through dynamic interaction with the ground — the attractor-driven learning produces locomotion that is both robust and energy-efficient</li>
+        <li>Compares robots with and without passive elements in simulation, finding that passive dynamics fundamentally change the learning landscape: trajectories converge quickly to limit cycles but take longer to achieve high rewards, suggesting a trade-off between stability and reward optimization speed</li>
+        <li>Demonstrates that implementing passive properties in the robot body is crucial for future embodied AI — the body's mechanical intelligence reduces the computational burden on the learned controller</li>
+        <li>Generates both walking and running gaits from the same framework, showing that passive dynamics enable multiple locomotion modes without separate skill-specific training</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Embodiment is a significant keyword in recent machine learning fields. This study focused on the passive nature of the body of a biped robot to generate walking and running locomotion using model-based deep reinforcement learning. We constructed two models in a simulator, one with passive elements (e.g., springs) and the other, which is similar to general humanoids, without passive elements. The training of the model with passive elements was highly affected by the attractor of the system. This lead that although the trajectories quickly converged to limit cycles, it took a long time to obtain large rewards. However, thanks to the attractor-driven learning, the acquired locomotion was robust and energy-efficient. The results revealed that robots with passive elements could efficiently acquire high-performance locomotion by utilizing stable limit cycles generated through dynamic interaction between the body and ground. This study demonstrates the importance of implementing passive properties in the body for future embodied AI.</div></details>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SIM2REAL, CONTROL & SAFETY -->
+<!-- ============================================ -->
+<div class="section-header sec-safety">🛡️ Sim2Real, Control &amp; Safety</div>
+
+<!-- Paper #5: Abstract Sim2Real -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">5</span>
+    <span class="h-badge">h=22</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15289v1">Abstract Sim2Real through Approximate Information States</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Josiah P. Hanna · h=22</span>
+    </div>
+    <div class="authors-list">Yunfu Deng, Yuhao Li, Josiah P. Hanna</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Formalizes the "abstract sim2real" problem — transferring policies from simulators that deliberately omit key task details — using the language of state abstraction from RL theory, providing a principled framework rather than ad hoc domain randomization</li>
+        <li>Shows theoretically that an abstract simulator can be grounded to match the target task if the grounded dynamics take the history of states into account, connecting approximate information states to sim2real transfer guarantees</li>
+        <li>Introduces a practical method that uses real-world task data to correct the dynamics of the abstract simulator, enabling successful policy transfer even when the simulator's abstraction level is intentionally coarse</li>
+        <li>Validates the approach in both sim2sim and sim2real settings, demonstrating that the formalism translates to practical improvements when detailed simulators are unavailable or prohibitively expensive to build</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">In recent years, reinforcement learning (RL) has shown remarkable success in robotics when a fast and accurate simulator is available for a given task. When using RL and simulation, more simulator realism is generally beneficial but becomes harder to obtain as robots are deployed in increasingly complex and widescale domains. In such settings, simulators will likely fail to model all relevant details of a given target task and this observation motivates the study of sim2real with simulators that leave out key task details. In this paper, we formalize and study the abstract sim2real problem: given an abstract simulator that models a target task at a coarse level of abstraction, how can we train a policy with RL in the abstract simulator and successfully transfer it to the real-world? Our first contribution is to formalize this problem using the language of state abstraction from the RL literature. This framing shows that an abstract simulator can be grounded to match the target task if the grounded abstract dynamics take the history of states into account. Based on the formalism, we then introduce a method that uses real-world task data to correct the dynamics of the abstract simulator. We then show that this method enables successful policy transfer both in sim2sim and sim2real evaluation.</div></details>
+  </div>
+</div>
+
+<!-- Paper #11: Safe HRC -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">11</span>
+    <span class="h-badge">h=9</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.15221v1">Vision-Based Safe Human-Robot Collaboration with Uncertainty Guarantees</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.CV</span>
+      <span class="pill pill-author">Jakob Thumm · h=9</span>
+    </div>
+    <div class="authors-list">Jakob Thumm, Marian Frei, Tianle Ni, Matthias Althoff, Marco Pavone</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Combines aleatoric uncertainty estimation with out-of-distribution detection for vision-based human pose estimation, achieving high probabilistic confidence that is essential for certifiable safety — unlike approaches that estimate only one type of uncertainty</li>
+        <li>Proposes conformal prediction sets for human motion predictions with high, provably valid confidence intervals, enabling integration with formal safety verification frameworks</li>
+        <li>Bridges the gap between vision-based perception (which is inherently uncertain) and certifiable safety frameworks (which require guaranteed bounds), making formal safety assurances practical for real-world human-robot collaboration</li>
+        <li>Evaluates on both recorded human motion data and a real-world HRC setting, demonstrating that the uncertainty-aware pipeline provides meaningful safety guarantees without being overly conservative</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">We propose a framework for vision-based human pose estimation and motion prediction that gives conformal prediction guarantees for certifiably safe human-robot collaboration. Our framework combines aleatoric uncertainty estimation with OOD detection for high probabilistic confidence. To integrate our pipeline in certifiable safety frameworks, we propose conformal prediction sets for human motion predictions with high, valid confidence. We evaluate our pipeline on recorded human motion data and a real-world human-robot collaboration setting.</div></details>
+  </div>
+</div>
+
+<!-- Paper #23: Waste Management -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">23</span>
+    <span class="h-badge">h=3</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14882v1">An Intelligent Robotic and Bio-Digestor Framework for Smart Waste Management</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-cat">cs.LG</span>
+      <span class="pill pill-author">M. Srinivas · h=3</span>
+    </div>
+    <div class="authors-list">Radhika Khatri, Adit Tewari, Nikhil Sharma, M. B. Srinivas</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Integrates a YOLOv8-based robotic waste segregation system (MyCobot 280 + Jetson Nano) with an optimized bio-digestor in a single end-to-end framework — connecting the sorting and processing stages that are typically treated separately</li>
+        <li>Achieves 98% sorting accuracy across four waste categories using ROS-based path planning with real-time YOLOv8 detection, reducing the need for manual intervention in the sorting stage</li>
+        <li>Uses Particle Swarm Optimization combined with a regression model to dynamically adjust bio-digestor parameters (temperature, pH, pressure, RPM), maximizing digestion efficiency under varying environmental conditions</li>
+        <li>Provides a scalable solution suitable for both residential and industrial applications, addressing the growing challenge of municipal waste management driven by rapid urbanization</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Rapid urbanization and continuous population growth have made municipal solid waste management increasingly challenging. These challenges highlight the need for smarter and automated waste management solutions. This paper presents the design and evaluation of an integrated waste management framework that combines two connected systems, a robotic waste segregation module and an optimized bio-digestor. The robotic waste segregation system uses a MyCobot 280 Jetson Nano robotic arm along with YOLOv8 object detection and robot operating system (ROS)-based path planning to identify and sort waste in real time. It classifies waste into four different categories with high precision, reducing the need for manual intervention. After segregation, the biodegradable waste is transferred to a bio-digestor system equipped with multiple sensors. These sensors continuously monitor key parameters, including temperature, pH, pressure, and motor revolutions per minute. The Particle Swarm Optimization (PSO) algorithm, combined with a regression model, is used to dynamically adjust system parameters. This intelligent optimization approach ensures stable operation and maximizes digestion efficiency under varying environmental conditions. System testing under dynamic conditions demonstrates a sorting accuracy of 98% along with highly efficient biological conversion. The proposed framework offers a scalable, intelligent, and practical solution for modern waste management, making it suitable for both residential and industrial applications.</div></details>
+  </div>
+</div>
+
+<!-- Paper #25: Energy MPC -->
+<div class="paper-card">
+  <div class="paper-rank">
+    <span class="rank-num">25</span>
+    <span class="h-badge">h=2</span>
+  </div>
+  <div class="paper-body">
+    <div class="paper-title"><a href="http://arxiv.org/abs/2604.14678v1">Energy-based Regularization for Learning Residual Dynamics in Neural MPC for Omnidirectional Aerial Robots</a></div>
+    <div class="paper-meta">
+      <span class="pill">2026-04-16</span>
+      <span class="pill pill-cat">eess.SY</span>
+      <span class="pill pill-cat">cs.RO</span>
+      <span class="pill pill-author">Henrik Krauss · h=2</span>
+    </div>
+    <div class="authors-list">Johannes Kübel, Henrik Krauss, Jinjie Li, Moju Zhao</div>
+    <div class="contributions">
+      <div class="contributions-label">Core Contributions</div>
+      <ul>
+        <li>Proposes a physics-inspired energy-based regularization loss that encourages the neural residual dynamics model to produce control corrections that stabilize the system's energy — injecting physical priors that standard neural MPC training lacks</li>
+        <li>Improves positional MAE by 23% over analytical MPC across three real-world omnidirectional aerial robot experiments, demonstrating that learned residual dynamics provide meaningful corrections to the nominal model</li>
+        <li>Achieves up to 15% lower MAE and significantly increased flight stability compared to standard neural MPC without energy regularization, showing that the regularization prevents the neural model from learning destabilizing corrections</li>
+        <li>The energy regularization acts as an implicit safety constraint during training, producing more conservative but stable control corrections without requiring explicit constraint formulation in the MPC optimization</li>
+      </ul>
+    </div>
+    <details class="abstract-toggle"><summary>Show abstract</summary><div class="abstract-text">Data-driven Model Predictive Control (MPC) has lately been the core research subject in the field of control theory. The combination of an optimal control framework with deep learning paradigms opens up the possibility to accurately track control tasks without the need for complex analytical models. However, the system dynamics are often nuanced and the neural model lacks the potential to understand physical properties such as inertia and conservation of energy. In this work, we propose a novel energy-based regularization loss function which is applied to the training of a neural model that learns the residual dynamics of an omnidirectional aerial robot. Our energy-based regularization encourages the neural network to cause control corrections that stabilize the energy of the system. The residual dynamics are integrated into the MPC framework and improve the positional mean absolute error (MAE) over three real-world experiments by 23% compared to an analytical MPC. We also compare our method to a standard neural MPC implementation without regularization and primarily achieve a significantly increased flight stability implicitly due to the energy regularization and up to 15% lower MAE. Our code is available under: https://github.com/johanneskbl/jsk_aerial_robot/tree/develop/neural_MPC.</div></details>
+  </div>
+</div>
+
+<footer>
+  Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-04-16
+</footer>
+
+</div>
+</body>
+</html>
