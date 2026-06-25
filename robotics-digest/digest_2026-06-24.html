@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotics arXiv Digest — 2026-06-24</title>
+<style>
+:root {
+  --bg: #f8f9fa; --card-bg: #ffffff; --text: #1a1a2e; --text-secondary: #555;
+  --accent: #2563eb; --border: #e2e8f0; --gold: #f59e0b;
+  --cat1: #2563eb; --cat2: #7c3aed; --cat3: #dc2626; --cat4: #059669;
+  --cat5: #d97706; --cat6: #0891b2; --cat7: #be185d;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+header { text-align: center; padding: 40px 20px 30px; }
+header h1 { font-size: 2rem; margin-bottom: 8px; }
+header .date { font-size: 1.1rem; color: var(--text-secondary); }
+.header-stats { display: flex; gap: 12px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.header-stats .stat { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 0.85rem; color: var(--text-secondary); }
+.badge-claude { background: linear-gradient(135deg, #d4a574, #c2956b); color: white; border: none; font-weight: 600; }
+.landscape { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 30px; }
+.landscape h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--accent); }
+.landscape p { margin-bottom: 14px; color: var(--text-secondary); font-size: 0.95rem; }
+.category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 30px; }
+.category-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; transition: box-shadow .2s; }
+.category-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.category-card h3 { font-size: 0.95rem; margin-bottom: 6px; }
+.category-card .cat-desc { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 8px; }
+.category-card ul { list-style: none; padding: 0; }
+.category-card li { font-size: 0.8rem; color: var(--text-secondary); padding: 2px 0; }
+.cat-border-1 { border-left: 4px solid var(--cat1); }
+.cat-border-2 { border-left: 4px solid var(--cat2); }
+.cat-border-3 { border-left: 4px solid var(--cat3); }
+.cat-border-4 { border-left: 4px solid var(--cat4); }
+.cat-border-5 { border-left: 4px solid var(--cat5); }
+.cat-border-6 { border-left: 4px solid var(--cat6); }
+.cat-border-7 { border-left: 4px solid var(--cat7); }
+.section-header { padding: 14px 20px; border-radius: 10px; margin: 30px 0 16px; color: white; font-size: 1.1rem; font-weight: 700; }
+.sh-1 { background: var(--cat1); } .sh-2 { background: var(--cat2); } .sh-3 { background: var(--cat3); }
+.sh-4 { background: var(--cat4); } .sh-5 { background: var(--cat5); } .sh-6 { background: var(--cat6); } .sh-7 { background: var(--cat7); }
+.paper-card { display: flex; gap: 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 14px; transition: box-shadow .2s; }
+.paper-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+.rank-col { display: flex; flex-direction: column; align-items: center; min-width: 48px; gap: 8px; }
+.rank-num { font-size: 1.4rem; font-weight: 800; color: var(--text-secondary); }
+.rank-gold { color: var(--gold); }
+.h-badge { background: #dbeafe; color: #1e40af; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 12px; white-space: nowrap; }
+.paper-body { flex: 1; min-width: 0; }
+.paper-body h3 { font-size: 1rem; margin-bottom: 8px; line-height: 1.4; }
+.paper-body h3 a { color: var(--text); text-decoration: none; }
+.paper-body h3 a:hover { color: var(--accent); text-decoration: underline; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; background: #f1f5f9; color: var(--text-secondary); }
+.authors { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px; }
+.contrib-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--accent); margin-bottom: 6px; }
+.contrib-list { list-style: none; padding: 0; }
+.contrib-list li { font-size: 0.88rem; padding: 3px 0; color: var(--text-secondary); }
+.contrib-list li::before { content: "\25B8 "; color: var(--accent); font-weight: bold; }
+details { margin-top: 10px; }
+summary { font-size: 0.82rem; color: var(--accent); cursor: pointer; font-weight: 600; }
+details .abstract-text { font-size: 0.84rem; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+footer { text-align: center; padding: 40px 20px; font-size: 0.8rem; color: #999; }
+@media (max-width: 600px) {
+  .paper-card { flex-direction: column; }
+  .rank-col { flex-direction: row; }
+  header h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>🤖 Robotics arXiv Digest</h1>
+  <div class="date">Wednesday, June 24, 2026</div>
+  <div class="header-stats">
+    <span class="stat">📄 30 papers</span>
+    <span class="stat">📂 7 research areas</span>
+    <span class="stat badge-claude">Generated by Claude</span>
+  </div>
+</header>
+<div class="landscape">
+  <h2>🔭 Research Landscape</h2>
+  <p>Today's 30 papers show vision-language-action models pivoting from raw capability toward <strong>deployability</strong>. Rather than scaling data, the VLA work isolates specific obstacles between a pretrained policy and a reliable robot: Learning Action Priors (#1) gives the action module a temporal motion prior so it no longer learns physical motion from scratch; In-Context World Modeling (#6) treats new viewpoints and morphologies as a system-identification problem solved in-context with no parameter updates; FORCE (#10) stabilizes RL fine-tuning past the imitation ceiling for a 79% absolute success gain; Action ControlNet (#11) is a lightweight adapter that smooths asynchronous control under inference latency; and ROAD-VLA (#20) converts sparse rewards into dense token-level supervision for online adaptation. The shared thesis is that the binding constraint on generalist policies is now structure, adaptation, and timing — motion priors, configuration shift, sample efficiency, latency, sparse reward — not more teleoperation.</p>
+  <p>A second current widens and disciplines the <strong>supervision that feeds manipulation policies</strong>. ForceBand (#2) injects the missing contact-force channel into cheap human video demos via a wrist-worn sEMG band; DeformGen (#16) manufactures physically valid deformable-object demos by forward-simulating localized disturbances; SRDP (#23) constrains diffusion to real industrial process limits for robotic polishing; and LoRA policy libraries (#25) make many specialist policies storable with a 20-160x memory cut. Running alongside, tactile sensing makes a pointed push on reproducibility and generalization: the 3D-printable texture benchmark (#17) and TacVerse's cross-sensor study (#18) both find that strong within-sensor accuracy masks brittle cross-sensor or cross-printer transfer — a candid evaluation note echoing the broader lesson that easy benchmarks flatter.</p>
+  <p>The third theme is squeezing <strong>robustness and efficiency</strong> from perception and control under real-world degradation and tight compute. State estimation hardens against degeneracy and GNSS denial: SA-LIVO's direction-selective fusion (#26), magnetometer-inertial-LiDAR fusion (#21), CUDA-accelerated high-speed LIO at 250 km/h (#8), low-latency object SLAM (#15), and semantic Active SLAM that beats bigger foundation models with better maps (#5, 90.6% SR). Several papers mine unconventional signals — radar chassis shadows for 3D geometry (#19) and drone quantum magnetometry for buried-survivor detection (#14). Control turns toward tuning-free efficiency with explicit power budgets for underwater vehicles (#27), learned event-triggering for soft-robot DeePC (#3, 66% fewer solves), and meta-learned Lyapunov control (#28), while locomotion confronts faults and extreme terrain via fault-conditioned experts (#13), 55° hollow stairs (#22), and asynchronous humanoid tracking (#24). Together the day reads as a field consolidating around making learned systems robust, efficient, and honest about where they break.</p>
+</div>
+<div class="category-grid">
+  <div class="category-card cat-border-1">
+    <h3>VLA &amp; Embodied Foundation Models</h3>
+    <p class="cat-desc">Closing the deployment gap for vision-language-action models: motion priors, in-context system identification, stabilized RL fine-tuning, latency-aware control, and online self-distillation.</p>
+    <ul>
+      <li>#1 Learning Action Priors for Cross-embodiment Robot Ma...</li>
+      <li>#6 In-Context World Modeling for Robotic Control</li>
+      <li>#10 FORCE: Efficient VLA Reinforcement Fine-Tuning via V...</li>
+      <li>#11 Action ControlNet: A Lightweight Delay-Aware Adapter...</li>
+      <li>#20 ROAD-VLA: Robust Online Adaptation via Self-Distilla...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-2">
+    <h3>Robot Learning &amp; Manipulation Policies</h3>
+    <p class="cat-desc">Widening and disciplining manipulation supervision: force-enriched human demos, physics-based deformable augmentation, process-constrained diffusion, and memory-efficient policy libraries.</p>
+    <ul>
+      <li>#2 ForceBand: Learning Forceful Manipulation with sEMG</li>
+      <li>#16 DeformGen: Dynamics-Based Topology Augmentation for ...</li>
+      <li>#23 Stage-Aware and Roughness-Constrained Diffusion Poli...</li>
+      <li>#25 Memory-Efficient Policy Libraries with Low-Rank Adap...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-3">
+    <h3>Tactile &amp; Contact Sensing</h3>
+    <p class="cat-desc">Reproducible, cross-sensor tactile perception: a 3D-printable texture benchmark and a multi-sensor vision-based tactile dataset probing sensor shift.</p>
+    <ul>
+      <li>#17 A 3D-Printable Dataset for Fair Testing and Comparis...</li>
+      <li>#18 TacVerse: A Multi-Sensor Dataset and Benchmark for C...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-4">
+    <h3>Legged Locomotion &amp; Humanoid Control</h3>
+    <p class="cat-desc">Robust locomotion under faults and extreme terrain: fault-conditioned mixture-of-experts, hollow-stair climbing, and asynchronous humanoid trajectory tracking.</p>
+    <ul>
+      <li>#13 Mixture-of-Experts RL for Fault-Tolerant Legged Loco...</li>
+      <li>#22 StairMaster: Learning to Conquer Risky Hollow Stairs...</li>
+      <li>#24 Learning Asynchronous Upper-body Task-space Trajecto...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-5">
+    <h3>SLAM, Odometry &amp; Localization</h3>
+    <p class="cat-desc">State estimation hardened against degeneracy, GNSS denial, latency, and compute limits: semantic Active SLAM, high-speed LIO, real-time object SLAM, magnetic fusion, and direction-selective LIVO.</p>
+    <ul>
+      <li>#5 RoboAtlas: Contextual Active SLAM</li>
+      <li>#8 FAR-LIO: Enabling High-Speed Autonomy through Fast, ...</li>
+      <li>#15 DSP-SLAM++: A Unified Framework for Multi-Class, Hig...</li>
+      <li>#21 MIL-LC: A Robust Magnetometer-Inertial-LiDAR Fusion ...</li>
+      <li>#26 SA-LIVO: Efficient LiDAR-Inertial-Visual Odometry wi...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-6">
+    <h3>Navigation, Planning &amp; Perception</h3>
+    <p class="cat-desc">Intention-aware crowd navigation, dense-cost diffusion planning, event-triggered VLM motion planning, and unconventional sensing cues (radar shadows, quantum magnetometry, rotation-only calibration).</p>
+    <ul>
+      <li>#4 Learning Robot Visual Navigation in Crowds via Inten...</li>
+      <li>#7 G2DP: Diffusion Planning with Spatio-Temporal Grid G...</li>
+      <li>#30 Event-Adaptive Motion Planning with Distilled Vision...</li>
+      <li>#14 From Rubble Simulation to Active Magnetic Mapping: Q...</li>
+      <li>#19 Beyond a Shadow of a Doubt: Close Proximity Geometry...</li>
+      <li>#29 Calousel: Extrinsic Calibration of Non-overlapping M...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-7">
+    <h3>Control Theory &amp; Robotic Systems</h3>
+    <p class="cat-desc">Tuning-free and adaptive control plus enabling systems: learned event-triggered DeePC, explicit power budgets, meta-learned Lyapunov control, artist-facing HRI, and sensorized prosthetics.</p>
+    <ul>
+      <li>#3 Deep Reinforcement Learning-Enhanced Event-Triggered...</li>
+      <li>#27 Power-Budgeted Underwater Vehicle Control via Constr...</li>
+      <li>#28 Learning to Adapt: Reptile-D-Learning for Robust and...</li>
+      <li>#9 Emcar: Embodied Controller for Animating Robots</li>
+      <li>#12 A Sensorised Lattice Footplate for a Semi-Active Pro...</li>
+    </ul>
+  </div>
+</div>
+<div class="section-header sh-1">VLA &amp; Embodied Foundation Models</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#1</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26095v1" target="_blank">Learning Action Priors for Cross-embodiment Robot Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Dong Jing</span>
+    </div>
+    <div class="authors">Dong Jing, Tianqi Zhang, Jiaqi Liu, Jinman Zhao, Zelong Sun</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Diagnoses a structural weakness in standard VLAs: bolting an action head onto a VLM forces that head to learn physical motion from scratch while simultaneously solving cross-modal alignment — doubly hard in cross-embodiment settings.</li>
+      <li>Decouples the problem with a two-stage recipe: Stage 1 pretrains a lightweight flow-matching encoder-decoder on raw, unconditioned action trajectories alone (no vision or language), instilling cross-embodiment temporal motion structure; Stage 2 transfers it via decoder reuse and early latent distillation.</li>
+      <li>Bonus reuse: the Stage-1 encoder doubles as a history compressor, folding state-action history into a single context token for near-free history-aware control.</li>
+      <li>Why it matters: across 13 cross-embodiment tasks (sim and real) it converges faster with higher success, biggest gains on data-scarce real tasks; scaling Stage-1 action data yields a more generalizable prior that lifts downstream VLA performance.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Most Vision-Language-Action (VLA) models build on a Vision-Language Model (VLM) backbone by attaching an action module and optimizing the full policy jointly. This design inherits strong visual and linguistic priors from the VLM, but leaves the action module to learn physical motion almost from scratch. As a result, the policy lacks an explicit motion prior, forcing early optimization to simultaneously discover temporal action dynamics and cross-modal alignment, a challenge further amplified in cross-embodiment settings. In this work, we propose to pretrain the action module with motion priors before cross-modal VLA alignment. Specifically, we introduce a two-stage training framework that equips the action module with cross-embodiment temporal motion structure before VLA training begins. In Stage~1, a lightweight flow-matching-based encoder-decoder action module efficiently learns temporal motion structure solely from unconditioned action trajectories, without processing visual or language tokens. In Stage~2, this learned prior is transferred to VLA training through decoder reuse and early-stage latent distillation, aligning visual-language features with the action embedding space while still allowing end-to-end policy refinement. In addition, the trained encoder serves as a compact history compressor, summarizing state-action histories into a single temporal context token for history-aware modeling at negligible cost. Extensive experiments across 13 diverse cross-embodiment tasks on both simulated and real-world platforms validate the effectiveness of our approach. Compared with VLA training without action priors, our model achieves faster convergence, higher success rates, and substantially stronger performance on data-scarce real-world tasks. Moreover, scaling up the action data in Stage~1 yields a more generalizable action prior that directly improves downstream VLA performance.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#6</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26025v1" target="_blank">In-Context World Modeling for Robotic Control</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Siyin Wang</span>
+    </div>
+    <div class="authors">Siyin Wang, Junhao Shi, Senyu Fei, Zhaoyang Fu, Li Ji</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Recasts generalization failures (new camera viewpoints, new robot morphologies) as a system-identification problem rather than a need for more fine-tuning data, since standard VLAs implicitly assume a fixed execution context.</li>
+      <li>Treats system identification as in-context adaptation: the policy infers essential system variables from a short history of self-generated, task-agnostic interactions before executing the task.</li>
+      <li>Unlike ordinary in-context learning that uses demonstrations to specify what task to do, ICWM uses the context window to learn how the current system behaves — capturing world dynamics with no parameter updates.</li>
+      <li>Why it matters: significantly outperforms standard VLA baselines on novel camera viewpoints in sim and on real robots, pointing to adaptation without per-environment retraining.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Modern Vision-Language-Action (VLA) models often fail to generalize to novel setups, such as altered camera viewpoints or robot morphologies, because they are typically conditioned only on current observations and language instructions. By ignoring the underlying system configuration as a variable, these models implicitly assume a fixed execution context encountered during training, necessitating data-intensive fine-tuning for any new environment. In this work, we introduce In-Context World Modeling (ICWM), a framework that treats system identification as an in-context adaptation problem. ICWM enables robot policies to autonomously infer essential system variables from a short history of self-generated, task-agnostic interactions. Unlike traditional In-Context Learning that uses demonstrations to specify what task to perform, ICWM leverages the context window to understand how the system operates. By processing these interactions before task execution, the model implicitly captures the world dynamics of the current system, enabling adaptation to novel configurations without parameter updates. Extensive experiments in simulation and on real-world robot platforms demonstrate that ICWM significantly outperforms standard VLA baselines on novel camera viewpoints.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#10</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26006v1" target="_blank">FORCE: Efficient VLA Reinforcement Fine-Tuning via Value-Calibrated Warm-up and Self-Distillation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span>
+      <span class="pill">👤 Shuyi Zhang</span>
+    </div>
+    <div class="authors">Shuyi Zhang, Yunfan Lou, Hongyang Cheng, Yichen Guo, Chuyao Fu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Targets the two reasons RL fine-tuning of VLAs is sample-inefficient: catastrophic initial unlearning from an unstable Q-function, and wasteful policy updates from low-quality exploration data.</li>
+      <li>FORCE adds a Value-Calibrated Warm-Up that uses on-policy rollouts to fix the Q-function&#x27;s distributional shift, then uses that calibrated Q-function as a filter so only high-value actions (from both the policy and expert data) drive updates.</li>
+      <li>Quantitative: 79% absolute improvement in success rate, +10% over prior RL methods, and 32.5% faster training — without the usual success-rate drop and without human intervention.</li>
+      <li>Why it matters: a stable, autonomous route past the imitation ceiling imposed by sub-optimal data.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision-Language-Action (VLA) models are often constrained by the imitation ceiling imposed by sub-optimal data. While Reinforcement Learning (RL) fine-tuning can surpass this limit, it is notoriously sample inefficient. This challenge arises from two core issues: (1) catastrophic initial unlearning due to an unstable Q-function and (2) inefficient policy updates caused by low-quality exploration data, often forcing a reliance on costly human interventions. We introduce FORCE, a 3-stage framework that stabilizes fine-tuning by tackling both issues. FORCE first incorporates a Value-Calibrated Warm-Up phase, utilizing on-policy rollouts to mitigate the distributional shift of the Q-function. Subsequently, during the online stage, this calibrated Q-function acts as a filter for both the policy&#x27;s own action proposals and expert data, ensuring only high-value actions are used for the policy update. We evaluate FORCE on various simulation and real-world tasks, and the result shows that FORCE achieves a 79% absolute improvement in success rates and outperform prior RL methods by 10%, while accelerating training by 32.5%. Critically, it mitigates the common success rate drop and achieves this robust performance without human intervention, marking a significant step towards deploying capable and autonomous robotic agents.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#11</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25985v1" target="_blank">Action ControlNet: A Lightweight Delay-Aware Adapter for Smooth Asynchronous Control in Vision-Language-Action Models</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Tiecheng Guo</span>
+    </div>
+    <div class="authors">Tiecheng Guo, Meng Guo</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Attacks a deployment bottleneck of asynchronous VLA execution: overlapping inference with motion means the next action chunk is predicted from stale observations, causing handoff discontinuities, jitter, and contact-rich failures.</li>
+      <li>Action ControlNet (ACNet) is a lightweight delay-aware adapter that conditions a mostly frozen action head on the already-executed motion suffix as a residual, leaving the pretrained backbone untouched.</li>
+      <li>Adds few trainable parameters and stays compatible with generative action heads such as diffusion and flow matching — no full-policy retraining or architecture-specific runtime logic.</li>
+      <li>Why it matters: on Kinetix, Meta-World MT50, and a real SO-ARM101, it yields smoother asynchronous trajectories and better robustness under inference delay than direct chunk stitching.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision-language-action (VLA) models have shown strong potential for general-purpose robot manipulation, but their inference latency remains a major obstacle to stable high-frequency control. Asynchronous execution mitigates this bottleneck by overlapping policy inference with action execution, yet the next action chunk is still predicted from stale observations while the robot continues to move. Direct chunk stitching therefore introduces handoff discontinuities, action jitter, and failures in contact-rich manipulation. Existing remedies typically require either full-policy retraining or architecture-specific runtime logic. This work proposes Action ControlNet (ACNet), a lightweight delay-aware adapter that uses the executed motion suffix as a residual condition for a mostly frozen action head. ACNet leaves the pretrained backbone unchanged, introduces few trainable parameters, and remains compatible with generative action heads such as diffusion and flow matching. On Kinetix, Meta-World MT50, and a real-world SO-ARM101 platform, ACNet improves robustness under inference delay and yields smoother asynchronous trajectories than direct chunk stitching, while remaining more lightweight than full delay-conditioned retraining.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#20</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25800v1" target="_blank">ROAD-VLA: Robust Online Adaptation via Self-Distillation for Vision-Language-Action Models</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.LG</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Kejing Wang</span>
+    </div>
+    <div class="authors">Kejing Wang, Toan Nguyen, Minh Hoang Nguyen, Simon Khan, Flora D. Salim</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Addresses why online VLA adaptation is hard: sparse rewards give weak supervision for high-dimensional autoregressive action policies, and text-based privileged teachers expose a modality gap with low-level actions.</li>
+      <li>ROAD-VLA builds a proximal teacher directly in action space by perturbing action-token logits with calibrated advantage estimates, converting sparse rewards into dense token-level supervision while keeping the teacher near the current policy.</li>
+      <li>Backs the design with a derived policy-improvement lower bound under calibrated advantages and accurate teacher matching.</li>
+      <li>Quantitative: across seven manipulation environments with in- and out-of-distribution shifts, outperforms PPO in nearly all settings.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Effective online adaptation of vision-language-action (VLA) models remains challenging, as sparse rewards provide weak supervision for high-dimensional autoregressive action policies. Although self-distillation can in principle provide denser training signals, we find that text-based privileged teachers conditioned on demonstrations, retrieved experiences, or high-level plans are ineffective for VLA adaptation, exposing a modality gap between symbolic guidance and low-level robot actions. We propose ROAD-VLA, an advantage-guided self-distillation framework that constructs a proximal teacher directly in action space by perturbing action-token logits with calibrated advantage estimates. This converts sparse rewards into dense token-level supervision while keeping the teacher close to the current policy. We further derive a policy-improvement lower bound under calibrated advantages and accurate teacher matching. Across seven robotic manipulation environments with in-distribution and out-of-distribution shifts, ROADVLA outperforms PPO in nearly all settings, demonstrating robust online VLA adaptation.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-2">Robot Learning &amp; Manipulation Policies</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#2</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26093v1" target="_blank">ForceBand: Learning Forceful Manipulation with sEMG</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Botao He</span>
+    </div>
+    <div class="authors">Botao He, Zhi Wang, Linna Kuang, Ishaan Ghosh, Jitendra Malik</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Targets a blind spot in scalable demo sources (mocap, internet video): they capture motion and appearance but not the contact forces that force-sensitive manipulation depends on.</li>
+      <li>Introduces a cheap wrist-worn sEMG band plus an EMG2Force model that predicts per-finger forces from muscle activity and IMU, so ordinary video demos get retroactively labeled with force traces after a brief per-user calibration.</li>
+      <li>Backed by a 10-hour multimodal dataset (egocentric video, sEMG, IMU, fingertip force) across diverse actions and objects.</li>
+      <li>Quantitative: over 50% lower force-prediction error than vision-based baselines and 87% success on pick, squeeze, and place tasks requiring object-specific force control across varied shapes, sizes, and weights.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Human demonstrations are a scalable data source for learning robot manipulation policies. However, common sources of human demonstration data, such as motion-capture trajectories and internet videos, capture mostly motion and appearance while missing the contact forces that are critical for force-sensitive manipulation. In this paper, we introduce ForceBand, a low-cost wrist-worn sEMG system that turns human muscle activity into force-enriched demonstrations. We first collect a 10-hour multimodal dataset containing egocentric video, sEMG, IMU, and fingertip force measurements across diverse actions and objects. Using this dataset, we pre-train an EMG2Force model that predicts per-finger forces from sEMG and IMU signals. After a short user-specific calibration, users can collect target-task demonstrations using only ForceBand and video; EMG2Force then labels these demonstrations with per-finger force traces, producing force-augmented demonstrations for robot policy learning. Experiments show that ForceBand recovers fine-grained fingertip interactions with over 50% lower force prediction error than vision-based baselines and achieves an 87% success rate on pick, squeeze, and place tasks that require object-specific force control across objects with diverse shapes, sizes, and weights. Project website: https://forceband-emg.github.io</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#16</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25939v1" target="_blank">DeformGen: Dynamics-Based Topology Augmentation for Deformable Manipulation Policy Learning</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Zili Lin</span>
+    </div>
+    <div class="authors">Zili Lin, Wenyao Zhang, Yuyang Zhang, Zekun Qi, Junyan Lin</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Explains why demonstration augmentation fails for deformable objects: the state space is high-dimensional with physics constraints (low-dimensional pose perturbations can&#x27;t reach valid configs), and trajectory transfer is non-equivariant because material points don&#x27;t move rigidly.</li>
+      <li>For states, it applies localized physical disturbances and forward-simulates the dynamics to reach topology-coherent, physically plausible deformations rather than geometric shortcuts.</li>
+      <li>For trajectories, deformation-field warping lifts per-particle displacements into a continuous spatial function, re-fitting the end-effector path to the deformed geometry.</li>
+      <li>Why it matters: jointly augmenting state and behavior beats both raw demos and rigid-style augmentation on high-fidelity deformable benchmarks.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Demonstration augmentation is proposed for cost-efficient data acquisition, but existing methods are fundamentally limited in deformable manipulation due to two challenges: (1) the state space is high-dimensional with physics-induced constraints, making valid configurations impossible to reach via low-dimensional pose perturbations; and (2) trajectory transfer is non-equivariant, as material points no longer move rigidly together under deformation. We present DeformGen, a dynamics-based augmentation framework that achieves topological diversity for deformable objects. For the state challenge, DeformGen expands the valid state distribution by applying localized physical disturbances and forward-simulating the dynamics to obtain topology-coherent, physically plausible deformable states. For the trajectory challenge, DeformGen transfers source manipulation trajectories via deformation-field warping, which lifts per-particle displacements into a continuous spatial function to adapt the end-effector trajectory consistently with the deformed geometry. In this way, our method jointly augments the state distribution and its associated manipulation behavior. Experiments on high-fidelity deformable manipulation benchmarks show that DeformGen generally improves policy learning compared with training on the original demonstrations alone and with rigid-style augmentation baselines.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#23</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25754v1" target="_blank">Stage-Aware and Roughness-Constrained Diffusion Policy for Multi-Stage Robotic Polishing</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Shuai Ke</span>
+    </div>
+    <div class="authors">Shuai Ke, Jiexin Zhang, Huan Zhao, Zhiao Wei, Yikun Guo</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Brings imitation learning to industrial polishing, where long horizons, unlabeled stage transitions, and coupled process parameters defeat standard diffusion policies.</li>
+      <li>Infers a process-stage posterior from multimodal observation history and conditions a shared denoiser on it, producing stage-consistent actions with no external stage labels at run time.</li>
+      <li>Adds roughness-oriented constrained sampling to generate feasible feed speed and normal contact force under stage-wise preset spindle speeds, tying outputs to physical process limits.</li>
+      <li>Why it matters: validated on real spacecraft cabin coating-surface and inner-cavity finishing, improving stage-transition stability, parameter consistency, and final surface quality over advanced baselines.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Polishing is a critical finishing process in high-end manufacturing fields such as aerospace, where surface quality directly affects the service performance and reliability of components. Robotic imitation learning provides a flexible solution for such tasks, but current methods remain limited in industrial polishing because of long-horizon dependencies, uncertain stage transitions, and the difficulty of modeling and regulating coupled process parameters. To address these issues, this paper proposes a Stage-Aware and Roughness-Constrained Diffusion Policy (SRDP) for robotic polishing. SRDP infers the process-stage posterior from multimodal observation histories and uses it to condition the shared reverse denoising process, enabling stage-consistent action generation without external stage labels during execution. Furthermore, a roughness-oriented process-constrained diffusion sampling method is incorporated to generate constrained feed speed and normal contact force under stage-wise preset spindle speeds, thereby improving process consistency and physical feasibility. Systematic experiments are conducted on two representative scenarios, namely spacecraft cabin coating-surface polishing and inner-cavity structural surface finishing. Comparisons with advanced baselines, ablation studies, and real-robot validations comprehensively evaluate the proposed method. The results show that SRD improves stage-transition stability, process-parameter consistency, and final surface quality across different polishing scenarios.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#25</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25700v1" target="_blank">Memory-Efficient Policy Libraries with Low-Rank Adaptation in Reinforcement Learning</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.LG</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Samuel Valland Lyngset</span>
+    </div>
+    <div class="authors">Samuel Valland Lyngset, Tor Viljen Raanaas, Gard Sveipe, Eirik Møller Nilsen, Jim Torresen</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Asks whether LoRA-style parameter-efficient fine-tuning, proven for LLMs, transfers to multi-task RL where a library of specialist policies must be stored — a setting where memory is the binding constraint.</li>
+      <li>Fine-tunes a PPO baseline per task with low-rank adapters instead of full networks, directly attacking the storage cost of many specialists.</li>
+      <li>Quantitative: 20-160x less memory than full fine-tuning depending on hyperparameters — a 90-95% storage saving for libraries of 10-50 policies — with no significant success-rate difference.</li>
+      <li>Why it matters: potentially the difference between holding a whole policy library in memory versus paging to swap on resource-limited robots.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">When fine-tuning Large Language Models (LLMs), there has been success in minimizing both memory usage and computation with Parameter-Efficient Fine-Tuning (PEFT), like Low Rank Adaptation (LoRA). In this article, we have explored whether this approach is transferable to the world of robotics and Reinforcement Learning (RL), allowing learning with reduced memory usage and improved computational performance. Specifically, we focused on a version of multi-task robotics, where a library of specialist policies are created. In such a library memory efficiency is especially important. We used a Proximal Policy Optimization (PPO) algorithm and fine-tuned a baseline model to different tasks using LoRA. Our results demonstrate that, depending on the hyperparameters, LoRA can minimize memory usage by a factor of 20-160 compared to full fine-tuning of all layers. This implies a 90-95% storage saving when deploying a library of many (10-50) specialized policies, which can be the differentiating factor between being able to store the entire library in memory or having to use swap-memory in an applied robotics setting. At the same time, our results indicate that there is no significant difference in the success-rate between full fine-tuning and LoRA fine-tuning for the selected tasks.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-3">Tactile &amp; Contact Sensing</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#17</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25886v1" target="_blank">A 3D-Printable Dataset for Fair Testing and Comparisons of Tactile Sensors</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.LG</span>
+      <span class="pill">👤 Dexter R. Shepherd</span>
+    </div>
+    <div class="authors">Dexter R. Shepherd, Nicolas Herzig, Phil Husbands, Andrew Philippides, Chris Johnson</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Reframes tactile benchmarking: rather than sensor readings tied to one device, it defines the textures themselves as mathematically specified, 3D-printable surfaces for fair cross-sensor comparison.</li>
+      <li>Six parametric patterns derived from sine-wave and Fourier functions give controlled variation in spatial frequency, amplitude, and directional structure.</li>
+      <li>A reproducibility study across three printers and multiple filaments (measured via TacTip-sensor variance) shows print quality — peak sharpness and stringing — drives tactile variance, with higher-end printers far more consistent.</li>
+      <li>Why it matters: the first openly available, physically reproducible texture benchmark; within-printer generalization is strong but cross-printer transfer remains hard, exposing a candid reproducibility gap.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Existing texture datasets for tactile sensing primarily consist of sensor readings from a specific sensor interacting with available surfaces/objects rather than describing the textures themselves, limiting fair comparison between tactile sensors and hindering reproducible research. In this work, we introduce a 3D-printable dataset of mathematically defined textures designed to be fabricated reliably across different printers and filament types. The dataset consists of six parametrically generated surface patterns derived from combinations of sine-wave and Fourier-based functions, giving controlled variation in spatial frequency, amplitude, and directional structure. We evaluate the reproducibility of these textures across three popular 3D printers and multiple filament types by measuring variance in images captured using an optical TacTip sensor under controlled contact conditions. Our results show that print quality, particularly peak sharpness and stringing, affects tactile variance, with higher-end printers producing significantly more consistent signatures. Classification experiments using neural networks and PCA-based models further demonstrate that high-quality prints support strong within-printer generalisation, while cross-printer generalisation remains challenging due to geometric inconsistencies. This work establishes the first openly available, physically reproducible 3D-printed texture benchmark, providing a foundation for fair comparison of tactile sensors.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#18</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25877v1" target="_blank">TacVerse: A Multi-Sensor Dataset and Benchmark for Cross-Sensor Vision-Based Tactile Perception</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Lan Wei</span>
+    </div>
+    <div class="authors">Lan Wei, Gurmeher Khurana, Sirine Bhouri, Wenhao Hong, Zeyuan Xin</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Builds a large cross-sensor benchmark for vision-based tactile sensors: 106,800 images from seven VBTSs spanning shape classification, grating classification, and force regression.</li>
+      <li>Tests within-sensor, zero-shot cross-sensor transfer, and few-shot adaptation, isolating exactly how badly tactile models break under sensor shift.</li>
+      <li>Findings: strong within-sensor performance but substantial zero-shot degradation; shape classification is comparatively robust while grating classification and force regression are most sensitive; few-shot helps force regression but doesn&#x27;t fully close the gap.</li>
+      <li>Why it matters: MAE pretraining gives the most consistent gains across tasks and sensors, pointing to self-supervision as a lever for tactile generalization.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision-based tactile sensors (VBTSs) enable robots to infer contact geometry and force-related cues by imaging deformation through an internal camera, yet generalisation across sensor designs remains poorly understood. We present TacVerse, a multi-sensor dataset and benchmark for cross-sensor vision-based tactile perception. The dataset contains 106,800 tactile images from seven VBTSs and supports three downstream tasks: shape classification, grating classification, and force regression. Experiments are conducted under three settings: within-sensor training, zero-shot cross-sensor transfer, and few-shot adaptation. Strong within-sensor performance across all tasks indicates that the collected tactile observations are informative for the target objectives. Direct cross-sensor transfer, however, leads to substantial degradation. Shape classification is comparatively robust, whereas grating classification and force regression are more sensitive to sensor shift. Few-shot adaptation for force regression consistently improves performance on unseen target sensors but does not fully close the gap to within-sensor upper bounds. A representation study further shows that MAE (Masked Autoencoder) pretraining provides the most consistent gains across tasks and sensors. TacVerse provides a controlled testbed for studying sensor shift, data-efficient adaptation, and self-supervised learning in tactile perception.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-4">Legged Locomotion &amp; Humanoid Control</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#13</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25965v1" target="_blank">Mixture-of-Experts RL for Fault-Tolerant Legged Locomotion</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Giulio Turrisi</span>
+    </div>
+    <div class="authors">Giulio Turrisi, Ozan Pali, Luca Oneto, Claudio Semini</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Argues a single monolithic locomotion policy struggles to represent the distinct gaits needed for different actuator-failure modes.</li>
+      <li>Proposes a fault-aware modular architecture that uses fault-diagnosis information to activate specialized control experts tied to specific failure modes — a fault-conditioned mixture of experts.</li>
+      <li>Quantitative: fault-conditioned modular policies consistently beat monolithic policies of equal size across failure scenarios, and stay competitive even at sharply reduced network capacity.</li>
+      <li>Why it matters: compute-frugal robustness aimed at planetary and remote robots where both reliability and limited onboard compute are hard constraints (code released).</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Legged robots deployed in planetary exploration and other remote environments must maintain reliable locomotion despite actuator failures and challenging terrain conditions. Although reinforcement learning has achieved strong results in legged locomotion, monolithic policies can struggle to efficiently represent the diverse control strategies required to compensate for different fault conditions. In this work, we propose a fault-aware modular control architecture that explicitly leverages fault-diagnosis information to activate specialized control experts associated with distinct actuator failure modes. Experimental results show that explicit fault-conditioned modular policies consistently outperform monolithic policies of comparable size, achieving higher locomotion performance across failure scenarios. Moreover, the proposed modular architecture retains competitive performance even under significantly reduced network capacity, highlighting its suitability for compute-constrained robotic platforms, such as those typically employed in space applications. The code associated with this work is available at: https://github.com/iit-DLSLab/fault-locomotion-isaaclab.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#22</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25765v1" target="_blank">StairMaster: Learning to Conquer Risky Hollow Stairs for Agile Quadrupedal Robots</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Xincheng Tang</span>
+    </div>
+    <div class="authors">Xincheng Tang, Youhan Xie, Zhengjie Shu, Wanyu Li, Lai Jiang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Attacks hollow (open-riser) stairs, where leg trapping, severe depth sparsity, and high-frequency depth noise make standard stair-climbing policies fail.</li>
+      <li>Combines a cross-attention module to extract structure from noisy depth with a Spatial-aware Recurrent Unit that maintains spatio-temporal memory across perception blind spots, plus a high-fidelity depth-sensor noise model for sim-to-real.</li>
+      <li>Adds 3D waypoint-guided active perception and hollow-gap and stair-edge penalties to enforce precise foothold placement.</li>
+      <li>Quantitative: zero-shot transfer to a Unitree Go2 climbing hollow stairs up to a 55° incline — claimed first RL policy to achieve such steep hollow-stair climbing on real hardware.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Climbing hollow stairs remains a challenging problem for quadruped robots due to the high risk of leg trapping, severe depth sparsity, and high-frequency depth-sensing noise. In this paper, we propose StairMaster, a novel three-stage reinforcement learning framework for stable locomotion on such extreme discontinuous terrains. Our architecture integrates a Cross-Attention mechanism to extract structural features from noisy depth data, alongside a Spatial-aware Recurrent Unit (SRU) that maintains robust spatio-temporal memory to mitigate perception blind spots. To bridge the sim-to-real gap in depth perception, we propose a high-fidelity sim-to-real depth sensor modeling pipeline that faithfully replicates real-world sensor artifacts. Additionally, we employ a 3D waypoint-guided active perception reward for proactive sensing, alongside hollow gap kinematic and stair edge penalties to ensure precise foothold placement. We successfully deployed StairMaster on a Unitree Go2 robot, demonstrating its ability to conquer hollow stairs with an unprecedented incline of up to 55° through zero-shot transfer. To the best of our knowledge, this is the first RL-based policy to achieve such steep hollow stair climbing in real-world environments.   Project Website: https://sivan666666.github.io/StairMaster/.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#24</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25706v1" target="_blank">Learning Asynchronous Upper-body Task-space Trajectory Tracking Policy for Humanoid Robots</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Yumeng Liu</span>
+    </div>
+    <div class="authors">Yumeng Liu, Dongqi Wang, Jiyu Yu, Yijun Fan, Rong Xiong</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Targets the timing mismatch where humanoid planners emit sparse, low-rate task-space trajectories but whole-body controllers run at high frequency, causing frame drift and incomplete references.</li>
+      <li>Distills a student policy conditioned on the full cached future trajectory plus an execution-time index, trained with a sliding-window global reward to reduce drift without explicit frame estimation.</li>
+      <li>For task-specific post-training, an MPC module completes sparse references into floating-base and upper-body guidance, while action- and FK-level self-guidance constrain policy drift.</li>
+      <li>Why it matters: on Unitree G1 hardware it improves tracking at low update rates and adapts more safely to out-of-distribution motions than synchronous and decoupled baselines.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">High-level humanoid planners often output sparse task-space, low-rate trajectories, whereas whole-body controllers run at high frequency. This creates temporal asynchrony between the planning and execution, and structural incompleteness for full-body control. We propose an asynchronous upper body task-space tracking framework for humanoids. A student policy is initialized by teacher-student distillation, conditioned on the full cached future trajectory and an execution-time index, and trained with a sliding-window global reward to reduce frame drift without explicit frame estimation. For task-specific post-training, an MPC module completes sparse references into floating-base and upper-body guidance, while action- and FK level self-guidance constrain policy drift. Simulation and Unitree G1 hardware experiments show improved tracking under low update rates, stronger performance than synchronous and decoupled baselines, and safer adaptation to out-of-distribution motions.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-5">SLAM, Odometry &amp; Localization</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#5</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26046v1" target="_blank">RoboAtlas: Contextual Active SLAM</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Alexander Schperberg</span>
+    </div>
+    <div class="authors">Alexander Schperberg, Shivam K. Panda, Abraham P. Vinod, M. K. Jawed, Stefano Di Cairano</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Frames Active SLAM as adaptively balancing geometric exploration against semantic reasoning rather than committing to one mode.</li>
+      <li>A contextual multi-armed bandit fuses frontier exploration, global semantic-map reasoning, and egocentric VLM reasoning, transitioning toward semantically guided navigation as scene understanding matures — all over a scalable 3D semantic map (OpenRoboVox).</li>
+      <li>Quantitative: 100% task success in real environments exceeding 1800 m² (~30k semantic instances) on a Unitree Go2; on GOAT-Bench Val Unseen, 90.6% SR with GPT-4o, +17.8pp over the strongest prior baseline.</li>
+      <li>Why it matters: even with the much smaller Qwen2.5-VL-7B it reaches 88.8% SR — beating GPT-4o baselines — showing the semantic map, not just a bigger foundation model, drives the gain.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We present RoboAtlas, a contextual Active SLAM framework that adaptively balances geometric exploration and semantic reasoning using a scalable 3D semantic mapping system, OpenRoboVox. RoboAtlas integrates frontier exploration, global semantic-map reasoning, and egocentric VLM-based reasoning through a contextual multi-armed bandit that transitions from exploration to semantically guided navigation as scene understanding improves. We evaluate the system in simulation and on a Unitree Go2 robot in large-scale real-world environments exceeding 1800 m2 with approx. 30k mapped semantic instances, achieving a 100% task success rate. On the GOAT-Bench &quot;Val Unseen&quot; benchmark, RoboAtlas achieves state-of-the-art performance with highest reported success rate (SR) of 90.6%, using GPT-4o, improving over the strongest prior baseline by 17.8 percentage points in SR. Using the much smaller Qwen2.5-VL-7B model, it still achieves 88.8% SR, outperforming all baselines using GPT-4o in SR, and revealing the importance of the information gained by our semantic mapping framework over simply replacing the underlying foundation model. The results demonstrate that grounding foundation models with large-scale 3D semantic maps enables robust and efficient contextual Active SLAM.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#8</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26010v1" target="_blank">FAR-LIO: Enabling High-Speed Autonomy through Fast, Accurate, and Robust LiDAR-Inertial Odometry</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Maximilian Leitenstern</span>
+    </div>
+    <div class="authors">Maximilian Leitenstern, Marcel Weinmann, Patrick Haft, Tobias Lasser, Dominik Kulmer</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Optimizes LiDAR-inertial odometry for high-speed autonomy (autonomous racing), where minimizing odometry latency is essential for stable closed-loop control.</li>
+      <li>Introduces a CUDA-based voxel hashmap for parallel nearest-neighbor search and efficient map updates, plus a sparsity-aware Generalized ICP with adaptive thresholding and adaptive density for low latency without sacrificing accuracy.</li>
+      <li>An EKF backend with upsampling and delay compensation fuses LiDAR with high-frequency IMU for smooth, robust output.</li>
+      <li>Quantitative: averaged over four sensor setups (including racecars up to 250 km/h), 6.9% lower positional error and 38.4% lower runtime than SOTA with a single parameter set; open-sourced.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robust and accurate odometry estimation is essential in modern robotics. In environments characterized by highly dynamic motion and sensor noise, odometry estimation becomes increasingly challenging. Autonomous racing combines both factors in an unstructured setting, where minimizing odometry latency is essential for stable closed-loop control. This paper introduces FAR-LIO, a highly optimized CUDA-accelerated LiDAR-inertial odometry framework developed for Fast, Accurate, and Robust performance. Our system leverages a novel CUDA-based voxel hashmap to enable parallelized nearest-neighbor search and efficient map updates. We employ a sparsity-aware Generalized Iterative Closest Point algorithm with adaptive thresholding on top of the CUDA-based voxel hashmap with adaptive density to achieve low-latency without compromising accuracy. An Extended Kalman Filter serves as a robust backend. It utilizes an upsampling and delay compensation strategy to fuse the LiDAR odometry with high-frequency IMU data, thereby ensuring a robust and smooth odometry output. We evaluate FAR-LIO across four different sensor setups, using both public datasets and data from two autonomous racecars driving at speeds of up to 250 km/h. FAR-LIO achieves an average 6.9% reduction in the positional error and 38.4% lower runtime compared to state-of-the-art baselines on target hardware using a single parameter set. This demonstrates its computational efficiency and broad applicability. To build upon our work, our code is available open-source on https://github.com/TUMFTM/FAR-LIO.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#15</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25953v1" target="_blank">DSP-SLAM++: A Unified Framework for Multi-Class, High-Fidelity Object SLAM in the Wild</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Ahmad Kourani</span>
+    </div>
+    <div class="authors">Ahmad Kourani, Ghina Daoud, Daniel Asmar, Imad Elhajj</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Breaks the usual object-SLAM trade-off between real-time speed, multi-class support, and high-fidelity, semantically coherent object models.</li>
+      <li>Extends DSP-SLAM with an asynchronous mapping pipeline and dedicated sensor-fusion adaptations for a monocular fisheye-LiDAR suite.</li>
+      <li>Quantitative: up to 70% lower maximum object-processing latency, eliminating the mapping-thread bottleneck and enabling robust real-time operation on a challenging 25 Hz multi-class dataset.</li>
+      <li>Why it matters: makes high-fidelity, multi-class object SLAM practical on common fisheye-LiDAR hardware for driving and manipulation (open-source).</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Existing object-aware SLAM systems force a trade-off between real-time performance, multi-class support, and the generation of high-fidelity, semantically coherent object models. To address this trade-off, we present DSP-SLAM++, which extends the DSP-SLAM framework with an asynchronous mapping pipeline for real-time performance and dedicated sensor fusion adaptations for a monocular fisheye-LiDAR suite. Experiments demonstrate that our system generates fine-grained, geometrically-complete shapes for multiple object classes while eliminating severe mapping thread bottlenecks by reducing maximum object processing latency by up to 70% compared to the state-of-the-art baseline, enabling robust, real-time performance on a challenging 25 Hz multi-class datasets. This work makes high-fidelity, multi-class object SLAM more practical for real-world applications like autonomous driving and robotic manipulation by enabling its use on platforms with common fisheye-LiDAR sensor setups. The open-source code is available at: [github.com/AUBVRL/DSP-SLAMpp].</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#21</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25796v1" target="_blank">MIL-LC: A Robust Magnetometer-Inertial-LiDAR Fusion Multimodal Localization Framework</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Qiyang Lyu</span>
+    </div>
+    <div class="authors">Qiyang Lyu, Zhenyu Wu, Wei Wang, Hongming Shen, Danwei Wang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Brings ambient-magnetic-field localization — previously studied only for pedestrians with smartphone sensors — to autonomous mobile robots in GNSS-denied, geometrically repetitive, or textureless spaces like offices, hotels, and underground parking.</li>
+      <li>Fuses magnetometer, inertial, and LiDAR data with a custom sensor suite so magnetic cues compensate when LiDAR geometrically degenerates.</li>
+      <li>Designed to stay reliable even when the magnetic map itself drifts over long-term deployment.</li>
+      <li>Why it matters: needs no infrastructure beacons and no reliance on geometry or texture features, cutting install and maintenance cost while keeping robust, accurate localization in sim and real tests.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Localization in challenging environments, such as GNSS-denied, geometrically repetitive, or textureless scenes commonly found in offices, hotels, and underground parking facilities, remains an open problem for reliable autonomous mobile robot (AMR) deployment. Single-modality localization methods are inherently limited by the constraints of individual sensors. Although multimodal fusion frameworks have shown improved robustness, most existing approaches still rely heavily on geometric or texture features, or on infrastructure-based beacons, which increase installation and maintenance costs while reducing deployment flexibility. Recently, ambient magnetic field (AMF)-based localization has attracted growing attention because it does not depend on geometric or texture features, nor does it require additional infrastructure, making it a promising complementary modality for AMR localization. However, existing studies have only explored such fusion in pedestrian scenarios using smartphone-mounted sensor suites, and practical solutions for AMR systems remain largely unexplored. To address this gap, this article proposes a magnetometer-inertial-LiDAR fused multimodal localization framework with a custom-designed sensor suite, termed MIL-LC, which provides reliable localization even when LiDAR suffers from geometric degeneration or when the magnetic map changes during long-term deployment. Extensive experiments in both simulation and real-world environments demonstrate that the proposed MIL-LC framework achieves robust and accurate localization performance.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#26</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25699v1" target="_blank">SA-LIVO: Efficient LiDAR-Inertial-Visual Odometry with Subspace-Aware Degeneracy Handling</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Yinong Cao</span>
+    </div>
+    <div class="authors">Yinong Cao, Xin He, Yuwei Chen, Shijie Liu, Chunlai Li</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Argues existing LIVO degeneracy handling is too coarse: binary detection, covariance inflation, and scene-level gating operate per-modality and ignore the direction-dependent structure of the joint information matrix.</li>
+      <li>SA-LIVO eigendecomposes the joint LiDAR-visual information matrix and applies a linear-clamp soft gate per eigendirection, so visual residuals reinforce only directions where LiDAR is weak instead of dispersing across the full state.</li>
+      <li>Because vision only contributes in deficient directions, photometric Jacobians are assembled once before the InEKF loop and reused, avoiding per-iteration cost.</li>
+      <li>Quantitative: across 29 sequences (HILTI&#x27;22, New College, Oxford Spires), 12.3 ms/frame on a laptop CPU and 26.8 ms on an embedded ARM board without GPU, with 3.6-6.3x lower peak memory.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Tightly coupled LiDAR-visual-inertial odometry (LIVO) fuses precise geometric depth with complementary visual measurements, yet its exteroceptive sensors face independent failure modes: LiDAR degenerates when scan geometry is under-constrained, while visual measurements degrade under adverse illumination or texture absence. Existing countermeasures, including binary degeneracy detection, covariance inflation, and scene-level quality gating, operate at the modality level and leave the direction-dependent structure of the joint information matrix unaddressed. Consequently, visual residuals enter pose directions where LiDAR is well-constrained, while in deficient directions visual compensation disperses across the full state space rather than concentrating where needed. We propose SA-LIVO, a LiDAR-inertial-visual odometry system addressing these limitations through direction-selective fusion and information-efficient processing. The Subspace-Aware Information Fusion (SAIF) framework eigendecomposes the joint LiDAR-visual information matrix and applies a linear-clamp soft gate per eigendirection, attenuating degenerate directions while preserving observable ones at full strength. LiDAR and visual residuals are then jointly optimized in one InEKF loop at a shared linearization point. Since visual information contributes only where LiDAR is deficient, photometric Jacobians are assembled once before the loop and reused across iterations, avoiding the per-iteration cost of conventional iterated filters. Experiments on 29 sequences from three benchmarks (HILTI&#x27;22, New College, Oxford Spires) and concurrent-degradation scenarios show accuracy competitive with the strongest baselines and bounded drift where competing systems diverge. SA-LIVO averages 12.3 ms per frame on a laptop CPU and 26.8 ms on an embedded ARM board without GPU, with 3.6-6.3x lower peak memory. The code will be open-sourced.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-6">Navigation, Planning &amp; Perception</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#4</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26047v1" target="_blank">Learning Robot Visual Navigation in Crowds via Intention-Aware Scene Representations</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Han Bao</span>
+    </div>
+    <div class="authors">Han Bao, Bingyi Xia, Hanjing Ye, Yu Zhan, Hao Cheng</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Improves crowd navigation by replacing the common &#x27;pedestrians as 2D points&#x27; abstraction with intention-aware scene representations derived from egocentric visual observations.</li>
+      <li>Pairs a spatio-temporal encoder for scene occupancy with an Intent-Interact Former (I2Former) that encodes human poses to infer pedestrian motion intentions, compressed into a compact state embedding for DRL.</li>
+      <li>Why it matters: captures behavioral and structural context that point-based methods discard, outperforming baselines and demonstrating real-world vision-based crowd navigation.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robot crowd navigation requires the ability to infer human intentions while accounting for the structural constraints of the environment. Currently, deep reinforcement learning (DRL) provides a promising method for learning navigation policies that understand human intentions. However, most of them rely on limited scene representations, treating pedestrians as simple 2D points and ignoring rich visual cues from both humans and the environment. To address this issue, we introduce iCrowdNav, a novel visual crowd navigation method with intention-aware scene representations, to encode behavioral and structural context from egocentric visual observations. Our method employs two key components: a spatio-temporal encoder for extracting occupancy features of the scene, and Intent-Interact Former (I$^2$ Former), an attention-based module that encodes human poses to infer pedestrians&#x27; motion intentions. These features are integrated into a compact state embedding that supports effective DRL policy training. Extensive experiments show that our method achieves superior performance over baselines, and real-world deployment demonstrates vision-based crowd navigation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#7</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26017v1" target="_blank">G2DP: Diffusion Planning with Spatio-Temporal Grid Guidance</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Hang Yu</span>
+    </div>
+    <div class="authors">Hang Yu, Ye Jin, Alessandro Canevaro, Julian Schmidt, Julian Jordan</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Addresses the stochasticity of diffusion planners in dense traffic by enforcing dense environmental constraints during denoising rather than sparse entity-centric queries or post-hoc refinement.</li>
+      <li>Builds a differentiable spatio-temporal cost volume fusing probabilistic future occupancy with a route-progress map, then treats it as a continuous safety energy functional that injects gradients directly into the denoising loop.</li>
+      <li>Quantitative: state-of-the-art on nuPlan, +7.2 points in reactive score over the strongest imitation-learning baseline; zero-shot transfer to interPlan and DeepScenario, with +10.15 collision avoidance over the unguided version on interPlan.</li>
+      <li>Why it matters: shows dense spatio-temporal cost grids are an effective representation for robust guidance in diffusion-based planning.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">In autonomous driving, diffusion-based planners have emerged as a promising paradigm for robust motion planning in dense and interactive traffic, as they can effectively model diverse driving behaviors. However, their inherent stochasticity often requires explicit guidance during denoising to ensure safety and route adherence for robust closed-loop execution. Existing guidance typically relies on sparse, entity-centric geometric queries or post-hoc refinement, yielding limited situational awareness and fragile performance in interactive scenes. To address this issue, we propose G2DP (Grid-Guided Diffusion Planning), a diffusion-based planner that directly enforces dense environmental constraints through inference-time guidance. Specifically, G2DP constructs a differentiable spatio-temporal cost volume by fusing probabilistic future occupancy distributions with a route-progress map. By formulating this volume as a continuous safety energy functional, it injects dense gradients directly into the denoising loop, actively steering trajectory generation toward collision-free and progress-optimal regions. Extensive closed-loop evaluations show that G2DP achieves state-of-the-art performance on nuPlan, outperforming the strongest imitation-learning baseline by +7.2 points in reactive score. It further maintains top scores in zero-shot transfers to interPlan and DeepScenario benchmarks, with collision avoidance improving by +10.15 over the unguided approach on interPlan. These results demonstrate that spatio-temporal cost grids serve as an effective representation for robust guidance in diffusion-based planning.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#30</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25629v1" target="_blank">Event-Adaptive Motion Planning with Distilled Vision-Language Model in Safety-Critical Situations</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Zhenwei Huang</span>
+    </div>
+    <div class="authors">Zhenwei Huang, Changsheng You, Shuai Wang, Chao Zhou, Wei Xu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Tackles the latency problem of putting a VLM in a continuous control loop: frequent VLM calls introduce severe computational latency that destabilizes physical execution.</li>
+      <li>A prompt-configurable semantic event trigger (PC-SET) activates VLM intervention only when short temporal clips show behavioral anomalies, keeping the fast loop free most of the time.</li>
+      <li>On trigger, a distilled SemNav-VLM (fine-tuned via physically verified semantic distillation) maps anomalies to discrete strategy-level decisions, which a semantic MPC turns into reconfigured optimization objectives and geometric references.</li>
+      <li>Why it matters: in safety-critical logistics, aligns high-level reasoning with low-level control, improving dynamic safety margins while preserving real-time efficiency.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robot navigation in safety-critical scenarios faces significant challenges from unforeseen semantic events, where collisions arise primarily from the unpredictable behaviors of dynamic agents rather than unseen objects. While large vision-language models (VLMs) offer remarkable capabilities in commonsense reasoning, frequently invoking them within the continuous control loop introduces severe computational latency, fundamentally destabilizing physical execution. To address these challenges, we propose event-adaptive motion planning (EAMP), an efficient framework for VLM-based robot navigation. Specifically, a prompt-configurable semantic event trigger (PC-SET) selectively activates semantic intervention by continuously monitoring short temporal clips for behavioral anomalies. Upon triggering, an event-triggered distilled SemNav-VLM, fine-tuned via physically verified semantic distillation, maps detected anomalies into discrete strategy-level decisions. Subsequently, a semantic model predictive control (SMPC) module translates these strategies into dynamic reconfigurations of optimization objectives and geometric references. Extensive experiments in safety-critical logistics scenarios demonstrate that EAMP effectively aligns high-level reasoning with low-level control, significantly improving dynamic safety margins over existing baselines while preserving real-time efficiency.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#14</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25957v1" target="_blank">From Rubble Simulation to Active Magnetic Mapping: Quantum Sensing for Disaster Response</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">physics.app-ph</span><span class="pill">quant-ph</span>
+      <span class="pill">👤 Samuel Tovey</span>
+    </div>
+    <div class="authors">Samuel Tovey, Stefan Prestel, Hiroshi Yamauchi</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Proposes drone-based quantum magnetometry as a complementary modality for locating survivors of building collapses, where existing sensors give only partial information about structure beneath the rubble.</li>
+      <li>Builds an end-to-end simulation pipeline: an Unreal Engine steel-reinforced concrete parking-garage collapse, induced magnetic fields via a per-triangle dipole approximation, and active spatial reconstruction.</li>
+      <li>Establishes that meaningful magnetic structure is recoverable in the sub-pT to sub-nT range from roughly 1 m above the roofline, fed to a Gaussian Process Regression back-end with Bayesian active sampling.</li>
+      <li>Quantitative: a three-sensor array optimizes the gradient-resolution-versus-payload trade-off, reaching peak structural correlation in roughly 100 samples — suggesting feasibility for void and survivor detection.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Locating survivors of building collapses within the first 72 hours is a critical challenge in disaster response, and existing sensing modalities provide only partial information about the structure beneath the rubble.   This paper proposes drone-based quantum magnetometry as a complementary modality and develops a simulation pipeline spanning rubble physics, sensor-array deployment, and active spatial reconstruction. We use Unreal Engine to generate a steel-reinforced concrete parking-garage collapse and compute the induced magnetic field via a per-triangle dipole approximation, establishing that meaningful magnetic structure is recoverable in the sub-pT to sub-nT range from roughly 1 m above the roofline. Then, we feed sparse multi-sensor samples into a Gaussian Process Regression back-end driven by Bayesian active sampling and validate the pipeline across multiple independent collapse realizations; a three-sensor array optimizes the trade-off between gradient resolution and UAV payload constraints, and active sampling reaches peak structural correlation in roughly $100$ samples. Together, these results indicate that quantum-grade sensing could become a useful tool for drone-based structural analysis and potentially void detection in collapsed buildings.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#19</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25829v1" target="_blank">Beyond a Shadow of a Doubt: Close Proximity Geometry Reconstruction Using FMCW Radar Shadow Effects</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Felix de Trogoff du Boisguezennec</span>
+    </div>
+    <div class="authors">Felix de Trogoff du Boisguezennec, Benjamin Ramtoula, Daniele De Martini</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Turns a radar limitation into a feature: mmWave FMCW radar resists bad weather and lighting but suffers elevation collapse; the authors exploit the distinctive geometric shadow a vehicle chassis casts on radar rays.</li>
+      <li>Derives an analytical, closed-form mapping from a slender vertical object&#x27;s radar-return boundaries to its opening angle, recovering 3D in-plane inclination without assumptions about the wider scene.</li>
+      <li>Validated in simulation and on a Navtech CTS350-X radar, with segmentation of the object in the radar scan emerging as the main bottleneck.</li>
+      <li>Why it matters: introduces chassis shadows as a novel geometric cue, extending 2D rotating radar from localization toward 3D scene reconstruction.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Reliable perception in adverse conditions remains challenging for autonomous systems, as cameras and LiDAR degrade in poor lighting or weather. Millimetre-wave FMCW radar is robust to such conditions, but its elevation collapse limits geometric reasoning. We observe that vehicle chassis occlude radar rays and form a distinctive geometric shadow, and its consistency can enable us to infer useful information about objects whose returns intersect this shadow. Motivated by this observation, we propose a method to recover the 3D, in-plane inclination of nearby slender vertical objects from this cue. The object inclination is retrieved without assumptions about the wider scene, but through an analytical, closed-form mapping between its radar return boundaries and the opening angle. Validation in simulation and experimentation on a Navtech CTS350-X radar shows that inclinations can be estimated under practical conditions, with segmentation of the object in the radar scan emerging as the main bottleneck. This work highlights chassis shadows as a novel geometric cue, extending the role of 2D rotating radar beyond localisation and toward 3D scene reconstruction.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#29</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25646v1" target="_blank">Calousel: Extrinsic Calibration of Non-overlapping Multi-camera Systems from Pure Rotation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Gwanhyeong Song</span>
+    </div>
+    <div class="authors">Gwanhyeong Song, Chaehyeon Song, Ayoung Kim</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Solves extrinsic calibration of non-overlapping multi-camera rigs without large or pre-measured targets and without drift-prone motion-based methods.</li>
+      <li>Key idea: use pure rotational motion so every camera sequentially observes the same static board under a shared geometric reference, even with no overlapping views.</li>
+      <li>Integrates the time-separated observations via a latent turntable frame and a 3D error on SE(3) within a global optimization framework.</li>
+      <li>Why it matters: validated on a controlled rig and a full-scale vehicle with heterogeneous cameras, staying accurate without precision hardware and robust to non-ideal turntable motion (code available).</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Extrinsic calibration of multi-camera systems with non-overlapping FOVs has been a challenging problem in the robotics literature. Conventional target-based methods impose substantial target setup overhead, either deploying large calibration targets or requiring pre-measured multi-target poses. Motion-based approaches instead suffer from drift error, scale ambiguity, and motion degeneracy. Securing both accuracy and usability, we propose a novel calibration method that leverages pure rotational motion, requiring only a single static calibration board. The key idea is to make all cameras sequentially observe the same target under a shared geometric reference, even without overlapping views. To integrate these time-separated observations, we formulate the problem using a latent turntable frame and a 3D error on SE(3) within a global optimization framework. We validate the proposed method on both a controlled camera rig and a full-scale vehicle platform with heterogeneous cameras, and analyze robustness under non-ideal turntable motion. Extensive experiments show that our approach maintains competitive accuracy without specialized precision hardware, proving its strong suitability for realistic on-site deployments. Our code is publicly available here.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-7">Control Theory &amp; Robotic Systems</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#3</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26048v1" target="_blank">Deep Reinforcement Learning-Enhanced Event-Triggered Data-Driven Predictive Control for a 3D Cable-Driven Soft Robotic Arm</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Cheng Ouyang</span>
+    </div>
+    <div class="authors">Cheng Ouyang, Moeen Ul Islam, Kaixiang Zhang, Zhaojian Li, Xiaobo Tan</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Makes data-enabled predictive control (DeePC) practical for soft robots, whose nonlinear, time-varying dynamics suit a model-free controller but whose per-step constrained optimization is too costly for real-time embedded use.</li>
+      <li>Trains a model-free RL policy to decide when to invoke the DeePC optimizer from the current state, skipping unnecessary solves while preserving closed-loop performance — an event-triggered scheme that is learned rather than threshold-set.</li>
+      <li>Quantitative: up to 66% fewer optimization calls in simulation at comparable tracking accuracy.</li>
+      <li>Hardware: on a 3D cable-driven soft arm, zero-shot transfer with 34% fewer solves and more consistent performance than a static-threshold event-triggered baseline.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Soft robots are challenging to control due to their nonlinear and time-varying dynamics. Data-enabled predictive control (DeePC) offers a model-free alternative by directly leveraging measured input-output trajectories to construct a predictive controller. However, its receding-horizon formulation requires solving a constrained optimization problem at every sampling instant, which can be computationally demanding for real-time deployment on resource-limited robotic platforms.To address this limitation, we propose an adaptive reinforcement-learning-based event-triggered DeePC (RL-ET-DeePC) framework for soft robotic control. A model-free RL policy is trained to determine when to invoke the DeePC optimizer based on the current system state representation, thereby reducing unnecessary optimization calls while preserving closed-loop performance.Simulation results show that RL-ET-DeePC reduces optimization frequency by up to 66% compared to periodic DeePC, while maintaining comparable tracking accuracy. Hardware experiments on a three-dimensional cable-driven soft robotic arm demonstrate zero-shot transfer, achieving a 34% reduction in optimization frequency with tracking accuracy comparable to periodic DeePC and more consistent performance than a static threshold-based event-triggered baseline.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#27</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25680v1" target="_blank">Power-Budgeted Underwater Vehicle Control via Constrained Reinforcement Learning</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">cs.ET</span><span class="pill">eess.SP</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Yinuo Wang</span>
+    </div>
+    <div class="authors">Yinuo Wang, Gavin Tao, Yuze Liu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Reframes energy-efficient underwater control: instead of an energy penalty whose unitless weight needs per-vehicle re-tuning (and can even raise power), it imposes average thruster power as an explicit budget.</li>
+      <li>Formulates a constrained MDP solved with PPO-Lagrangian, where a single dual variable updates online to meet a budget declared in physical units — no manual weight search.</li>
+      <li>Quantitative: across three vehicles and four tasks in MarineGym, the lowest power in all twelve settings, cutting it 14-65% (up to 64.9%) versus a task-only baseline while staying smoothest in ten settings and preserving accuracy.</li>
+      <li>Why it matters: directly extends mission range and endurance with a tuning-free recipe that generalizes across vehicles and tasks.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Underwater vehicles operate from a fixed onboard energy budget that propulsion rapidly depletes, so a controller that completes its task while drawing less thruster power directly extends mission range and endurance. Reinforcement learning yields capable model-free controllers for station-keeping and trajectory tracking, but optimizing task accuracy alone drives the policy toward oscillatory, energy-wasting actuation. The established remedy subtracts an energy penalty from the reward, yet this sets the task-power trade-off through a single weight with no physical units: a target power level cannot be specified, the weight must be re-tuned for every vehicle and task, and a mismatched weight can even raise power. This paper instead formulates energy-efficient underwater control as a constrained Markov decision process in which average thruster power is subject to an explicit budget, solved with a PPO-Lagrangian algorithm. The power level is set by declaring a budget in physical units, and a single dual variable is updated online to meet it for each vehicle and task, without manual weight search. Across three vehicles and four tasks in the MarineGym simulator, the energy-constrained policy draws the least power in all twelve settings, reducing it by 14--65% (up to 64.9%) over a task-only baseline and below an energy-reward baseline everywhere, while remaining the smoothest in ten settings and preserving task accuracy except in one deliberately power-limited regime. Imposing energy as an explicit constraint thus offers a tuning-free route to energy-efficient underwater control that needs no per-vehicle, per-task weight search.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#28</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25659v1" target="_blank">Learning to Adapt: Reptile-D-Learning for Robust and Efficient Control Under Parametric Uncertainty</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Haipeng Cao</span>
+    </div>
+    <div class="authors">Haipeng Cao, Zhaolong Shen, Quan Quan</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Addresses a brittleness in learning-based Lyapunov control: its stability guarantees rely on accurate models, so parameter shifts invalidate constraints and force costly retraining.</li>
+      <li>Combines D-learning (which estimates Lyapunov derivatives without explicit dynamics) with the Reptile meta-learning algorithm to capture structure shared across systems with different parameters.</li>
+      <li>Produces a generalizable Lyapunov-network initialization plus a high-performance controller that adapts rapidly to unseen parameter configurations.</li>
+      <li>Why it matters: experiments on multiple nonlinear systems show markedly better generalization and fast adaptation than single-task D-learning under large parameter shifts.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Learning-based Lyapunov Control (LLC) provides formal stability guarantees for nonlinear systems, but its validity relies heavily on accurate system models. Parameter variations and uncertainties may invalidate stability constraints, leading to costly retraining. Although D-learning can estimate Lyapunov derivatives without relying on explicit dynamics models, it remains limited by single-task dynamics and degrades under large parameter shifts. We propose Reptile-D-learning, a framework that leverages the Reptile meta-learning algorithm to capture shared dynamical structures across systems with different parameters, thereby learning a generalizable Lyapunov network initialization and a high-performance controller. Experiments on multiple nonlinear control systems demonstrate that Reptile-D-learning significantly improves both generalization and rapid adaptation to unseen parameter configurations.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#9</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.26008v1" target="_blank">Emcar: Embodied Controller for Animating Robots</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Carlos Gomez Cubero</span>
+    </div>
+    <div class="authors">Carlos Gomez Cubero, Elizabeth Jochum</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Presents EMCAR, a no-code tool for programming robot motion through artistic practices such as puppetry and drawing rather than conventional coding.</li>
+      <li>Aims to put collaborative robots directly in artists&#x27; hands, expanding creative HRI applications and use cases.</li>
+      <li>Why it matters: lowers the technical barrier so individuals with little or no technical background can meaningfully participate in collaboration and robotics research.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">This chapter describes EMCAR, a novel software tool for programming robot motion that leverages the unique affordances of artistic practices such as puppetry and drawing to conceive, design, and program novel interactions and realize new use cases for HRI. The advantage of this no-code platform is that it expands creative applications for collaborative robots - putting robots directly in the hands of artists - and provides an inclusive environment that enables individuals with little or no technical backgrounds to engage meaningfully in collaborations and robotics research.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#12</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2606.25966v1" target="_blank">A Sensorised Lattice Footplate for a Semi-Active Prosthetic Foot</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-06-24</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Jinze Ge</span>
+    </div>
+    <div class="authors">Jinze Ge, Jingcheng Sun, Chengxu Zhou</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Investigates whether magnetic plantar sensing can be embedded directly inside the load-bearing compliant element of a low-cost semi-active prosthetic foot — eliminating an external insole layer.</li>
+      <li>Integrates a sensorized 3D-printed lattice footplate, a servo-adjustable hydraulic damper (characterized to relate adjustment angle to damping coefficient), and a reduced-order ankle model.</li>
+      <li>Quantitative checks: the embedded sensor tracks the testing-machine reference force under cyclic loading, and forefoot/rearfoot loading distributions separate across four prescribed stance configurations.</li>
+      <li>Why it matters: shows sensing can live inside the structural element to drive semi-active damping, while candidly noting a purely dissipative mechanism cannot generate active push-off.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">This paper investigates whether magnetic plantar sensing can be embedded directly inside the load-bearing compliant element of a low-cost semi-active prosthetic foot. We present a prototype integrating a sensorised 3D-printed lattice footplate, a servo-adjustable hydraulic damper, and a reduced-order ankle model. The damper is experimentally characterised to relate adjustment angle to damping coefficient. Controlled compression tests show tunable lattice stiffness, while cyclic normal loading shows that the embedded sensor tracks the testing-machine reference force, supporting plantar-force estimation without an external insole layer. Static-posture trials under approximately body-weight loading show that forefoot and rearfoot loading distributions are separable across four prescribed stance configurations, providing a preliminary check of the sensing pipeline. A feedforward damping schedule approximates the dorsiflexion trend of a reference ankle trajectory through early-to-mid stance, while exposing the expected limitation that a purely dissipative mechanism cannot generate active push-off. Together, these results demonstrate that sensing can be embedded inside the load-bearing compliant element of a prosthetic foot and used to drive semi-active damping.</div>
+    </details>
+  </div>
+</div>
+<footer>
+  Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-06-24
+</footer>
+</div>
+</body>
+</html>
