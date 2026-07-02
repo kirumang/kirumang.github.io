@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotics arXiv Digest — 2026-07-01</title>
+<style>
+:root {
+  --bg: #f8f9fa; --card-bg: #ffffff; --text: #1a1a2e; --text-secondary: #555;
+  --accent: #2563eb; --border: #e2e8f0; --gold: #f59e0b;
+  --cat1: #2563eb; --cat2: #7c3aed; --cat3: #dc2626; --cat4: #059669;
+  --cat5: #d97706; --cat6: #0891b2; --cat7: #be185d;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+header { text-align: center; padding: 40px 20px 30px; }
+header h1 { font-size: 2rem; margin-bottom: 8px; }
+header .date { font-size: 1.1rem; color: var(--text-secondary); }
+.header-stats { display: flex; gap: 12px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.header-stats .stat { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 0.85rem; color: var(--text-secondary); }
+.badge-claude { background: linear-gradient(135deg, #d4a574, #c2956b); color: white; border: none; font-weight: 600; }
+.landscape { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 30px; }
+.landscape h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--accent); }
+.landscape p { margin-bottom: 14px; color: var(--text-secondary); font-size: 0.95rem; }
+.category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 30px; }
+.category-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; transition: box-shadow .2s; }
+.category-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.category-card h3 { font-size: 0.95rem; margin-bottom: 6px; }
+.category-card .cat-desc { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 8px; }
+.category-card ul { list-style: none; padding: 0; }
+.category-card li { font-size: 0.8rem; color: var(--text-secondary); padding: 2px 0; }
+.cat-border-1 { border-left: 4px solid var(--cat1); }
+.cat-border-2 { border-left: 4px solid var(--cat2); }
+.cat-border-3 { border-left: 4px solid var(--cat3); }
+.cat-border-4 { border-left: 4px solid var(--cat4); }
+.cat-border-5 { border-left: 4px solid var(--cat5); }
+.cat-border-6 { border-left: 4px solid var(--cat6); }
+.cat-border-7 { border-left: 4px solid var(--cat7); }
+.section-header { padding: 14px 20px; border-radius: 10px; margin: 30px 0 16px; color: white; font-size: 1.1rem; font-weight: 700; }
+.sh-1 { background: var(--cat1); } .sh-2 { background: var(--cat2); } .sh-3 { background: var(--cat3); }
+.sh-4 { background: var(--cat4); } .sh-5 { background: var(--cat5); } .sh-6 { background: var(--cat6); } .sh-7 { background: var(--cat7); }
+.paper-card { display: flex; gap: 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 14px; transition: box-shadow .2s; }
+.paper-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+.rank-col { display: flex; flex-direction: column; align-items: center; min-width: 48px; gap: 8px; }
+.rank-num { font-size: 1.4rem; font-weight: 800; color: var(--text-secondary); }
+.rank-gold { color: var(--gold); }
+.h-badge { background: #dbeafe; color: #1e40af; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 12px; white-space: nowrap; }
+.paper-body { flex: 1; min-width: 0; }
+.paper-body h3 { font-size: 1rem; margin-bottom: 8px; line-height: 1.4; }
+.paper-body h3 a { color: var(--text); text-decoration: none; }
+.paper-body h3 a:hover { color: var(--accent); text-decoration: underline; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; background: #f1f5f9; color: var(--text-secondary); }
+.authors { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px; }
+.contrib-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--accent); margin-bottom: 6px; }
+.contrib-list { list-style: none; padding: 0; }
+.contrib-list li { font-size: 0.88rem; padding: 3px 0; color: var(--text-secondary); }
+.contrib-list li::before { content: "\25B8 "; color: var(--accent); font-weight: bold; }
+details { margin-top: 10px; }
+summary { font-size: 0.82rem; color: var(--accent); cursor: pointer; font-weight: 600; }
+details .abstract-text { font-size: 0.84rem; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+footer { text-align: center; padding: 40px 20px; font-size: 0.8rem; color: #999; }
+@media (max-width: 600px) {
+  .paper-card { flex-direction: column; }
+  .rank-col { flex-direction: row; }
+  header h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>🤖 Robotics arXiv Digest</h1>
+  <div class="date">Wednesday, July 1, 2026</div>
+  <div class="header-stats">
+    <span class="stat">📄 30 papers</span>
+    <span class="stat">📂 7 research areas</span>
+    <span class="stat badge-claude">Generated by Claude</span>
+  </div>
+</header>
+<div class="landscape">
+  <h2>🔭 Research Landscape</h2>
+  <p>If one word ties today's 30 papers together it is <strong>"world model"</strong>, and the batch is unusually reflective about what the term should mean. Wei Zhang's tutorial (#9) tries to impose order, defining world models as action-conditioned predictive models and coining "world action models" as the bridge from predicted futures to control — and the rest of the day reads like a set of instantiations and stress tests of exactly that framing. ABot-M0.5 (#4) argues current World Action Models are structurally mismatched to mobile manipulation because they operate on coarse video chunks and entangle navigation with manipulation; the Structured 4D Latent Predictive Model (#16) attacks the same class from the geometry side, insisting that 2D video world models lack the 3D structure needed for physically consistent planning; and Path Planning in Physically Viable World Models (#29) pushes the idea outdoors, asking what-if terrain-change queries against a reconstruction rather than trusting a stale map. RoboWorld (#22) closes the loop by using video world models not to act but to <em>evaluate</em> policies, confronting head-on the two weaknesses — unreliable rollouts and slow inference — that the tutorial's optimism glosses over.</p>
+  <p>A second current is the field's growing habit of <strong>improving policies without touching their weights</strong>. Several of the strongest entries are test-time or adaptation-time interventions layered on frozen backbones: Domain Arithmetic (#12) adapts VLAs across camera-pose and robot-embodiment shifts through one-shot weight-vector arithmetic instead of collecting per-task demos; FAR (#18) turns each deployment failure into contrastive preference data so a robot stops repeating its own mistakes; and DART-VLN (#24) hardens navigation agents purely at inference with memory decay and an anti-loop penalty. AutoSpeed (#2) belongs to the same spirit, extracting stage-adaptive execution speed from demonstrations with no speed or stage labels. The throughline is a bet that generalist policies are bottlenecked less by parameters than by how state, structure, and the learning signal are marshalled at deployment — a theme that echoes recent weeks and again puts the most-cited manipulation authors (Haoqi Yuan's H-Tac tactile pre-training, #1; Wenchao Ding, #2) at the front of the ranking.</p>
+  <p>The third, quieter theme is <strong>honesty about uncertainty and safety</strong> in the estimation-and-control backbone, where much of today's methodological rigor lives. Three separate papers reach for conformal prediction to make guarantees distribution-free: robust operational-space control (#10) conformalizes disturbance bounds for redundant manipulators, and Conformalized Distance Fields (#27) conformalizes an entire predicted distance field at once rather than a scalar score, preserving spatial coherence as scenes get crowded. FastBridge (#15) makes the same move for aerial safety, replacing the fiction that commanded accelerations are instantaneous with an actuator-aware barrier enforced through full quadrotor dynamics, while GPU-parallel linearization bounds (#11) certify error for neural-network dynamics so learned models can enter real-time robust control. Autonomous driving forms its own reliability sub-plot — occlusion-aware planning via VLMs (#5), metric-agnostic forecasting that refuses to game benchmark metrics (#17), uncertainty-explicit V2X occupancy grids (#26), and a strategic guide (#28) that reframes dataset creation as a targeted intervention rather than default scale. Taken together the day reads as a field trying to make its most ambitious idea — predictive world models — actually trustworthy, whether through cleaner definitions, weight-free adaptation, or conformal safety.</p>
+</div>
+<div class="category-grid">
+  <div class="category-card cat-border-1">
+    <h3>VLA &amp; Foundation Models</h3>
+    <p class="cat-desc">Vision-language-action policies and the systems around them: human-video tactile pre-training, unified mobility-manipulation world action models, weight-arithmetic adaptation, bimanual assembly, and fleet-scale serving.</p>
+    <ul>
+      <li>#1 Human-Centric Transferable Tactile Pre-Training (H-Tac)</li>
+      <li>#4 ABot-M0.5: Mobility-and-Manipulation World Action Model</li>
+      <li>#12 Domain Arithmetic: One-Shot VLA Adaptation</li>
+      <li>#13 FurnitureVLA: Long-Horizon Bimanual Assembly</li>
+      <li>#20 ROSA: Robotics Foundation Model Serving System</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-3">
+    <h3>Robot Learning, Rewards &amp; Recovery</h3>
+    <p class="cat-desc">Learning signals and adaptation for manipulation: annotation-free stage-adaptive speed, demonstration-as-safety-envelope, VLM absolute/relative rewards, and failure-aware test-time retry.</p>
+    <ul>
+      <li>#2 AutoSpeed: Stage-Adaptive Motion Speed Learning</li>
+      <li>#6 STT-LfD: Learning from Demonstration via Spatiotemporal Tubes</li>
+      <li>#7 VLM-AR3L: Absolute and Relative Rewards for RL</li>
+      <li>#18 FAR: Failure-Aware Retry for Test-Time Recovery</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-6">
+    <h3>Navigation &amp; Localization</h3>
+    <p class="cat-desc">Semantic and language-driven navigation: privacy-preserving depth-only 3D segmentation, VLM-based pose grounding, communication-enabled social navigation, and training-free VLN control.</p>
+    <ul>
+      <li>#3 Privacy-Preserving Depth-Only 3D Semantic Segmentation</li>
+      <li>#21 Where Am I? Semantic Map Grounding via VLMs</li>
+      <li>#23 Robots Ask the Way: Communication-Enabled Social Nav</li>
+      <li>#24 DART-VLN: Test-Time Memory Decay &amp; Anti-Loop</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-2">
+    <h3>Autonomous Driving &amp; Traffic Perception</h3>
+    <p class="cat-desc">Perception and planning for driving: VLM reasoning over planning-critical occlusions, metric-agnostic forecasting, V2X collective perception, and a strategic guide to dataset design.</p>
+    <ul>
+      <li>#5 What's Hidden Matters: Occluded Agents via VLMs</li>
+      <li>#17 Towards Metric-Agnostic Trajectory Forecasting</li>
+      <li>#26 Beyond Line of Sight: V2X Collective Perception</li>
+      <li>#28 Creating Impactful Autonomous Driving Datasets</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-7">
+    <h3>Multi-Robot &amp; Aerial Systems</h3>
+    <p class="cat-desc">Coordination and field platforms: neural-accelerated collaborative capture, asynchronous distributed trajectory estimation, tilt-cued UAV tracking, and heterogeneous industrial fleet coordination.</p>
+    <ul>
+      <li>#8 AMBUSH: Collaborative Capture with Neural Acceleration</li>
+      <li>#19 Asynchronous Distributed Trajectory Estimation</li>
+      <li>#25 Image-Domain Tilt Constrained UAV Tracking</li>
+      <li>#30 SCALE: Heterogeneous Multi-Robot Fleet Coordination</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-5">
+    <h3>World Models &amp; Predictive Simulation</h3>
+    <p class="cat-desc">Action-conditioned prediction and evaluation: a design-space tutorial, structured 4D latent prediction, neural simulators for policy evaluation, and physically viable planning models.</p>
+    <ul>
+      <li>#9 From World Models to World Action Models (tutorial)</li>
+      <li>#16 Structured 4D Latent Predictive Model for Planning</li>
+      <li>#22 RoboWorld: Neural Simulators for Policy Evaluation</li>
+      <li>#29 Path Planning in Physically Viable World Models</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-4">
+    <h3>Control, Safety &amp; Teleoperation</h3>
+    <p class="cat-desc">Certified and disturbance-aware control: conformal operational-space bounds, GPU-parallel linearization error bounds, sensorless bilateral teleoperation, actuator-aware 3DGS safety filters, and conformalized distance fields.</p>
+    <ul>
+      <li>#10 Robust Operational Space Control with Conformal Bounds</li>
+      <li>#11 GPU-Parallel Linearization Error Bounds</li>
+      <li>#14 Sensorless Four-Channel Bilateral Teleoperation</li>
+      <li>#15 FastBridge: Safety Filters on 3D Gaussian Splatting</li>
+      <li>#27 From Prediction Uncertainty to Conformalized Distance Fields</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-header sh-1">VLA &amp; Foundation Models</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#1</span>
+    <span class="h-badge">h=12</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01067v1" target="_blank">Human-Centric Transferable Tactile Pre-Training for Dexterous Robotic Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Haoqi Yuan (h=12)</span>
+    </div>
+    <div class="authors">Chi Zhang, Penglin Cai, Ziheng Xi, Haoqi Yuan, Hao Luo</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Attacks the tactile-data bottleneck from the human side: builds H-Tac, a 160-hour egocentric human-video tactile-action dataset, sidestepping the small, narrow-contact robot datasets that cap tactile VLA performance.</li>
+      <li>Reframes tactile learning as human-to-robot transfer, pre-training contact representations from how people touch and manipulate rather than from dynamics-agnostic post-training on scarce robot tactile logs.</li>
+      <li>Targets the specific ceiling of tactile VLA: existing models bolt tactile on without modeling contact dynamics, whereas H-Tac aims to instill a dynamics-aware tactile prior that raises the downstream performance ceiling.</li>
+      <li>Positions egocentric human video as a cheap, scalable substitute for hardware-limited tactile collection — a bet that human demonstration data transfers usefully to robot hands.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">As an essential modality for dexterous and contact-rich tasks, tactile sensing provides precise force feedback that cannot be reliably inferred from vision. However, limited by hardware and data collection systems, existing datasets with tactility remain small in scale and narrow in contact coverage. Meanwhile, Vision-Language-Action (VLA) models with tactile modality are constrained on dynamics-agnostic post-training, which limits the performance ceiling on downstream tasks. In this paper, we present H-Tac, a large-scale tactile-action dataset with 160-hour egocentric human videos containing rich and diverse contact interactions, together with a tactile pre-training framework that learns transferable, dynamics-aware tactile representations and transfers them to dexterous robotic manipulation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#4</span>
+    <span class="h-badge">h=8</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00678v1" target="_blank">ABot-M0.5: Unified Mobility-and-Manipulation World Action Model</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.CV</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Xinyuan Chang (h=8)</span>
+    </div>
+    <div class="authors">Ronghan Chen, Yandan Yang, Zuojin Tang, Dongjie Huo, Tong Lin</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Argues existing World Action Models are structurally mismatched to mobile manipulation: they operate on coarse video chunks and model navigation and manipulation as one entangled action stream, missing fine contact dynamics.</li>
+      <li>Unifies mobility and manipulation in a single world action model while disentangling the two action modes, directly countering the action-distribution conflicts that plague jointly-modeled navigation-plus-manipulation.</li>
+      <li>Fixes a training/inference mismatch where inverse dynamics is supervised in a way that does not match autoregressive rollout, a known source of compounding error at deployment.</li>
+      <li>Aims squarely at general-purpose robots that must both navigate and manipulate — a regime handled poorly by reactive VLAs (no world model) and by coarse video-chunk WAMs alike.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Mobile manipulation is a key capability for general-purpose robots, yet remains challenging for current embodied learning methods. VLA policies are typically reactive and lack explicit world modeling, while existing World Action Models (WAMs) are still poorly aligned with the structure of mobile manipulation: they operate on coarse video chunks, model entangled navigation-manipulation actions, and train inverse dynamics under supervision that does not match autoregressive inference. As a result, they often miss fine-grained contact dynamics, suffer from action-distribution conflicts, and accumulate error over long horizons. We present ABot-M0.5, a unified world action model for mobile manipulation that disentangles navigation and manipulation and aligns training with autoregressive inference.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#12</span>
+    <span class="h-badge">h=1</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00666v1" target="_blank">Domain Arithmetic: One-Shot VLA Adaptation under Environmental Shifts</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span><span class="pill">cs.LG</span>
+      <span class="pill">👤 Donghyun Shin (h=1)</span>
+    </div>
+    <div class="authors">Taewook Kang, Taeheon Kim, Donghyun Shin, Jonghyun Choi</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Attacks a common VLA failure: the same learned task breaks under environmental shifts such as a changed camera pose or a swap from a Panda to a UR5e arm.</li>
+      <li>Proposes one-shot adaptation via weight-vector arithmetic — adding a domain-specific information direction in weight space — instead of collecting multiple demonstrations per task in the target domain.</li>
+      <li>Analogy-based framing treats domain shift as a composable vector, so adaptation reuses structure rather than retraining, cutting the data-curation and training burden.</li>
+      <li>Aims to make VLA models portable across robots and viewpoints from minimal demonstrations, a practical lever for real deployment where re-collecting data is expensive.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision-Language-Action (VLA) models often fail to perform the same learned tasks under environmental shifts, such as changes in camera pose and shifts to a different but similar robot (e.g., from Panda to UR5e). Adapting these models to the shifted environment (i.e., target domain) often requires training on multiple demonstrations for each task, which are costly to collect. To reduce the burden of data curation and training, we propose an analogy-based method that adapts VLA models under environmental shifts through weight vector arithmetic with domain-specific information addition, named Domain Arithmetic. Our method enables one-shot adaptation to new domains by composing domain-specific weight directions, substantially reducing the demonstrations and training required.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#13</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01212v1" target="_blank">FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span>
+      <span class="pill">👤 Chenyang Ma (h=0)</span>
+    </div>
+    <div class="authors">Chenyang Ma, Yue Yang, Radu Corcodel, Siddarth Jain, Andrew Wu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>First systematic study of real-scale bimanual furniture assembly with VLAs, moving past the toy-scale or single-arm settings that dominate prior assembly work.</li>
+      <li>Builds the full stack: a scalable simulation pipeline for expert-data generation and evaluation, plus a VR teleoperation system that lets a single operator provide bimanual demonstrations.</li>
+      <li>Handles extreme long horizons — up to 7 subtasks and 1550 control steps — with a progress-enhanced VLA that conditions on task progress to stay coherent across very long sequences.</li>
+      <li>Confronts the hardest axis of assembly, coordinated two-arm manipulation at real scale, that toy benchmarks conveniently sidestep.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Current work on robot furniture assembly mostly focuses on toy-scale settings or single-arm manipulation. We introduce FurnitureVLA, the first systematic study of real-scale bimanual furniture assembly using Vision-Language-Action models (VLAs). We formalize the task, develop a scalable simulation pipeline for expert data generation and evaluation, and build a VR teleoperation system for single-operator bimanual control to collect high-quality real-world demonstrations. To address extreme long-horizon assembly with up to 7 subtasks and 1550 control steps, we propose a progress-enhanced VLA, fine-tuned to condition on estimated task progress so that it remains coherent over very long action sequences.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#20</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01088v1" target="_blank">ROSA: A Robotics Foundation Model Serving System for Robot Factories</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.DC</span>
+      <span class="pill">👤 Wenqi Jiang (h=0)</span>
+    </div>
+    <div class="authors">Wenqi Jiang, Jason Clemons, Rowland O'Flaherty, Hugo Hadfield, Alperen Degirmenci</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Rethinks robotics-foundation-model serving for factories, breaking the single-robot/single-model assumption that treats inference as an edge problem handled by an on-robot or dedicated nearby GPU.</li>
+      <li>Introduces shared GPU-pool serving so a fleet shares GPUs rather than dedicating hardware per robot, raising utilization across many robots and models simultaneously.</li>
+      <li>Designs around factory-scale objectives — throughput across a fleet — instead of minimizing a single robot's single-action latency, the traditional serving target.</li>
+      <li>A systems contribution to embodied-AI infrastructure, reframing RFM deployment as a datacenter-style serving problem for robot factories.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robotics foundation models (RFMs) are making general-purpose robots increasingly practical for factory deployments. While RFM serving systems are central to this vision, existing systems are largely shaped by a single-robot, single-model assumption: inference is treated as an edge-computing problem handled by an on-robot or dedicated nearby GPU, and the serving objective is to minimize the latency of a single action model. In this paper, we propose ROSA, an RFM serving system for robot factories designed around three key principles. First, ROSA adopts shared GPU-pool serving, allowing a fleet of robots to share a pool of GPUs, improving utilization and throughput across many robots and models.</div>
+    </details>
+  </div>
+</div>
+
+<div class="section-header sh-3">Robot Learning, Rewards &amp; Recovery</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#2</span>
+    <span class="h-badge">h=10</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01051v1" target="_blank">AutoSpeed: Annotation-Free Stage-Adaptive Motion Speed Learning for Robot Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Wenchao Ding (h=10)</span>
+    </div>
+    <div class="authors">Qingda Hu, Ziheng Qiu, Jieru Zhao, Zhongxue Gan, Wenchao Ding</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Challenges a hidden assumption in imitation-learned visuomotor policies: they copy expert execution speed and use a fixed prediction horizon, so easy and hard stages of a task run at the same pace.</li>
+      <li>Learns stage-adaptive motion speeds and prediction horizons — slowing for precise contact phases, accelerating through easy transit — to raise overall task throughput.</li>
+      <li>Key practicality: requires no speed or stage annotations, inferring stage difficulty from the demonstrations themselves, so it drops onto existing policies model-agnostically.</li>
+      <li>The payoff is faster task completion without retraining the base policy, treating temporal allocation as a free lever most IL policies leave on the table.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Different stages of manipulation tasks exhibit varying levels of difficulty, suggesting stage-dependent motion speeds and temporal prediction horizons. However, existing IL-based visuomotor policies typically imitate the execution speed of expert demonstrations and operate with a fixed temporal prediction horizon, limiting flexibility and overall task throughput. In this paper, we introduce AutoSpeed, a model-agnostic learning framework that enables existing visuomotor policies to predict trajectories with stage-adaptive motion speeds, without requiring speed or stage annotations. We treat future prediction horizons as adaptable and infer stage structure directly from demonstrations, yielding faster task completion while preserving success.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#6</span>
+    <span class="h-badge">h=6</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00534v1" target="_blank">Learning from Demonstration via Spatiotemporal Tubes for Unknown Euler-Lagrange Systems</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Ratnangshu Das (h=6)</span>
+    </div>
+    <div class="authors">Ratnangshu Das, Puneeth Shankar, Varuni Buereddy, Ravi Prakash, Pushpak Jagtap</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Reframes demonstrations not as a fixed reference to track but as a data-driven safety specification — an envelope of acceptable behavior rather than one trajectory to imitate.</li>
+      <li>Learns Spatiotemporal Tubes via heteroscedastic Gaussian Processes so the tube tightens where the task demands precision and widens where it tolerates slack, capturing time-varying intent.</li>
+      <li>Provides a closed-form feedback controller that enforces the learned tube while respecting actuator limits, for unknown Euler-Lagrange systems with no explicit dynamics model required.</li>
+      <li>Unifies motion learning and control in one framework, unlike decoupled LfD pipelines that first learn a path and then separately track it.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We present STT-LfD, a unified Learning from Demonstration (LfD) framework that integrates motion learning with control for unknown Euler-Lagrange systems. Unlike traditional decoupled approaches that track a fixed reference, the proposed method treats demonstrations as a data-driven safety specification. Using heteroscedastic Gaussian Processes, STT-LfD learns Spatiotemporal Tubes (STTs) as an intent envelope that capture time-varying precision requirements of a task. A closed-form feedback controller then enforces these learned constraints while respecting actuator limits, without requiring an explicit dynamics model of the system.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#7</span>
+    <span class="h-badge">h=5</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00483v1" target="_blank">VLM-AR3L: Vision-Language Models for Absolute and Relative Rewards in Reinforcement Learning</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Min-Chun Hu (h=5)</span>
+    </div>
+    <div class="authors">Kuan-Chen Chen, Winston Chen, Wei-Fang Sun, Min-Chun Hu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Tackles reward design in open-ended RL where goals are abstract and hard to quantify, using VLMs to supply the reward signal from visual observations plus a language goal.</li>
+      <li>Distinctive twist: learns both absolute rewards (a scalar value for a single state) and relative rewards (a preference between two states), rather than committing to one reward type.</li>
+      <li>Trains both reward models from VLM-generated preference labels, letting a pretrained VLM's judgment stand in for hand-engineered reward functions.</li>
+      <li>Targets tasks where scalar rewards alone are brittle, combining absolute grounding with relative comparisons for a more stable and informative learning signal.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Designing effective reward functions remains a major challenge in reinforcement learning (RL), particularly in open-ended environments where task goals are abstract and difficult to quantify. In this work, we present VLM-AR3L, a framework that leverages Vision-Language Models (VLMs) to provide both absolute and relative rewards for RL. VLM-AR3L interprets an agent's visual observations in the context of a natural language task goal, and learns both absolute and relative rewards from VLM-generated preference labels. The absolute reward model predicts scalar evaluations for individual states, while the relative reward model captures preferences between state pairs, together providing a richer supervisory signal.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#18</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01111v1" target="_blank">FAR: Failure-Aware Retry for Test-Time Recovery and Continual Policy Improvement</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">cs.LG</span>
+      <span class="pill">👤 Haoran Hao (h=0)</span>
+    </div>
+    <div class="authors">Haoran Hao, Shahram Najam Syed, Jeffrey Ichnowski, Jeff Schneider</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Attacks naive retries that repeat the same mistake, and recovery methods that lean on human intervention, by letting robots learn from their own failures at test time.</li>
+      <li>Uses Failure-Contrastive Preference Adaptation, building preference data from failed attempts to steer the policy away from behaviors that just failed.</li>
+      <li>Adds lightweight test-time action adjustment so the robot adapts online and eventually completes the task autonomously, with no human in the loop.</li>
+      <li>Frames failure as a learning signal for continual policy improvement, turning each deployment failure into training data rather than a dead end.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robot policies inevitably encounter failures when deployed in real environments. Naive retries often repeat the same mistakes, while many existing recovery methods rely on human intervention. In this paper, we propose Failure-Aware Retry (FAR), a framework that enables robots to learn from previous failures at test time, adapt their behavior accordingly, and eventually complete the task autonomously. FAR combines Failure-Contrastive Preference Adaptation, which constructs preference learning data from failures to steer the policy away from previously unsuccessful behaviors, with lightweight action adjustment at test time for continual improvement.</div>
+    </details>
+  </div>
+</div>
+
+<div class="section-header sh-6">Navigation &amp; Localization</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#3</span>
+    <span class="h-badge">h=9</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00978v1" target="_blank">Privacy-Preserving Depth-Only Open-Vocabulary 3D Semantic Segmentation Via Uncertainty-Guided Test-Time Optimization</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.CV</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Sicong Pan (h=9)</span>
+    </div>
+    <div class="authors">Xuying Huang, Sicong Pan, Maren Bennewitz</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Makes privacy a first-class constraint in open-vocabulary 3D segmentation: drops RGB entirely and uses only depth geometry, so no appearance-based, privacy-sensitive imagery is captured.</li>
+      <li>Confronts the hard consequence — depth alone makes open-vocab predictions highly uncertain — and turns that uncertainty into a guidance signal rather than treating it as a liability.</li>
+      <li>Uses uncertainty-guided test-time optimization to adapt predictions per-scene at inference, sharpening unreliable depth-only labels without any RGB supervision.</li>
+      <li>Opens a route to deploying 3D scene understanding in privacy-sensitive indoor settings (homes, hospitals) where continuous RGB capture is unacceptable.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Privacy-preserving perception is a critical requirement for deploying 3D scene understanding systems in real-world indoor environments, yet it remains underexplored in open-vocabulary 3D semantic segmentation. Existing methods typically rely on obtaining rich semantic cues from RGB images, which may expose privacy-sensitive visual information. Depth-only 3D geometry provides a privacy-preserving alternative, but the absence of appearance-based semantic cues makes open-vocabulary predictions highly uncertain and less reliable. Under this setting, we propose to convert uncertainty into a guidance signal for test-time optimization, refining depth-only open-vocabulary predictions without exposing appearance information.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#21</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01079v1" target="_blank">Where Am I? Semantic Map Grounding via Vision-Language Models for Multi-Modal Localization</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Suraj Borate (h=0)</span>
+    </div>
+    <div class="authors">Suraj Borate, Aarav Shah, Madhu Vadali</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Reframes GPS-denied indoor localization as semantic reasoning rather than geometric estimation, mimicking how humans localize from object-level cues and labeled maps.</li>
+      <li>Asks a VLM to infer pose from three inputs at once — a front camera image, a polar LiDAR scan, and a top-down semantic grid map — fusing modalities inside one model.</li>
+      <li>Fine-tunes Qwen2.5-VL-7B with LoRA plus a lightweight regression head that predicts continuous (x, y, θ) directly from the final hidden state, bypassing text generation for precise numeric pose.</li>
+      <li>Demonstrates that VLMs can do metric localization, not just describe scenes, by grounding language-model reasoning in a semantic map.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We address robot localization in GPS-denied indoor environments by reframing it as a semantic reasoning task rather than a geometric estimation problem. Motivated by how humans localize using object-level cues and labeled maps, we ask whether a vision-language model, given a front camera image, a polar LiDAR scan, and a top-down semantic grid map, can infer the robot pose. We fine-tune Qwen2.5-VL-7B with LoRA and attach a lightweight regression head that predicts continuous pose coordinates (x, y, theta) directly from the final hidden state, bypassing text generation. Training uses a composite objective combining pose regression with semantic grounding.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#23</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01044v1" target="_blank">Robots Ask the Way: Communication-Enabled Social Navigation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Valentino Sacco (h=0)</span>
+    </div>
+    <div class="authors">Valentino Sacco, Luca Scofano, Indro Spinelli, Fabio Galasso</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Adds a proactive dimension to social navigation: instead of only reactive collision avoidance, robots actively request information from people to locate a target individual.</li>
+      <li>Defines Communication-enabled Social Navigation (CommNav), a new task in which the agent asks residents about recent sightings, locations, and movements to find someone.</li>
+      <li>Bridges the gap in current methods that adapt trajectories but have no mechanism to gather information through human-robot dialogue.</li>
+      <li>Aimed at assistive robots in multi-resident environments, where finding a specific person is far faster by asking than by exhaustive spatial search.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Assistive autonomous robots operating in multi-agent environments require efficient strategies to locate specific individuals among multiple residents. Current social navigation methods focus on reactive collision avoidance and trajectory adaptation, but lack mechanisms to proactively gather information through human-robot communication. We introduce Communication-enabled Social Navigation (CommNav). In this novel task, robotic agents actively seek assistance from residents to locate target individuals by requesting information about recent sightings, locations, and movements, integrating dialogue-driven cues into navigation decisions.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#24</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01043v1" target="_blank">DART-VLN: Test-Time Memory Decay and Anti-Loop Regularization for Discrete Vision-Language Navigation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span>
+      <span class="pill">👤 Shaoheng Zhang (h=0)</span>
+    </div>
+    <div class="authors">Shaoheng Zhang, Zhichen Li, Jie Mei</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Improves discrete vision-language navigation at test time only, with no retraining, targeting two failure modes of memory-based agents acting under partial observability.</li>
+      <li>Test-Time Memory Decay reweights stored memory at readout to suppress stale, redundant evidence — without rewriting the stored content itself.</li>
+      <li>Anti-Loop Regularization adds a lightweight next-hop penalty to curb inefficient local backtracking, a common cause of VLN agents getting stuck in loops.</li>
+      <li>Both are training-free control add-ons for frozen backbones, hardening existing VLN agents cheaply instead of retraining them.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Memory-based discrete vision-language navigation (VLN) agents must act under partial observability, yet even strong frozen backbones remain vulnerable at test time. Two common failure modes are stale historical evidence at memory readout and inefficient local backtracking during action selection. We present DART-VLN, a training-free test-time control framework for discrete VLN. DART-VLN combines Test-Time Memory Decay, a read-side memory reweighting rule that suppresses stale and redundant evidence without rewriting stored content, with Anti-Loop Regularization, a lightweight next-hop penalty that discourages repetitive backtracking.</div>
+    </details>
+  </div>
+</div>
+
+<div class="section-header sh-2">Autonomous Driving &amp; Traffic Perception</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#5</span>
+    <span class="h-badge">h=8</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00283v1" target="_blank">What's Hidden Matters: Identifying Planning-Critical Occluded Agents using Vision-Language Models</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Sangjae Bae (h=8)</span>
+    </div>
+    <div class="authors">Amirhosein Chahe, Tyler Naes, Jovin D'sa, Faizan M. Tariq, Sangjae Bae</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Rejects uniform conservatism toward occlusions in AV planning — which produces needlessly defensive driving — and instead asks which specific hidden agents actually matter to the plan.</li>
+      <li>Uses VLMs to reason about the particular occluded agents most critical to the ego trajectory, bridging perception and planning rather than blindly inferring hidden space.</li>
+      <li>Ranks occlusions by Planning KL-divergence (PKL), quantifying each hidden agent's impact on the planner so attention concentrates on planning-critical unknowns.</li>
+      <li>The upshot is less over-cautious behavior: the vehicle reasons about consequential hidden agents instead of treating every blind spot as equally dangerous.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Autonomous vehicles must safely navigate complex environments where planning-critical agents may be hidden from view. Current approaches often treat all occlusions with uniform conservatism, yielding needlessly defensive driving, or they infer hidden spaces without estimating the impact on the planner. This work bridges the critical gap between perception and planning by enabling Vision-Language Models (VLMs) to identify and reason about the specific hidden agents that are most critical to the ego-vehicle's trajectory. We introduce a novel framework that uses Planning KL-divergence (PKL), an importance measure that ranks occluded regions by their effect on the ego plan.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#17</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01133v1" target="_blank">Towards Metric-Agnostic Trajectory Forecasting</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.CV</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Markus Knoche (h=0)</span>
+    </div>
+    <div class="authors">Markus Knoche, Daan de Geus, Bastian Leibe</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Exposes a benchmark-gaming problem: SOTA forecasters on Argoverse 2 and the Waymo Open Motion Dataset tailor their training objectives to each benchmark's metric, and those metrics reward conflicting behavior.</li>
+      <li>Proposes a paradigm shift — train with metric-agnostic probabilistic objectives and treat metric optimization as a separate downstream step applied to the predicted distribution.</li>
+      <li>Decouples what the model learns (a faithful trajectory distribution) from how it is scored, so a single model can serve multiple, conflicting metrics without retraining.</li>
+      <li>Reframes forecasting evaluation itself, arguing metric-specific training inflates leaderboard numbers without improving the underlying prediction.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Accurate trajectory forecasting of surrounding traffic participants is a core capability for autonomous driving, enabling vehicles to anticipate behavior and plan safe maneuvers. We observe that current state-of-the-art forecasting models on Argoverse 2 and the Waymo Open Motion Dataset tailor their training objectives to the different benchmark metrics. Because these metrics encourage conflicting behavior, we propose a paradigm change for trajectory forecasting: training models with metric-agnostic probabilistic objectives and treating metric optimization as a downstream task applied to the predicted distribution.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#26</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00874v1" target="_blank">Beyond Line of Sight: Hybrid Validation of V2X Collective Perception in Complex Scenarios</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Markos Antonopoulos (h=0)</span>
+    </div>
+    <div class="authors">Markos Antonopoulos, Anastasia Bolovinou, Bill Roungas, Elena Daskalaki, Angelos Amditis</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Extends connected-vehicle perception beyond line of sight via V2X collective perception, fusing observations from multiple agents in complex traffic scenarios.</li>
+      <li>Uses a Bayesian fusion algorithm to merge heterogeneous sensor data into a shared probabilistic occupancy grid, where each cell carries both occupancy likelihood and uncertainty.</li>
+      <li>Emphasizes explainable, trustworthy situational awareness by keeping uncertainty explicit rather than collapsing to a hard occupancy decision.</li>
+      <li>Contributes a hybrid validation methodology bridging simulation and real-world testing, addressing the sim-to-real credibility gap for V2X systems.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">This paper introduces a probabilistic framework and hybrid validation methodology for V2X-enabled Collective Perception (CP) in complex traffic scenarios. The proposed Bayesian fusion algorithm extends the perceptual horizon of connected and autonomous vehicles by integrating heterogeneous sensor observations from multiple agents into a shared probabilistic occupancy grid. Each cell of this grid encapsulates both occupancy likelihood and uncertainty, enabling explainable and trustworthy situational awareness beyond the ego vehicle's field of view. To bridge the gap between simulation and real-world deployment, we combine simulated and physical testing in a hybrid validation pipeline.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#28</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00710v1" target="_blank">Creating Impactful Autonomous Driving Datasets: A Strategic Guide from Research Gap to Benchmark</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.CV</span><span class="pill">cs.AI</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Richard Schwarzkopf (h=0)</span>
+    </div>
+    <div class="authors">Richard Schwarzkopf, Jonas Merkert, Frank Bieder, Annika Bätz, Alexander Blumberg</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Shifts autonomous-driving dataset literature from describing what datasets contain to prescribing how to design impactful ones, explicitly aimed at resource-constrained labs and startups.</li>
+      <li>Argues impactful dataset creation starts with a diagnosis: is the research question blocked by a data problem or by an evaluation problem?</li>
+      <li>Proposes selecting the minimal data operator(s) that closes the identified gap, recording new data only when nothing existing suffices, to avoid misallocating scarce resources.</li>
+      <li>A strategic guide rather than a dataset, reframing data collection as a targeted intervention instead of default large-scale gathering.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Well-designed autonomous driving datasets have fundamentally shaped research progress, yet existing literature primarily describes what datasets contain rather than how to strategically design impactful ones. This is especially limiting for small and medium-sized labs and startups that cannot afford to misallocate scarce resources. We argue that impactful dataset creation begins with a diagnosis: whether a research question is blocked by a data problem or an evaluation problem, and proceeds by selecting the minimal data operator(s) that closes the resulting gap, recording new data only when nothing existing suffices.</div>
+    </details>
+  </div>
+</div>
+
+<div class="section-header sh-7">Multi-Robot &amp; Aerial Systems</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#8</span>
+    <span class="h-badge">h=3</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01029v1" target="_blank">AMBUSH: Collaborative Capture in Complex Environments with Neural Acceleration</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Meng Guo (h=3)</span>
+    </div>
+    <div class="authors">Junfeng Chen, YinHang Luo, Xinyi Wang, Junrui Li, Meng Guo</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Brings collaborative target capture to cluttered, obstacle-dense environments, where prior analytical, geometric, and end-to-end RL methods largely assume obstacle-free or sparse-obstacle spaces.</li>
+      <li>Draws on the biological "ambush" strategy: rather than chasing, robots exploit environment structure to corner faster prey, turning obstacles into an asset instead of a hindrance.</li>
+      <li>Adds neural acceleration to make the strategy computationally tractable in complex maps, combining strategic reasoning with learned speedups.</li>
+      <li>Aimed at security, surveillance, and search-and-rescue, where dynamic targets must be captured amid real clutter rather than in open arenas.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Collaborative capture of dynamic targets is common in nature as an essential strategy for weaker species against the strong. Similar concepts have shown to be useful for numerous robotic applications, such as security and surveillance, search and rescue. However, most existing works focus on analytical and geometric solutions or end-to-end reinforcement learning methods, which are largely constrained to obstacle-free environments or scenarios with sparse, regularly distributed obstacles. This work tackles the problem from a unique perspective: the renowned strategy of "ambush" alone would suffice to capture faster targets by exploiting environmental structure, accelerated by a learned neural component.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#19</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01106v1" target="_blank">Technical Report: Asynchronous Distributed Trajectory Estimation of Multi-Robot Systems</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 (h=0)</span>
+    </div>
+    <div class="authors">Adam Pooley, Matthew Hale</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Addresses a gap in multi-robot distributed trajectory estimation: existing implementations assume synchronous communication and computation, which is unrealistic in the field.</li>
+      <li>Proposes an asynchronous block coordinate descent algorithm, letting agents update on their own schedules without lockstep coordination.</li>
+      <li>Derives an approximation of the maximum-a-posteriori estimation problem over a sliding window and shows the approximation introduces negligible error.</li>
+      <li>Concrete efficiency: eliminates up to 96.9% of communications, a large bandwidth saving for teams estimating each other's states over time.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Distributed trajectory estimation arises in many applications across robotics, but existing implementations typically do not consider asynchrony in agents' communications and computations. Therefore, we propose an asynchronous block coordinate descent algorithm for distributed trajectory estimation. We consider a team of agents that observes a team of robots and estimates their states over a sliding window. The agents solve an approximation of the maximum a posteriori estimation problem, which we derive. We show this approximation introduces negligible errors and eliminates up to 96.9% of communications compared to a synchronous baseline.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#25</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01008v1" target="_blank">Image-Domain Tilt Constrained Distributed Fusion for Maneuvering UAV Tracking with Multi-Camera Electro-Optical Observations</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">eess.IV</span><span class="pill">cs.RO</span><span class="pill">eess.SP</span>
+      <span class="pill">👤 Minxing Sun (h=0)</span>
+    </div>
+    <div class="authors">Minxing Sun, Yao Mao</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Improves electro-optical tracking of small, maneuvering, intermittently-visible UAVs, where image and line-of-sight measurements constrain position but poorly constrain acceleration, so prediction lags during aggressive maneuvers.</li>
+      <li>Novel cue: uses the target rotorcraft's apparent roll and pitch (tilt) in the image as a low-level maneuver signal, since a banking drone visually betrays its intended acceleration.</li>
+      <li>Employs a weak-prior auto-labeling scheme and image-domain tilt constraints within a distributed multi-camera fusion framework.</li>
+      <li>Reduces short-horizon prediction lag during hard maneuvers by injecting visual tilt information the kinematic model alone misses.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Short-horizon prediction is essential for electro-optical UAV tracking, especially when the target is small, maneuvering, or intermittently observed. Image center, line-of-sight, and range measurements provide direct constraints on target position, but their constraints on acceleration are weak. As a result, prediction can lag during aggressive maneuvers. This paper proposes an image-domain tilt constrained distributed fusion method for maneuvering UAV tracking. The method uses the apparent roll and pitch of a rotorcraft target in the image as low-level maneuver cues, combined with a weak-prior auto-labeling scheme within a distributed multi-camera fusion framework.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#30</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00591v1" target="_blank">From Real-Time Planning to Reliable Execution: Scalable Coordination for Heterogeneous Multi-Robot Fleets in Industrial Environments</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.MA</span>
+      <span class="pill">👤 Bo Cao (h=0)</span>
+    </div>
+    <div class="authors">Bo Cao, Zhe Liu, Hesheng Wang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Coordinates dense, heterogeneous industrial robot fleets where real-time planning must simultaneously handle high robot density and differing motion capabilities.</li>
+      <li>Confronts execution reality: communication delays and disturbances make robots deviate from the temporal assumptions of planned paths, causing waiting and congestion propagation.</li>
+      <li>Presents SCALE, a reactive online coordination framework that bridges real-time planning and reliable execution, adapting when robots fall off schedule.</li>
+      <li>Targets scalable, reliable coordination in industrial settings, where a single delayed robot can cascade congestion across the whole fleet.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">With the increasing deployment of heterogeneous robot fleets in industrial environments, efficient coordination remains a critical challenge. Real-time path planning must simultaneously accommodate high robot densities and heterogeneous motion capabilities, while communication delays, execution uncertainties, and other disturbances may cause robots to deviate from the temporal assumptions underlying planned paths. Such deviations can lead to excessive waiting and congestion propagation across the fleet. This paper presents SCALE, a reactive online coordination framework that enables real-time planning and reliable execution for large heterogeneous fleets.</div>
+    </details>
+  </div>
+</div>
+
+<div class="section-header sh-5">World Models &amp; Predictive Simulation</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#9</span>
+    <span class="h-badge">h=2</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00836v1" target="_blank">From World Models to World Action Models: A Concise Tutorial for Robotics</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Wei Zhang (h=2)</span>
+    </div>
+    <div class="authors">Xiaoxiong Zhang, Xiong Zeng, Wei Zhang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>A tutorial that imposes order on a term used inconsistently across communities, defining world models as action-conditioned predictive models of task-relevant future observations or states.</li>
+      <li>Offers a design-space taxonomy splitting observation-space versus state-space world models and comparing them on visual fidelity, spatial structure, physical interpretability, and control usability.</li>
+      <li>Introduces "world action models" as the bridge that connects predicted futures to executable control, unifying prediction and action under one framing.</li>
+      <li>Its value is conceptual clarity — a shared vocabulary and trade-off map rather than a new method — especially useful given how many papers in today's batch invoke "world models" with different meanings.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">World models are increasingly used in embodied intelligence and generative simulation, yet their scope remains ambiguous across communities. This tutorial presents a design-space view of world models as action-conditioned predictive models that estimate the future evolution of task-relevant observations or states. We categorize existing methods into observation-space and state-space world models, comparing their trade-offs in visual fidelity, spatial structure, physical interpretability, and control usability. We further introduce world action models, which connect predicted futures with executable control, providing a unified vocabulary for the field.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#16</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01166v1" target="_blank">Structured 4D Latent Predictive Model for Robot Planning</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Zhiyi Li (h=0)</span>
+    </div>
+    <div class="authors">Zhiyi Li, Peilin Wu, Xiaoshen Han, Ruojin Cai, Yilun Du</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Argues prevailing video predictive models operate on 2D sequences and therefore lack the 3D geometric understanding needed for precise spatial reasoning and physical consistency in planning.</li>
+      <li>Predicts the evolution of a scene's 3D structure in a structured latent space, conditioned on observations and textual instructions, rather than forecasting raw pixels.</li>
+      <li>The structured 4D (3D + time) representation encodes the scene holistically, giving geometry-aware rollouts suited to robot planning.</li>
+      <li>Aims at long-horizon, spatially precise planning where 2D video world models produce physically inconsistent or geometrically implausible futures.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Video predictive models are emerging as a powerful paradigm in robotics, offering a promising path toward task generalization, long-horizon planning, and flexible decision-making. However, prevailing approaches often operate on 2D video sequences, inherently lacking the 3D geometric understanding necessary for precise spatial reasoning and physical consistency. We introduce a Structured 4D Latent Predictive Model, which predicts the evolution of a scene's 3D structure in a structured latent space conditioned on observations and textual instructions. Our representation encodes the scene holistically, enabling geometry-aware prediction for planning.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#22</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01060v1" target="_blank">RoboWorld: Fast and Reliable Neural Simulators for Generalist Robot Policy Evaluation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Byeongguk Jeon (h=0)</span>
+    </div>
+    <div class="authors">Byeongguk Jeon, Seonghyeon Ye, JaeHyeok Doo, Sungdong Kim, Minjoon Seo</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Uses video world models to evaluate generalist policies without physical deployment, but confronts their two crippling weaknesses head-on: unreliable rollouts and slow inference.</li>
+      <li>Pairs a fast autoregressive video world model with task-progress-aware VLM scoring, so evaluation is both quick and grounded in whether the task is actually progressing.</li>
+      <li>Targets reliable long-horizon autoregressive rollouts — the regime where world-model error usually compounds and makes simulated evaluation untrustworthy.</li>
+      <li>Offers an automated evaluation pipeline as a scalable alternative to real-world policy testing, addressing throughput as well as fidelity.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Video world models are emerging as a scalable alternative for evaluating generalist robot policies, bypassing the physical constraints and engineering burdens of real-world deployment. However, evaluating policies with video world models remains challenging, as world-model errors can make generated rollouts unreliable and slow inference limits large-scale throughput. We introduce RoboWorld, an automated evaluation pipeline that pairs a fast autoregressive video world model with task-progress-aware vision-language model scoring, enabling reliable long-horizon rollouts at high throughput.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#29</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00673v1" target="_blank">Path Planning in Physically Viable World Models</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Su Ann Low (h=0)</span>
+    </div>
+    <div class="authors">Su Ann Low, Cheng-Hsi Hsiao, Xingjian Li, Adam J. Thorpe, Ufuk Topcu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Addresses robots planning from stale pre-deployment maps that assume terrain never changes, even when physical changes make old routes unsafe or unreachable at execution time.</li>
+      <li>Builds a physically viable world model that answers what-if queries about navigation under future terrain change, rather than trusting a frozen reconstruction.</li>
+      <li>Augments reconstructed scenes with physical reasoning so the planner can evaluate hypothetical terrain changes before committing to a route.</li>
+      <li>Aimed at unstructured outdoor missions on large or remote sites that cannot be remapped before every deployment.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robots deployed in unstructured outdoor environments often plan from scene reconstructions collected before deployment because operators cannot remap large or remote sites before every mission. As a result, robots must make long-horizon planning decisions using stale maps that assume the terrain remains unchanged, even though physical changes to the environment may render previously feasible routes unsafe or unreachable at execution time. We present a physically viable world model for evaluating what-if queries for robot navigation under future terrain change. The system augments reconstructed scenes with physical reasoning to anticipate how the terrain may evolve.</div>
+    </details>
+  </div>
+</div>
+
+<div class="section-header sh-4">Control, Safety &amp; Teleoperation</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#10</span>
+    <span class="h-badge">h=2</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00424v1" target="_blank">Robust Operational Space Control with Conformal Disturbance Bounds for Safe Redundant Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Qin Lin (h=2)</span>
+    </div>
+    <div class="authors">Wenhua Liu, Fan Zhang, Qin Lin</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Targets redundant manipulators in constrained, human-interactive settings that need both accurate task-space tracking and rigorous safety guarantees under dynamic uncertainty.</li>
+      <li>Critiques two poles: classical computed-torque control degrades without accurate dynamics, while residual-learning approximations lack theoretical guarantees and rely on noisy full-state measurements.</li>
+      <li>Uses conformal prediction to build disturbance bounds, giving distribution-free guarantees rather than point estimates of the disturbance.</li>
+      <li>Delivers safe redundant manipulation with quantified uncertainty, positioning conformal bounds as the missing rigor between purely model-based and purely data-driven control.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Redundant robotic manipulators operating in constrained and human-interactive environments require accurate task-space tracking together with rigorous safety guarantees under dynamic uncertainties. Classical operational space computed torque controller (OSCTC) relies on accurate dynamic models and degrades in the presence of disturbances. In contrast, the data-driven paradigm of residual learning approximates disturbances as functions learned from full-state measurements, which are often noisy in practice, lack rigorous theoretical guarantees, and introduce additional design complexity. This paper proposes a conformal-prediction-based disturbance bound integrated into operational space control for distribution-free safety.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#11</span>
+    <span class="h-badge">h=1</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01203v1" target="_blank">GPU-Parallel Linearization Error Bounds for Real-Time Robust Optimal Control of Nonlinear and Neural Network Dynamics</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">eess.SY</span><span class="pill">cs.AI</span><span class="pill">cs.LG</span><span class="pill">cs.RO</span><span class="pill">math.OC</span>
+      <span class="pill">👤 Jeffrey Fang (h=1)</span>
+    </div>
+    <div class="authors">Jeffrey Fang, Keyi Shen, Anutam Srinivasan, Glen Chou</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Makes real-time robust optimal control of nonlinear and neural-network dynamics tractable by supplying sound linearization error bounds for the LTV approximations that make planning fast.</li>
+      <li>For analytic dynamics, introduces path-based Hessian bounds that are tighter than standard interval methods, reducing the conservatism of the guaranteed error.</li>
+      <li>For neural-network dynamics, derives certified bounds from NN-verifier-generated affine relaxations plus local Jacobian corrections, extending robust control to learned models.</li>
+      <li>Bounds are differentiable and GPU-parallel, so they slot into real-time planning while still guaranteeing robust constraint satisfaction.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">This paper studies real-time robust optimal control for uncertain nonlinear systems, where linear time-varying (LTV) approximations make planning tractable but require sound linearization error bounds (LEBs) to guarantee robust constraint satisfaction. We develop tight, differentiable, GPU-parallel LEBs for LTV approximations of nonlinear and neural network (NN) dynamics. For analytic dynamics, we introduce path-based Hessian bounds that are tighter than standard interval methods. For NN dynamics, we derive certified LEBs using NN verifier-generated affine relaxations and local Jacobian corrections.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#14</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01201v1" target="_blank">Sensorless Four-Channel Control Architecture Using Inverse Dynamics Modeling for Human-Scale Bilateral Teleoperation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Amir Noohian (h=0)</span>
+    </div>
+    <div class="authors">Amir Noohian, Dylan Miller, Justin Valentine, Alan Lynch, Martin Jagersand</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Removes the force/torque sensors that four-channel bilateral teleoperation normally depends on, which are noisy, costly, and especially limiting at human scale.</li>
+      <li>Replaces them with inverse-dynamics modeling to reconstruct interaction forces, tackling the high inertia and modeling challenges of human-scale bilateral systems.</li>
+      <li>Validated on a customized WAM bilateral setup, showing the sensorless scheme outperforms conventional two- and four-channel and transparency-oriented controllers.</li>
+      <li>Makes transparent, high-fidelity teleoperation cheaper and more robust by trading hardware sensors for a dynamics model.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">The four-channel teleoperation architecture is a well-established framework for achieving transparency in bilateral systems. However, its performance in human-scale teleoperation is limited by high inertia, modeling challenges, and reliance on noisy and costly force/torque sensors. This paper introduces a sensorless four-channel architecture based on inverse dynamics modeling. The controller is implemented and validated on a customized WAM bilateral teleoperation setup. Experiments demonstrate that the proposed approach outperforms conventional two- and four-channel schemes as well as transparency-oriented baselines.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#15</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.01200v1" target="_blank">FastBridge: Closing the Model-Based Realization Gap in Safety Filters on 3D Gaussian Splatting for Fast Quadrotor Flight</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Tscholl Dario (h=0)</span>
+    </div>
+    <div class="authors">Tscholl Dario, Nakka Yashwanth Kumar, Gunter Brian</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Closes a model-based realization gap in 3D Gaussian Splatting safety filters, which use single/double-integrator models that ignore actuator limits and assume commanded accelerations are realized instantaneously.</li>
+      <li>Introduces an actuator-aware, nonlinear safety filter enforced through the full quadrotor dynamics, so commanded accelerations are physically realizable even at high speed.</li>
+      <li>Builds on an analytic collision-cone barrier for 3DGS and derives a high-relative-degree collision constraint that respects the real vehicle dynamics.</li>
+      <li>Targets fast quadrotor flight under tight onboard compute, where the naive reduced-order safety assumption breaks exactly when speed makes collision avoidance hardest.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Fast quadrotor flight requires safe obstacle avoidance under tight onboard compute limits. While 3D Gaussian Splatting (3DGS) provides a continuous, geometry-aware scene representation for perception-driven navigation, existing 3DGS safety filters use reduced-order models such as single- and double-integrators that ignore actuator limits and assume commanded accelerations are realized instantaneously. Building on an analytic collision cone barrier for 3DGS, we introduce a nonlinear, actuator-aware safety filter enforced through the full quadrotor dynamics. We derive a high-relative-degree collision constraint that accounts for the true dynamics of the vehicle.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#27</span>
+    <span class="h-badge">h=0</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2607.00776v1" target="_blank">From Prediction Uncertainty to Conformalized Distance Fields for Safe Motion Planning</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-07-01</span>
+      <span class="pill">cs.RO</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Jaeuk Shin (h=0)</span>
+    </div>
+    <div class="authors">Jaeuk Shin, Yoonseok Ra, Insoon Yang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Improves safe motion planning under prediction uncertainty without sacrificing real-time performance, targeting a specific weakness in existing conformal approaches.</li>
+      <li>Prior methods conformalize a scalar score that aggregates per-obstacle prediction errors, losing spatial coherence and scaling poorly as scenes get crowded.</li>
+      <li>Instead conformalizes the entire predicted distance field at once — a functional conformal prediction that yields a field-level, distribution-free lower bound.</li>
+      <li>Safety follows uniformly: any trajectory satisfying the resulting constraint is certified safe, restoring spatial coherence that scales with scene density.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Safe motion planning in dynamic environments requires reasoning about the uncertainty in predicted obstacle motion without sacrificing real-time performance. Existing conformal approaches conformalize a scalar score that aggregates per-obstacle prediction errors, losing spatial coherence and scaling poorly with scene density. We instead conformalize the entire predicted distance field at once. This functional conformal prediction (FCP) framework yields a distribution-free, field-level lower bound, from which safety follows uniformly: any trajectory satisfying the resulting constraint is certified safe.</div>
+    </details>
+  </div>
+</div>
+
+<footer>
+  Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-07-01
+</footer>
+</div>
+</body>
+</html>
