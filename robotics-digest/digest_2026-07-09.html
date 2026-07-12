@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotics arXiv Digest &mdash; 2026-07-09</title>
+<style>
+  :root {
+    --bg: #f7f8fb;
+    --card-bg: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --gold: #d4a017;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 16px 64px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  header.top {
+    text-align: center;
+    padding: 32px 20px;
+    background: linear-gradient(135deg, #4338ca, #6366f1 50%, #ec4899);
+    border-radius: 16px;
+    color: white;
+    margin-bottom: 28px;
+  }
+  header.top h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+  }
+  header.top .sub {
+    font-size: 15px;
+    opacity: 0.95;
+  }
+  .badge {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 5px 14px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  section {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+  }
+  section.landscape h2, .grid-section h2 {
+    margin-top: 0;
+    font-size: 20px;
+  }
+  section.landscape p {
+    font-size: 15px;
+    color: #333844;
+    margin: 0 0 14px;
+  }
+  section.landscape p:last-child { margin-bottom: 0; }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .cat-card {
+    border: 1px solid var(--border);
+    border-left: 4px solid #999;
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: #fbfbfd;
+  }
+  .cat-card h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+  }
+  .cat-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .cat-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 12.5px;
+    color: #444;
+  }
+  .cat-list li { margin-bottom: 2px; }
+  .cat-section {
+    margin-bottom: 30px;
+  }
+  .cat-header {
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 17px;
+    margin-bottom: 16px;
+  }
+  .cat-count {
+    font-weight: 400;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  .paper-card {
+    display: flex;
+    gap: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  .paper-card:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+  .paper-left {
+    flex: 0 0 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .rank {
+    font-weight: 700;
+    font-size: 14px;
+    color: #555;
+    background: #eef0f4;
+    border-radius: 8px;
+    padding: 4px 8px;
+    min-width: 40px;
+    text-align: center;
+  }
+  .rank.gold {
+    background: linear-gradient(135deg, #f6d675, #d4a017);
+    color: #4a3400;
+  }
+  .pill {
+    display: inline-block;
+    font-size: 11.5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #eef0f4;
+    color: #444;
+    margin: 0 6px 6px 0;
+  }
+  .hpill {
+    background: #dbeafe;
+    color: #1e40af;
+    font-weight: 600;
+  }
+  .paper-right { flex: 1; min-width: 0; }
+  .paper-right h4 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .paper-right h4 a {
+    color: #1e293b;
+    text-decoration: none;
+  }
+  .paper-right h4 a:hover {
+    color: #4338ca;
+    text-decoration: underline;
+  }
+  .meta-pills { margin-bottom: 6px; }
+  .authors {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .contrib-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #4338ca;
+    margin-bottom: 6px;
+  }
+  .bullets {
+    margin: 0 0 10px;
+    padding-left: 0;
+    list-style: none;
+    font-size: 13.5px;
+    color: #2b2f38;
+  }
+  .bullets li {
+    margin-bottom: 6px;
+    padding-left: 4px;
+  }
+  .abstract-toggle summary {
+    cursor: pointer;
+    font-size: 12.5px;
+    color: #4338ca;
+    font-weight: 600;
+    outline: none;
+  }
+  .abstract-text {
+    font-size: 13px;
+    color: #555;
+    margin: 8px 0 0;
+    padding: 10px 12px;
+    background: #f7f8fb;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  footer {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--muted);
+    padding: 20px 10px 4px;
+  }
+  @media (max-width: 520px) {
+    .paper-card { flex-direction: column; }
+    .paper-left { flex-direction: row; justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>&#129302; Robotics arXiv Digest</h1>
+    <div class="sub">2026-07-09 &middot; 27 papers &middot; 7 research areas</div>
+    <div class="badge">Generated by Claude</div>
+  </header>
+
+  <section class="landscape">
+    <h2>Research Landscape</h2>
+    <p>Today's batch is dominated by Vision-Language-Action work &mdash; seven of 27 papers sit squarely in that cluster &mdash; but almost none of them propose a new end-to-end architecture from scratch. Instead the common move is to bolt something onto an existing or frozen VLA: <strong>Harness VLA</strong> wraps a completely frozen policy in an LLM-agent harness that hands off to analytic primitives outside its training distribution; <strong>TFP</strong> and <strong>Latent Memory Palace</strong> both inject a belief or reasoning state into an otherwise reactive policy, with TFP showing the belief update is 6x more active near contact/release events and causally (not just correlationally) shapes actions; and <strong>APIVOT</strong> interleaves visual "imagination" into an LLM planner to catch geometrically infeasible plans before execution. Meanwhile <strong>Temporal Ratio</strong> steps back and diagnoses <em>why</em> video-action models lose their pretrained compositional priors after finetuning, turning that diagnostic directly into an inference-time fix &mdash; a pattern of "understand the failure mode, then patch it without retraining" that shows up across several of today's VLA papers rather than the field simply scaling up parameters.</p>
+    <p>A second thread is the field's growing insistence that keypoint or pose tracking alone is not manipulation. <strong>ContactMimic</strong> makes this explicit by decoupling contact commands from keypoint trajectories (and shows via ablation that without careful data augmentation the policy just infers contact from geometry as a shortcut); <strong>AnyDexRT</strong> pushes calibration out of dexterous teleoperation entirely; and <strong>SkillPlug</strong> mines reusable, non-redundant skill primitives rather than training everything end-to-end per task. <strong>DexVerse</strong> ties this together as an evaluation problem: benchmarking Diffusion Policy, DP3, OpenVLA and &pi;<sub>0.5</sub> across 100 cross-embodiment tasks and finding all of them still show substantial generalization gaps &mdash; a useful counterweight to the strong single-benchmark numbers reported elsewhere in today's batch (e.g. FabriVLA's 90.0% on Meta-World, TFP's 98.75% on LIBERO).</p>
+    <p>A third theme is resource-constrained coordination: <strong>DeepCORD</strong> (learned distributed pose-graph solvers), <strong>D-CLIPSE</strong> (consensus localization via passive listening), and <strong>Early to Share, Late to Save</strong> (bandwidth-gated cooperative VLN) all wrestle with the same underlying question &mdash; how much do multiple robots really need to communicate &mdash; and land on a similar answer: share compact, well-timed information early rather than continuously. The VLN paper's counter-intuitive finding that agents communicate most when <em>confident</em>, not uncertain, is a notable departure from the usual entropy-gated intuition. Rounding out the batch, autonomous driving contributes a unifying post-training survey plus point solutions (anytime LiDAR detection, pedestrian face-swap privacy, intersection intention prediction), while control theory (cable-robot tension outside the feasible workspace, input-constrained safety tubes), simulation tooling (an Isaac Sim event-camera plugin), and human-robot interaction (a home-deployed dementia therapy robot, a lognormal-model comfort index) show a field still investing meaningfully outside the VLA mainstream.</p>
+  </section>
+
+  <section class="grid-section">
+    <h2>Papers by Research Area</h2>
+    <div class="cat-grid">
+      
+      <div class="cat-card" style="border-left-color:#6366f1;">
+        <h3 style="color:#6366f1;">VLA &amp; Foundation Models</h3>
+        <p class="cat-desc">Vision-language-action policies, video-action pretraining, memory and reasoning augmentation for manipulation control.</p>
+        <ul class="cat-list"><li>#5 Latent Memory Palace</li><li>#10 Harness VLA</li><li>#11 LingBot-VA 2.0</li><li>#16 APIVOT</li><li>#18 FabriVLA</li><li>#19 Temporal Ratio</li><li>#25 TFP</li></ul>
+      </div>
+      <div class="cat-card" style="border-left-color:#14b8a6;">
+        <h3 style="color:#14b8a6;">Dexterous &amp; Contact-Rich Manipulation</h3>
+        <p class="cat-desc">Contact-aware control, teleoperation retargeting, and skill mining for fine manipulation.</p>
+        <ul class="cat-list"><li>#3 ContactMimic</li><li>#7 AnyDexRT</li><li>#13 SkillPlug</li></ul>
+      </div>
+      <div class="cat-card" style="border-left-color:#f59e0b;">
+        <h3 style="color:#f59e0b;">Simulation, Benchmarks &amp; Tools</h3>
+        <p class="cat-desc">Modular benchmarks and simulator plugins for evaluating and training embodied policies.</p>
+        <ul class="cat-list"><li>#14 DexVerse</li><li>#27 EVIS</li></ul>
+      </div>
+      <div class="cat-card" style="border-left-color:#3b82f6;">
+        <h3 style="color:#3b82f6;">Navigation, Localization &amp; Multi-Robot Systems</h3>
+        <p class="cat-desc">Distributed SLAM, radar/consensus localization, and communication-constrained multi-agent navigation.</p>
+        <ul class="cat-list"><li>#4 DeepCORD</li><li>#15 Early to Share, Late to Save</li><li>#20 D-CLIPSE</li><li>#23 FSD-VLN</li><li>#26 RadLoc</li></ul>
+      </div>
+      <div class="cat-card" style="border-left-color:#ef4444;">
+        <h3 style="color:#ef4444;">Autonomous Driving &amp; Perception</h3>
+        <p class="cat-desc">End-to-end driving post-training, LiDAR detection under latency constraints, and driving-data privacy.</p>
+        <ul class="cat-list"><li>#9 Post-Training in E2E AD</li><li>#17 Anytime LiDAR Detection</li><li>#22 Face-Swap Pedestrian Privacy</li><li>#24 INTENT</li></ul>
+      </div>
+      <div class="cat-card" style="border-left-color:#64748b;">
+        <h3 style="color:#64748b;">Control Theory &amp; Robot Mechanisms</h3>
+        <p class="cat-desc">Safety-guaranteed control and cable-driven parallel robot tension distribution.</p>
+        <ul class="cat-list"><li>#1 X-ACTA (CDPR tension)</li><li>#2 Input-Constrained Spatiotemporal Tubes</li></ul>
+      </div>
+      <div class="cat-card" style="border-left-color:#ec4899;">
+        <h3 style="color:#ec4899;">Human-Robot Interaction, Motion &amp; Social Robotics</h3>
+        <p class="cat-desc">Comfort/human-likeness modeling, interactive motion generation, and social/therapeutic robot deployment.</p>
+        <ul class="cat-list"><li>#6 JAM (personality)</li><li>#8 Human-Likeness Comfort Index</li><li>#12 ARDY</li><li>#21 Co-STAR iCST</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <h2 style="margin: 8px 4px 4px;">Papers by Category</h2>
+  
+    <div class="cat-section">
+      <h2 class="cat-header" style="background:#6366f1;">VLA &amp; Foundation Models <span class="cat-count">(7 papers)</span></h2>
+      
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#5</div>
+            <span class="pill hpill">h=16</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08724v1" target="_blank" rel="noopener">Latent Memory Palace: Reasoning for Control as Autoregressive Variational Inference</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.LG, cs.RO</span>
+              <span class="pill">Top author: K. Srinivasan (h=16)</span>
+            </div>
+            <div class="authors">Chuning Zhu, Eva Xu, Jose Barreiros, Krishnan Srinivasan, Paarth Shah</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Reframes &#x27;reasoning&#x27; for continuous control as autoregressive variational inference over a latent space, sidestepping the granularity problem of reasoning directly in language for spatial/motor tasks.</li><li>&#9656; Derives a tractable latent-space RL method to optimize the variational lower bound, rather than relying on LLM-style chain-of-thought that doesn&#x27;t transfer well to motor precision.</li><li>&#9656; Produces interpretable, adaptive test-time compute allocation — the policy visibly &#x27;spends more steps&#x27; on harder decisions, echoing LLM reasoning behavior but grounded in action.</li><li>&#9656; Spins off a variable-length action tokenizer (LMP-tok) as a byproduct, shown to boost downstream autoregressive policies independent of the main LMP-π controller.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Human decision-making is highly flexible -- some actions are taken immediately; others require longer deliberation. Language models have exhibited a similar capacity for adaptive &quot;reasoning.&quot; However, transferring this capability to continuous control policies has been challenging, as directly reasoning in language space may lack the granularity for spatial understanding and precise motions. In this work, we show that reasoning for control policies can emerge by organizing information in an autoregressive latent space reminiscent of a memory palace, where retrieval is iterative and adaptive. Our method, Latent Memory Palace (LMP), formulates reasoning as variational inference with an autoregressive latent distribution. We derive a latent-space reinforcement learning technique to tractably optimize its variational lower bound. The resulting policy, LMP-$π$, achieves strong empirical performance in simulation and real-world domains while exhibiting interpretable, adaptive allocation of test-time compute. We further show that the same framework yields a variable-length action tokenizer, LMP-$\texttt{tok}$, which significantly improves the performance of downstream autoregressive policies. Together, these results present a new perspective on latent reasoning for control through the lens of variational inference.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#10</div>
+            <span class="pill hpill">h=11</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08448v1" target="_blank" rel="noopener">Harness VLA: Steering Frozen VLAs into Reliable Manipulation Primitives via Memory-Guided Agents</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Zhengru Fang (h=11)</span>
+            </div>
+            <div class="authors">Yixian Zhang, Huanming Zhang, Feng Gao, Xiao Li, Zhihao Liu</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Keeps a pretrained VLA completely frozen and wraps it with an LLM-coding-agent-style harness that composes it with a small fixed library of analytic primitives — avoiding the cost and risk of finetuning.</li><li>&#9656; Learns the VLA&#x27;s operating envelope from task-specific execution traces and failure models, so the harness knows when to retry the VLA versus hand off to an analytic primitive.</li><li>&#9656; Reserves the frozen VLA specifically for local contact-rich phases while lifting semantic re-grounding and staging to the planner, splitting labor along a line prior single-model VLAs blur.</li><li>&#9656; Reports concrete gains under deployment perturbations the base VLA wasn&#x27;t trained for: +38.6 and +25.4 percentage points over the strongest baselines on LIBERO-Pro and RoboCasa365, and 58.4% success on RoboTwin C2R.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Language-conditioned manipulation requires both precise contact-rich control and robust reasoning over language, scenes, and long horizons. End-to-end Vision-Language-Action (VLA) models provide strong local visuomotor skills, but they are trained on in-distribution task trajectories and often fail under deployment perturbations such as semantic retargeting, goal re-binding, spatial-layout shifts, and unstable local contacts. LLM coding agents provide complementary semantic and compositional reasoning, but purely analytic primitives struggle with irregular grasping, constrained placement, and articulated-object interaction. We present Harness VLA, a memory-augmented agentic framework that exposes a frozen VLA as a retryable contact-rich primitive and composes it with a small fixed library of analytic primitives for grounding, staging, transport, navigation, and release. Rather than expanding the skill library, the harness learns the operating range of these fixed primitives from task-specific execution traces, global success rules, and failure models. By lifting semantic re-grounding, non-contact execution, and VLA re-staging to the planner while reserving the frozen VLA for local contact-rich phases, Harness VLA extends pretrained VLAs beyond their original trajectory distribution without finetuning. Across perturbed tabletop, household kitchen, and clean-to-randomized bimanual manipulation, Harness VLA improves over the strongest relevant baselines by 38.6 and 25.4 percentage points on LIBERO-Pro and RoboCasa365, respectively, and reaches 58.4% on RoboTwin C2R.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#11</div>
+            <span class="pill hpill">h=10</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08639v1" target="_blank" rel="noopener">Native Video-Action Pretraining for Generalizable Robot Control</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO, cs.CV</span>
+              <span class="pill">Top author: K. Cheng (h=10)</span>
+            </div>
+            <div class="authors">Qihang Zhang, Lin Li, Luyao Zhang, Shuai Yang, Yiming Luo</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Rejects repurposing video-generation VAEs (built for content creation) for robot control, training instead a semantic visual-action tokenizer from scratch that aligns representations with both semantics and actions.</li><li>&#9656; Adopts causal pretraining rather than adapting bidirectional video architectures, explicitly to avoid the catastrophic forgetting the authors observed when bidirectional models are retrofitted for causal control.</li><li>&#9656; Uses a sparse MoE backbone to expand model capacity for high-frequency inference without paying the full dense-model latency cost.</li><li>&#9656; Introduces asynchronous inference that predicts future latents in parallel with action execution while re-grounding on the latest observation — directly addressing the latency problem that typically blocks video-action models from real-time closed-loop control.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">The advent of video-action models offers a promising path for robot control. Nevertheless, we argue that repurposing video generative models designed for digital content creation is inherently inadequate for physical environments. To bridge this gap, we present LingBot-VA 2.0, a video-action foundation model built from the ground up for embodiment. Four core design principles showcase its evolution from LingBot-VA. (1) Departing from traditional reconstruction-focused VAEs, we introduce a semantic visual-action tokenizer, which aligns visual representations with both semantics and actions, improving instruction following and action precision in subsequent policy learning. (2) Given the strictly causal nature of temporal dynamics, we adopt a causal pretraining paradigm, training from scratch to circumvent the catastrophic forgetting that frequently occurs when adapting bidirectional architectures. (3) To meet the demands of high-frequency inference, our model employs a sparse MoE backbone, expanding model capacity without compromising efficiency. (4) Real-time closed-loop control is realized through an enhanced asynchronous inference scheme, which predicts future latents in parallel with action execution while re-grounding each rollout on the latest observation via learned forward dynamics. Real-world deployment validates LingBot-VA 2.0 as a robust foundation model, as evidenced by its few-shot generalization across complex manipulation tasks.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#16</div>
+            <span class="pill hpill">h=6</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08024v1" target="_blank" rel="noopener">APIVOT: Adaptive Planning with Interleaved Vision-Language Thoughts</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.CV, cs.AI, cs.LG, cs.RO</span>
+              <span class="pill">Top author: Joy Hsu (h=6)</span>
+            </div>
+            <div class="authors">Emily Jin, Joy Hsu, Yiqing Xu, Weiyu Liu, Nick Haber</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Interleaves language and visual &#x27;thoughts&#x27; adaptively within a single VLM-based planner, rather than committing to either pure language reasoning or pure visual simulation.</li><li>&#9656; Uses visual thoughts specifically as imagined future states for internally verifying geometric feasibility — catching plans that are semantically fine but physically impossible, e.g. colliding or lacking free space.</li><li>&#9656; Learns when to switch modalities rather than following a fixed schedule, and the learned selection behavior is shown to correlate with planning success.</li><li>&#9656; Reports its largest gains over general-purpose VLMs and prior planners specifically in spatially constrained kitchen settings — exactly where geometric feasibility checking should matter most.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Long-horizon robot planning requires jointly reasoning over semantic task structure and geometric feasibility. To successfully execute a task, a robot must decompose goals, select task-relevant objects, and sequence actions, while ensuring that plans satisfy spatial constraints such as limited free space and object collisions. In this work, we propose APIVOT, a VLM-based planner that adaptively interleaves language and visual thoughts for long-horizon planning. APIVOT learns to leverage language for semantic reasoning, while using visual thoughts as imagined future states for internal verification of geometric feasibility. On long-horizon kitchen tasks, APIVOT outperforms general-purpose VLMs and prior planning frameworks, achieving the largest gains in spatially constrained settings. We find that APIVOT learns meaningful modality selection behavior, demonstrating that adaptive interleaving of vision-language thoughts improves both planning success and reasoning efficiency.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#18</div>
+            <span class="pill hpill">h=4</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08575v1" target="_blank" rel="noopener">FabriVLA: A Lightweight Vision-Language-Action Model for Precise Multi-Task Manipulation</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Xu Bian (h=4)</span>
+            </div>
+            <div class="authors">Shiyuan Yang, Borong Zhang, Jizheng Zhang, Zhijia Tao, Junfei Guo</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Builds a VLA around a much smaller 1B-parameter VLM backbone (InternVL3.5) instead of the multi-billion-parameter backbones typical of recent VLA work.</li><li>&#9656; Adds gated self-attention across action tokens plus shallow VLM-layer fusion in the flow-matching action head, aiming to inject spatial context without inflating the backbone.</li><li>&#9656; Trains in a single joint-optimization stage from a pretrained VLM plus a randomly initialized action head, skipping the multi-stage pretraining pipelines common in larger VLAs.</li><li>&#9656; Reaches 90.0% tier-average success on the 50-task Meta-World MT50 benchmark, arguing compact VLAs can match larger ones on precision manipulation rather than only on task breadth.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">We present FabriVLA, a lightweight Vision-Language-Action model for Precise Multi-Task Manipulation. FabriVLA combines an InternVL3.5 vision-language backbone with a flow-matching action head featuring gated self-attention across action tokens and shallow VLM layer fusion for enriched spatial context. The model is trained via single stage joint optimization from a pretrained VLM and randomly initialized action head. On the Meta-World MT50 benchmark spanning 50 diverse manipulation tasks, FabriVLA achieves a tier-average success rate of 90.0%, demonstrating that a compact VLA built on a 1B scale VLM can achieve strong performance without relying on multi billion parameter VLA backbones.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#19</div>
+            <span class="pill hpill">h=4</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08127v1" target="_blank" rel="noopener">Understanding and Mitigating the Video-Action Generalization Gap via Temporal Ratio</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.CV, cs.RO</span>
+              <span class="pill">Top author: U. Mishra (h=4)</span>
+            </div>
+            <div class="authors">Utkarsh A. Mishra, Yongxin Chen, Danfei Xu, Yang Liu, Xi Chen</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Names and formalizes the &#x27;video-action generalization gap&#x27;: world/video-action models lose the compositional priors of their video pretraining after finetuning on robot action data.</li><li>&#9656; Surveys a broad design space of video-action models and finds no single architectural choice reliably explains which models keep compositional generalization — motivating a new diagnostic rather than another architecture tweak.</li><li>&#9656; Introduces Temporal Ratio (TR), an attention-based measure of how much the action head leans on future latent rollouts versus the current frame, and shows TR predicts a model&#x27;s compositional generalization capacity.</li><li>&#9656; Turns the diagnostic into an inference-time fix — an adaptive guidance method that amplifies compositional video conditioning exactly when TR indicates reliance on future rollouts — mitigating the OOD-ID gap on LIBERO and real-world tasks without retraining.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Generative video foundation models exhibit strong compositional priors, yet world-action models (WAMs) and video-action models (VAMs) often lose these priors after finetuning on robotic action data. We refer to this discrepancy as the video-action generalization gap. In this paper, we systematically investigate this gap by evaluating a comprehensive design space of VAMs, demonstrating that standard design choices yield no emergent explanation pattern. To explain this behavior, we introduce the Temporal Ratio (TR), an attention-based measure of how strongly the action head relies on future latent rollouts relative to the anchored current frame. TR has two key properties: first, a model&#x27;s structural reliance on future-predictive latents, measured via TR, acts as a predictor of its compositional generalization capacity; second, it natively fluctuates based on task phase, shifting attention to future frames during planning and reverting to the present frame for precise manipulation. Finally, based on these findings, we propose an inference-time adaptive guidance method, which exploits this intrinsic feature attention pattern to dynamically amplify compositional video conditioning signals precisely when the policy relies on future rollouts. Evaluated on the LIBERO benchmark and real-world tasks, our approach mitigates the OOD-ID compositional generalization gap. More details: https://umishra.me/temporal-ratio/</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#25</div>
+            <span class="pill hpill">h=1</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08283v1" target="_blank" rel="noopener">TFP: Temporally Conditioned Memory-Fusion Policies for Visuomotor Learning</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Yushen Liang (h=1)</span>
+            </div>
+            <div class="authors">Yushen Liang, Yue Peng, Baosheng Jin, Tianluo Zhang, Xinyu Zhang</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Argues current VLA policies like π0.5 and OpenVLA are reactive — mapping current observation to next action — which breaks in stage-dependent tasks where the same visual state should trigger different actions depending on task progress.</li><li>&#9656; Introduces an episode-local task-progress belief updated with Liquid Time-Constant dynamics, injected directly into the flow-matching action decoder via adaptive modulation rather than treated as passive history context.</li><li>&#9656; Shows the belief update is selectively active: write-gain changes near contact/release/subgoal events are about 6x larger than during stable phases, and hidden-state interventions demonstrate the belief causally shapes generated actions rather than merely correlating with them.</li><li>&#9656; Improves a 3.3B-parameter model from 96.9% to 98.75% on LIBERO and 91.4% to 93.77% on LIBERO-plus, with the memory-focused MIKASA ShellGameTouch diagnostic reaching 75.0% — targeted precisely at the occlusion/stage-transition cases the method was designed for.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Vision--Language--Action (VLA) policies such as $π_{0.5}$ and OpenVLA perform well on many manipulation tasks, but they are often reactive: the next action is predicted from the current observation, instruction, and proprioceptive state. This assumption breaks down in stage-dependent manipulation, where visually similar states may require different actions depending on latent task progress and previous interaction outcomes. We argue that such tasks require not only memory, but dynamics-aware belief updates: the policy should preserve task progress during stable or occluded phases and revise its belief near contact, release, or subgoal transitions. We introduce Temporally Conditioned Memory-Fusion Policies (TFP), a lightweight memory-action framework for VLA backbones. TFP maintains an episode-local task-progress belief with Liquid Time-Constant dynamics and injects the updated belief directly into the flow-matching action decoder through adaptive modulation. This lets temporally accumulated context shape the generated action chunk, rather than serving only as passive history context. With a 3.3B-parameter model, TFP improves the average success rate from \(96.9\%\) to \(98.75\%\) on LIBERO and from \(91.4\%\) to \(93.77\%\) on LIBERO-plus. On the memory-focused MIKASA ShellGameTouch diagnostic, TFP achieves success up to \(75.0\%\). Mechanistic analyses show that write-gain changes near manipulation events are about \(6\times\) larger than far non-event phases, and hidden-state interventions show that the belief causally modulates generated action chunks. These results suggest that compact, event-sensitive memory dynamics can improve VLA policies under occlusion, visual perturbation, and stage-dependent task structure.</p>
+            </details>
+          </div>
+        </div>
+    </div>
+    <div class="cat-section">
+      <h2 class="cat-header" style="background:#14b8a6;">Dexterous &amp; Contact-Rich Manipulation <span class="cat-count">(3 papers)</span></h2>
+      
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank gold">#3</div>
+            <span class="pill hpill">h=17</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08742v1" target="_blank" rel="noopener">ContactMimic: Humanoid Object Interaction via Contact Control</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Runpei Dong (h=17)</span>
+            </div>
+            <div class="authors">Xinyao Li, Xialin He, Runpei Dong, Saurabh Gupta</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Argues keypoint-tracking imitation is fundamentally blind to contact: a robot can reach the target pose without ever meaningfully touching the object, breaking tasks like wiping or sitting.</li><li>&#9656; Introduces explicit part-level binary contact commands as a second control channel alongside keypoint trajectories, giving the policy independent control over whether contact occurs.</li><li>&#9656; Uses a trajectory augmentation scheme designed specifically to decorrelate keypoint motion from contact labels — ablations show without it the policy shortcuts by inferring contact from geometry alone.</li><li>&#9656; Achieves contact-controllability (produce or suppress contact on command at deployment), validated sim-to-real across 5 real-world motions after training on 10 simulated human-object interactions.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Keypoint tracking alone is insufficient for object interaction tasks such as sitting on a chair, wiping a board, or pushing furniture, where the robot can reach the correct pose without making meaningful physical contact with the object. We present CONTACTMIMIC, a learning framework that tracks explicit partlevel binary contact commands alongside keypoint trajectories. CONTACTMIMIC is made possible through the use of contact-following rewards and a trajectory augmentation scheme aimed at breaking the correlations between keypoint trajectories and contact labels. The resulting policy successfully decouples contact behavior from keypoint geometry, and achieves precise physical contact as well as contact-controllability (produce or suppress contact during deployment as desired). Simulation experiments across 10 diverse human-object interaction motions confirm that CONTACTMIMIC exhibits contact controllability that enables it to complete manipulation tasks without task-specific rewards, while also outperforming keypoint-only trackers on contact-relevant tasks. Ablations confirm the necessity of the proposed trajectory augmentation scheme and sim2real deployment validates contact controllability in the real world across 5 different motions. Video results are available on https://lixinyao11.github.io/contactmimic-page/.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#7</div>
+            <span class="pill hpill">h=16</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08341v1" target="_blank" rel="noopener">AnyDexRT: Calibration-Free Dexterous Hand Retargeting with Few-Shot Human Guidance</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Hongjie Fang (h=16)</span>
+            </div>
+            <div class="authors">Chenxi Wang, Ying Feng, Hongjie Fang, Shangning Xia, Lixin Yang</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Removes the calibration step most retargeting pipelines require, replacing hand-crafted objectives and global shape-matching with self-supervised fingertip correspondence learning.</li><li>&#9656; Anchors the human-to-robot mapping using only a few-shot human demonstration rather than dense calibration data, cutting setup cost for each new dexterous hand.</li><li>&#9656; Adds a dedicated contact classifier to refine pinch-related poses, addressing a fine-grained failure mode that generic correspondence learning tends to miss.</li><li>&#9656; Demonstrated across multiple distinct dexterous hand morphologies in real-world teleoperation, showing the calibration-free approach generalizes rather than being tuned to one hand.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Teleoperation is a key interface for controlling dexterous robotic hands and collecting demonstrations for imitation learning. Its effectiveness largely depends on kinematic retargeting, which maps operator hand motions to feasible and intuitive robot hand motions. Existing methods often require hand-crafted objectives, precise calibration, or global shape matching between human and robot hand spaces, making them sensitive to hand-specific tuning and less reliable across different dexterous hands. We propose AnyDexRT, a calibration-free retargeting method for intuitive dexterous teleoperation across human-like dexterous hands. AnyDexRT combines self-supervised fingertip correspondence learning with few-shot human guidance to anchor the mapping in task-relevant regions, and further refines pinch-related poses using a contact classifier. Experiments on diverse dexterous hands and real-world teleoperation tasks show that AnyDexRT improves retargeting quality, reduces manual tuning, and provides more intuitive and efficient control than prior retargeting methods. Project website: https://chenxi-wang.github.io/projects/anydexrt</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#13</div>
+            <span class="pill hpill">h=8</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08354v1" target="_blank" rel="noopener">SkillPlug: Unsupervised Skill Mining for Few-Shot Adaptation in Robotic Manipulation</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Ziwei Wang (h=8)</span>
+            </div>
+            <div class="authors">Zi-han Ding, Ziwei Wang</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Adds a skill-conditioning module on top of an existing visuomotor policy rather than replacing it, mining a reusable skill library from raw multi-task demonstrations without extra supervision.</li><li>&#9656; Uses self-supervised objectives that specifically push skills toward being compact, reusable, and non-redundant — targeting the composability failure mode of end-to-end policies.</li><li>&#9656; After mining, freezes the skill library and adapts to new tasks by fine-tuning only a lightweight router and action head, avoiding full end-to-end retraining per task.</li><li>&#9656; Validated on two simulation benchmarks and a real robot, with mined skills improving both multi-task performance and few-shot adaptation — evidence the skills transfer rather than overfitting to one benchmark.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Learning transferable visuomotor imitation policies that generalize across diverse manipulation tasks and adapt rapidly to new tasks from only a handful of demonstrations remains challenging. Most modern policies are trained end-to-end to map observations directly to low-level actions, offering little explicit structure for reusing and recombining behaviors across tasks and making transfer data-inefficient under limited supervision. We propose SkillPlug, a plug-in framework that augments an existing visuomotor policy with a skill-conditioning module and mines a shared, transferable skill library from raw multi-task demonstrations. SkillPlug learns skills via self-supervised objectives that promote compact, reusable, and non-redundant behavior-level primitives, forming a task-shared prior for compositional control. After skill mining, we keep the learned skills fixed and specialize to unseen tasks by fine-tuning only lightweight router and action head, enabling efficient adaptation without full end-to-end retraining. We evaluate SkillPlug on two simulation benchmarks and on a real robot, and observe that the mined transferable skills consistently improve both multi-task performance and few-shot adaptation. Overall, SkillPlug offers a scalable way to mine reusable skills that improve data-efficient generalization in robotic manipulation.</p>
+            </details>
+          </div>
+        </div>
+    </div>
+    <div class="cat-section">
+      <h2 class="cat-header" style="background:#f59e0b;">Simulation, Benchmarks &amp; Tools <span class="cat-count">(2 papers)</span></h2>
+      
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#14</div>
+            <span class="pill hpill">h=7</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08751v1" target="_blank" rel="noopener">DexVerse: A Modular Benchmark for Multi-Task, Multi-Embodiment Dexterous Manipulation</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Masayoshi Tomizuka (h=7)</span>
+            </div>
+            <div class="authors">Yunchao Yao, Zhuxiu Xu, Tianqi Zhang, Zixian Liu, Sikai Li</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Builds a benchmark spanning 100 tasks, 3 robot arms, and 6 dexterous hands specifically to expose cross-task and cross-embodiment generalization gaps that narrower benchmarks can&#x27;t reveal.</li><li>&#9656; Covers interaction modes existing benchmarks rarely combine in one suite — articulated-object interaction, bimanual coordination, non-prehensile control, and long-horizon multi-stage tasks.</li><li>&#9656; Adds configurable visual variation (textures, lighting, viewpoint, background) as a first-class benchmark axis, letting researchers isolate visuomotor robustness from task-skill generalization.</li><li>&#9656; Benchmarks Diffusion Policy, DP3, OpenVLA, and π0.5 across 19 tasks with 3,180 VR-teleoperated demonstrations, and finds substantial generalization gaps in all of them — a reality check for methods that look strong on narrower suites.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Building general-purpose dexterous manipulation policies requires benchmarks that go beyond isolated tasks to systematically evaluate policies across diverse interaction modes, sensory conditions, and robot embodiments. However, existing benchmarks remain limited in task and data diversity, embodiment coverage, or controllable visual variation, hindering studies of cross-task and cross-embodiment generalization. We present DexVerse, a large-scale and modular benchmark for dexterous manipulation. DexVerse includes 100 tasks spanning a broad range of manipulation skills, including object grasping and relocation, articulated-object interaction, functional tool use, bimanual coordination, non-prehensile control, contact-rich behaviors, multi-goal execution, and long-horizon multi-stage task completion. It supports 3 robot arms and 6 dexterous hands, and is extensible to new tasks, assets, and embodiments. To evaluate visuomotor generalization, DexVerse provides configurable visual variations in textures, background, lighting, and camera viewpoints. We further provide a VR-based teleoperation interface and 3,180 demonstrations with synchronized proprioceptive, RGB, depth, point-cloud, and state observations. We benchmark representative methods, including Diffusion Policy, DP3, OpenVLA, and $π_{0.5}$, across 19 tasks. Results reveal substantial challenges in task generalization and visuomotor robustness, establishing DexVerse as a promising testbed for general-purpose dexterous manipulation. Project page: https://ycyao216.github.io/DexVerse.site</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#27</div>
+            <span class="pill hpill">h=0</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08098v1" target="_blank" rel="noopener">EVIS: A Physics-Grounded Event Camera Plugin for NVIDIA Isaac Sim</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.CV, cs.RO</span>
+              <span class="pill">Top author: Lin Shi (h=0)</span>
+            </div>
+            <div class="authors">Linli Shi, Ruijun Zhang, Ziyun Wang</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Builds a physics-grounded event-camera plugin for NVIDIA Isaac Sim rather than a standalone simulator, inheriting the physics engine and frame-perfect ground truth of any existing Isaac Sim/Isaac Lab scene.</li><li>&#9656; Implements a log-intensity contrast event model with per-pixel asynchronous reference updates, aiming for fidelity to real event-camera behavior rather than a simplified frame-differencing approximation.</li><li>&#9656; Offers an interpolation mode that renders only sparse keyframes and synthesizes in-between frames via bidirectional motion-vector warping, making real-time generation feasible on a single GPU.</li><li>&#9656; Migrates from a standard RGB camera setup with minimal changes and adds optional sensor noise/motion blur, directly targeting the labeled-event-data scarcity the authors argue is slowing event-based perception research.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Event cameras offer microsecond temporal resolution, low latency, and high dynamic range, making them attractive for robotics. However, labeled event-camera data for a specific robot and scene is scarce and expensive to collect, which slows the development of event-based perception and control. We present EVIS: a physics-grounded event camera plugin for NVIDIA Isaac Sim that generates high-rate, fully labeled event streams directly inside a physics simulator. The plugin implements a faithful log-intensity contrast event model with per-pixel asynchronous reference updates; it migrates from a normal RGB camera with few changes and integrates into any Isaac Sim / Isaac Lab scene, inheriting the simulator&#x27;s physics and frame-perfect ground truth. It is fully configurable, and offers an interpolation option that renders only sparse keyframes and synthesizes the in-between frames through bidirectional motion-vector warping, making real-time generation on a single GPU possible. Optional sensor noise and motion blur further narrow the gap to real cameras. The generated streams are directly usable by pretrained event networks for downstream tasks. Code repository: https://github.com/spikelab-jhu/isaac-sim-event-camera-plugin</p>
+            </details>
+          </div>
+        </div>
+    </div>
+    <div class="cat-section">
+      <h2 class="cat-header" style="background:#3b82f6;">Navigation, Localization &amp; Multi-Robot Systems <span class="cat-count">(5 papers)</span></h2>
+      
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#4</div>
+            <span class="pill hpill">h=17</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08735v1" target="_blank" rel="noopener">Learning Adaptive Solvers for Distributed Factor Graph Optimization on Matrix Lie Groups</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Maani Ghaffari (h=17)</span>
+            </div>
+            <div class="authors">Jaeho Shin, Maani Ghaffari, Yulun Tian</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Targets distributed factor graph optimization on general matrix Lie groups, not just SE(3) pose graphs — broadening beyond the rigid-body assumption baked into most multi-robot SLAM solvers.</li><li>&#9656; Unfolds a Riemannian optimizer into differentiable iterations and learns a self-supervised feedback policy that adapts solver parameters to optimization phase and communication state, replacing brittle hand-tuned schedules.</li><li>&#9656; Works under both synchronous and asynchronous communication, a practical condition multi-robot teams rarely get to assume.</li><li>&#9656; Outperforms existing distributed baselines on most benchmarks across two distinct tasks — SE(3) pose graph optimization and the less common SL(4) projective submap alignment.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Modern robotic perception increasingly involves large-scale geometric optimization problems distributed across multiple robots or sessions. However, existing distributed solvers often depend on brittle hand tuning and primarily target rigid body pose graphs. To address this, we present DeepCORD, a learning-augmented framework for distributed factor graph optimization on general matrix Lie groups. By unfolding a parallel and accelerated Riemannian optimizer into differentiable iterations, DeepCORD learns a self-supervised feedback policy that dynamically adapts solver parameters according to the optimization phase and communication status. The resulting method enables adaptive distributed optimization over matrix Lie groups under both synchronous and asynchronous communication regimes. Extensive experiments on real-world $\mathrm{SE}$(3) pose graph optimization and $\mathrm{SL}$(4) projective submap alignment show that our method achieves lower objective values than existing distributed baselines on most benchmarks across realistic operating scenarios.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#15</div>
+            <span class="pill hpill">h=7</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08504v1" target="_blank" rel="noopener">Early to Share, Late to Save: Synchronisation-Driven Communication Gating in Bandwidth-Constrained Cooperative VLN</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.MA, cs.RO</span>
+              <span class="pill">Top author: A. Gautam (h=7)</span>
+            </div>
+            <div class="authors">Arav Gupta, Nivedan Yakolli, Avinash Gautam</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Introduces bandwidth-constrained cooperative VLN as a distinct problem setting, breaking with the field&#x27;s usual assumption of unlimited inter-agent communication.</li><li>&#9656; Proposes hindsight gating, a supervised gate trained by labeling communication-critical steps after the fact from navigation failures — deliberately avoiding the high variance of REINFORCE-style gating used elsewhere.</li><li>&#9656; Finds a counter-intuitive result: trained gates fire early in the episode and when agents are confident, not when uncertain, contradicting the usual &#x27;communicate when unsure&#x27; heuristic.</li><li>&#9656; Explains this via recurrent hidden-state alignment — early communication seeds GRU states that persist through the episode — reaching +0.072 cumulative alignment gain at a 3-message budget versus +0.078 for unconstrained and only +0.020 for random gating, a 260% efficiency edge.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Most cooperative Vision-Language Navigation (VLN) methods assume unlimited communication, not considering real-world applications where bandwidth is restricted and information efficiency is critical. We introduce \textbf{bandwidth-constrained cooperative VLN} and propose \textbf{hindsight gating}: a lightweight supervised gate that labels communication-critical steps post-hoc from navigation failures, avoiding the high variance of REINFORCE. Contrary to the intuition that agents should communicate when uncertain, we observe a consistent counter-intuitive pattern: trained gates fire predominantly in early episode steps and more often when agents are confident, across all budget levels ($B \in \{1,3,5\}$). We explain this through \textbf{recurrent hidden-state alignment}: early communication injects grounded trajectory representations that persist and compound through subsequent Gated Recurrent Unit (GRU) updates, achieving $+0.072$ cumulative alignment gain with $B{=}3$ transmissions, approaching unconstrained communication ($+0.078$) at 260\% greater alignment efficiency than random gating ($+0.020$) and 320\% greater efficiency than entropy-based gating ($+0.017$). Our results establish a new communication regime for bandwidth-limited embodied agents: synchronise representations early, navigate independently later. Our codebase is available at: https://github.com/AravG13/bandwidth-constrained-cooperative-vln</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#20</div>
+            <span class="pill hpill">h=4</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.07995v1" target="_blank" rel="noopener">D-CLIPSE: Distributed Consensus-based Localization with Passive Listening on Shared State Exchange</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: J. R. Forbes (h=4)</span>
+            </div>
+            <div class="authors">Kyle Biron-Gricken, James Richard Forbes</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Targets the gap between optimal-but-impractical centralized multi-robot localization and existing decentralized filters that sacrifice consistency for feasibility.</li><li>&#9656; Shares both preintegrated odometry and relevant shared states among robots via passive listening, rather than requiring full bidirectional communication for every update.</li><li>&#9656; Explicitly targets estimator consistency, not just accuracy — a distinction that matters because overconfident estimates are what break downstream planning and control.</li><li>&#9656; Shows near-centralized performance in both accuracy and especially consistency versus the current state-of-the-art decentralized approach, validated in both simulation and real experiments.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Multi-robot localization that is accurate and consistent is imperative for downstream tasks such as planning and control. Centralized filtering approaches optimally fuse all available sensor measurements of the team. However, a centralized solution is rarely implementable due to hardware, communication, and computational constraints. Distributed approaches deploy a filter on each robot to estimate their own state and neighbours&#x27; states using inter-robot communication. This paper proposes a consistent, communication-efficient, and consensus-based distributed filtering framework that shares both preintegrated odometry and relevant shared states among communicating robots. The proposed method is validated in simulated and experimental scenarios, showing near centralized performance in accuracy, and especially in consistency, compared to the current state-of-the-art decentralized approach.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#23</div>
+            <span class="pill hpill">h=1</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08359v1" target="_blank" rel="noopener">FSD-VLN: Fast-Slow Dual-System Modeling for Aerial Long-Horizon Vision-Language Navigation</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO, cs.AI</span>
+              <span class="pill">Top author: Qingyan Meng (h=1)</span>
+            </div>
+            <div class="authors">Xueke Zhu, Qingyan Meng, Liutao Yu, Wei Zhang, Zhengyu Ma</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Splits aerial vision-language navigation into two asynchronous streams — a slow stream for stable semantic priors from pretrained VLMs and a fast Diffusion-Transformer stream for flight commands — to fix the jittery trajectories and decision latency caused by forcing one model to do both.</li><li>&#9656; Adds a time-aware adaptive optimizer specifically to stabilize training over the long sequences aerial navigation requires, addressing gradient oscillation a standard optimizer would struggle with.</li><li>&#9656; Targets structural misalignment between global multimodal understanding and sequential action generation as the specific cause of existing methods&#x27; instability, not just insufficient model capacity.</li><li>&#9656; Reports up to 2x higher navigation success on unseen scenes than SOTA and over 50% cuts to both per-action inference delay and total task runtime — improving accuracy and speed simultaneously.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Vision-Language Navigation (VLN) enables UAV autonomous navigation in unknown environments by mapping language instructions to real-time visual inputs. Compared with GPS-dependent or pre-programmed navigation, VLN supports intuitive human-machine interaction and stronger environmental adaptability, requiring tight integration of high-level semantic reasoning and low-latency flight control.Existing methods suffer from structural misalignment between global multimodal understanding and sequential action generation, causing jittery trajectories and severe decision latency for long-horizon aerial navigation. To solve this issue, we propose FSD-VLN, a fast-slow dual-system architecture disentangling semantic reasoning and low-latency flight command generation.The framework has two asynchronous branches: a slow stream extracting stable semantic priors from pre-trained vision-language models, and a Diffusion Transformer (DiT) fast stream modeling cross-temporal action distributions to produce consistent flight outputs. We further introduce a time-aware adaptive optimizer to stabilize long-sequence training and reduce gradient oscillation.Large-scale low-altitude simulation experiments show FSD-VLN achieves up to 2X higher navigation success rates on unseen scenes than SOTA methods, while cutting single-action inference delay and total task runtime by over 50%. Our work validates the benefit of decoupled semantic-control modeling and provides a practical paradigm for long-horizon aerial VLN.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#26</div>
+            <span class="pill hpill">h=0</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08115v1" target="_blank" rel="noopener">RadLoc: Radar-based 3-DoF Global Localization via Fast, Robust, and Lightweight Spatial Descriptor Across Diverse Environmental Scenarios</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Hogyun Kim (h=0)</span>
+            </div>
+            <div class="authors">Hogyun Kim, Jiwon Choi, Jungwoo Lee, Younggun Cho</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Builds an end-to-end radar global localization pipeline (place recognition through 3-DoF pose estimation) instead of optimizing either stage in isolation, which the authors note is how most prior radar localization work is structured.</li><li>&#9656; Uses 1D CA-CFAR filtering to accelerate pre-processing and exploits near-range dominance in spinning radar images to build a deliberately compact descriptor.</li><li>&#9656; Pairs the descriptor with coarse-to-fine hierarchical retrieval and phase-correlation-based pose estimation, aiming for speed without sacrificing the robustness radar is chosen for (weather, lighting).</li><li>&#9656; Tested on 15 sequences across 5 datasets and reports the smallest descriptor size and fastest retrieval time among state-of-the-art approaches, positioning it for both single- and multi-session SLAM.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">While global localization using spinning radar has gained attention for its robustness to adverse weather and challenging environments, many studies have focused on individual components such as place recognition or pose estimation. In this paper, we take a holistic view of radar sensor-based global localization and present RadLoc, a fast, robust, and lightweight end-to-end pipeline from place recognition to 3-DoF pose estimation. RadLoc accelerates pre-processing using 1D CA-CFAR filtering and leverages the near-range dominance in spinning radar images to design a compact descriptor and an efficient hierarchical coarse-to-fine retrieval strategy. Moreover, coupled with phase correlation-based 3-DoF pose estimation, it forms a versatile global localization module applicable to SLAM and multi-session SLAM systems. Extensive experiments on 15 sequences across 5 datasets demonstrate that RadLoc achieves robust performance while maintaining the smallest descriptor size and fastest retrieval time among state-of-the-art approaches. The supplementary materials are available at https://sparolab.github.io/research/radloc/.</p>
+            </details>
+          </div>
+        </div>
+    </div>
+    <div class="cat-section">
+      <h2 class="cat-header" style="background:#ef4444;">Autonomous Driving &amp; Perception <span class="cat-count">(4 papers)</span></h2>
+      
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#9</div>
+            <span class="pill hpill">h=12</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08072v1" target="_blank" rel="noopener">Post-Training in End-to-End Autonomous Driving</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.CV, cs.RO</span>
+              <span class="pill">Top author: Can Cui (h=12)</span>
+            </div>
+            <div class="authors">Ruining Yang, Muxing Wang, Yixiao Chen, Tongfei Guo, Yi Xu</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Surveys post-training techniques for end-to-end driving models spanning both Vision-Language-Action-style and trajectory-generative planners, treating them as one unified design space rather than separate literatures.</li><li>&#9656; Organizes methods into four families by the form of supervision used, giving a structured taxonomy for a fast-moving area that previously lacked one.</li><li>&#9656; Frames the motivation around open-loop imitation&#x27;s known failure modes — compounding error, scarce recovery-behavior data, and long-horizon objectives like comfort that pointwise labels can&#x27;t capture.</li><li>&#9656; Flags open challenges per family rather than declaring a winner, positioned as an orientation map for new work in post-training for driving.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">End-to-end models that map multimodal inputs directly to future trajectories/maneuvers have emerged as an increasingly prominent research paradigm in autonomous driving. This class of models includes both Vision-Language-Action models and trajectory-generative planners. Unlike classic machine learning applications, autonomous vehicles operate in safety-critical and interaction-intensive environments where traditional open-loop imitation of expert demonstrations is not sufficient to ensure reliability. In particular, small execution errors can accumulate over time, while recovery behaviors are scarce in training data. In addition, long-horizon objectives such as safety and driving comfort are not captured by pointwise labels either. These limitations have motivated a shift toward post-training techniques, which further refine driving policies beyond pure imitation. This survey presents a unified view of post-training for autonomous driving by defining its scope and organizing the existing literature into four major families based on the form of supervision they use. For each family, we discuss its capabilities, limitations, and open challenges. We aim to facilitate a systematic understanding of this emerging area and stimulate future research on reliable and efficient post-training for autonomous driving.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#17</div>
+            <span class="pill hpill">h=5</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08391v1" target="_blank" rel="noopener">On Exploring Input Resolution Scaling For Anytime LiDAR Object Detection</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO, cs.LG</span>
+              <span class="pill">Top author: Shuochao Yao (h=5)</span>
+            </div>
+            <div class="authors">Ahmet Soyyigit, Shuochao Yao, Heechul Yun</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Enables anytime computing for LiDAR 3D detection by making input resolution itself dynamically scalable at inference, rather than deploying a fixed-resolution model.</li><li>&#9656; Trains one model to handle multiple resolutions, avoiding the memory and engineering cost of maintaining separate models per resolution tier — a departure from typical multi-model anytime pipelines.</li><li>&#9656; Introduces a deadline-aware scheduler that predicts execution time per candidate resolution at runtime, non-trivial given how irregular LiDAR point density is compared to dense image grids.</li><li>&#9656; Deployed in a simulated autonomous driving system where it keeps navigation collision-free while cutting unnecessary stalls caused by scene complexity — tying the method to an operational outcome, not just detection mAP.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Making tradeoffs between execution latency and result utility (i.e., anytime computing) for adapting to dynamic operational requirements has been shown to enhance the performance of cyber-physical systems. In this work, we focus on enabling anytime computing for deep neural networks (DNNs) that process LiDAR point clouds for 3D object detection. We propose a novel method that enables multi-resolution inference for models that process point clouds as pillars or voxels, allowing the input to be dynamically scaled and processed at the resolution needed to meet timing requirements. Importantly, our memory-efficient approach requires the deployment of only a single DNN model, avoiding the need to deploy multiple models, each trained for a different input resolution. We also introduce a deadline-aware scheduler that selects the highest possible resolution for any given input by accurately predicting the execution time for all possible resolutions at runtime, which is challenging due to the irregularity of LiDAR point clouds. Experimental results on the nuScenes autonomous driving dataset demonstrate that our method significantly outperforms existing anytime computing approaches for LiDAR object detection. Finally, we deploy our approach in a simulated autonomous driving system, where it consistently enables collision-free navigation while avoiding unnecessary stalls caused by environmental complexity.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#22</div>
+            <span class="pill hpill">h=1</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08402v1" target="_blank" rel="noopener">Swapping Faces, Saving Features: A Dual-Purpose Pipeline for Pedestrian Privacy in ITS</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.CV, cs.AI, cs.RO</span>
+              <span class="pill">Top author: Catherine M. Elias (h=1)</span>
+            </div>
+            <div class="authors">Roba H. Farouk, Catherine M. Elias</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Targets the specific tension between pedestrian privacy and dataset usability for training AV pedestrian-intention and trajectory-prediction models, rather than privacy in the abstract.</li><li>&#9656; Builds a five-stage pipeline using face-swapping instead of blurring or masking, aiming to conceal identity while preserving the facial attributes intention-prediction models actually depend on.</li><li>&#9656; Empirically compares two face-swapping backbones (Roop vs. Ghost-v2) on this specific downstream tradeoff and finds Roop outperforms across the tested aspects.</li><li>&#9656; Tailors the pipeline to the Egy-DRiVeS dataset, presenting a concrete case study rather than a generic privacy method.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Large-scale and diverse datasets are needed to train AI models to take real-time decisions for autonomous vehicles (AVs), an intelligent transportation system (ITS) application. Pedestrian intention and trajectory prediction are critical models used in AVs, requiring datasets involving diverse pedestrian images. Unrestricted access to these datasets imposes serious security risks, like identity theft and pedestrian tracking. The challenge is to apply privacy preservation procedures while maintaining the image attributes needed to train the models. Existing privacy methods may preserve the pedestrian&#x27;s privacy, but degrade the image usability, which hinders the models&#x27; effectiveness. This work&#x27;s focus is to implement a five-stage pipeline to protect pedestrians&#x27; privacy through face swapping while keeping the essential facial attributes intact. It should be tailored to satisfy the privacy needs of the Egy-DRiVeS dataset. Moreover, Roop and Ghost-v2 face-swapping models are evaluated. Provenly, Roop outperforms Ghost-v2 in various aspects, as will be discussed. Consequently, Roop is the face-swapping model to be used in the pipeline to strike the balance between pedestrian privacy via identity concealment and data usability via facial attribute preservation.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#24</div>
+            <span class="pill hpill">h=1</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08316v1" target="_blank" rel="noopener">INTENT: An LSTM Framework for Vehicle Intention Prediction in Intersection Scenarios with Comprehensive Ablation Analysis</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.AI, cs.LG, cs.RO</span>
+              <span class="pill">Top author: Catherine M. Elias (h=1)</span>
+            </div>
+            <div class="authors">Logine M. Zaki, Catherine M. Elias</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Frames vehicle intention prediction as a proxy for adopting &#x27;human interpretation&#x27; of driver intent at intersections, explicitly linking the ML task to anticipating action 2 seconds ahead.</li><li>&#9656; Uses a straightforward LSTM architecture rather than a more complex model, betting a thorough ablation study matters more than architectural novelty for this task.</li><li>&#9656; Reports 99.71% accuracy on the InD intersection dataset for straight/left/right intention classification, an unusually high number worth weighing against the paper&#x27;s largely ablation-driven methodology.</li><li>&#9656; Positions intention prediction as a building block for intention-conditioned trajectory prediction, connecting the classification result to the downstream planning problem it&#x27;s meant to serve.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Vehicle intention prediction is a pivotal aspect in the agility and safety of autonomous vehicles in all driving scenarios; if genuine enhancement of autonomous vehicles are required, we need to make them adopt human interpretation of driver&#x27;s intention especially in cases that require a lot of human interaction as well as complex driving behaviors like the ones at intersections, roundabouts and emergency cases such as sudden stops where vehicle intention prediction helps in taking the correct evasive action within a real time period where every second of action makes an impact and can prevent a catastrophe from taking place. In the worst case, it helps minimize the damage and make safety a priority. Intention prediction can also be used to enhance trajectory prediction (intention conditioned trajectory prediction). In this study, The INTENT framework is proposed using LSTM model to predict the vehicle&#x27;s intention at intersections 2 seconds ahead of the event occurrence to predict whether the cars in intersections are going straight, turning left, or turning right. Various model experiments and ablation study are thoroughly tested on InD dataset achieving 99.71% accuracy.</p>
+            </details>
+          </div>
+        </div>
+    </div>
+    <div class="cat-section">
+      <h2 class="cat-header" style="background:#64748b;">Control Theory &amp; Robot Mechanisms <span class="cat-count">(2 papers)</span></h2>
+      
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank gold">#1</div>
+            <span class="pill hpill">h=25</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08265v1" target="_blank" rel="noopener">X-ACTA: eXtended Analytic Center Tension distribution Algorithm for fixed and mobile cable-driven-parallel-robot</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: A. Trevisani (h=25)</span>
+            </div>
+            <div class="authors">Domenico Dona&#x27;, Vincenzo Di Paola, Alberto Trevisani, Matteo Zoppi</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Extends the Analytic Center method to operate outside the Wrench-Feasible Workspace (WFW), where most tension-distribution algorithms simply aren&#x27;t defined.</li><li>&#9656; Keeps tension profiles continuously differentiable even in infeasible regions — unlike slack-based competitors that introduce discontinuities exactly where robustness matters most (aggressive maneuvers, cable failure).</li><li>&#9656; Demonstrates Pareto dominance over the leading state-of-the-art method on the smoothness/wrench-error tradeoff, rather than winning on a single metric.</li><li>&#9656; Confines wrench-tracking error to a negligible portion of the workspace, meaning the WFW boundary stops being a hard operational wall for CDPRs.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Steering Cable-Driven Parallel Robots (CDPRs) beyond their Wrench-Feasible Workspace (WFW) augments their capabilities in challenging scenarios such as during aggressive maneuvers or following a cable failure. In this context, although the determination of cable tensions is a well-studied topic, only a few approaches address these scenarios. Therefore, this paper introduces an extended version of the Analytic Center method as a criterion for selecting cable tensions outside the WFW while maintaining differentiability and including non-linear constraints. Notably, the proposed method maintains continuous and differentiable tension profiles, ensures fast real-time convergence to a unique solution, and, in contrast to other slack-based formulations, relegates wrench errors to a negligible area of the WFW. Its superiority in terms of smoothness and wrench error is confirmed via Pareto dominance with respect to the leading state-of-the-art method. Lastly, the effectiveness of the method is demonstrated through numerical experiments.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank gold">#2</div>
+            <span class="pill hpill">h=18</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08189v1" target="_blank" rel="noopener">Input-Constrained Spatiotemporal Tubes for Safe Navigation of Unknown Euler-Lagrange Systems in Dynamic Environments</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">eess.SY, cs.RO</span>
+              <span class="pill">Top author: Pushpak Jagtap (h=18)</span>
+            </div>
+            <div class="authors">Siddhartha Upadhyay, Ratnangshu Das, Pushpak Jagtap</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Extends the spatiotemporal tube (STT) framework to explicitly bound actuator inputs, closing a gap where prior STT work assumed unlimited control authority.</li><li>&#9656; Derives feasibility conditions checkable offline, before deployment, linking available actuation to tube geometry and uncertainty bounds — avoiding costly online optimization.</li><li>&#9656; Approximation-free: doesn&#x27;t require learning or fitting a dynamics model of the unknown Euler-Lagrange system, unlike model-based safe-control alternatives.</li><li>&#9656; Validated across three simulated platforms (mobile robot, quadrotor, spacecraft) plus real hardware, suggesting the guarantees transfer across embodiments rather than being tuned to one.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Safe navigation in dynamic environments is challenging when system dynamics are unknown and actuator inputs are limited. Existing methods either rely on accurate models, require online optimization, or do not explicitly account for input constraints. This paper presents a real-time control framework for unknown Euler-Lagrange systems that guarantees finite-time reach-avoid-stay (FT-RAS) specifications while respecting actuator limits. We extend the spatiotemporal tube (STT) framework by incorporating input constraints into the controller design and derive offline-verifiable feasibility conditions that relate the available control authority to the tube design and uncertainty bounds. The resulting framework is approximation-free and computationally efficient, making it suitable for real-time implementation. The proposed approach is validated through simulations on a mobile robot, a quadrotor, and a spacecraft, together with hardware experiments on a mobile robot, demonstrating safe navigation while satisfying actuator constraints.</p>
+            </details>
+          </div>
+        </div>
+    </div>
+    <div class="cat-section">
+      <h2 class="cat-header" style="background:#ec4899;">Human-Robot Interaction, Motion &amp; Social Robotics <span class="cat-count">(4 papers)</span></h2>
+      
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#6</div>
+            <span class="pill hpill">h=16</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08374v1" target="_blank" rel="noopener">Large-Language-Models-as-a-Judge in Theory-Agnostic Adaptive Metric-Alignment for Prototypical Networks in Personality Recognition</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.CL, cs.AI, cs.HC, cs.RO, cs.SI</span>
+              <span class="pill">Top author: Y. Hum (h=16)</span>
+            </div>
+            <div class="authors">Jing Jie Tan, Ban-Hoe Kwan, Danny Wee-Kiat Ng, Yan-Chai Hum, Shih-Yu Lo</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Reframes personality recognition as theory-agnostic: instead of forcing a model onto one fixed psychological taxonomy, it learns latent pseudo-facets shared across theories.</li><li>&#9656; Combines an Attention-Pooled Graph Prototypical Network with a Cross-Theory Harmonization step that reconciles labels from different theoretical frameworks via human-guided linkage and machine-induced consensus.</li><li>&#9656; Adds an LLM-as-a-Judge layer in two modes (before-the-loop and in-the-loop) to flag ambiguous training samples — an unusual use of LLM judges for curating annotation quality rather than producing final task output.</li><li>&#9656; Relevant to embodied/social agents that need to infer a user&#x27;s psychological profile from conversation without theory-specific labels, feeding into personalization for social robots.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Personality recognition has traditionally been constrained by theory-dependent formulations, where models are trained to fit predefined psychological taxonomies rather than uncovering shared underlying behavioral structure. This limits generalization, as personality itself is better understood as theory-invariant, while existing annotations reflect only partial and sometimes inconsistent views of the same latent traits. In this work, we introduce JAM ((J)udge for (A)daptive (M)etric-Alignment), a theory-agnostic framework that shifts learning from adapting to predefined personality theories toward discovering unified latent pseudo-facets that capture shared psychological structure. Rather than constraining the model to any personality taxonomy during training or inference, the framework learns generalizable psychological representations and can infer an individual&#x27;s latent psychological profile directly from the textual samples, without requiring theory-specific labels. JAM achieves this through an Attention-Pooled Graph Prototypical Network that learns structured representations via clustering in embedding space, together with a Cross-Theory Harmonization (CTH) approach that integrates (i) Human-Guided Linkage and (ii) Machine-Induced Consensus to unify heterogeneous datasets without relying on predefined labels. To further improve robustness and data quality, we incorporate an LLM-as-a-Judge mechanism operating in two configurations, (i) LLM-before-the-loop and (ii) LLM-in-the-loop which identifies ambiguous samples to guide adaptive metric learning. Experiments show that JAM improves cross-framework generalization and performance, establishing a strong step toward theory-agnostic personality inference and supporting low-resource personality theories. The related code repository, model weights, and artifacts are available at https://research.jingjietan.com/JAM</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#8</div>
+            <span class="pill hpill">h=13</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08620v1" target="_blank" rel="noopener">A New Human-Likeness and Comfort Index for Robot Movements Along Prescribed Paths</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Antonio Parziale (h=13)</span>
+            </div>
+            <div class="authors">Rosanna Coccaro, Enrico Ferrentino, Antonio Parziale, Angelo Marcelli, Pasquale Chiacchio</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Builds a human-likeness index for prescribed-path robot trajectories directly from the lognormality principle governing human movement timing laws, giving an a priori comfort score before execution.</li><li>&#9656; Lets trajectory-generation algorithms be evaluated for perceived comfort before deployment, rather than only through post-hoc user studies.</li><li>&#9656; Validated with 68 human subjects across three experimental campaigns of physical human-robot interaction, tying the index to actual comfort judgments rather than a purely theoretical construct.</li><li>&#9656; Finds a globally consistent trend between the index and subject-reported comfort preference, giving designers a usable proxy metric for ergonomic trajectory design.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">As human-robot interaction rapidly spreads in numerous fields, the subject of robot acceptance gains increasing importance. Visual similarity to the human body, as occurs for humanoids, is generally not enough to ensure acceptance in physical interaction, as acceptance directly links to comfort and ergonomics, which are measured in terms of the quality of the robot movement perceived by the human. This paper discusses the connection between comfort and similarity of the robot movement to the human one. By considering the kinematic characterization of human movement, this paper focuses on the time laws of such movements, wherein the end-effector path is prescribed. Based on the lognormality principle for modeling human movements, a human-likeness index is defined and used to provide an a priori characterization of trajectories. Such an index can be used to evaluate the performance of trajectory generation algorithms in producing human-like movements before they are actually executed. For validation purposes, 68 subjects are required to judge their comfort. The results of three experimental campaigns involving a physical interaction with a robot demonstrate a globally consistent trend between the preference in terms of perceived comfort and the distribution of the suggested human-likeness index.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#12</div>
+            <span class="pill hpill">h=9</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.08741v1" target="_blank" rel="noopener">ARDY: Autoregressive Diffusion with Hybrid Representation for Interactive Human Motion Generation</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.GR, cs.CV, cs.LG, cs.RO</span>
+              <span class="pill">Top author: Mathis Petrovich (h=9)</span>
+            </div>
+            <div class="authors">Kaifeng Zhao, Mathis Petrovich, Haotian Zhang, Tingwu Wang, Siyu Tang</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Targets the middle ground offline motion-generation methods and prior online methods both miss: real-time, controllable, long-horizon motion with rich text semantics.</li><li>&#9656; Combines explicit root features with a latent body embedding in one hybrid representation, aiming for precise trajectory control without giving up efficient generative learning.</li><li>&#9656; Uses a two-stage autoregressive transformer denoiser with variable history context, letting the model condition on flexible long-horizon kinematic constraints rather than a fixed window.</li><li>&#9656; Demonstrated interactively with live text prompting, keyframe constraints, and mouse/keyboard-driven locomotion — a practical usability test beyond benchmark numbers on HumanML3D and the new Bones Rigplay dataset.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Generating realistic 3D human motions in real-time within interactive applications is key for animation, simulation, and humanoid robotics. While recent offline motion generation approaches offer precise control via text and kinematic constraints, they lack the inference speed required for interactive settings. Conversely, existing online methods enable real-time synthesis but often sacrifice controllability or struggle with complex text semantics and long-horizon goals due to limited context windows. In this work, we introduce ARDY, a streaming generation framework that bridges this gap by enabling high-fidelity motion generation controllable via online text prompts and flexible kinematic constraints. ARDY employs a hybrid representation that combines explicit root features with a latent body embedding, balancing precise trajectory control with efficient generative learning. We propose a two-stage autoregressive transformer denoiser that features variable history context and supports conditioning on flexible, long-horizon kinematic constraints. By training on a large-scale motion capture dataset and being directly conditioned on text labels and kinematic constraints sampled from ground truth poses, ARDY natively learns controllable generation that supports online prompting and flexible long-horizon goals. Extensive evaluations on the HumanML3D benchmark and the large-scale, high-fidelity Bones Rigplay dataset demonstrate ARDY&#x27;s high motion quality and constraint adherence, validating the efficacy of our key architectural decisions. Finally, we demonstrate the method&#x27;s practical versatility through an interactive demo featuring dynamic text control, diverse keyframe pose constraints, path following, and interactive locomotion control via mouse and keyboard. Supplementary video results, code, and model releases can be found at https://research.nvidia.com/labs/sil/projects/ardy/.</p>
+            </details>
+          </div>
+        </div>
+        <div class="paper-card">
+          <div class="paper-left">
+            <div class="rank">#21</div>
+            <span class="pill hpill">h=2</span>
+          </div>
+          <div class="paper-right">
+            <h4><a href="http://arxiv.org/abs/2607.07998v1" target="_blank" rel="noopener">Factors Influencing Conversational Engagement in Robot-Delivered Individual Cognitive Stimulation Therapy (iCST) for Dementia in Home Settings</a></h4>
+            <div class="meta-pills">
+              <span class="pill">2026-07-09</span>
+              <span class="pill">cs.RO</span>
+              <span class="pill">Top author: Emmanuel Akinrintoyo (h=2)</span>
+            </div>
+            <div class="authors">Emmanuel Akinrintoyo, Nicole Salomons</div>
+            <div class="contrib-label">Core Contributions</div>
+            <ul class="bullets"><li>&#9656; Deploys a real robot-delivered cognitive stimulation therapy system in the actual homes of 8 people with dementia for a week — a field deployment, not a lab study.</li><li>&#9656; Finds personalized prompts significantly increase response duration, self-referential language, and engagement compared to generic prompts, giving a concrete design lever for therapeutic robot dialogue.</li><li>&#9656; Detects within-session decline in verbal output and autobiographical engagement during later phases, interpreted as a cognitive fatigue signal the robot could in principle adapt to in real time.</li><li>&#9656; Finds first-session conversational metrics predict long-term participation, suggesting an early, low-cost signal for identifying which patients will stay engaged with the therapy.</li></ul>
+            <details class="abstract-toggle">
+              <summary>Show abstract</summary>
+              <p class="abstract-text">Social robots offer a promising means of supporting cognitive therapies for dementia care by guiding structured conversation and therapeutic activities. However, little is known about the conversational dynamics that emerge during robot-delivered cognitive stimulation therapy (CST) sessions. This study analysed the interaction patterns from robot-delivered individual CST (iCST) sessions conducted with people living with dementia in home settings. Our Co-STAR (Cognitive Stimulation Therapy by an Autonomous Robot) system was deployed in the homes of eight PwDs for one week, who completed 30-minute sessions. Conversational metrics, including words per turn, speech production rate, response duration, response latency, and self-referential language, were analysed to examine how conversational engagement is shaped by prompt personalisation, interaction phase, and participant characteristics. The findings highlight three key interactional properties of robot-delivered iCST. First, personalised prompts significantly increase response duration, self-referential language, and overall engagement compared to generic prompts. Second, conversational behaviour changes within sessions, with a reduction in the verbal output and autobiographical engagement observed during later interaction phases, which suggests cognitive fatigue. Third, first-session conversational metrics were associated with long-term participation, while living situation influenced conversational engagement patterns. These findings provide empirical insights into the factors that shape conversational engagement in robot-delivered iCST. They inform the design of adaptive conversational robots for dementia therapy.</p>
+            </details>
+          </div>
+        </div>
+    </div>
+
+  <footer>
+    Generated by Claude &middot; Papers from arXiv cs.RO &middot; Ranked by max author h-index via Semantic Scholar &middot; 2026-07-09
+  </footer>
+
+</div>
+</body>
+</html>
