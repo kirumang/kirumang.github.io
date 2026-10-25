@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotics arXiv Digest — 2026-10-22</title>
+<style>
+:root {
+  --bg: #f8f9fa; --card-bg: #ffffff; --text: #1a1a2e; --text-secondary: #555;
+  --accent: #2563eb; --border: #e2e8f0; --gold: #f59e0b;
+  --cat1: #2563eb; --cat2: #7c3aed; --cat3: #dc2626; --cat4: #059669;
+  --cat5: #d97706; --cat6: #0891b2; --cat7: #be185d;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+header { text-align: center; padding: 40px 20px 30px; }
+header h1 { font-size: 2rem; margin-bottom: 8px; }
+header .date { font-size: 1.1rem; color: var(--text-secondary); }
+.header-stats { display: flex; gap: 12px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.header-stats .stat { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 0.85rem; color: var(--text-secondary); }
+.badge-claude { background: linear-gradient(135deg, #d4a574, #c2956b); color: white; border: none; font-weight: 600; }
+.landscape { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 30px; }
+.landscape h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--accent); }
+.landscape p { margin-bottom: 14px; color: var(--text-secondary); font-size: 0.95rem; }
+.category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 30px; }
+.category-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; transition: box-shadow .2s; }
+.category-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.category-card h3 { font-size: 0.95rem; margin-bottom: 6px; }
+.category-card .cat-desc { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 8px; }
+.category-card ul { list-style: none; padding: 0; }
+.category-card li { font-size: 0.8rem; color: var(--text-secondary); padding: 2px 0; }
+.cat-border-1 { border-left: 4px solid var(--cat1); }
+.cat-border-2 { border-left: 4px solid var(--cat2); }
+.cat-border-3 { border-left: 4px solid var(--cat3); }
+.cat-border-4 { border-left: 4px solid var(--cat4); }
+.cat-border-5 { border-left: 4px solid var(--cat5); }
+.cat-border-6 { border-left: 4px solid var(--cat6); }
+.cat-border-7 { border-left: 4px solid var(--cat7); }
+.section-header { padding: 14px 20px; border-radius: 10px; margin: 30px 0 16px; color: white; font-size: 1.1rem; font-weight: 700; }
+.sh-1 { background: var(--cat1); } .sh-2 { background: var(--cat2); } .sh-3 { background: var(--cat3); }
+.sh-4 { background: var(--cat4); } .sh-5 { background: var(--cat5); } .sh-6 { background: var(--cat6); } .sh-7 { background: var(--cat7); }
+.paper-card { display: flex; gap: 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 14px; transition: box-shadow .2s; }
+.paper-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+.rank-col { display: flex; flex-direction: column; align-items: center; min-width: 48px; gap: 8px; }
+.rank-num { font-size: 1.4rem; font-weight: 800; color: var(--text-secondary); }
+.rank-gold { color: var(--gold); }
+.h-badge { background: #dbeafe; color: #1e40af; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 12px; white-space: nowrap; }
+.paper-body { flex: 1; min-width: 0; }
+.paper-body h3 { font-size: 1rem; margin-bottom: 8px; line-height: 1.4; }
+.paper-body h3 a { color: var(--text); text-decoration: none; }
+.paper-body h3 a:hover { color: var(--accent); text-decoration: underline; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; background: #f1f5f9; color: var(--text-secondary); }
+.authors { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px; }
+.contrib-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--accent); margin-bottom: 6px; }
+.contrib-list { list-style: none; padding: 0; }
+.contrib-list li { font-size: 0.88rem; padding: 3px 0; color: var(--text-secondary); }
+.contrib-list li::before { content: "\25B8 "; color: var(--accent); font-weight: bold; }
+details { margin-top: 10px; }
+summary { font-size: 0.82rem; color: var(--accent); cursor: pointer; font-weight: 600; }
+details .abstract-text { font-size: 0.84rem; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+footer { text-align: center; padding: 40px 20px; font-size: 0.8rem; color: #999; }
+@media (max-width: 600px) {
+  .paper-card { flex-direction: column; }
+  .rank-col { flex-direction: row; }
+  header h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>🤖 Robotics arXiv Digest</h1>
+  <div class="date">Thursday, October 22, 2026</div>
+  <div class="header-stats">
+    <span class="stat">📄 30 papers</span>
+    <span class="stat">📂 6 research areas</span>
+    <span class="stat badge-claude">Generated by Claude</span>
+  </div>
+</header>
+<div class="landscape">
+  <h2>🔭 Research Landscape</h2>
+  <p>The strongest thread in today's batch is the search for better structure to put inside a robot's learned model, and the cheapest ways to check that structure is real. UniFlowWAM (#12) promotes scene-level 3D flow to a first-class modality beside vision and action in a diffusion transformer, lifting real-robot success to 87.0% against 68.5% for the best baseline. Echo (#13) puts task status (stop and failure) inside the action chunk and denoises it faster than the actions, so the policy conditions on a clean completion estimate. At the data end, Learning Robot Behavior Priors from Non-Robotic Synthetic Data (#28) and the Soft-Object World Model (#29) both lean on procedurally or simulator-generated data plus in-context learning, while Co^2Gen (#16) shows planner-generated demonstrations can match human teleoperation for multi-robot VLA fine-tuning. Sensorimotor Alignment (#7) closes the loop by offering a training-free offline score that correlates with downstream success, which is exactly what you would want for choosing among such recipes without running rollouts.</p>
+  <p>A second theme is contact and uncertainty as interfaces. Humanoid Mobility via Attention-based Contacts (#1) makes predicted body-environment contact the bridge between motion priors and RL, OpenTac (#2) and GelSlim 5.0 (#9) widen what touch hardware can deliver (3D shear-plus-normal skins with kilohertz partial readout; vision and touch from one camera), and ProTrav (#8) and TRACE (#4) carry perceptual uncertainty or VLM confidence straight into MPPI and NMPC costs for off-road and forest navigation. The common move is to keep the controller classical and let a learned module expose a well-typed signal, whether that is contact, a risk bound or a soft barrier. The same instinct appears in the planning papers: GlobMP (#24) and the root-locus method (#6) aim for provable guarantees that can also correct learned proposals.</p>
+  <p>Third, the evaluation papers are unusually candid about gaps. AstroBench (#20) reports a frozen generalist checkpoint capturing only 2 of 200 static and 4 of 200 moving targets, PhysTrace (#19) shows video models violate physics in time-localizable ways, and the diffusion-planner study (#17) finds that no test-time expert-routing scheme beats a static default while fine-tuning on just 20 target scenes cuts offset from 12.4 m to 6.9 m. LocoManiLab (#23) gives humanoids a 234-task testbed and shows rankings in simulation track the real world. Read together with the medical cluster (#11, #18, #22), where careful phantom and simulation protocols reveal that imitation error and task success rank policies differently, the message is that offline metrics and imitation losses are not enough, and adaptation or task-grounded testing is where the headroom lies.</p>
+</div>
+<div class="category-grid">
+  <div class="category-card cat-border-1">
+    <h3>World-Action Models &amp; Policy Learning</h3>
+    <p class="cat-desc">How policies and world models acquire structure: 3D flow as a modality, status-aware VLA decoding, auto-generated collaboration data, synthetic priors, simulated soft-object dynamics and planner adaptation.</p>
+    <ul>
+      <li>#12 UniFlowWAM: A Unified World-Action Model with Visual...</li>
+      <li>#13 Echo: Coupled Action and Task Status Signal Denoisin...</li>
+      <li>#16 Co^2Gen: Collaboratively Generating Task Plans for D...</li>
+      <li>#28 Learning Robot Behavior Priors from Non-Robotic Synt...</li>
+      <li>#29 In-Context Learning World Models for Robot Dual-Arm...</li>
+      <li>#17 To Route or to Adapt? Multi-Expert Diffusion Planner...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-2">
+    <h3>Tactile Sensing &amp; Contact-Centric Control</h3>
+    <p class="cat-desc">Contact as the organizing signal: attention-predicted contacts for humanoids, customizable 3D tactile skins and single-camera vision-touch fingertips.</p>
+    <ul>
+      <li>#1 Humanoid Mobility via Attention-based Contacts</li>
+      <li>#2 OpenTac: An Open Ecosystem for Customizable, Scalabl...</li>
+      <li>#9 GelSlim 5.0: Unifying Vision and Touch with a Single...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-3">
+    <h3>Motion Planning &amp; Multi-Robot Coordination</h3>
+    <p class="cat-desc">Provable guarantees for fleets: root-locus path generation, globally convergent continuous-time planning and consistent distributed SLAM fusion.</p>
+    <ul>
+      <li>#6 Extending Harmonic Function Methods via Root Locus f...</li>
+      <li>#24 Continuous-Time Motion Planning and Steering with Gl...</li>
+      <li>#5 Consistent Distributed Invariant EKF SLAM with Point...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-4">
+    <h3>Navigation, Perception &amp; Scene Memory</h3>
+    <p class="cat-desc">Spatial competence outdoors and indoors: VLM-driven forest navigation, uncertainty-aware off-road traversability, functional scene graphs, anchor-based memory and event-camera propeller tracking.</p>
+    <ul>
+      <li>#4 TRACE: Traversability-aware Reactive Navigation via...</li>
+      <li>#8 ProTrav: Probabilistic Traversability with Elevation...</li>
+      <li>#25 CMAR-search: Commonsense and Memory Augmented Reason...</li>
+      <li>#26 OASIS: Online Anchor-centric Scene Inference System...</li>
+      <li>#14 CoHelix: Event-Based Multi-Propeller Rotation-Rate T...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-5">
+    <h3>Medical, Assistive &amp; Human-Facing Robotics</h3>
+    <p class="cat-desc">Robots working near bodies and homes: tremor-compensation hardware, endoscope navigation, surgical policy distillation, robotic feeding, aged-care HRI and iontophoretic hydrogels.</p>
+    <ul>
+      <li>#10 A Transparent 3-DoF Assistive Device for Upper-Limb...</li>
+      <li>#11 Multimodal Progress-Residual Fusion for Anticipating...</li>
+      <li>#18 EBV-CAN: Vision--Language Grounding for Contact-Aide...</li>
+      <li>#22 Revisiting Distribution Matching for State-to-Vision...</li>
+      <li>#15 Demonstration-Based Robotic Feeding Using Dynamic Mo...</li>
+      <li>#3 Navigating human-robot interaction challenges in pri...</li>
+      <li>#27 Geometry-Dependent Properties of Physically Crosslin...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-6">
+    <h3>Benchmarks, Metrics &amp; Evaluation</h3>
+    <p class="cat-desc">Measuring what matters cheaply: an offline sensorimotor-alignment proxy, physics-violation localization, space-capture and humanoid loco-manipulation testbeds, tool routing and V2X failure testing.</p>
+    <ul>
+      <li>#7 Sensorimotor Alignment: A Platonic Proxy for Embodie...</li>
+      <li>#19 PhysTrace: Interpretable Temporal Evaluation of Phys...</li>
+      <li>#20 AstroBench: Benchmarking Free-Floating Capture and S...</li>
+      <li>#23 LocoManiLab: A Unified Testbed for Data, Policies, C...</li>
+      <li>#21 Multi-Tool Selection for Robotic Systems: Comparing...</li>
+      <li>#30 LAST-V2X: Language-Driven Adaptive Scenario Synthesi...</li>
+    </ul>
+  </div>
+</div>
+<div class="section-header sh-1">World-Action Models &amp; Policy Learning</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#12</span>
+    <span class="h-badge">h=17</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30991v1" target="_blank">UniFlowWAM: A Unified World-Action Model with Visual Semantics and 4D Geometry</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Lixin Yang (h=17)</span>
+    </div>
+    <div class="authors">Jialin Tian, Zhuofan Li, Xinkai Wang, Bokai Lin, Chenyi Wang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Prior work keeps 3D scene flow outside the policy, as a separate module, inference prior or extra head; UniFlowWAM makes it a third modality with its own supervision beside vision and action.</li>
+      <li>A diffusion transformer with one expert per modality shares information by joint attention, and a ten-objective role grid (each modality is target, condition or absent) lets one model act as policy, forward and inverse dynamics, and feature or flow predictor.</li>
+      <li>On RoboCasa-GR1 success rises from 52.1% to 56.4% over the same base without flow, and LIBERO-Plus zero-shot reaches 87.7%.</li>
+      <li>On four real bimanual tasks it averages 87.0% versus 68.5% for the strongest baseline, a large real-world margin for adding geometry.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robot demonstrations record what the robot saw and what it did. They do not specify how the 3D world changed in between. Scene-level 3D flow describes it by tracking 3D scene points, providing the world representation with 4D geometry. Prior work has used flow to improve robot policies. Flow served as an intermediate prediction that a separate model converts into actions, as a prior injected at inference time, or as an extra output learned together with the action. In all of these designs, flow stays outside the policy, as a separate module or as an extra prediction head. We introduce UniFlowWAM, a Unified World-Action Model that makes 3D scene flow a third modality on par with vision and action. Its world representation therefore covers both visual semantics, through future visual features, and 4D geometry, through 3D flow, and flow receives its own supervision. UniFlowWAM is a diffusion transformer with one expert per modality, and the three experts exchange information through joint attention. We train UniFlowWAM under a ten-objective role grid, where each objective assigns every modality exactly one of three roles, namely target, condition, or absent. The same model thus serves as a policy, as forward and inverse dynamics, and as a predictor of future visual features or 3D flow. We evaluate UniFlowWAM on RoboCasa-GR1, LIBERO, and LIBERO-Plus in simulation, and on four real-world bimanual manipulation tasks. On RoboCasa-GR1, UniFlowWAM raises the success rate of its base model without flow from 52.1% to 56.4%. It preserves in-distribution success on LIBERO at 98.1% and reaches 87.7% zero-shot on LIBERO-Plus. On the real robot, it achieves 87.0% average success, compared with 68.5% for the strongest baseline.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#13</span>
+    <span class="h-badge">h=15</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31569v1" target="_blank">Echo: Coupled Action and Task Status Signal Denoising for Vision Language Action Models</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Ying-Dong Hu (h=15)</span>
+    </div>
+    <div class="authors">Yufeng Liu, Bohao Fan, Juntu Zhao, Xinyi Wang, Hang Yu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Adds stop and failure signals as two extra dimensions of every action chunk and denoises them with the actions, so status prediction needs no external monitor or special architecture.</li>
+      <li>Learns the signals without frame-level progress labels by constructing successful, failed and recovery trajectories with complementary supervision.</li>
+      <li>Denoises the status signals faster than the actions so later action steps condition on a cleaner completion estimate, giving status a direct role in action generation.</li>
+      <li>Real-world experiments show accurate status prediction and consistently better policy performance.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Recognizing task completion and failure enables robots to stop upon success and initiate recovery or replanning after failure. Existing methods augment Vision Language Action (VLA) policies with task status signal prediction to support these execution decisions. However, learning and integrating these signals can require fine-grained supervision, external monitoring models, or complex architectural designs. Moreover, the potential of task status signals to directly guide action generation remains underexplored. We present Echo, a framework that combines task status signal learning without frame-level progress annotations with a compact design for status prediction and action generation within a single VLA. Specifically, Echo represents task status with stop and failure signals, added as two dimensions of each action chunk and denoised together with robot actions. Their combination distinguishes ongoing execution, successful completion, and failure. To learn these signals without fine-grained progress annotations, Echo constructs successful, failed, and recovery trajectories with complementary supervision properties. To enable status signal-guided action generation, Echo controls interactions between the signals and actions and denoises the signals faster than the actions. These allow later action denoising steps to condition on cleaner status estimates while preserving accurate signal prediction. Extensive real-world manipulation experiments show that Echo accurately predicts task status and consistently improves policy performance.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#16</span>
+    <span class="h-badge">h=15</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30671v1" target="_blank">Co^2Gen: Collaboratively Generating Task Plans for Decentralized Multi-Robot and Human Collaboration</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Malika Meghjani (h=15)</span>
+    </div>
+    <div class="authors">Yi Loo, Siddhant Shrivastava, Minh Long Pham, Malika Meghjani</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Automates multi-robot demonstration collection: a decentralized collaborative planner writes executable plans, which are run to produce data without human teleoperation.</li>
+      <li>Fine-tunes VLAs in a decentralized fashion, so each robot&#x27;s policy learns to collaborate with others and with humans, an area generalist VLAs have barely covered.</li>
+      <li>VLAs fine-tuned on this generated data match the task performance of those trained on human-teleoperated collaborative data, removing a major scaling bottleneck.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Visual Language Action (VLA) models are designed to be generalist robot models that can be implemented across embodiments, tasks and environments. However, their ability to collaborate with other robots and humans remains underexplored. In this work, we propose a framework to automate the generation of multi-robot collaborative data for decentralized VLA training without requiring human teleoperation. Our framework first utilizes a decentralized collaborative planning approach to generate multi-robot collaborative robot plans in the form of an executable function. We then utilize the collaborative plan to produce collaborative demonstration data to finetune VLA models in a decentralized manner. We show that our approach produces demonstration data that when used to finetune VLA models on decentralized collaboration tasks matches the task performance of VLA models finetuned on human-teleoperated collaborative data.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#28</span>
+    <span class="h-badge">h=10</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31275v1" target="_blank">Learning Robot Behavior Priors from Non-Robotic Synthetic Data</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.LG</span>
+      <span class="pill">👤 Amanda Prorok (h=10)</span>
+    </div>
+    <div class="authors">Mateusz Odrowaz-Sypniewski, Michael Amir, Jasmine Bayrooti, Ajay Shankar, Amanda Prorok</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Tests whether useful robot priors can be learned with no robot data: three procedural pipelines modeling mathematical abstractions of control pretrain a Transformer on action prediction.</li>
+      <li>The model shows non-trivial zero-shot action prediction on unseen physical robot tasks via in-context learning, and control-specific priors beat generic causal priors.</li>
+      <li>A compute-matched model trained on real robot data wins only on datasets it saw, suggesting synthetic priors complement rather than replace embodied data.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Real robot data, rich across tasks and morphologies, is often treated as the bottleneck for training robot learning models, including embodied foundation models that aim for zero-shot physical transfer. In this paper, we investigate the degree to which such models can acquire necessary structure using data from systems without embodiment. To this end, we test if inexpensive, procedurally generated synthetic data can yield useful priors before a model observes any real-world behavior. We study this through robot action prediction, a natural pretraining objective and a direct test of whether structure learned from arbitrary synthetic tasks transfers to embodied settings. We introduce three data generation pipelines that model mathematical abstractions of robotic control, and use them as pretraining priors for a Transformer. We demonstrate that a model trained purely on this non-robotic data attains non-trivial zero-shot prediction performance on unseen physical robot tasks via an in-context learning mechanism, and that our specialized control priors notably improve upon generic causal priors. We also compare against a compute-matched baseline trained on real robot data, and find that it outperforms our model but only on the datasets it was trained on. These findings suggest that procedurally generated, mathematical abstractions can yield useful robotic priors, offering a potential complement to expensive embodied data collection.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#29</span>
+    <span class="h-badge">h=10</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30988v1" target="_blank">In-Context Learning World Models for Robot Dual-Arm Manipulation of Soft Garment with Partial Observations</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Darwin G. Caldwell (h=10)</span>
+    </div>
+    <div class="authors">Hengyi Sim, Quentin Rouxel, Dennis Hong, Darwin Caldwell, Fei Chen</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>A transformer world model trained on large-scale simulated soft-object interactions performs generative full-state estimation and action-conditioned dynamics prediction from partial point-cloud histories.</li>
+      <li>Infers latent shape and material cues by in-context learning over the history, generalizing across embodiments, garment types and materials without weight updates, with sim-to-real mitigations.</li>
+      <li>Coupled with a goal-conditioned planner for bimanual garment folding, it improves reconstruction, prediction and task success in simulation and on a real robot.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robust manipulation of soft objects, such as garments, is a critical skill for service and household robots to adopt, but remains challenging due to its high-dimensional state space, and material-dependent deformations. Humans address this challenge by using mental world models that &quot;imagine&quot; the shape and material properties from partial observations, which enables them to predict how actions affect future states. As such, embedding such world models in robots allows for better generalization in manipulating a wide variety of garments in the real world. However, learned world models typically require large amounts of real world data that is strenuous to collect, and a mechanism to infer latent properties that govern dynamics. We present a Soft-Object World Model that performs generative full-state estimation and action-conditioned dynamics prediction using a transformer backbone trained on large-scale simulated soft object interactions, with measures to mitigate the sim-to-real gap. By learning to infer latent shape and material cues through in-context learning over a variable-length partial point-cloud history, the model generalizes across robot embodiments, material parameters, garment types and shapes, and manipulation coordination modes without weight updates. The world model is then integrated with a Goal-Conditioned action planner for motion synthesis. We validate the approach in simulation and real world for bimanual garment folding, reporting improvements in reconstruction fidelity, prediction accuracy, and task success.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#17</span>
+    <span class="h-badge">h=14</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31095v1" target="_blank">To Route or to Adapt? Multi-Expert Diffusion Planners in Unseen Regions</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Ehsan Javanmardi (h=14)</span>
+    </div>
+    <div class="authors">Yun Li, Ehsan Javanmardi, Simon Thompson, Jiachen Gong, Qunli Zhang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Asks whether a diffusion planner with per-domain expert adapters should route among experts or adapt in unseen regions; across three held-out maps none of eight routing schemes beats the static default on fleet-mean lateral offset.</li>
+      <li>Even an oracle expert selector improves mean offset by only 0.9 m, so the headroom in selection is small.</li>
+      <li>Reward-based fine-tuning on just 20 target-region scenes with joint replay gets 6.9 m versus 12.4 m for the static default, while replay limits forgetting.</li>
+      <li>Caveats worth noting: on nuPlan closed-loop performance worsens, and two test-time baselines achieve low offsets by emitting degenerate trajectories.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Diffusion trajectory planners with domain-specific experts face a practical question in unseen regions: can they rely on selecting among existing experts, or must the planner itself adapt? We study this question using a planner with a shared adapter and per-domain expert adapters. Across three real-world held-out maps, none of eight test-time routing schemes improves the fleet-mean lateral offset over the static default, which uses the same expert for every scene. Even an oracle that selects the best expert for each scene reduces the mean offset by only 0.9 m. In contrast, reward-based fine-tuning on just 20 target-region scenes yields substantially larger gains. On matched evaluation slices, joint replay achieves a fleet-mean offset of 6.9 m, compared with 12.4 m for the static default. Comparisons under the same target-region training budget show that target-region training drives the improvement, while replaying training scenes limits forgetting on the original ODDs. On nuPlan, fine-tuning across training cities also improves open-loop offsets, although closed-loop performance deteriorates. Further diagnostics reveal that two test-time adaptation baselines achieve low offsets by producing degenerate trajectories. These results show the limited headroom for selecting among existing experts and the greater open-loop gains available from adapting the planner.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-2">Tactile Sensing &amp; Contact-Centric Control</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#1</span>
+    <span class="h-badge">h=116</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31608v1" target="_blank">Humanoid Mobility via Attention-based Contacts</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 V. Koltun (h=116)</span>
+    </div>
+    <div class="authors">Junzhe He, Kehan Wen, Chong Zhang, Clemens Schwarke, Zewei Zhang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Treats motion capture data strictly as a training prior: a self-supervised attention-based planner predicts future body-environment contacts, and a contact-conditioned tracker turns those plans into whole-body motion, so the policy learns the structure of locomotion rather than copying kinematics.</li>
+      <li>Bridges the usual split between reward-only RL (generalizes but moves unnaturally) and reference tracking (natural but cannot leave its trajectories) by making contact the interface between perception and control.</li>
+      <li>A fine-tuning stage then explores terrain variations beyond the original motion data, and deployment needs only onboard observations with no reference input.</li>
+      <li>Notable for having the field&#x27;s most-cited author on the list (h=116); a clean recipe for combining data priors with RL on hard terrain.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Humanoid mobility over complex terrain requires accurate foot placement and coordinated whole-body motion capable of robust adaptation. Reinforcement learning (RL) policies trained without motion references generalize well across terrains, yet eliciting effective whole-body coordination through reward design and exploration alone remains challenging. In contrast, reference-based methods yield natural motions but struggle to adapt beyond the predefined trajectories in their training data. We introduce a learning framework that bridges these two approaches by using motion data strictly as a training prior. An explicit, self-supervised, attention-based contact planner predicts future body-environment contacts, while a contact-conditioned tracker translates these plans into coordinated whole-body motion. Together, they establish contact as an interface between sensory observations and control actions. This abstraction allows the policy to internalize the contact-aware structure of locomotion rather than directly replicating kinematics. Consequently, a single policy can exploit data-driven motion priors for natural whole-body coordination while retaining the flexibility to discover environment-dependent behaviors through reinforcement learning. Building on the learned contact planner and tracker, a subsequent fine-tuning stage bootstraps their acquired capabilities to explore environment variations beyond those covered by the original motion data. Operating entirely from onboard observations without any reference inputs at deployment, this framework enables versatile humanoid mobility in challenging environments.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#2</span>
+    <span class="h-badge">h=80</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31661v1" target="_blank">OpenTac: An Open Ecosystem for Customizable, Scalable, and Transferable 3D Tactile Sensing</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span><span class="pill">eess.SP</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Gregory Hager (h=80)</span>
+    </div>
+    <div class="authors">Ariel Slepyan, Geeta Chandra Raju Bethala, Jiafeng Gu, Anagha Rajendra Dangle, Yinzhe Zhou</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>A resistive tactile skin with a structured deformable overlay converts tangential load into pressure, so differential taxel responses give local shear and the common-mode response gives normal force: 3D force from a cheap, scalable array.</li>
+      <li>Goes beyond a sensor with an ecosystem: a CAD tool that generates fabrication files from 2D outlines or 3D surfaces (even from text such as &#x27;a size 9 shoe insole&#x27;), a simulator, cross-sensor transfer and adaptive acquisition.</li>
+      <li>Over 30 sensors were fabricated across robot embodiments, and adaptive readout reaches kilohertz rates, 19.2x faster than raster scanning a 1024-taxel skin at 16 sampled taxels per update.</li>
+      <li>Fully open hardware and software lowers the barrier to putting skin on arbitrary robot surfaces, which has been the main practical obstacle for tactile learning.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We present OpenTac, a novel sensor and a full-stack ecosystem for tactile skins that are highly customizable, scalable, and readily deployed in downstream robot control and learning applications. Our core contribution is twofold. First, we develop a scalable resistive tactile skin with a structured deformable overlay that converts tangential loading into spatially varying pressure. Differential responses across neighboring &quot;taxels&quot; support decoding of local shear vectors, and the common-mode response encodes normal force. Second, we provide a highly customizable sensor design tool that is able to automatically generate fabrication files for these tactile skins from 2D outlines and developable 3D surfaces, including from abstract descriptions such as text (e.g., &quot;design a sensor for a size 9 shoe insole&quot;). We develop an ecosystem around the OpenTac sensor, including the CAD design tool, a sensor simulator, cross-sensor transfer, and fast/adaptive data acquisition. We demonstrate the broad applicability of the OpenTac-CAD sensor design tool by designing and fabricating more than 30 sensors across a variety of robot embodiments. We characterize the three-dimensional tactile fields produced by OpenTac with a commercial, high-precision force/torque sensor. We demonstrate the broad applicability of 3D tactile sensing across contact-rich feedback control and manipulation policy learning on four real-world robot embodiments. Additionally, adaptive acquisition enables kilohertz-rate partial readouts, exceeding full-array raster scanning on the same sensor by 19.2X at 16 sampled taxels per update for a 1024-taxel skin. We provide all hardware, software, and result videos are at opentac.github.io</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#9</span>
+    <span class="h-badge">h=21</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31334v1" target="_blank">GelSlim 5.0: Unifying Vision and Touch with a Single Fingertip Camera</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Nima Fazeli (h=21)</span>
+    </div>
+    <div class="authors">Xiangdong Wang, I-Hsuan Huang, Xiaohao Xu, Xili Yi, Nima Fazeli</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>One fixed camera sees both through the membrane (vision) and the contact-sensitive UV layer (touch) by switching illumination, which removes inter-camera extrinsic calibration.</li>
+      <li>VisTacFusion uses asymmetric bottleneck fusion so visual context aids pose while tactile spatial features are preserved for depth and surface normals; modality dropout allows either input alone.</li>
+      <li>On 12 known objects, paired inputs cut depth MSE, angular error and translation L1 by 61.2%, 72.3% and 61.3% versus tactile-only.</li>
+      <li>Relative to vision-only, the large gain is in depth (93.7%) while angle and translation improve modestly (6.1%, 8.6%), showing touch&#x27;s complementary role.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision and touch provide complementary cues for object pose and local contact geometry, but external cameras are often occluded at the contact site. We present GelSlim 5.0, a fingertip sensor that acquires visual and tactile observations with one fixed camera and a continuous UV-responsive contact layer. By switching illumination, the camera sequentially acquires through-membrane visual images and contact-sensitive tactile images from a shared viewpoint, avoiding inter-camera extrinsic calibration. To combine these observations, we introduce VisTacFusion, a multimodal transformer with separate prediction paths for planar object pose and contact geometry. Asymmetric bottleneck fusion incorporates visual context while preserving tactile spatial features for depth and surface-normal estimation. Modality dropout enables inference with paired inputs or either modality alone. On real validation data from 12 known objects, paired inputs reduce depth MSE, angular error, and translation $L_1$ by 61.2%, 72.3%, and 61.3%, respectively, relative to tactile-only inference with the same model. Relative to visual-only inference, the corresponding reductions are 93.7%, 6.1%, and 8.6%.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-3">Motion Planning &amp; Multi-Robot Coordination</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#6</span>
+    <span class="h-badge">h=26</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31625v1" target="_blank">Extending Harmonic Function Methods via Root Locus for Coordinated Path Generation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 L. Pallottino (h=26)</span>
+    </div>
+    <div class="authors">Matteo Frascarelli, Lucia Pallottino, Alberto Landi</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Maps N starts and N goals to the poles and zeros of a rational function after a conformal map, so paths are streamlines of the logarithmic potential, which gives disjoint paths and a goal assignment as a byproduct instead of a separate matching step.</li>
+      <li>Uses the gain as a clock so all robots arrive together at a prescribed time, and handles polygonal obstacles through Milne-Thomson reflections with a finite safety test.</li>
+      <li>Compared on 100 random instances against independent harmonic planning and artificial potentials, plus a ten-robot, ten-obstacle scene: a rare analytic alternative to sampling-based multi-robot planners.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We consider the offline generation of coordinated paths for N interchangeable robots and N goals in planar environments with polygonal obstacles. After a conformal map to a circular domain, starts and goals become the poles and zeros of a rational function R, and the paths are the branches of its Generalized Root Locus (GRL), i.e. the streamlines of the logarithmic potential -log R. We show that, for every phase outside a finite set of critical phases and a set of boundary phases, the induced gradient motion drives each robot to a distinct goal along pairwise disjoint paths that never reach the obstacles; the robot-goal assignment is produced by the construction, and with the gain used as a clock all robots move as the closed-loop roots of the GRL and arrive together at a prescribed time. Obstacles become streamlines through successive Milne-Thomson reflections, and for a finite number of reflections a finite test certifies safety for the potential that is actually computed. Reciprocal root-locus planning is recovered as a special case. The method is illustrated on two polygonal workspaces, 100 random instances compared with independent harmonic planning and artificial potentials, and a scene with ten robots and ten obstacles.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#24</span>
+    <span class="h-badge">h=11</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30607v1" target="_blank">Continuous-Time Motion Planning and Steering with Global Convergence</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Sima Didari (h=11)</span>
+    </div>
+    <div class="authors">Mohsen Amiri, Sima Didari, Davoud Ataee Tarzanagh, Hankyu Moon, Yeongdae Kwon</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Poses planning and steering of learned proposals as one continuous-time program with constraints enforced at every instant, not only at sampled times.</li>
+      <li>GlobMP runs gradient projection over piecewise-polynomial curves, where each constraint becomes a polynomial that must stay nonnegative per piece, alternating cost reduction with feasibility restoration.</li>
+      <li>Under mild assumptions, cost approaches the global optimum as pieces increase while constraints hold to tolerance, a guarantee the authors say no earlier algorithm gives with smoothness cost.</li>
+      <li>Demonstrated with up to 200 robots, Robotarium, maze navigation and steering tactile-reactive policies on a bimanual humanoid.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Motion planning is central to robotics, and it is increasingly used to correct the motions proposed by learned planners and policies. In both uses, constraints must hold at every instant of the motion, not only at sampled times. To our knowledge, no algorithm provably converges to a globally optimal motion once a smoothness cost is combined with such constraints. We cast planning and steering as a single continuous-time program: robots avoid one another and static or moving obstacles, and a learned proposal is steered by keeping the motion close to it. The program is elementary to state, yet nonconvex. We propose GlobMP (Global Motion Planning), a gradient projection method over piecewise-polynomial curves, on which each constraint is one polynomial per piece that must stay nonnegative over the whole motion; it alternates cost reduction with feasibility restoration. Under mild assumptions, we show that, from a fine grid start, its cost approaches the global optimum as the number of polynomial pieces grows, with every constraint met to any chosen tolerance, or exactly on stable instances. We demonstrate its superior performance over strong baselines in real and synthetic experiments, including teams of up to $200$ robots, multi-robot planning on the Robotarium testbed and an extended benchmark, maze navigation, and steering tactile-reactive policies on a bimanual humanoid.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#5</span>
+    <span class="h-badge">h=43</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31221v1" target="_blank">Consistent Distributed Invariant EKF SLAM with Point and Object Features</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Shou-Dong Huang (h=43)</span>
+    </div>
+    <div class="authors">Mengya Xu, Xianjia Yu, Ha Sier, Shoudong Huang, Tomi Westerlund</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Identifies why covariance intersection breaks in right-invariant EKF SLAM: point features&#x27; invariant errors depend on robot rotation, so a neighbor&#x27;s map is in its own error coordinates and correlated with its pose.</li>
+      <li>Joint-CI builds a joint estimate of the receiver&#x27;s pose and common features in the receiver&#x27;s error coordinates, then applies partial-state CI, keeping robot-feature and feature-feature correlations.</li>
+      <li>Proves that fusion preserves the six unobservable directions (global rotation and translation) and first-order covariance consistency, which is what prevents overconfident distributed maps.</li>
+      <li>Works for point, object and mixed maps, with simulation and real-dataset experiments showing better accuracy and mildly conservative uncertainty.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Multi-robot SLAM allows robots to improve their estimates by exchanging map information, but repeated exchanges create unknown correlations between local estimators. Covariance intersection (CI) can fuse estimates without tracking these correlations. In right-invariant extended Kalman filter (RI-EKF) SLAM, however, point features obtain their invariant errors through the robot rotation, so a neighbor&#x27;s map estimate is expressed in its own error coordinates and is correlated with its pose, and cannot be fused by CI directly. This paper presents Joint-CI, a unified fusion method for distributed RI-EKF SLAM with point, object, and mixed point--object maps. Using a neighboring robot&#x27;s local posterior and an inter-robot observation, a joint estimate of the receiving robot&#x27;s pose and the common features is constructed in the receiving robot&#x27;s error coordinates, retaining the robot--feature and feature--feature correlations. Partial-state CI then fuses this estimate with the receiving robot&#x27;s local posterior. We show that the unified formulation and the fusion preserve the six unobservable directions associated with global rotation and translation, and that communication and fusion preserve first-order covariance consistency given consistent local posteriors. Monte Carlo simulations and a real-world dataset-derived experiment show that Joint-CI improves estimation accuracy while maintaining consistent, mildly conservative uncertainty.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-4">Navigation, Perception &amp; Scene Memory</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#4</span>
+    <span class="h-badge">h=44</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30994v1" target="_blank">TRACE: Traversability-aware Reactive Navigation via VLM-driven Adaptive Constraints Estimation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 G. Nikolakopoulos (h=44)</span>
+    </div>
+    <div class="authors">Mario A. V. Saucedo, Midhun Edatharam Kunnath, Elias Small, Akash Patel, Shruti Kotpalliwar</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Builds a dense traversability map from VLM confidence under positive and negative language prompts, fused with evidential fusion and biased toward signs of previously traversed paths, so no terrain labels are needed.</li>
+      <li>Extracts left and right path boundaries by percentile binning and spline or regularized polynomial fitting, and feeds them to an NMPC as soft barrier constraints: language-grounded perception with a classical safety-aware controller.</li>
+      <li>Tested in real forests with cluttered, deformable and visually ambiguous terrain, where geometry-only methods tend to fail on tall grass and similar traps.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">This paper presents TRACE, a traversability-aware reactive navigation framework designed for the autonomous operation of ground robots in unstructured forest environments. Unlike traditional approaches, TRACE leverages VLM-based confidence maps from positive and negative natural-language prompt sets and combines them through evidential fusion to produce a dense traversability map that prioritizes the terrain based on signs of previously traversed paths. Traversability-annotated points are then extracted and used to derive the left and right boundaries of the traversable path via percentile binning followed by spline or regularized polynomial fitting. These boundaries are then incorporated as soft barrier constraints within an NMPC formulation, enabling safe and adaptive path following in complex natural environments. Rigorous experimental trials carried out in real-life forest environments demonstrate TRACE ability for smooth navigation in cluttered, deformable, and visually ambiguous terrains.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#8</span>
+    <span class="h-badge">h=23</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30839v1" target="_blank">ProTrav: Probabilistic Traversability with Elevation Uncertainty Propagation for Risk-aware Off-road Navigation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 R. Ghabcheloo (h=23)</span>
+    </div>
+    <div class="authors">Chuanlin Zuo, Miloš Prágr, Arun Kumar Singh, Mohammad Loni, Reza Ghabcheloo</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Existing traversability pipelines take a deterministic elevation map; ProTrav instead uses a sparse variational GP and function-space sampling to produce spatially correlated terrain realizations, preserving neighbor dependencies.</li>
+      <li>Propagates elevation uncertainty through nonlinear geometric features to a per-location distribution of traversability cost, whose mean and standard deviation feed a UCB risk term in MPPI.</li>
+      <li>Simulation success rates exceed 90% on varied terrains versus below 40% for a baseline, with smaller attitude variation; validated on a real off-road run.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Reliable traversability estimation is essential for autonomous navigation on unstructured terrain. State-of-the-art approaches typically evaluate traversability from deterministic terrain elevation, thereby overlooking spatial correlations in the terrain and failing to account for how elevation uncertainty propagates through nonlinear traversability mappings. We propose ProTrav, a probabilistic terrain representation that uses function-space sampling to generate spatially correlated terrain realizations and propagate elevation uncertainty to traversability cost. First, a Sparse Variational Gaussian Process (SVGP) reconstructs a probabilistic elevation field from observations. Then, posterior function-space sampling generates spatially correlated terrain realizations, preserving spatial dependencies between neighboring locations while propagating elevation uncertainty through geometric features into traversability cost. Consequently, a distribution of traversability cost at arbitrary location is established, where the mean and standard deviation quantify the expected traversability cost and associated uncertainty, respectively. A risk term is defined by moment-based Upper Confidence Bound (UCB) and incorporated into a Model Predictive Path Integral (MPPI) controller for risk-aware navigation. Simulation experiments demonstrate navigation success rates exceeding 90\% on different terrains, compared with below 40\% for a baseline, while reducing attitude variations. Furthermore, the proposed approach is validated on a robot traversing real-world off-road terrain.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#25</span>
+    <span class="h-badge">h=11</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30606v1" target="_blank">CMAR-search: Commonsense and Memory Augmented Reasoning for Object Search in Dynamic Interactive Environments</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Qing-Feng Li (h=11)</span>
+    </div>
+    <div class="authors">Kaiyao Liao, Qingfeng Li, Xinlei Zhang, Chen Chen, Qing Sun</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Existing 3D scene graphs give coarse spatial segmentation; CMAR builds a Functional 3D Scene Graph organizing the scene into functional areas (storage, leisure) with their containers, using commonsense and accumulated memory.</li>
+      <li>Plans hierarchically at the area and container level, so search inspects semantically plausible drawers and cabinets instead of exploring exhaustively.</li>
+      <li>Continuously fuses perception, memory and commonsense to relocalize objects that moved, and beats state-of-the-art baselines in success and efficiency in simulation and real settings.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Dynamic interactive object search in large-scale human environments presents substantial challenges for existing methods. Current scene representations like 3D Scene Graphs (3DSG) only provide coarse-grained spatial segmentation and cannot identify functional areas such as storage or leisure areas. Without functional area understanding, existing methods are constrained to exhaustive sequential exploration at large scales, resulting in inefficient search behaviors -- particularly in open-layout environments with numerous interactive objects such as drawers and cabinets. Moreover, these methods lack adaptability to environmental dynamics such as object relocations. To address these limitations, this paper proposes CMAR-search, a novel framework built upon Commonsense and Memory Augmented Reasoning (CMAR). Our approach leverages commonsense about area functionalities and aggregates environmental memory to construct a Functional 3D Scene Graph (F3DSG), which organizes the environment into functional areas with their associated containers. Through this structured representation, CMAR enables hierarchical action planning at both macro-area and micro-container levels, empowering the system to efficiently identify and inspect semantically relevant areas for effective object search. Notably, CMAR continuously integrates real-time perception, accumulated memory, and commonsense to dynamically relocalize objects in changing environments. Extensive experiments in simulation and real-world settings demonstrate that CMAR-search significantly surpasses state-of-the-art baselines in both success rate and search efficiency for object search in dynamic interactive environments.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#26</span>
+    <span class="h-badge">h=11</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30589v1" target="_blank">OASIS: Online Anchor-centric Scene Inference System for Open-Vocabulary Retrieval and Navigation in Dynamic Environments</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Qing-Feng Li (h=11)</span>
+    </div>
+    <div class="authors">Kaiyao Liao, Qingfeng Li, Chen Chen, Xiaoze Wu, Qing Sun</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Represents a scene with a sparse set of stable semantic anchors, each holding semantic descriptions, visual features and geometry, a middle path between lightweight but shallow online maps and dense but heavy ones.</li>
+      <li>Compact anchor memory supports hierarchical retrieval and on-demand evidence extraction, reducing storage while improving open-vocabulary retrieval reliability.</li>
+      <li>Reuses transient observations from navigation to relocalize displaced objects, evaluated on retrieval benchmarks and navigation in static and dynamic settings.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Reliable robotic mapping in dynamic real-world environments is essential for embodied intelligence and long-term autonomy. However, existing methods often involve a trade-off: lightweight online mapping is efficient but captures limited semantic context, while dense mapping provides richer semantics at higher computational cost and is more vulnerable to distractors. They also struggle to relocalize objects after scene changes. To address these challenges, we propose the Online Anchor-centric Scene Inference System (OASIS), a unified system for online mapping, complex open-vocabulary retrieval, and navigation in dynamic environments. Motivated by the observation that indoor scenes are organized around stable semantic anchors, OASIS represents the environment using a sparse set of anchor nodes, each maintaining a unified multimodal representation that integrates semantic descriptions, visual features, and geometric states for reasoning, verification, and navigation. Its compact anchor-centric memory supports on-demand evidence extraction and hierarchical retrieval, reducing redundant storage while improving retrieval reliability. To handle scene dynamics, OASIS further reuses transient observations collected during navigation to relocalize moved objects. Experiments in both simulation and real-world environments, including standard retrieval benchmarks and navigation tasks under both static and dynamic settings, demonstrate that our system can perform complex open-vocabulary retrieval and navigation, while also enabling relocation of displaced objects after scene changes.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#14</span>
+    <span class="h-badge">h=15</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31384v1" target="_blank">CoHelix: Event-Based Multi-Propeller Rotation-Rate Tracking with Shared Projective Geometry</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Matouš Vrba (h=15)</span>
+    </div>
+    <div class="authors">Radim Spetlik, Tobiáš Vinklárek, Jan Klivan, Tomáš Kestřánek, Matouš Vrba</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Estimates the rotation rates of four coplanar propellers from a moving event camera by sharing a single homography across all of them, so every propeller&#x27;s events help correct camera-motion geometry.</li>
+      <li>Uses lock (fraction of time within 2% of ground truth) rather than mean error, which exposes how long a tracker really follows the true rate and handles half- and double-rate ambiguities.</li>
+      <li>On moving-camera data lock is 62.9% versus 39.8% for HelixTrack and 22.2% for EventPro; allowing four geometry contributors instead of one lifts it from 3.4% to 62.9%.</li>
+      <li>On a held-out follower dataset with a different quadcopter it reaches 95.9% lock, suggesting the shared-geometry idea transfers.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Estimating propeller rates from a moving event camera requires separating blade rotation from the changing image geometry. Background activity mixes with blade events, while repeated blade appearances admit half- and double-rate ambiguities. We propose CoHelix, a recursive filter that estimates one shared homography and separate rotation states for four rigidly mounted, coplanar propellers. Each admitted event updates its assigned rotation state, and its accepted geometry measurements correct the shared homography used to interpret later events from every propeller. We report lock, the fraction of evaluated time for which an estimate remains within 2% of synchronized ground truth, because mean error alone does not show how long a tracker follows the true rate. With fixed-rate initialization, leave-one-recording-out evaluation on moving-camera data gives CoHelix 62.9% lock, compared with 39.8% for HelixTrack and 22.2% for EventPro. With other settings fixed, allowing four geometry contributors instead of one raises lock from 3.4% to 62.9%. On a private target-follower dataset with a different target quadcopter, CoHelix retains the measurement settings selected on moving-camera data and uses a fixed initial rate. It reaches 95.9% lock, compared with 56.2% for HelixTrack and 61.1% for EventPro.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-5">Medical, Assistive &amp; Human-Facing Robotics</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#10</span>
+    <span class="h-badge">h=20</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30955v1" target="_blank">A Transparent 3-DoF Assistive Device for Upper-Limb Tremor and Ataxia Compensation: Design and Experimental Validation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 D. Haeufle (h=20)</span>
+    </div>
+    <div class="authors">Thomas Dobosz, Veronika Hofmann, Ahmed Barhoma, Ann-Kathrin Henke, Johannes A. Gaus</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Places all actuators at the base for low moving mass and decoupled kinematics, targeting the tension between mechanical transparency (not fighting the patient) and the ability to push back against tremor.</li>
+      <li>A hybrid controller uses open-loop force rendering in the horizontal plane and closed-loop force control vertically to work around friction.</li>
+      <li>Measured resistive torque stays below 0.1 Nm horizontally, with about 10 N end-effector force and accurate force rendering up to 4 Hz; the vertical axis remains friction-limited at higher frequencies.</li>
+      <li>A hardware foundation rather than a finished therapy: tremor and ataxia compensation itself is future work.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Assistive devices for patients with neurodegenerative movement disorders must combine high mechanical transparency with the ability to generate corrective interaction forces. Achieving both properties simultaneously remains challenging. This paper presents the completed iAssistADL platform, a 3-DoF assistive device for future tremor and ataxia compensation during activities of daily living. The system employs a transparency-oriented mechanical architecture with all actuators located at the base, resulting in low moving mass, decoupled kinematics, and high mechanical transparency. To compensate for friction-induced transparency limitations along the vertical axis, a hybrid control strategy is proposed that combines open-loop force rendering in the horizontal plane with closed-loop force control in the vertical direction. The platform is experimentally evaluated through transparency measurements and static and dynamic force-rendering experiments at representative configurations. Results demonstrate resistive torques below 0.1 Nm in the horizontal plane, end-effector forces of up to approximately 10 N throughout the workspace, and accurate horizontal force rendering up to 4 Hz. While the vertical axis remains limited by friction-induced dynamics at higher frequencies, the proposed system successfully combines high transparency with controlled force generation, establishing a promising hardware platform for future tremor and ataxia compensation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#11</span>
+    <span class="h-badge">h=18</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31028v1" target="_blank">Multimodal Progress-Residual Fusion for Anticipating Navigation Retreat in Robotic Flexible Endoscopy</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Yu Sun (h=18)</span>
+    </div>
+    <div class="authors">Chi Kit Ng, Tianchun Wu, Jiatan Sun, Yuming Sun, Jianru Zhang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Frames operator retreat in flexible endoscopy as a prediction problem: commanded insertion and useful distal progress diverge because of friction and wall contact, and that gap precedes the decision to back up.</li>
+      <li>MPRF learns a nominal-progress model and feeds its EM-tracking residual, together with commands and endoscopic video, to a causal temporal predictor.</li>
+      <li>On 150 colon-phantom episodes it reaches 0.580 AUPRC versus 0.511 for the best reduced-modality control; the authors candidly note full multimodal history drives most of the gain and the residual adds only a small, uncertain increment.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Flexible robotic endoscopes provide access through tortuous anatomy, where friction, deformation, and wall interaction separate commanded insertion from useful distal progress. Operators interpret this mismatch and retreat to recover a navigable configuration. Recognizing the approach to that decision requires relating motor intent to distal response and the local visual scene. We introduce Multimodal Progress-Residual Fusion (MPRF), a causal model that anticipates operator retreat from commands, electromagnetic (EM) tracking, and endoscopic video. A nominal-progress model predicts the response expected in normal or successful navigation; a temporal predictor combines its EM residual with all three observed modalities. In a 150-episode colon-phantom collection, MPRF achieves 0.580 +/- 0.007 AUPRC across three seeds, compared with 0.511 for the strongest reduced-modality control. Complete multimodal histories provide the principal ranking advantage, while the residual adds an explicit intent-response representation with a small, uncertain increment over raw fusion. Analysis of frozen alarms relates warning timing to the behavioral label and explains the increase in event recall under a longer matching window. These results establish a basis for behavioral assistance during operator-controlled navigation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#18</span>
+    <span class="h-badge">h=14</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30786v1" target="_blank">EBV-CAN: Vision--Language Grounding for Contact-Aided Endoscope Navigation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Hong-Liang Ren (h=14)</span>
+    </div>
+    <div class="authors">Chi Kit Ng, Shuchang Liu, Jinsong Lin, Yidong Zhang, Xizi Wang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Gives the endoscope a one-time global bird&#x27;s-eye image plus live endoscopic views and motor state; three semantic queries locate the tip, next waypoint and instructed target on that cached image.</li>
+      <li>Introduces the VLCA dataset of 517 demonstrations and 75k action samples, with tip and waypoint localization at 97.5% and 94.8% on held-out episodes.</li>
+      <li>Succeeds in 183 of 240 physical trials (76.25%), while a GRU behavior-cloning baseline has the lowest offline MAE (0.056) yet only 1 of 240 successes, a vivid case of imitation error misranking policies.</li>
+      <li>Swapping the target instruction under identical observations changes attention and motor output, evidence the language grounding is actually used.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Flexible endoscopes exploit structural compliance to traverse narrow lumens, pipes, and cavities, where navigation involves distributed environmental contact. This compliance makes tip motion depend on the evolving support configuration. We present external bird&#x27;s-eye-view contact-aided navigation (EBV-CAN), a vision-language policy that combines one initial global static bird&#x27;s-eye image with evolving endoscopic observations and motor state. Three supervised semantic queries locate the tip, next waypoint, and instructed target on the cached global image; their residual representations predict bending and insertion commands. We introduce the Vision-Language Contact-Aided (VLCA) dataset, linking 517 demonstrations and 75k action samples to 958k spatial entries and 93k remaining-route records. On 50 held-out episodes, tip-coordinate and waypoint localization reach 97.5% and 94.8%. Swapping the target instruction under identical observations changes target attention and motor output across 17 dual-target episodes. Across 1,920 physical trials of eight policies trained under a shared protocol, EBV-CAN achieves 183/240 successes (76.25%) under automatic blue-area scoring. Gated recurrent unit behavior cloning (GRU-BC) achieves the lowest matched-task offline mean absolute error (MAE), 0.056, and 1/240 physical successes, establishing distinct rankings for action imitation and task completion. Successful multi-guide executions and representative failures connect spatial progress, steering transitions, and visibility to physical navigation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#22</span>
+    <span class="h-badge">h=12</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31010v1" target="_blank">Revisiting Distribution Matching for State-to-Vision Policy Distillation in Laparoscopic Robotic Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Wei-Dong Cai (h=12)</span>
+    </div>
+    <div class="authors">Mingyu Sheng, Jianan Fan, Dongnan Liu, Guoyan Zheng, Ron Kikinis</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Distills a privileged-state RL teacher into a vision-based student using RGB and proprioception, avoiding both the state estimation that surgical scenes make unreliable and the expert demonstrations imitation learning needs.</li>
+      <li>Argues that general-purpose vision RL from scratch is hard for laparoscopic manipulation, while distillation gives more consistent and stable performance across tasks.</li>
+      <li>Results are simulation-only so far, so real-surgery transfer remains the open question.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">End-to-end control policies trained via Reinforcement Learning (RL) have emerged as an alternative to conventional surgical robotic control approaches, with recent studies exploring state-based policies trained on privileged state observations. However, such approaches rely on precise physical states that are difficult to obtain reliably in surgical environments. Vision-based RL provides an alternative by learning manipulation policies directly from RGB observations, avoiding explicit state estimation and manually engineered perception pipelines while enabling policies to acquire task-relevant visual representations. Nevertheless, obtaining vision-based policies via pure RL methods for surgical manipulation remains challenging. Thus, imitation learning (IL) becomes another solution, yet it requires a large number of expert demonstrations, which are difficult to obtain in minimally invasive surgery. In this work, we propose a framework for state-to-vision policy distillation in laparoscopic robotic manipulation. Specifically, a state-based policy with privileged observations is employed as the teacher, and a vision-based policy learns from RGB observations and robot proprioceptive information, which requires less expert demonstrations than IL and introduces superior performance than RL methods. We conduct extensive experiments on various surgical manipulation tasks in the simulated environment. Experimental results show that, in the context of laparoscopic robotic manipulation, training vision-based policies with general-purpose RL methods is challenging, whereas our proposed state-to-vision policy distillation leads to more consistent and stable performance across tasks.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#15</span>
+    <span class="h-badge">h=15</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31020v1" target="_blank">Demonstration-Based Robotic Feeding Using Dynamic Movement Primitives</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Arun-Kumar Kaliya-Perumal (h=15)</span>
+    </div>
+    <div class="authors">Kenzhi Iskandar Wong, Kitti Thamrongaphichartkul, Sri Harsha Turlapati, Yanshuo Lu, Kanichi Doi</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>A pragmatic feeding pipeline: a motion-capture demonstration is segmented into scooping and feeding, each encoded as a separate DMP.</li>
+      <li>Goals are set from perception: an RGB-D mouth detection defines the feeding endpoint and an AprilTag-localized tray positions the scoop.</li>
+      <li>Executed on a Kinova Gen3 via ROS 2; the single real-world experiment shows feasibility only, with no user study or safety evaluation yet.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">This paper presents a demonstration-based robotic feeding framework that integrates human demonstration, Dynamic Movement Primitive-based motion planning, vision-based scene perception, and robot control. A human operator first demonstrates the scooping and feeding motions while the position and Euler-angle orientation of the spoon are recorded using a motion-capture system. The recorded trajectory is segmented into scooping and feeding motions, which are encoded using separate Dynamic Movement Primitives. Before task execution, an RGB-D camera estimates the participant&#x27;s mouth position, while two AprilTags are used for robot-frame registration and tray localization. The detected tray pose is used to position the scooping motion, whereas the detected mouth position defines the positional goal of the feeding motion. The approach, scooping, and feeding trajectories are then executed sequentially by a Kinova Gen3 manipulator through a ROS~2-based framework. A real-world experiment demonstrates the feasibility of the integrated pipeline and shows that the learned spoon motions can be reproduced within the detected experimental scene.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#3</span>
+    <span class="h-badge">h=47</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31149v1" target="_blank">Navigating human-robot interaction challenges in private and residential aged care homes</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.HC</span><span class="pill">cs.CV</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Simon Denman (h=47)</span>
+    </div>
+    <div class="authors">David Ahmedt-Aristizabal, Mohammad Ali Armin, Akila Pemasiri, Harshala Gammulle, Tharindu Fernando</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>A survey chapter that frames aged-care homes and private homes as &#x27;extreme&#x27; HRI environments (clutter, diverse needs, little technical support) and argues for hybrid robot-plus-ambient-sensor deployments.</li>
+      <li>Turns design advice into concrete choices: simple voice interfaces, few non-verbal cues, safe handovers, on-device inference, data minimisation and visible consent controls aligned with emerging AI and privacy regulation.</li>
+      <li>Proposes evaluation by operational metrics such as false alarms per day, time to recover from faults and staff workload, rather than lab task success.</li>
+      <li>Useful as a checklist for teams moving care robots from demos to regulated, long-term deployment.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">This chapter explores how robotic systems and ambient intelligence can enhance care for older adults in residential aged care (RAC) homes and private homes. Although these settings differ, we frame both as extreme and challenging environments for human-robot interaction (HRI), characterised by cluttered and dynamic layouts, diverse resident needs, and limited on-site technical support. We review embodied and non-embodied systems that assist with daily living, safety monitoring, and social engagement, highlighting hybrid deployments where robots complement fixed and wearable sensors. To ensure these technologies are usable and effective, design considerations consider the cognitive, physical, and social needs of older adults. Interaction design prioritises accessibility for older adults with low digital literacy, using robust but simple voice interfaces, small sets of non-verbal cues, accessible screen-based companions, and safe object handovers. Privacy, trust, and acceptability are addressed via practical strategies such as on-device inference, data minimisation, visible consent controls, and transparent data handling aligned with emerging artificial intelligence (AI) and privacy regulation. Evaluation emphasises real-world metrics including false alarms per day, time to recover from faults, staff workload, and long-term system reliability. We close by outlining open research challenges and future directions for scalable, regulation-ready deployments that support aging with dignity, safety, and independence.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#27</span>
+    <span class="h-badge">h=10</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31567v1" target="_blank">Geometry-Dependent Properties of Physically Crosslinked PPy-PVA Hydrogels Enable Tunable Iontophoretic Drug Delivery</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span><span class="pill">physics.med-ph</span>
+      <span class="pill">👤 Cara M. Nunez (h=10)</span>
+    </div>
+    <div class="authors">Heather Jin Hee Kim, Mohsen Alishahi, Kyuin Park, Mikaila K. Roncevich, Larissa M. Shepherd</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Controls transdermal drug delivery through hydrogel geometry, microstructure and local electric field rather than by modulating current.</li>
+      <li>Fabricates five PPy-PVA geometries, including Hilbert-curve designs, with BSA as the model drug, and combines FEA of fields with SEM of pore structure.</li>
+      <li>Iontophoresis greatly enhances permeability over passive diffusion, with an average of (3.80 +/- 1.93) x 10^-5, above prior artificial-membrane values.</li>
+      <li>Tested only on artificial membranes in Franz cells; the odd one out in a robotics feed, but relevant to soft and wearable actuation.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Objective: Iontophoretic drug delivery has primarily relied on current modulation to regulate drug transport. Here, we investigate hydrogel geometry, microstructure, and local electric fields as alternative mechanisms for controlling transdermal delivery. Methods: Bovine serum albumin (BSA) was encapsulated in polypyrrole-polyvinyl alcohol (PPy-PVA) hydrogels. Five geometries, including Hilbert curve-based designs, were fabricated to vary pore architecture and local electric field distributions. We optimized PPy content, drug loading, and current density. Electric fields were evaluated using finite element analysis, and microstructures were characterized by scanning electron microscopy. Drug transport was assessed using Franz diffusion cells with artificial membranes. Results: Hydrogel geometries exhibited distinct microstructures and electric field distributions. Iontophoresis substantially enhanced permeability compared with passive diffusion, while individual geometries produced different cumulative release, flux, and permeability profiles. The average iontophoretic permeability was (3.80 +/- 1.93) x 10^-5, exceeding previously reported values using artificial membranes. Conclusion: Geometry-driven fabrication of drug-loaded hydrogels enables tunable transport characteristics under both iontophoretic and passive conditions. Significance: Geometry-mediated control offers an alternative approach to regulating iontophoretic drug delivery without requiring individual current-density modulation.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-6">Benchmarks, Metrics &amp; Evaluation</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#7</span>
+    <span class="h-badge">h=24</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31670v1" target="_blank">Sensorimotor Alignment: A Platonic Proxy for Embodied Policy Success</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.CV</span><span class="pill">cs.LG</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Kai-Yu Hang (h=24)</span>
+    </div>
+    <div class="authors">Yunfei Xie, Howard H. Qian, Shiyi Lan, Kaiyu Hang, Chen Wei</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Extends the Platonic Representation Hypothesis to embodiment: as models improve, their sensory representations should converge toward the geometry of physical motion.</li>
+      <li>Sensorimotor Alignment (S^2) is a training-free offline metric of that alignment; it correlates positively with downstream task success across embodied model families.</li>
+      <li>Can rank VLM backbones before expensive VLA fine-tuning, replacing some closed-loop rollouts with a cheap proxy.</li>
+      <li>Also gives representation-level explanations for behaviors seen in VLAs and world action models, so it doubles as a diagnostic.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robotic foundation models are typically evaluated through costly closed-loop rollouts, which motivates cheap offline proxies for model capability. The Platonic Representation Hypothesis (PRH) suggests that as representations improve, different modalities such as vision and language converge toward a shared statistical model of reality. We ask whether motion trajectories form another such modality: as embodied models become more capable, should their sensory representations converge toward the structure of physical motion? To examine this, we propose Sensorimotor Alignment ($S^2$), a training-free offline metric that measures how well a model&#x27;s sensory representation aligns with the geometry of physical motion. We find that $S^2$ correlates positively with downstream robot task success across embodied model families, making it a low-cost offline proxy for prioritizing models before closed-loop evaluation. $S^2$ can also identify promising vision-language model (VLM) backbones even before costly fine-tuning into vision-language-action models (VLAs). Beyond this correlation, $S^2$ offers representation-level explanations for phenomena observed in VLAs and world action models (WAMs). With $S^2$, we extend PRH to embodied models and make sensorimotor alignment empirically measurable, offering insight into why an embodied model succeeds beyond its closed-loop success rate.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#19</span>
+    <span class="h-badge">h=13</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31429v1" target="_blank">PhysTrace: Interpretable Temporal Evaluation of Physical Consistency in Video Generative Models</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.AI</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Kyeongbo Kong (h=13)</span>
+    </div>
+    <div class="authors">Taekoan Yoo, Wonkyung Jung, Kyunghun Kim, Kyeongbo Kong</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Aligns MLLM-generated, history-conditioned expectations with observed video windows to localize when a physical violation occurs, training-free and with interpretable descriptions.</li>
+      <li>Adds IntPhys2-Timing, which marks violation intervals in IntPhys2; hit rate reaches up to 70.7% across physical principles, and it also beats compared methods on possible-versus-impossible discrimination.</li>
+      <li>Applied along the trajectories of pretrained diffusion and flow video models, it reveals noise- and attribute-dependent physical-consistency patterns, relevant to anyone building world action models on such backbones.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">World action models increasingly rely on pretrained video models assumed to capture physical dynamics for prediction, planning, and action generation. Existing evaluations assess plausibility, probe representations, or measure predictive surprise, but rarely identify which history-conditioned physical expectations conflict with observations. We introduce PhysTrace, a training-free framework aligning MLLM-generated, history-conditioned expectations with observed video windows to temporally localize physical violations and provide interpretable descriptions without task-specific probes or classifiers. We also introduce IntPhys2-Timing, adding violation intervals to IntPhys2. PhysTrace achieves a Hit Rate of up to 70.7% across physical principles on IntPhys2-Timing and outperforms the compared methods in overall possible-impossible discrimination accuracy on IntPhys2. Applied to reconstructed videos along the trajectories of pretrained diffusion/flow-based video models, PhysTrace reveals attribute- and noise-dependent patterns in physical violation localization, enabling interpretable physical consistency analysis across timesteps.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#20</span>
+    <span class="h-badge">h=13</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31064v1" target="_blank">AstroBench: Benchmarking Free-Floating Capture and Space Robotic Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 China (h=13)</span>
+    </div>
+    <div class="authors">Zizhe Wang, Jia Deng, Xin Lu, Zehao Jia, Yi Huang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Targets a setting existing manipulation benchmarks ignore: grasping a loose, translating and rotating object in a spacecraft cabin, where contact changes its motion.</li>
+      <li>Provides nine task definitions and 29 task-target combinations based on MELFI sample storage and Robotic Refueling Mission servicing, with 8,414 object instances and five cabin visual contexts.</li>
+      <li>A frozen pi0.5 DROID policy captures only 2 of 200 static and 4 of 200 moving targets, while a cube-specific ACT policy gets 8 of 10 and 6 of 10: generalist transfer fails but task-specific capture is learnable.</li>
+      <li>Open code, tasks and editable workcell assets make it a ready testbed for motion-aware perception and contact-sensitive control.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Capturing a loose object inside a spacecraft requires a robot to approach a target that can translate and rotate, and whose motion changes when contact is made. These conditions motivate evaluation beyond manipulation of supported objects. We introduce AstroBench, an open benchmark for free-floating capture and space robotic manipulation with a fixed-base arm. The task suite combines four initial-motion tracks with sample-storage operations based on MELFI hardware and cap and captive-screw servicing based on the Robotic Refueling Mission. The two workcells provide nine task definitions and 29 task-target combinations. A metadata-filtered Objaverse inventory supplies 8,414 object instances for asset expansion, alongside five cabin visual contexts and versioned task instructions. We report two acquisition-focused experiments using existing checkpoints. A frozen $π_{0.5}$ DROID joint-position policy captures 2 of 200 static targets and 4 of 200 moving targets across twenty object identities. A cube-specific ACT policy captures 8 of 10 static targets and 6 of 10 moving targets in a separate experiment. Each experiment retains its recorded observation, action and capture configuration. The results document difficult direct transfer for the tested generalist checkpoint and successful task-specific capture behavior, while identifying concrete settings for studying motion-aware perception and contact-sensitive control. Code, task definitions and editable workcell assets are available at https://github.com/AstroUpLab/AstroBench.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#23</span>
+    <span class="h-badge">h=12</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30876v1" target="_blank">LocoManiLab: A Unified Testbed for Data, Policies, Controllers, and Deployment in Humanoid Loco-Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Xue-Long Li (h=12)</span>
+    </div>
+    <div class="authors">Dewei Wang, Jinrui Han, Jiyuan Shi, Chenyun Zhang, Xianbo Lu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>A unified testbed covering data generation, policy training, evaluation and deployment, with 234 atomic and compositional tasks over five household scene categories and 51.5 hours of simulated teleoperation.</li>
+      <li>Evaluates twelve policies with a shared controller and two policies across five controllers, showing success falls on unseen tasks and scenes and with visual perturbation.</li>
+      <li>Fine-tunes a humanoid motion generator for loco-manipulation to study its role in data generation.</li>
+      <li>Three tasks mirrored in the real world produce similar policy rankings, supporting simulation as a reliable evaluator.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Humanoid robots must coordinate locomotion and manipulation in everyday environments, yet progress is difficult to assess across differing policies, controllers, and task settings. LocoManiLab provides an integrated testbed spanning data collection and generation, policy training, evaluation, and physical deployment. Its task suite covers 234 atomic and compositional tasks across five household scene categories, supported by 51.5 hours of simulated teleoperation. The evaluation covers twelve policies with a shared controller across task and scene splits and perturbation levels, two policies across five controllers, and studies of demonstration scale and data-source mixtures. Success rates fall on unseen tasks and scenes and generally decline as visual perturbations increase, with differences in generalization and robustness across policies. For data generation, a humanoid motion generation model is fine-tuned for loco-manipulation to study the alignment of its outputs with task execution requirements and its integration into the data generation pipeline. Three simulated loco-manipulation tasks closely match real-world setups, enabling evaluation of three policies in both domains. Similar policy rankings support the reliability of simulation-based evaluation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#21</span>
+    <span class="h-badge">h=13</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.31013v1" target="_blank">Multi-Tool Selection for Robotic Systems: Comparing Semantic Retrieval and LLM</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span>
+      <span class="pill">👤 J. Matos-Carvalho (h=13)</span>
+    </div>
+    <div class="authors">Miguel Sousa, Luis Ramos Pinto, João P. Matos-Carvalho</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Defines tool routing as choosing the smallest complete subset of capabilities for a request, where compound instructions can omit needed sensing or expose irrelevant tools.</li>
+      <li>Compares three ChromaDB retrieval variants (fixed threshold, relative distance, clause-aware aggregation) against a 120B cloud LLM on 164 annotated prompts at three complexity levels.</li>
+      <li>The LLM scores 0.8869 versus 0.7822 for the best retrieval method, but retrieval has much lower latency and runs locally, a trade-off for privacy- and connectivity-limited robots.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Natural-language interfaces allow users to command robotic systems without interacting directly with mission planners or robotics middleware. Their reliable use depends on robot tool routing, defined here as the selection of the smallest complete subset of predefined executable capabilities required to satisfy a request. This task is particularly difficult for compound instructions, where incomplete selection may omit necessary sensing or monitoring capabilities, while excessive selection may expose irrelevant tools. We compare four routing strategies: three progressively refined ChromaDB-based methods - fixed-threshold retrieval, relative-distance retrieval, and clause-aware aggregated retrieval - and a cloud-hosted 120-billion-parameter language-model baseline. The methods are evaluated on 164 manually annotated prompts organised into three complexity levels, from direct single-tool requests to compound requests requiring at least three tools. Using exact-match accuracy, completeness, precision, a completeness-weighted composite score, and routing latency, CDB-v3 achieves the best macro-average score among the retrieval-only methods, with 0.7822, compared with 0.8869 for the large-model baseline. Although the LLM provides higher routing quality, CDB-v3 exhibits substantially lower latency and can be deployed locally without requiring cloud connectivity. These results identify a quality-latency trade-off between direct large-model selection and clause-aware semantic retrieval for privacy-sensitive, connectivity-constrained, and resource-constrained robotic systems.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#30</span>
+    <span class="h-badge">h=10</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2610.30979v1" target="_blank">LAST-V2X: Language-Driven Adaptive Scenario Synthesis and Testing for Communication-Induced Failures in V2X Safety Applications</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-10-22</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span>
+      <span class="pill">👤 Ji-Wan Jiang (h=10)</span>
+    </div>
+    <div class="authors">Keshu Wu, Hao Zhang, Rui Gan, Pei Li, Jiwan Jiang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Uses LLMs to turn natural-language test descriptions into executable CARLA scenarios grounded in road geometry, V2X message semantics and vehicle behavior, with message-level fault injection.</li>
+      <li>Runs matched executions under degraded and ground-truth information to show a failure is caused by communication rather than traffic, a causal check often missing from scenario testing.</li>
+      <li>Execution-guided refinement combining parameter search and LLM self-reflection finds ineffective configurations, improves failure discovery and yields minimal reproducible cases.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vehicle-to-everything (V2X) communication enables connected vehicles to make safety-critical decisions, but delayed, missing, or incorrect information can compromise driving safety. Systematically testing such failures is challenging because traffic interactions, communication conditions, and application responses must be jointly configured to produce meaningful scenarios. This paper presents LAST-V2X, a language-driven, adaptive framework for automated scenario synthesis and safety testing of V2X applications. LAST-V2X leverages large language models (LLMs) to translate natural-language test descriptions into executable scenarios grounded in roadway geometry, V2X communication semantics, and vehicle behavior. The framework integrates physical traffic simulation with spatially aware communication modeling and message-level fault injection to evaluate how information degradation affects vehicle decisions. To establish whether an observed safety failure is caused by communication rather than the underlying traffic conditions, LAST-V2X employs matched executions under degraded and ground-truth information. Furthermore, an execution-guided refinement mechanism combines parameter search and LLM self-reflection to identify ineffective test configurations, improve scenario effectiveness, and produce minimal reproducible failure cases. Experiments across diverse CARLA environments and V2X safety applications demonstrate the framework&#x27;s ability to generate reliable scenarios, distinguish communication-induced failures from unrelated safety violations, and substantially improve failure discovery through adaptive refinement. These results establish LAST-V2X as a systematic approach to language-driven, causally verified, and adaptive safety testing for connected vehicle systems.</div>
+    </details>
+  </div>
+</div>
+<footer>
+  Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-10-22
+</footer>
+</div>
+</body>
+</html>
