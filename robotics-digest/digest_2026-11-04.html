@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotics arXiv Digest — 2026-11-04</title>
+<style>
+:root {
+  --bg: #f8f9fa; --card-bg: #ffffff; --text: #1a1a2e; --text-secondary: #555;
+  --accent: #2563eb; --border: #e2e8f0; --gold: #f59e0b;
+  --cat1: #2563eb; --cat2: #7c3aed; --cat3: #dc2626; --cat4: #059669;
+  --cat5: #d97706; --cat6: #0891b2; --cat7: #be185d;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+header { text-align: center; padding: 40px 20px 30px; }
+header h1 { font-size: 2rem; margin-bottom: 8px; }
+header .date { font-size: 1.1rem; color: var(--text-secondary); }
+.header-stats { display: flex; gap: 12px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.header-stats .stat { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 0.85rem; color: var(--text-secondary); }
+.badge-claude { background: linear-gradient(135deg, #d4a574, #c2956b); color: white; border: none; font-weight: 600; }
+.landscape { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 30px; }
+.landscape h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--accent); }
+.landscape p { margin-bottom: 14px; color: var(--text-secondary); font-size: 0.95rem; }
+.category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 30px; }
+.category-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; transition: box-shadow .2s; }
+.category-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.category-card h3 { font-size: 0.95rem; margin-bottom: 6px; }
+.category-card .cat-desc { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 8px; }
+.category-card ul { list-style: none; padding: 0; }
+.category-card li { font-size: 0.8rem; color: var(--text-secondary); padding: 2px 0; }
+.cat-border-1 { border-left: 4px solid var(--cat1); }
+.cat-border-2 { border-left: 4px solid var(--cat2); }
+.cat-border-3 { border-left: 4px solid var(--cat3); }
+.cat-border-4 { border-left: 4px solid var(--cat4); }
+.cat-border-5 { border-left: 4px solid var(--cat5); }
+.cat-border-6 { border-left: 4px solid var(--cat6); }
+.cat-border-7 { border-left: 4px solid var(--cat7); }
+.section-header { padding: 14px 20px; border-radius: 10px; margin: 30px 0 16px; color: white; font-size: 1.1rem; font-weight: 700; }
+.sh-1 { background: var(--cat1); } .sh-2 { background: var(--cat2); } .sh-3 { background: var(--cat3); }
+.sh-4 { background: var(--cat4); } .sh-5 { background: var(--cat5); } .sh-6 { background: var(--cat6); } .sh-7 { background: var(--cat7); }
+.paper-card { display: flex; gap: 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 14px; transition: box-shadow .2s; }
+.paper-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+.rank-col { display: flex; flex-direction: column; align-items: center; min-width: 48px; gap: 8px; }
+.rank-num { font-size: 1.4rem; font-weight: 800; color: var(--text-secondary); }
+.rank-gold { color: var(--gold); }
+.h-badge { background: #dbeafe; color: #1e40af; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 12px; white-space: nowrap; }
+.paper-body { flex: 1; min-width: 0; }
+.paper-body h3 { font-size: 1rem; margin-bottom: 8px; line-height: 1.4; }
+.paper-body h3 a { color: var(--text); text-decoration: none; }
+.paper-body h3 a:hover { color: var(--accent); text-decoration: underline; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; background: #f1f5f9; color: var(--text-secondary); }
+.authors { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px; }
+.contrib-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--accent); margin-bottom: 6px; }
+.contrib-list { list-style: none; padding: 0; }
+.contrib-list li { font-size: 0.88rem; padding: 3px 0; color: var(--text-secondary); }
+.contrib-list li::before { content: "\25B8 "; color: var(--accent); font-weight: bold; }
+details { margin-top: 10px; }
+summary { font-size: 0.82rem; color: var(--accent); cursor: pointer; font-weight: 600; }
+details .abstract-text { font-size: 0.84rem; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+footer { text-align: center; padding: 40px 20px; font-size: 0.8rem; color: #999; }
+@media (max-width: 600px) {
+  .paper-card { flex-direction: column; }
+  .rank-col { flex-direction: row; }
+  header h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>🤖 Robotics arXiv Digest</h1>
+  <div class="date">Wednesday, November 4, 2026</div>
+  <div class="header-stats">
+    <span class="stat">📄 30 papers</span>
+    <span class="stat">📂 7 research areas</span>
+    <span class="stat badge-claude">Generated by Claude</span>
+  </div>
+</header>
+<div class="landscape">
+  <h2>🔭 Research Landscape</h2>
+  <p>The dominant theme today is policies that improve themselves after pretraining. Reinforcement Learning Enables Scaling Generalist Robot Policy Improvement (#3) shows that a multi-task base policy can be improved online across many tasks at once, and that value-based RL plus a diverse training task distribution is what lets gains spill over to tasks never trained on. Compounding Physical RSI (#13) attacks the same problem from the failure side: it localizes which stage of a task broke, fixes it with behavior-regularized offline RL, and then interpolates weights with the previous generation to avoid forgetting, topping the 42-task RoboDojo-Sim leaderboard. PyRUA-REAL (#7) pursues the code-as-policy version of recursive self-improvement on real robots (91.1% over eight tasks), while Rethinking Self-Repair (#5) is a useful cold shower: with Qwen2.5-Coder-7B, template feedback recovers 85.3% of failures versus 68.3% for plain resampling, but generic static guidance does about as well, so much of the apparent value of failure feedback may be extra sampling and task hints.</p>
+  <p>A second thread is that evaluation and infrastructure are becoming first-class research objects. VABAR (#4), RoboCasa-Mem (#21), and the failure-boundary profiles of #22 each argue that a single success or driving score hides how agents actually fail, whether that is brittle code policies, missing memory, or an agent that never stops at a blocked corridor. Where Is VLA Inference Time Spent? (#9) does the same for deployment cost, showing that optimizations such as CUDA graphs, pruning and quantization interact differently across seven VLAs and four GPU families. On the simulation side, Cosmos interactive world simulation (#16) and TwinBridge (#24) show two ways to make simulators useful for training: learned action-conditioned video, or Gaussian-splat digital twins that supply policy initialization and dense rewards, reaching 98% success in at most 25 real minutes per task.</p>
+  <p>Finally, the physical-embodiment papers show a pragmatic turn toward structure rather than scale alone. HALO (#2) synthesizes vision-language-motion data across a thousand procedural homes and transfers zero-shot at 91% in unseen real homes, soccerbot (#19) constrains RL inside a latent human-motion manifold, and cuRoboV2-Fast (#1) plans torque-limited motions in 4.4 ms. Tactile and contact work (#12, #15) similarly asks which physical signal matters, rather than adding more sensors, and the safety papers (#6, #28, #30) wrap learned components in conservative guarantees. The picture is a field where learning supplies the capability and carefully chosen structure, evaluation and safety margins decide whether it can be trusted.</p>
+</div>
+<div class="category-grid">
+  <div class="category-card cat-border-1">
+    <h3>VLA Policies &amp; Recursive Self-Improvement</h3>
+    <p class="cat-desc">How generalist policies get better after deployment: multi-task RL, failure-localized self-evolution, code-as-policy agents, attention alignment, and the cost of running VLAs.</p>
+    <ul>
+      <li>#3 Reinforcement Learning Enables Scaling Generalist Ro...</li>
+      <li>#13 Compounding Physical RSI: Turning Execution Failure...</li>
+      <li>#7 PyRUA-REAL: Robot Exploration and Adaptive Learning...</li>
+      <li>#5 Rethinking Self-Repair in Code-as-Policy Agents: Wha...</li>
+      <li>#23 $A^3$-VLA: Automatic Perception-Guided Attention Ali...</li>
+      <li>#9 Where Is VLA Inference Time Spent? Bottlenecks and O...</li>
+      <li>#14 Detecting Silent Action-Interface Mismatch with Cali...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-2">
+    <h3>Humanoid &amp; Whole-Body Control</h3>
+    <p class="cat-desc">Scaling humanoid skills with synthetic data, human motion priors and physics-aware multi-agent factorization.</p>
+    <ul>
+      <li>#2 Perceptive Humanoid Motion from Simulation</li>
+      <li>#19 Playing Soccer Like Humans Do: Learning Versatile an...</li>
+      <li>#20 H^2MARL: Hierarchical Heterogeneous Multi-agent Rein...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-3">
+    <h3>Motion Planning, Control &amp; Soft Robots</h3>
+    <p class="cat-desc">Fast torque-limited planning, safe reachability sets and model-based control of soft and continuum bodies.</p>
+    <ul>
+      <li>#1 cuRoboV2-Fast: Fast Torque-Limited Collision-Free Mo...</li>
+      <li>#6 ConDR: Conservative Reachability through Neural Hami...</li>
+      <li>#17 Dynamic Shape Control of Soft Trunk Robots</li>
+      <li>#29 Riemannian Optimization-based Whole-body Obstacle Av...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-4">
+    <h3>Touch, Contact &amp; Haptics</h3>
+    <p class="cat-desc">What contact signals matter: tactile cues for imitation, contact-based surface estimation, vortex-gripper torque and haptic teleoperation.</p>
+    <ul>
+      <li>#12 Which Physical Tactile Cues Matter for Contact-Rich...</li>
+      <li>#15 SCRUB: Contact-Based Surface-Frame Estimation for Fo...</li>
+      <li>#26 Vortex-Induced Torque in Grasping Soft Objects: Infl...</li>
+      <li>#11 Cognitive and Behavioural Effects of Haptic Feedback...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-5">
+    <h3>Navigation, Perception &amp; SLAM</h3>
+    <p class="cat-desc">Deciding when to look and how to see: UAV-assisted off-road navigation, occlusion completion in forests and foundation-model loop closure and SLAM.</p>
+    <ul>
+      <li>#10 When to Ask for Help: Uncertainty-Triggered Aerial R...</li>
+      <li>#18 FOSCo-Net: Ego-centric Voxel Completion for Forest L...</li>
+      <li>#25 UniLoop: Unified Loop Closure Detection from Retriev...</li>
+      <li>#27 Scale Anchoring via Implicit Semantics and Sequence-...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-6">
+    <h3>Autonomous Driving Safety &amp; Evaluation</h3>
+    <p class="cat-desc">Runtime safety nets and evaluation beyond a single score: cooperative RSU intervention, emergency-braking corridors and failure-boundary profiles.</p>
+    <ul>
+      <li>#30 CoSafe: Cooperative Runtime Safety Assurance for Mix...</li>
+      <li>#28 Corridor-Based Monitoring and Emergency Braking Deci...</li>
+      <li>#22 Beyond Infraction Scores: Failure-Boundary Profiles...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-7">
+    <h3>Simulation, Benchmarks &amp; Surveys</h3>
+    <p class="cat-desc">Infrastructure for measurable progress: interactive world simulators, digital-twin RL, agentic and memory benchmarks and a dexterous-hand survey.</p>
+    <ul>
+      <li>#16 Interactive World Simulation with Cosmos for Physica...</li>
+      <li>#24 TwinBridge: Digital Twin-Driven Policy and Reward Tr...</li>
+      <li>#4 VABAR: A Variational Automation Benchmark for Agenti...</li>
+      <li>#21 Robocasa-Mem: Benchmarking Environment and Process M...</li>
+      <li>#8 Dexterous Robotic Hands in the Foundation-Model Era:...</li>
+    </ul>
+  </div>
+</div>
+<div class="section-header sh-1">VLA Policies &amp; Recursive Self-Improvement</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#3</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06905v1" target="_blank">Reinforcement Learning Enables Scaling Generalist Robot Policy Improvement</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.LG</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Michal Korniak (h=n/a)</span>
+    </div>
+    <div class="authors">Michal Korniak, Marco Bagatella, Ralf Römer, Michal Nauman, Yarden As</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Asks a question prior single-task RL work skips: can a multi-task generalist policy be improved online on many tasks simultaneously, instead of overfitting to one deployment task?</li>
+      <li>Builds structured evaluations and systematically ablates value estimation, policy extraction and resource allocation, producing a concrete recipe instead of a one-off result.</li>
+      <li>Finds that improvement generalizes to tasks not seen in online training, but only when the training task distribution is diverse and value-based RL is used, a useful guide for how to collect deployment experience.</li>
+      <li>Presented as among the first evidence of online generalist improvement for robot foundation models, shifting the adaptation question from per-task fine-tuning to fleet-wide improvement.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">The introduction of generalist robot policies has enabled a single, large model to learn to perform a variety of tasks from a vast pre-training corpus. While these models often exhibit powerful zero-shot generalization capabilities, they typically require an adaptation phase to achieve sufficient performance in deployment. Iterated self-improvement via reinforcement learning (RL) has demonstrated promise in enabling this adaptation, yet such approaches have been largely explored in single-task settings - where the goal is to simply improve on a narrow deployment task - which lies in stark contrast to the multi-task capabilities of the base policy. In this work we ask whether generalist robot policies are capable of multi-task, generalist improvement in deployment - targeting many diverse tasks simultaneously - and what algorithmic recipe enables this. To answer this question, we first develop a set of structured evaluations to test generalist improvement capabilities, and systematically evaluate algorithmic and practical design choices regarding value estimation, policy extraction and resource allocation. We show that not only can generalist policies be improved online across diverse tasks, but that the right recipe can enable generalization and increase performance on tasks not considered during online training. We characterize when this generalization occurs and show that both the training task distribution and the use of value-based RL are critical. To the best of our knowledge, this is among the first evidence for online generalist improvement for robot foundation models.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#13</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06654v1" target="_blank">Compounding Physical RSI: Turning Execution Failure into Inherited Capability</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Yixuan Yang (h=n/a)</span>
+    </div>
+    <div class="authors">Yixuan Yang, Qiang Chen, Run Shao, Shuwei Dong, Wenhao Li</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Exploits that manipulation success is roughly a product of stage pass rates, so fixing one bottleneck reveals the next and gains can compound across generations.</li>
+      <li>Automated capability-gap assessment traces failed rollouts to the specific stage where progress broke, solving the credit-assignment problem terminal success signals leave open.</li>
+      <li>The remedy stage refines the policy with behavior-regularized offline RL on curated stage-relevant experience, avoiding costly online rollouts at every step.</li>
+      <li>A retention stage interpolates weights between reference and refined policy, evaluates candidates across the suite and promotes the best, guarding against forgetting; it ranks first on RoboDojo-Sim (42 tasks) with overall score 26.15 and 20.70% success, 5.82 points ahead.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Generalist robot policies are trained on static offline datasets, yet physical manipulation unfolds sequentially across stages. Because a weakness in a downstream stage remains unobservable until the policy passes earlier ones, each resolved bottleneck exposes the next hidden failure mode. This staged structure calls for Recursive Self-Improvement (RSI), in which a policy iteratively executes, diagnoses failures, and updates itself. Moreover, because task completion behaves like a product of stage-level pass rates, recursive gains can multiply across generations. In physical environments, three bottlenecks obstruct compounding: terminal execution feedback rarely localizes the stage that caused a failure, failed trajectories do not supply the corrective action, and updating shared parameters can degrade previously mastered skills.   We propose Compounding Physical RSI, a self-evolving policy framework that turns execution failures into heritable capability. First, automated capability-gap assessment traces failed rollouts to the task stage where progression breaks down and formulates a structured improvement objective. Second, conditioned on this objective, our remedy stage curates validated, stage-relevant experience and refines the policy via behavior-regularized offline reinforcement learning, without requiring costly online rollouts at each optimization step. Third, to safeguard existing skills, our retention stage constructs weight-space candidates between the inherited reference policy and the refined policy, evaluates them across the task suite, and promotes the best candidate as the reference state for the next generation.   Evaluated across all 42 tasks of the RoboDojo-Sim benchmark, CSU-AI-07 ranks first on the leaderboard with a three-seed mean Overall Score of 26.15 and Success Rate of 20.70%, outperforming the next-best entry by 5.92 points and 5.82 percentage points.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#7</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06768v1" target="_blank">PyRUA-REAL: Robot Exploration and Adaptive Learning through RSI in the Real World</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Qiang Wang (h=n/a)</span>
+    </div>
+    <div class="authors">Qiang Wang, Jianxin Bi, Shulong Jiang, Ruiyang Si, Wenbo Huang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Treats embodied recursive self-improvement as a loop where coding agents explore physically, refine code from execution feedback, and store experience as persistent memory and reusable executable skills.</li>
+      <li>Studies what makes the loop work: how agents collaborate, which execution feedback helps, and how task specs and earlier skills affect robustness and transfer.</li>
+      <li>Resulting programs are deployed without an online agent in the loop, so the gain is efficient standalone skills rather than ongoing LLM calls.</li>
+      <li>Reports 91.1% average success on eight real tasks and 84.4% on 42 RoboDojo tasks.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Coding agents powered by models such as GPT-6-Astra connect spatial reasoning with executable robot behavior, raising the question of how such agents can produce lasting improvements in robot capabilities from physical interaction. In this work, we study embodied recursive self-improvement (RSI) through real-world exploration, code refinement, and deployment using PyRUA-REAL, a framework in which coding agents retain interaction experience as persistent memory and reusable executable skills that inform subsequent exploration and improvement. Our empirical study places physical manipulation at the center of the improvement process, examining how agents collaborate, what kinds of execution feedback support effective code refinement, and how task specifications and previously acquired skills influence robustness and task transfer. We further investigate the efficiency and capability of the resulting programs when deployed without involving an online agent for decision-making. Across eight real-world tasks, PyRUA-REAL achieves an average success rate of 91.1%. In complementary evaluation on 42 tasks from the RoboDojo benchmark, it achieves an average success rate of 84.4%. This study provides empirical guidance for turning physical exploration into reusable robot skills that support continued improvement and robust, efficient deployment.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#5</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06863v1" target="_blank">Rethinking Self-Repair in Code-as-Policy Agents: What Drives Retry Success?</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Siddharth Aphale (h=n/a)</span>
+    </div>
+    <div class="authors">Siddharth Aphale, Ayushman Singh</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Separates three effects usually bundled together in retry loops: failure-specific feedback, extra sampling and task guidance.</li>
+      <li>On 252 identical initial failures, Qwen2.5-Coder-7B recovers 85.3% in five retries with template feedback versus 68.3% by plain resampling, and the gap persists under equal token budgets.</li>
+      <li>Yet feedback from other episodes and static task guidance give similar recovery, and matching the coarse failure label shows no detected benefit, which questions the claim that the specific diagnosis is what helps.</li>
+      <li>Template feedback even hurts a nut-insertion task needing a rim grasp because its instruction assumes a center grasp, so self-repair studies should include resampling, mismatched feedback and concise static guidance as baselines.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Code-as-policy agents often use execution feedback to retry failed programs. Additional sampling and task guidance can also improve success, leaving the contribution of failure-specific feedback unclear. We study this question in simulated robot manipulation. A fixed lookup selects feedback templates using failure labels and the API variant. A frozen code model generates a fresh program after each scene reset. On the same 252 initial failures, Qwen2.5-Coder-7B recovers 85.3% within five retries, compared with 68.3% for resampling with the same retry cap. The advantage persists under fixed total-token budgets. Feedback from other episodes and fixed task guidance yield similar recovery point estimates, with no detected benefit from matching the coarse failure label. In a separate study, a fixed guided prompt used from the first attempt achieves an observed overall success rate similar to that of template-based feedback. Template-based feedback also lowers recovery on a nut-insertion task requiring a rim grasp, consistent with an incompatible center-grasp instruction. Evaluations of robot self-repair should include resampling, mismatched feedback, and concise, task-compatible static guidance as baselines.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#23</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06447v1" target="_blank">$A^3$-VLA: Automatic Perception-Guided Attention Alignment for Robot Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Shengzhe Zhang (h=n/a)</span>
+    </div>
+    <div class="authors">Shengzhe Zhang, Qi Zhang, Dazhong Shen, Chao Wang, Shaopeng Zhai</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Argues that the action-prediction loss gives no fine-grained perceptual supervision, so VLAs latch onto task-irrelevant visual shortcuts instead of target objects and interaction regions.</li>
+      <li>Derives guidance from the manipulation itself: interaction-induced visual changes give candidate target and robot regions, refined offline by a segmentation model, with no manual annotation.</li>
+      <li>Two losses use these regions: an attention allocation loss for language or robot-state queries, and a contrastive loss aligning target regions with instructions and separating distractors.</li>
+      <li>Improves several VLA backbones with average success gains of 6.5% to 25.2% across simulated and real benchmarks.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision-Language-Action Models (VLAs) enable robots to perform manipulation tasks by leveraging Vision-Language Models (VLMs) to process visual observations and language instructions. However, the action prediction objective itself lacks fine-grained task-specific perceptual supervision, making it prone to relying on task-irrelevant visual shortcuts, leading attention away from target objects and key interaction areas, thereby limiting its operational performance and generalization ability. To address this, we propose Automatic Perception-Guided Attention Alignment for Robot Manipulation ($A^3$-VLA), a framework that derives task-specific visual guidance from the manipulation process itself. Specifically, $A^3$-VLA first generates heuristic candidate regions for target objects and the robot from interaction-induced visual changes, and refines them with a visual segmentation model offline. These regions serve as explicit perceptual guidance through two complementary objectives: an attention allocation loss that encourages sufficient focus on task-critical regions when language or robot state tokens query the visual input, and a contrastive learning loss that aligns the representations of candidate target regions with language instructions while separating them from task-irrelevant regions. Extensive experiments on simulated and real-world manipulation tasks demonstrate that $A^3$-VLA consistently improves multiple VLA backbones, with an average success rate gain of 6.5% - 25.2% across benchmarks.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#9</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06710v1" target="_blank">Where Is VLA Inference Time Spent? Bottlenecks and Optimization Interactions Across GPUs</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Muhammad Danish Waseem (h=n/a)</span>
+    </div>
+    <div class="authors">Muhammad Danish Waseem, Ahmed Ali-Eldin Hassan</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Fills a gap in VLA efficiency research, where optimizations are usually reported on one GPU and a few models, by measuring seven optimization families on seven VLAs across four GPU families from H100 to Jetson Thor.</li>
+      <li>Decomposes latency into CPU launch overhead, memory bandwidth and kernel efficiency, explaining why the same technique helps on one device and barely on another.</li>
+      <li>Shows that optimizations interact: applying one changes how much another gains, so stacking them naively can disappoint.</li>
+      <li>Distills this into VLA-Triage guidelines for stacking optimizations under a latency budget, including which combinations need testing in the deployed execution mode.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision-language-action (VLA) models map camera observations and language instructions to robot actions. However, their large backbones and repeated action generation can make inference take longer than the robot&#x27;s real-time requirements for its next action. To reduce the load of VLA computations, researchers have proposed multiple optimization approaches, including quantization and pruning. These optimizations can be combined with other general optimizations such as better kernel compilation or using CUDA graphs instead of the eager mode. However, most of these optimization results are usually reported on a single GPU type, typically for a few VLA models, with no analysis of what the real bottlenecks are for a model on a particular hardware or how these optimizations would generalize beyond the reported results. In this paper, we provide a comprehensive measurement study of seven families of inference optimization methods, from CUDA graphs and compilation to token pruning and quantization, on seven state-of-the-art VLAs evaluated on four GPU families ranging from a datacenter H100 to an embedded Jetson Thor. We analyse how CPU launch overhead, memory bandwidth, and kernel efficiency jointly shape optimization gains, and how applying one method changes the benefit of another. From this analysis, we derive VLA-Triage, guidelines for stacking optimizations under latency budgets. The guidelines identify which stages can provide the required savings and which combinations need testing in the deployed execution mode.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#14</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06653v1" target="_blank">Detecting Silent Action-Interface Mismatch with Calibrated Relational World Models</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.LG</span>
+      <span class="pill">👤 Rui Zhu (h=n/a)</span>
+    </div>
+    <div class="authors">Rui Zhu, Xurui Li, Haixu Tang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Targets a quiet failure mode: actions that pass shape and range checks but have wrong semantics such as permuted axes, flipped signs, rescaled rotations or reversed gripper polarity.</li>
+      <li>Learns state-action-effect relations from clean data as offline contracts, calibrating alarms at a 2.5% clean false-positive rate.</li>
+      <li>On ten LIBERO Spatial tasks, a joint Gaussian mixture reaches 61.0% recall versus 46.1% for a ridge forward model, and its exact conditional reaches 65.7%, though joint scoring localizes the faulty field slightly better (95.8% vs 94.6%).</li>
+      <li>Candid about limits: DROID, HYDRA tasks, small offsets and short temporal faults fail the gates, so it is a bounded offline diagnostic rather than cross-robot safety.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">A robot action can satisfy shape and range constraints yet carry the wrong semantics: axes may be permuted, signs inverted, rotations rescaled, or gripper polarity reversed. We study learned state-action-effect relations as offline contracts for detecting these mismatches and ranking their likely fields. Clean held-out transitions calibrate alarms; a fixed inverse vocabulary supports closed-set localization. On ten LIBERO Spatial tasks comprising 432 source episodes, a capacity-controlled comparison at 2.5% empirical clean false-positive rate gives 46.1% recall for a ridge forward residual, 61.0% for a four-component joint Gaussian mixture, and 65.7% for the exact conditional of that same mixture. The joint score retains a 14.9 percentage-point advantage over ridge, while conditioning improves recall by a further 4.7 points. Joint scoring instead has higher localization: 95.8% versus 94.6%. These matched-rate comparisons are retrospective diagnostics, not deployment calibration guarantees. Earlier Object/Goal results broaden tasks within the LIBERO convention; DROID, all three HYDRA tasks, short temporal faults, small offsets, exact repair, and simulated mitigation fail their respective gates, while xArm contributes one task only. The evidence supports a bounded offline diagnostic and a detection-localization tradeoff, rather than joint-density superiority or cross-robot safety.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-2">Humanoid &amp; Whole-Body Control</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#2</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06908v1" target="_blank">Perceptive Humanoid Motion from Simulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">cs.CV</span><span class="pill">cs.LG</span>
+      <span class="pill">👤 Siyuan Hu (h=n/a)</span>
+    </div>
+    <div class="authors">Siyuan Hu, Abulikemu Abuduweili, Yue Meng, Shipeng Liu, Quentin Leboutet</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Attacks the humanoid data bottleneck by synthesizing vision-language-motion data across a thousand procedurally generated homes, so the corpus grows with compute instead of an hour of human time per hour of data.</li>
+      <li>One system learns diverse skills (sitting, crouching under tables, side-stepping through half-open doors, pushing boxes) and chains them into long-horizon composite tasks.</li>
+      <li>Trained without ever seeing a real home, it transfers zero-shot at 91% success over 360 trials in six unmapped real environments, which is strong evidence that purely simulated supervision can reach perception-driven whole-body behavior.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Humanoid robots have the potential to automate a wide range of physical tasks. Progress toward generalist humanoid autonomy, however, remains constrained by a data bottleneck: mapping pixels and free-form language to low-level joint commands requires paired supervision, and no corpus of such data exists at sufficiently large scale. Some approaches rely on human teleoperation and wearable capture devices, which require at least an hour of human time to produce an hour of data. We present HALO, a humanoid autonomy system powered by a pipeline that synthesizes vision-language-motion data across a thousand procedurally generated homes. The corpus scales with compute rather than human labor. HALO acquires a repertoire of physical skills, including sitting on chairs, navigating to named objects, stepping sideways through half-open doors, crouching and crawling beneath tables, and pushing boxes. It orchestrates these skills to solve composite, long-horizon tasks. Without ever seeing a real home during training, HALO transfers zero-shot to the physical world, achieving a 91% success rate across 360 trials in six unmapped real-world environments. See https://apple-aiml-research.github.io/ml-halo/ for code and videos.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#19</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06564v1" target="_blank">Playing Soccer Like Humans Do: Learning Versatile and Agile Humanoid Soccer via Latent Motion Priors</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Haoyu Shao (h=n/a)</span>
+    </div>
+    <div class="authors">Haoyu Shao, Yunshen Wang, Jingze Zhang, Shaohang Zhu, Yong-Lu Li</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Existing humanoid soccer systems either cover few skills or skip motion priors and look unnatural; soccerbot gets both through a latent motion prior distilled from large-scale human soccer mocap.</li>
+      <li>Constraining RL to this dynamically plausible manifold lets one skill-conditioned policy do moving, dribbling, trapping and kicking, with fluid transitions on command.</li>
+      <li>Robustness-oriented simulation design enables zero-shot transfer to the Unitree G1 with the full skill repertoire in real conditions.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Humanoid soccer requires a robot to seamlessly combine agile locomotion, ball manipulation, and impact-rich contact dynamics across a continuous, dynamic behavioral spectrum. Yet existing approaches either cover only a limited set of skills, or forego motion priors entirely and produce unnatural behaviors, leaving the combination of a unified skill set and human-like motion quality unaddressed. We present soccerbot, a hierarchical reinforcement learning framework that resolves both limitations through a structured latent motion prior distilled from large-scale human soccer motion capture data. By constraining policy learning within this dynamically plausible motion manifold, a single skill-conditioned policy naturally learns to perform moving, dribbling, trapping, and kicking in a unified formulation, while inherently producing human-like motion and fluid transitions during commanded skill switching. Augmented by robustness-oriented simulation design, soccerbot transfers zero-shot to the Unitree G1 humanoid robot, demonstrating agile, natural, and robust execution of the full soccer skill repertoire under real-world conditions.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#20</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06523v1" target="_blank">H^2MARL: Hierarchical Heterogeneous Multi-agent Reinforcement Learning for Humanoid Robot Control</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Xuemin Hu (h=n/a)</span>
+    </div>
+    <div class="authors">Xuemin Hu, Kaixin Li, Qingqing Xia, Yuxin Wang, Wei Xie</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Treats each torque-actuated joint DoF as an agent conditioned on a descriptor of its actuation, kinematic and dynamic properties, rather than using coarse limb-level partitions or generic heterogeneous-agent algorithms.</li>
+      <li>A closed-loop policy-executor co-optimization jointly adapts the high-level pose planner and low-level joint executor on shared trajectories, reducing the planner-executor distribution mismatch of independently trained hierarchies.</li>
+      <li>In MuJoCo and Isaac Gym it improves locomotion stability, gait coordination and motion quality over homogeneous, coarse-grained and independently optimized variants.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Coordinated whole-body control of humanoid robots remains challenging due to high-dimensional coupled dynamics and substantial physical heterogeneity across joint degrees of freedom (JDoFs). Existing multi-agent reinforcement learning methods either employ coarse agent partitions or directly apply generic heterogeneous-agent algorithms, while hierarchical controllers commonly optimize high-level planning and low-level execution independently, leading to uncoordinated motion. In this paper, we propose H^2MARL, a hierarchical heterogeneous multi-agent reinforcement learning framework with two key mechanisms. We first formulate humanoid whole-body control using a JDoF-level physical-heterogeneity-aware policy factorization, where each torque-actuated JDoF is conditioned on an explicit descriptor of its actuation, kinematic, and dynamic properties. Moreover, we develop a closed-loop policy-executor co-optimization mechanism that jointly adapts the high-level pose planner and the low-level joint executor using shared interaction trajectories, thereby reducing the distribution mismatch between planning and execution. Extensive experiments in MuJoCo and Isaac Gym demonstrate that H^2MARL consistently improves locomotion stability, gait coordination, and motion quality over homogeneous, coarse-grained, and independently optimized alternatives.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-3">Motion Planning, Control &amp; Soft Robots</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#1</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06913v1" target="_blank">cuRoboV2-Fast: Fast Torque-Limited Collision-Free Motion Planning</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Balakumar Sundaralingam (h=n/a)</span>
+    </div>
+    <div class="authors">Balakumar Sundaralingam, Adithyavairavan Murali, Stan Birchfield</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Unlike cuRoboV2, which paid for torque limits and payload awareness with slow refinement, this replaces trajectory parameterization with B-splines and adds differentiable inverse dynamics, so fewer iterations are needed and payload changes are handled directly.</li>
+      <li>TimeOpt retimes motion along a fixed path under sampled velocity, acceleration, jerk and torque limits, and uses local spline support to turn the problem into banded Newton systems that map well to GPUs.</li>
+      <li>With a 3 kg payload it plans in 4.4 ms on an RTX 5090 (14.7x faster than cuRoboV2), and on a Jetson AGX Orin it still beats cuRoboV1 + TOPPRA run on the desktop GPU, which matters for onboard planning.</li>
+      <li>On a real stereo-camera pick-and-drop setup, completed cycles average 5.93 s, 34.6% shorter, showing the speedup translates into task throughput and not only planner benchmarks.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We present cuRoboV2-Fast, a GPU-accelerated planner that reduces both planning latency and execution time for collision-free, payload-aware, torque-limited motions. B-spline trajectory optimization reduces the required iterations, while accelerated robot computations and differentiable inverse dynamics reduce refinement cost and accommodate changing payloads. TimeOpt optimizes traversal speed along the fixed path under sampled velocity, acceleration, jerk, and torque constraints, exploiting local spline support to solve banded Newton systems efficiently on the GPU. With a 3,kg payload, cuRoboV2-Fast achieves 4.4 ms mean planning time on RTX 5090, 14.7x faster than cuRoboV2. Our method on Jetson AGX Orin plans faster than cuRoboV1 + TOPPRA on RTX 5090. A stereo-camera-based deployment on YAM achieves 5.93 s mean completed pick-and-drop cycles, 34.6% shorter than cuRoboV2. Code (Apache 2.0): www.github.com/NVlabs/curobo , Project Page: www.research.nvidia.com/labs/lpr/curobov2-fast .</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#6</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06802v1" target="_blank">ConDR: Conservative Reachability through Neural Hamilton-Jacobi Subsolutions</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.LG</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Kendra Givens (h=n/a)</span>
+    </div>
+    <div class="authors">Kendra Givens, Taylor T. Johnson, Bryan C. Ward, Thomas Beckers</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>DeepReach-style neural HJ reachability penalizes the residual symmetrically, so the learned value can sit above the true one and label unsafe states safe; ConDR uses a one-sided loss that pushes the residual to a margin epsilon below zero.</li>
+      <li>Enforces the obstacle branch and terminal condition by construction and blocks the degenerate &#x27;everything unsafe&#x27; solution, so conservatism is not obtained trivially.</li>
+      <li>Proves the margin-shifted solution is a subsolution whose unsafe set contains the true one, with value within epsilon times tau of the true value, giving a formal safety direction that earlier learned reachability lacked.</li>
+      <li>On Air3D, Air6D, a 9D multi-vehicle system and a 13D quadrotor it has the lowest misclassification and collision rates, and at matched false-negative rates its unsafe sets are smaller than baselines&#x27;.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Hamilton-Jacobi (HJ) Reachability identifies the unsafe states of a dynamical system from which it can be forced into failure under worst-case disturbance. However, classical grid-based solvers scale exponentially with state dimension. DeepReach improves scalability by replacing the grid with a neural value function trained on the HJ-Isaacs (HJI) variational inequality (VI), but penalizes both sides of the residual equally. This allows the learned value to lie above the true one and unsafe states to be misclassified as safe. We propose Conservative DeepReach (ConDR) which aims to learn a subsolution of the HJI VI such that the learned unsafe set contains the true one. ConDR enforces the obstacle branch and terminal condition by construction, pushes the HJI residual to a safety margin $ε$ below zero with a one-sided loss, and prevents the degenerate solution of classifying everything as unsafe. We prove that the exact solution of the margin-shifted VI that ConDR trains toward is a subsolution of the original VI so its unsafe set contains the true one and its value lies within $ετ$ of the true value function. We compare against DeepReach and MADR in the established systems of Air3D, Air6D, a 9D multi-vehicle system, and a 13D quadrotor. ConDR reports the lowest rate of unsafe state misclassified and the lowest closed-loop collision rates with at most a small increase in intervention. On Air3D and Air6D, ConDR tolerates model mismatch that scales with $ε$. At matched false-negative rates, ConDR&#x27;s unsafe sets are smaller than the baselines showing the safety is not obtained by trivial over-approximation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#17</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06625v1" target="_blank">Dynamic Shape Control of Soft Trunk Robots</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Hehui Zheng (h=n/a)</span>
+    </div>
+    <div class="authors">Hehui Zheng, Marc Stampanoni, Roshan S. Kaundinya, Ronan Hinchet, George Haller</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Controls the shape of the whole body of a helicoid-style tendon-driven soft trunk, not just its end effector, which is hard because the dynamics are strongly nonlinear.</li>
+      <li>Learns a full-body adiabatic spectral submanifold (aSSM) model from data, giving a low-dimensional nonlinear model used inside MPC.</li>
+      <li>On dynamic shape regulation it beats linear baselines by a factor of 10, and in interactive demos it shapes the trunk section by section and balances a tennis ball for over 25 s.</li>
+      <li>A model-free RL policy trained 12 hours on hardware failed the same balancing task, a notable data-efficiency argument for model-based control of soft robots.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Controlling the shape profile of soft trunk robots extends their reach into complex regions of the workspace and enhances their use in practical applications. Recent advances in soft robot design have enabled soft trunk robots to achieve greater flexibility in conforming to complex shapes. Specifically, trunk robots whose geometries are designed as helicoids have been shown to enable extreme shape-changing capabilities. Their compliance makes them highly nonlinear, which in turn makes shape control difficult. On similar tendon-driven trunk robots, model-based controllers based on the theory of adiabatic spectral submanifolds (aSSMs) have achieved high accuracy in closed-loop end-effector tracking. We extend this approach by learning an aSSM model of the full body of a trimmed-helicoid soft trunk robot from data and use this in a model predictive control (MPC) scheme to demonstrate a range of shape control tasks on hardware. On closed-loop dynamic shape regulation, our method outperforms the available linear baselines by a factor of 10. In human-in-the-loop interactive demos, our method completes section-by-section shaping and balances a tennis ball for over 25 seconds, while the linear baselines fall short. A model-free reinforcement learning policy trained for 12 hours on hardware fails on the same balancing task. These results establish aSSM-based MPC as a practical route to full-body shape control on real soft hardware.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#29</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06214v1" target="_blank">Riemannian Optimization-based Whole-body Obstacle Avoidance for Mobile Continuum Robots in Cluttered Environments</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Duo Tang (h=n/a)</span>
+    </div>
+    <div class="authors">Duo Tang, Ping Deng, Sophie Armanini, Yajing Shen, Toshio Fukuda</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Unifies base motion and continuum-arm deformation in one whole-body framework, where prior work plans path and local motion separately and loses coordination.</li>
+      <li>The global layer uses A* with minimum-jerk smoothing; the local layer uses a geometry-consistent inverse kinematics solver with Riemannian optimization to avoid obstacles while respecting kinematic constraints.</li>
+      <li>Tested in simulated pipe traversal against baseline planners and in real dense-obstacle navigation and confined-space manipulation, with better motion consistency and feasibility.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Inspired by the coordination of global motion and local shape adaptation in snakes, elephant trunks, and octopus arms, we propose a unified planning and control framework for mobile continuum robots in cluttered and confined environments. Existing approaches often address high-level path planning and local motion control separately, limiting coordinated base-arm motion, kinematic consistency, and collision avoidance. Our framework integrates long-horizon trajectory planning with real-time geometric refinement under kinematic and environmental constraints. The global layer combines A* search with minimum-jerk planning to generate smooth reference trajectories. The local layer uses a geometry-consistent inverse kinematics solver and Riemannian optimization to coordinate mobile-base motion and continuum deformation while avoiding obstacles. We evaluate the framework through simulated pipe-traversal tasks with multiple baseline planners and real-world experiments involving navigation among dense obstacles and manipulation in confined spaces. Results demonstrate improved motion consistency, feasibility, and adaptability, supporting coordinated whole-body motion of mobile continuum robots in constrained environments.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-4">Touch, Contact &amp; Haptics</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#12</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06673v1" target="_blank">Which Physical Tactile Cues Matter for Contact-Rich Imitation Learning? A Controlled Real-Robot Study</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Xuhao Qin (h=n/a)</span>
+    </div>
+    <div class="authors">Xuhao Qin, Xiyan Huang, Haoyu Dong, Xi Zhang, Chenxi Xiao</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Rather than feeding raw tactile images to a policy, it derives three physically interpretable streams from one visuo-tactile sensor: RGB appearance, normal/depth geometry and marker-flow tangential deformation.</li>
+      <li>Controlled design (same demos, same backbone, 720 real-robot trials on LeRobot) isolates which cue matters.</li>
+      <li>Tactile input lifts overall success from 57.8% to 78.9%, and marker flow is the best single cue (74.4%), especially for regulating contact once established.</li>
+      <li>Cue-factorized encoders beat a shared one, and lightweight cross-attention fusion matches pretrained tactile encoders, a practical recipe for low-cost visuo-tactile policies.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vision-based tactile sensors capture multiple aspects of physical interaction within a single image stream, including contact appearance, geometry, indentation depth, and tangential deformation. However, existing visuo-tactile policies often directly process tactile observations as images, making it difficult to determine which physical cues contribute to policy learning. This paper presents a controlled real-robot study that compares physically interpretable tactile signals using the LeRobot platform, enhanced with our visuo-tactile perception system. From the same tactile stream, we derive tactile RGB images, normal/depth maps, and marker-flow fields, representing contact appearance, geometry, and tangential deformation, respectively. Using identical task demonstrations and the same policy backbone, we evaluate the individual and combined contributions of these tactile cues. We further compare tactile encoders and visuo-tactile fusion strategies. Evaluation across 720 real-robot trials yields four key findings: (1) tactile perception substantially improves the overall success rate from 57.8% to 78.9%, although its contribution varies across task stages; (2) marker flow is the most effective individual cue, achieving a success rate of 74.4% and playing a particularly important role in regulating established contact; (3) cue-factorized encoding consistently improves performance, highlighting that different physical cues require tailored processing techniques; and (4) although the effectiveness of tactile fusion is task-dependent, cross-attention offers a lightweight solution with performance comparable to that of pretrained tactile encoders.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#15</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06649v1" target="_blank">SCRUB: Contact-Based Surface-Frame Estimation for Force-Motion Control with an Armless Quadruped</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Sourav Selvaraj (h=n/a)</span>
+    </div>
+    <div class="authors">Sourav Selvaraj, Juan Pablo Espinosa Chessal, Mahdi Agheli</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Solves force control on unmapped surfaces for a legged robot, where the walking gait breaks the usual assumption that tool velocity lies along the surface.</li>
+      <li>Combines a force cue (tilt of the normal, independent of the friction coefficient when friction opposes motion) with a velocity cue that subtracts the commanded press rate and averages over each gait cycle.</li>
+      <li>A Kalman filter fuses both cues inside a predictive controller so an armless Unitree Go1 can slide a body-mounted tool along near-vertical walls and columns.</li>
+      <li>Every wall traverse and column orbit succeeded, while no orbit completed with either cue removed, gait averaging disabled or a fixed normal, so each component is necessary.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Wiping, sanding, and inspection robots press a sliding tool on a surface with controlled force. Controlling that force needs the surface normal, which is unknown on real-world, unmapped surfaces. Surface-normal estimators can help estimate the surface normal, but they either need a friction model or assume that the instantaneous tool velocity lies along the surface; however, walking violates this assumption. We propose SCRUB, a contact-based surface-frame estimator, which lets an armless quadruped slide a body-mounted tool along near-vertical surfaces in the absence of known, axis-aligned, or vision-predicted normals. SCRUB&#x27;s predictive controller presses and slides the tool using a Kalman-filter estimate of the normal from two cues: 1) A force cue measures the estimate&#x27;s tilt across the motion. If friction directly opposes the motion, the cue is zero exactly when that tilt is zero, for any friction coefficient. However, if the cue&#x27;s sliding direction is wrong, friction appears as a false tilt. 2) A velocity cue measures tilt along the motion. Walking and pressing move the tool in and out. SCRUB therefore subtracts the commanded press rate from the tool velocity, averages the result over each gait cycle, and treats this mean as lying along the surface. On Unitree Go1 hardware at nominal speed and load, SCRUB completed every wall traverse and column orbit. No orbit completed with either cue removed, without gait averaging, or with a fixed normal.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#26</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06359v1" target="_blank">Vortex-Induced Torque in Grasping Soft Objects: Influence of Geometry and Pneumatic Parameters</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Roman Mykhailyshyn (h=n/a)</span>
+    </div>
+    <div class="authors">Roman Mykhailyshyn, Tomohiro Motoda, Ivan Virgala, Ann Majewicz Fey, Yukiyasu Domae</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Characterizes a little-studied effect: the torque a vortex gripper transmits to compliant objects, which matters for handling packaging and soft goods.</li>
+      <li>Finds that a larger tangential nozzle mainly increases sensitivity to supply pressure rather than uniformly raising torque, and that dome-concave surfaces give much more torque than dome-convex ones, while cylindrical concave and convex differ little.</li>
+      <li>Gaussian Process Regression predicts torque best from pneumatic and geometric parameters under repeated cross-validation, offering a basis for exploiting the torque in dexterous soft-object manipulation.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Vortex grippers are commonly integrated into automated systems for handling objects with complex geometries in packaging, sorting, and assembling. However, their interaction with compliant objects remains difficult to predict, particularly with respect to the vortex-induced torque transmitted during grasping. This study investigates vortex-induced torque during the grasping of compliant objects and quantifies the coupled effects of supply pressure, tangential nozzle diameter, surface geometry, and curvature. The results show that increasing the tangential nozzle diameter primarily enhances the sensitivity of the generated torque to supply pressure rather than producing a uniformly higher torque. Surface geometry also strongly influences the rotational interaction, with dome-concave surfaces generally producing substantially greater torque than corresponding dome-convex surfaces, whereas the difference between cylindrical concave and convex surfaces is comparatively small. The strongest and most repeatable response was observed for a dome-concave surface exhibiting favorable object-gripper geometric matching. Among the evaluated machine-learning regression methods, Gaussian Process Regression provided the best overall predictive performance under repeated cross-validation, demonstrating that vortex-induced torque can be estimated from combined pneumatic and geometric parameters. These findings provide a basis for predicting and utilizing vortex-induced torque in the dexterous manipulation of soft objects.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#11</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06689v1" target="_blank">Cognitive and Behavioural Effects of Haptic Feedback for ROV Teleoperation in Hazardous Environments</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.HC</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Joshua Brown (h=n/a)</span>
+    </div>
+    <div class="authors">Joshua Brown, Ildar Farkhatdinov, Michael Jenkin</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Tests haptic feedback for ROV teleoperation in an actual in-water study with controlled cross-currents, instead of a lab simulation.</li>
+      <li>A soft, vibrating haptic touchpad conveys unseen currents; it lowers the physical and temporal demand the current imposes and improves self-assessed performance.</li>
+      <li>A counterintuitive result: haptics also gave the highest mental demand and frustration, since operators must interpret a new channel.</li>
+      <li>Despite that load, operators drove significantly faster with haptic cues, which the authors read as higher confidence and better hazard awareness.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Teleoperating a Remotely Operated Vehicle (ROV) in complex underwater environments presents unique challenges. Dynamic, three dimensional obstacles and unseen water currents pose real risks to expensive robotic hardware in environments in which recovery can be next to impossible. This paper explores the cognitive effects of haptic feedback to improve vehicle safety in such environments. An in-water study is analysed with a ROV exposed to controlled cross-currents, with environmental information presented via a soft and vibrating haptic touchpad.   Results demonstrate that while encountering an unseen cross-current significantly increases an operator&#x27;s physical and temporal demand, the introduction of haptic feedback mitigates these factors and improves self-assessed performance. Interestingly, the haptic condition also produced the highest levels of mental demand and operator frustration. Despite this increased mental workload, operators drove the ROV significantly faster when receiving haptic cues compared to the current-only condition, indicating a higher level of user confidence. Ultimately, these findings suggest that while haptic feedback may initially require more cognitive processing to interpret unseen hazards, it successfully enhances operator awareness and promotes more confident navigation in hazardous environments.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-5">Navigation, Perception &amp; SLAM</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#10</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06702v1" target="_blank">When to Ask for Help: Uncertainty-Triggered Aerial Refinement for Off-Road Navigation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Pranay Samineni (h=n/a)</span>
+    </div>
+    <div class="authors">Pranay Samineni, Adam Thorpe, John Chubick, Anand Balakrishnan, Christian Ellis</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Instead of asking a UAV to help whenever the map is uncertain, it scores the UGV&#x27;s actual MPPI rollouts under resolved map hypotheses, so help is requested only if resolving uncertainty would change the plan.</li>
+      <li>Selects the single map layer whose resolution gives the largest predicted improvement, requests that aerial measurement, fuses it and replans.</li>
+      <li>Across 180 simulated trials it reaches 98.9% goal attainment while cutting UAV flight time 87.7% versus continuous greedy mapping; each second of UAV flight saves 2.94 s of UGV travel.</li>
+      <li>Field tests over about 2 km of UGV operation show recovery from real uncertainty, supporting the energy-aware air-ground teaming claim.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Heterogeneous air-ground teams can use aerial sensing to address the limited range and viewpoint of ground-vehicle sensors, but deciding when the UGV needs assistance and what information the UAV should collect remains a challenge. This paper presents a planner-conditioned air-ground assistance method that evaluates how uncertain map information affects the UGV&#x27;s current MPPI rollouts. When navigation remains degraded, we score the same rollouts under resolved map hypotheses, select the map layer with the largest useful improvement, request the corresponding aerial measurement, fuse the returned information, and replan. Unlike approaches driven by fixed support roles, task structure, or uncertainty alone, our method conditions assistance on whether resolving uncertainty improves predicted ground navigation. Across 180 simulation trials on three off-road routes, the method achieves 98.9% goal attainment while reducing mean UAV flight time by 87.7% relative to continuous greedy aerial mapping. Aggregated across the routes, each second of estimated UAV flight time saves 2.94 s of UGV navigation time. Field experiments spanning approximately 2 km of UGV operation demonstrate uncertainty resolution and successful navigation recovery.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#18</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06588v1" target="_blank">FOSCo-Net: Ego-centric Voxel Completion for Forest LiDAR Occlusions</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Iman Esfandiyar (h=n/a)</span>
+    </div>
+    <div class="authors">Iman Esfandiyar, Dominik Belter</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Forest LiDAR has persistent blind regions behind tree trunks that corrupt traversability estimates; this learns to fill them in from a single scan.</li>
+      <li>Supervision is free: temporally accumulated observations provide automatic ground truth for occluded voxels.</li>
+      <li>Compares cylindrical and Cartesian ego-centric grids with several decoders; a gated skip decoder is most reliable and cuts false obstacle predictions, the failure that makes a ground robot stop unnecessarily.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Ground robots operating in temperate forests suffer from systematic LiDAR occlusions caused by tree trunks, creating persistent blind regions that degrade traversability estimation. In this paper, we propose FOSCo-Net, a self-supervised voxel completion framework that learns to reconstruct occluded geometry from a single scan using temporally accumulated observations as automatic supervision, and we evaluate cylindrical and Cartesian ego-centric grids with multiple decoder designs. FOSCo-Net consistently improves reconstruction quality and traversal safety, with a gated skip decoder achieving the most reliable performance and significantly reducing false obstacle predictions compared to baselines.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#25</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06378v1" target="_blank">UniLoop: Unified Loop Closure Detection from Retrieval to Geometric Verification and Relative Pose Estimation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Jingwen Yu (h=n/a)</span>
+    </div>
+    <div class="authors">Jingwen Yu, Pengyu Wang, Jin Wu, Weinan Chen, Ping Tan</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Replaces the usual cascade of separate retrieval, verification and relative-pose models with one pipeline that reuses a pretrained geometric foundation model&#x27;s hierarchical features.</li>
+      <li>A shared encoder gives compact global descriptors, the same features go to the cross-view decoder for pairwise verification, and its geometric predictions give relative-pose constraints for pose-graph optimization.</li>
+      <li>Results: best Recall@10 on MSLS (96.6) and Pitts30k (99.3), with verification at 95.63 AP and 96.29 ROC-AUC, while avoiding redundant backbone passes.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Loop closure detection conventionally cascades separate models for global retrieval, geometric verification, and relative pose estimation, leading to redundant computation and disconnected visual representations. We propose UniLoop, a unified framework that reuses the hierarchical representations of the pretrained geometric foundation model throughout this pipeline. A shared image encoder produces features for compact global descriptors; the same features are passed to the cross-view decoder for pairwise verification; and the original geometric predictions provide relative camera constraints for pose-graph optimization. Experiments on place recognition, loop verification, and relative pose estimation show that UniLoop improves loop-closure robustness and accuracy while reducing redundant backbone computation relative to modular pipelines. UniLoop achieves the best Recall@10 on MSLS (96.6) and Pitts30k (99.3) among the compared methods, while its verification branch reaches 95.63 AP and 96.29 ROC-AUC, surpassing the existing geometric verification baselines.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#27</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06308v1" target="_blank">Scale Anchoring via Implicit Semantics and Sequence-Consistent Loop Closure for VGGT-Based SLAM</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Ziyi Jin (h=n/a)</span>
+    </div>
+    <div class="authors">Ziyi Jin, Kangjin Yu, Beichen Wang, Can Jiang, Zhongpu Xia</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Addresses scale drift between independently reconstructed VGGT submaps by adding fixed-root scale anchoring, where an image pair chosen by SALAD feeds joint VGGT inference to give a scale-only anchor.</li>
+      <li>For loop closure, neighboring image pairs support a consistency check and translation-scale alignment, and each accepted candidate adds one robust Sim(3) factor without an auxiliary loop submap.</li>
+      <li>Across nine TUM sequences, mean Sim(3) ATE falls from 0.1018 m to 0.0451 m versus VGGT-SLAM 2.0, and anchoring improves all seven no-loop ablations.</li>
+      <li>Honest about limits: a candidate audit shows the short-sequence check rejects some genuinely overlapping pairs.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Feed-forward geometric foundation models enable dense monocular reconstruction without requiring camera calibration, but independently reconstructed submaps can accumulate scale drift, and even a valid revisit can yield an inconsistent cross-submap measurement. We extend VGGT-SLAM 2.0 with fixed-root scale anchoring and short-sequence-assisted direct loop connections. SALAD selects an image pair between the initial submap and each eligible new submap; joint VGGT inference then uses learned implicit semantic-geometric cues to supply a scale-only anchor while preserving the original overlap chain. For loop closure, neighboring image pairs support a consistency check and translation-scale alignment. Each accepted candidate contributes one robust Sim(3) factor between existing center-frame nodes, without an auxiliary loop submap. A 17-sequence comparison lowers mean Sim(3) ATE on nine TUM sequences from 0.1018 to 0.0451 m relative to the VGGT-SLAM 2.0 baseline. Anchoring improves all seven no-loop module ablations. On three Clio scenes, a fixed-loop comparison favors the direct connection pipeline over the tested auxiliary-submap pipeline. A separate candidate audit exposes additional rejections of visually overlapping pairs by the short-sequence check. These comparisons distinguish the gains from long-range scale anchoring and loop connection choices from the limitations of candidate verification.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-6">Autonomous Driving Safety &amp; Evaluation</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#30</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06204v1" target="_blank">CoSafe: Cooperative Runtime Safety Assurance for Mixed-Traffic Autonomous Driving</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.SE</span><span class="pill">cs.AI</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 Dingji Wang (h=n/a)</span>
+    </div>
+    <div class="authors">Dingji Wang, You Lu, Haowen Jiang, Yanggang Chen, Yuyang Bi</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Argues that ego-centric takeover cannot resolve violations arising from individually reasonable but jointly incompatible decisions of several vehicles.</li>
+      <li>Uses V2X so roadside units monitor scene-level hazards and jointly intervene, in a modular, ADS-agnostic design.</li>
+      <li>Integrated with seven state-of-the-art driving systems on InterDrive, it improves driving score by 70.03% on average, cuts safety violations by 87.80% and identifies unsafe AVs with F3 = 0.930 within real-time constraints.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">With the rapid development of autonomous driving systems (ADSes), real-world roads are evolving into mixed-traffic environments where autonomous vehicles (AVs) and other traffic participants (e.g., human-driven vehicles (HDVs), cyclists, and pedestrians) coexist and interact with each other. However, current ADSes still incur various safety violations in mixed traffic scenarios, raising a strong demand for runtime safety assurance frameworks that can continuously monitor hazards and prevent potential violations. Existing ego-centric assurance approaches are insufficient for mixed traffic, where violations often arise from locally reasonable yet jointly incompatible decisions among multiple vehicles and cannot be reliably resolved through independent takeover.   To bridge this gap, we propose CoSafe, a modular and ADS-agnostic cooperative runtime safety assurance framework for mixed-traffic autonomous driving to extend runtime safety assurance from ego-centric takeover to scene-level cooperative intervention. CoSafe leverages vehicle-to-everything (V2X) communication to enable roadside units (RSUs) to monitor scene-level hazards and jointly mitigate hazards involving multiple vehicles. We integrate CoSafe with seven state-of-the-art ADSes, and our evaluation on the InterDrive benchmark demonstrates that CoSafe improves the driving score of AVs by 70.03% on average, reduces safety violations by 87.80%, and accurately identifies unsafe AVs with an F3 score of 0.930, while satisfying real-time constraints.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#28</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06287v1" target="_blank">Corridor-Based Monitoring and Emergency Braking Decision for Automated Vehicle Safety</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Junnan Pan (h=n/a)</span>
+    </div>
+    <div class="authors">Junnan Pan, Vladislav Nenchev, Mohak Mansharamani, Prodromos Sotiriadis, Ferdinand Englberger</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Designs an emergency-braking decision for a redundant safety channel on constrained embedded hardware.</li>
+      <li>A predicted motion corridor (PMCM) builds a curvature-aware boundary covering the full swept body so LiDAR is filtered on straight and curved paths.</li>
+      <li>GDETA scores geometric occupancy and temporal urgency independently, with hard gates when either is conclusive, soft-OR arbitration otherwise and multi-scan confirmation against noise.</li>
+      <li>Evaluated on collision simulations and recorded campus driving, plus Monte Carlo lead-vehicle braking and crossing encounters.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">This paper addresses emergency-braking decisions for a redundant safety channel in automated vehicles. The channel is responsible for identifying hazards from sensor data and determining whether braking is necessary, given the constrained computational resources of embedded hardware. We present an emergency-braking approach that uses a predicted motion corridor to filter \ac{lidar} measurements and then decide whether the ego vehicle must brake. \ac{pmcm} constructs a curvature-aware boundary from the planned path and vehicle geometry so that the monitored region contains the full swept body on both straight and curved paths. \ac{gdeta} then decides whether the ego vehicle must command an emergency brake for objects inside this boundary, scoring geometric occupancy and temporal urgency independently. Hard gates permit braking when either source is conclusive; soft-OR arbitration combines partial evidence when neither gate is active. Consecutive-scan confirmation reduces sensitivity to transient measurement noise. Corridor coverage is evaluated in controlled collision simulations and recorded campus driving. Braking decisions are evaluated in Monte Carlo simulations of lead-vehicle braking and transverse-crossing encounters.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#22</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06453v1" target="_blank">Beyond Infraction Scores: Failure-Boundary Profiles for Closed-Loop Evaluation of Driving and Robot Navigation Agents</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span><span class="pill">cs.SE</span>
+      <span class="pill">👤 Milan Bulat (h=n/a)</span>
+    </div>
+    <div class="authors">Milan Bulat, Gino Ardelean, Ellington Kirby</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Shows the CARLA driving score can reward the wrong behavior: an agent that drives through a blocked corridor with contact averages 52.2, above agents that correctly stop (37.8 to 40.6).</li>
+      <li>Proposes failure-boundary profiles: vary one measured factor (corridor width, time gap), certify each variant as proceed or stop, then estimate commitment and competence curves with intervals that account for simulator variance.</li>
+      <li>Introduces decision accuracy: the rule-based expert scores 0.74 and the best learned agent TFv6 0.60, and agents with similar driving scores fail in different ways.</li>
+      <li>Applied unchanged to a warehouse robot in Isaac Sim, two fine-tuned navigation policies pass more gaps cleanly but no longer stop at all.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Closed-loop driving benchmarks in CARLA rank agents by a driving score that multiplies route completion by an infraction penalty. This score does not distinguish an agent that stops in front of an obstacle from one that pushes past it. In a corridor closed by two parked cars, for example, one agent that drives through with contact averages 52.2 on the blocked widths, while the agents that stop average between 37.8 and 40.6. We propose failure-boundary profiles, an evaluation in which each scenario family varies one measured factor, such as corridor width or the time gap in oncoming traffic, and each variant is certified from measurement as one where the agent should proceed or one where it should stop. Along this axis we estimate two curves per agent, commitment (the probability of attempting the passage) and competence (the probability of passing without contact), and locate where each crosses one half, with intervals that account for the simulator&#x27;s run-to-run variance. The certified labels also give a summary metric, decision accuracy, which credits clean passes on passable variants and stops on blocked ones. We evaluate seven driving agents on seven CARLA families. The rule-based expert reaches a decision accuracy of 0.74 and TFv6, the highest-scoring learned agent, 0.60. Agents with similar driving scores fail in different ways, and agents that reliably stop at a blocked corridor still rarely wait for a gap in oncoming traffic. We also apply the method, unchanged, to a warehouse robot in Isaac Sim. The navigation policy we test stops at blocked gaps in only one of three families, and two fine-tuned versions of it pass more gaps cleanly but no longer stop at all.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-7">Simulation, Benchmarks &amp; Surveys</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#16</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06627v1" target="_blank">Interactive World Simulation with Cosmos for Physical AI</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.AI</span><span class="pill">cs.CV</span><span class="pill">cs.LG</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 NVIDIA (h=n/a)</span>
+    </div>
+    <div class="authors">NVIDIA, :, Anis Ahmad, Jon Allen, Malik Aqeel Anwar</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Adapts Cosmos world foundation models into a shared real-time interactive simulator that streams observations in response to actions and scene controls.</li>
+      <li>Supports two modes: predicting the visual consequences of actions, or rendering observations from physical state kept by an external simulator.</li>
+      <li>Demonstrated across camera navigation, robot manipulation, controllable video transfer and multi-view AV simulation, so one framework covers several Physical AI domains.</li>
+      <li>Code and checkpoints are released, making learned simulation reusable for training and evaluating embodied agents.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We present a shared framework that adapts Cosmos world foundation models for real-time interactive world simulation in Physical AI. By streaming visual observations in response to actions and scene controls, the framework enables users and embodied agents to interact with evolving virtual environments. It supports both predicting the visual consequences of actions and generating observations from physical state maintained by an external simulator. We demonstrate this approach across camera navigation and robot manipulation, controllable video transfer, and multi-view autonomous vehicle (AV) simulation. These examples provide a shared foundation for developing interactive virtual environments for Physical AI training and evaluation. Our code and model checkpoints are available at https://github.com/nvidia/cosmos and https://huggingface.co/collections/nvidia/cosmos3-examples. The project website is available at https://research.nvidia.com/labs/cosmos-lab/cosmos-simulation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#24</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06442v1" target="_blank">TwinBridge: Digital Twin-Driven Policy and Reward Transfer for Real-World Reinforcement Learning in Laboratory Robotics</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Shu&#x27;ang Sun (h=n/a)</span>
+    </div>
+    <div class="authors">Shu&#x27;ang Sun, Yibo Qiu, Haoliang Ye, Zan Huang, Ao Tian</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Addresses two blockers for real-world RL in lab robotics: expensive demonstrations and the lack of dense process rewards.</li>
+      <li>Builds digital twins by combining 3D Gaussian splatting with physics simulation, whose states yield task events and progress under ordering constraints, supporting policy pretraining and a distilled visual reward model.</li>
+      <li>During real interaction the reward model plus execution history gives dense rewards for human-in-the-loop refinement.</li>
+      <li>On five real lab tasks it reaches 98% final autonomous success with at most 25 minutes of real interaction per task; ablations show both dense rewards and simulated initialization speed learning.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Online reinforcement learning offers an effective approach to precise laboratory manipulation, yet costly real-world demonstrations and limited access to dense process rewards hinder its practical application. We present TwinBridge, a digital twin-driven framework that supplies policy initialization and dense visual rewards for real-world online learning. We construct digital twins by combining 3D Gaussian splatting with physics simulation. Here, simulator states provide task events and geometric progress under physical prerequisites and ordering constraints, yielding rewards for policy pretraining with simulated demonstrations and reinforcement learning. We distill this supervision into a visual reward model. During real-world interaction, its predictions are combined with execution history to compute dense rewards for human-in-the-loop policy refinement. Across five real-world laboratory tasks, TwinBridge achieves a final mean autonomous success rate of 98% with at most 25 minutes of real-world interaction per task. Experiments show that dense rewards improve interaction efficiency over sparse rewards, and simulation-based policy initialization further accelerates learning.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#4</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06881v1" target="_blank">VABAR: A Variational Automation Benchmark for Agentic Robotics</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Shuangyu Xie (h=n/a)</span>
+    </div>
+    <div class="authors">Shuangyu Xie, Kaiyuan Chen, Uksang Yoo, Xinyue Zhu, Meadow Shen</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Defines &#x27;Variational Automation&#x27;: industrial-style tasks repeated with known variations in shape and pose, a regime that open-world manipulation benchmarks and fixed automation both fit poorly.</li>
+      <li>Six task classes (tool sorting and hanging, gear meshing, syringe packing, cable insertion and routing) are built on the open-source Newton physics engine with difficulty tiers and standardized variations.</li>
+      <li>Ships 33 reusable skills with human-written programmatic reference solutions, which makes it a direct testbed for LLM/VLM coding agents rather than only end-to-end policies.</li>
+      <li>Design criteria explicitly include resistance to saturation and computational efficiency, aiming to keep the benchmark useful as agents improve; baselines use Graph-as-Policy and Isaac Lab Arena.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">For robots to operate reliably in commercial and industrial applications, they must persistently perform specific tasks with known variations in object shape and pose. We call this Variational Automation (VA) to differentiate these settings from fixed automation. Inspired by recent papers on Agentic Robotics, where pretrained LLM and VLM coding agents combine interpretable robot programming with the open-world adaptability of model free policies, we propose a general set of agentic robotics benchmark design criteria that includes accessibility, repeatability, diversity, relevance to agentic robotics and practical applications, physical realizability, resistance to benchmark saturation, and computational efficiency. We instantiate these principles in six manipulation task classes spanning industrial, medical, and infrastructure applications: tool sorting, tool hanging, gear meshing, syringe packing, cable insertion, and cable routing. We introduce the Variational Automation Benchmark for Agentic Robotics (VABAR), an open, easily replicable, simulation-based manipulation benchmark to systematically evaluating agentic robotics systems. Built fully on open-source tools, VABAR features detailed implementations using the Newton physics engine, standardized task variations, difficulty tiers, success metrics, and a library of 33 generalizable skills with human-authored programmatic reference solutions. We provide initial baseline evaluations using an open agentic manipulation harness, Graph-as-Policy (GaP), and Isaac Lab Arena.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#21</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06475v1" target="_blank">Robocasa-Mem: Benchmarking Environment and Process Memory in Long-Horizon Mobile Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Sihang Chen (h=n/a)</span>
+    </div>
+    <div class="authors">Sihang Chen, Chen Ye, Wei Chen, Xiaohan Lei, Zhipeng Tang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Targets mobile manipulation where decisions depend on information no longer visible, covering nine tasks split into environment memory (locations, attributes, relations) and process memory (task progress, multi-task scheduling).</li>
+      <li>Behavior-Conditioned Evaluation derives later constraints from the robot&#x27;s own earlier actions, so tasks with several valid paths do not reward shortcuts around a fixed target assignment.</li>
+      <li>Provides 1,800 successful demonstrations and a baseline, HMAP, where a high-level planner with structured entity and process memories issues subtasks to a VLA that injects VGGT geometry via subgoal-conditioned queries.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">In the real world, mobile manipulation robots must perform complex object interactions and make multi-step decisions, often relying on task-relevant information that is no longer observable. However, existing benchmarks provide limited evaluation of such memory-dependent decision-making in mobile manipulation. To address this gap, we introduce RoboCasa-Mem, a new benchmark comprising nine mobile manipulation tasks that require agents to use interaction history at key decision points. Specifically, the tasks are grouped into two categories of memory: One is environment memory, which captures spatial locations, object attributes, and object relationships. The other is process memory, which captures single-task progress and multi-task scheduling. Particularly, we introduce Behavior-Conditioned Evaluation. For tasks with multiple valid execution paths, instead of fixing a single target or trajectory, the evaluator derives later task constraints from the robot&#x27;s earlier actions. This allows us to evaluate whether later behavior is consistent with the robot&#x27;s own interaction history while reducing shortcuts based on fixed target assignments. We provide 1,800 successful demonstrations for policy training. We also develop a baseline on our benchmark, namely Hierarchical Memory-Augmented Policy(HMAP). Its high-level planner uses structured entity and process memories to generate subtasks. Its low-level VLA controller uses subgoal-conditioned queries to incorporate VGGT-Omega geometry into action generation. Together, RoboCasa-Mem and HMAP baseline support systematic evaluation of memory-dependent behavior and the development of memory-aware mobile manipulation policies.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#8</span>
+    <span class="h-badge">h=n/a</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.06724v1" target="_blank">Dexterous Robotic Hands in the Foundation-Model Era: A Full-Stack Survey of Hardware, Data, Cross-Embodiment Transfer, Learning, and Evaluation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-04</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">cs.CV</span><span class="pill">cs.LG</span>
+      <span class="pill">👤 Ji Pei (h=n/a)</span>
+    </div>
+    <div class="authors">Ji Pei</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Organizes dexterous-hand work from January 2024 to November 2026 into five coupled layers (hardware, data, cross-embodiment transfer, learning/foundation models, evaluation), with tactile sensing and human hand-object understanding as cross-cutting lenses.</li>
+      <li>Its first conclusion is that human data helps because of kinematic, visual and contact alignment, not raw volume, a counterweight to pure scaling narratives.</li>
+      <li>Argues shared action representations do not remove embodiment limits on force, latency and contact, and that task completion alone does not prove physical correctness.</li>
+      <li>Flags thin evidence for zero-shot transfer of contact-rich skills between different hands, long-duration reliability and cross-sensor tactile generalization, and lists eleven open problems plus proposed reporting interfaces.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Dexterous robotic hands are increasingly coupled to large-scale human data and foundation models, yet progress in hardware, representation learning and evaluation is often assessed separately. This survey reviews work from January 2024 to early November 2026, with earlier studies included to establish technical lineages. We organize the literature into five interdependent layers: hardware; data collection and curation; cross-embodiment transfer; learning and foundation models; and evaluation and applications. Human hand-object understanding and tactile sensing provide two cross-cutting perspectives. A system-level architecture, comparative tables and five case analyses connect design choices across these layers. We distinguish within-study experimental comparisons from heterogeneous corpus statistics, vendor specifications and company-reported results. Three conclusions emerge. First, the value of human data depends on kinematic, visual and contact alignment, not recording volume alone. Second, shared action representations and foundation policies do not remove embodiment-specific constraints on force, latency and contact. Third, task completion is insufficient to establish physical correctness or deployment readiness. Evidence remains limited for zero-shot transfer of contact-rich skills between morphologically different hands, long-duration reliability, and cross-sensor tactile generalization. We identify eleven open problems and propose reporting interfaces and controlled comparisons that can make full-stack progress more measurable. The review is a structured narrative synthesis rather than a pooled performance ranking or an exhaustive systematic review.</div>
+    </details>
+  </div>
+</div>
+<footer>
+  Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-11-04
+</footer>
+</div>
+</body>
+</html>
