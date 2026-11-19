@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotics arXiv Digest — 2026-11-18</title>
+<style>
+:root {
+  --bg: #f8f9fa; --card-bg: #ffffff; --text: #1a1a2e; --text-secondary: #555;
+  --accent: #2563eb; --border: #e2e8f0; --gold: #f59e0b;
+  --cat1: #2563eb; --cat2: #7c3aed; --cat3: #dc2626; --cat4: #059669;
+  --cat5: #d97706; --cat6: #0891b2; --cat7: #be185d; --cat8: #4b5563;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+header { text-align: center; padding: 40px 20px 30px; }
+header h1 { font-size: 2rem; margin-bottom: 8px; }
+header .date { font-size: 1.1rem; color: var(--text-secondary); }
+.header-stats { display: flex; gap: 12px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.header-stats .stat { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 0.85rem; color: var(--text-secondary); }
+.badge-claude { background: linear-gradient(135deg, #d4a574, #c2956b); color: white; border: none; font-weight: 600; }
+.landscape { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 30px; }
+.landscape h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--accent); }
+.landscape p { margin-bottom: 14px; color: var(--text-secondary); font-size: 0.95rem; }
+.category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-bottom: 30px; }
+.category-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; transition: box-shadow .2s; }
+.category-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.category-card h3 { font-size: 0.95rem; margin-bottom: 6px; }
+.category-card .cat-desc { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 8px; }
+.category-card ul { list-style: none; padding: 0; }
+.category-card li { font-size: 0.8rem; color: var(--text-secondary); padding: 2px 0; }
+.cat-border-1 { border-left: 4px solid var(--cat1); }
+.cat-border-2 { border-left: 4px solid var(--cat2); }
+.cat-border-3 { border-left: 4px solid var(--cat3); }
+.cat-border-4 { border-left: 4px solid var(--cat4); }
+.cat-border-5 { border-left: 4px solid var(--cat5); }
+.cat-border-6 { border-left: 4px solid var(--cat6); }
+.cat-border-7 { border-left: 4px solid var(--cat7); }
+.cat-border-8 { border-left: 4px solid var(--cat8); }
+.section-header { padding: 14px 20px; border-radius: 10px; margin: 30px 0 16px; color: white; font-size: 1.1rem; font-weight: 700; }
+.sh-1 { background: var(--cat1); } .sh-2 { background: var(--cat2); } .sh-3 { background: var(--cat3); }
+.sh-4 { background: var(--cat4); } .sh-5 { background: var(--cat5); } .sh-6 { background: var(--cat6); } .sh-7 { background: var(--cat7); } .sh-8 { background: var(--cat8); }
+.paper-card { display: flex; gap: 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 14px; transition: box-shadow .2s; }
+.paper-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+.rank-col { display: flex; flex-direction: column; align-items: center; min-width: 48px; gap: 8px; }
+.rank-num { font-size: 1.4rem; font-weight: 800; color: var(--text-secondary); }
+.rank-gold { color: var(--gold); }
+.h-badge { background: #dbeafe; color: #1e40af; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 12px; white-space: nowrap; }
+.paper-body { flex: 1; min-width: 0; }
+.paper-body h3 { font-size: 1rem; margin-bottom: 8px; line-height: 1.4; }
+.paper-body h3 a { color: var(--text); text-decoration: none; }
+.paper-body h3 a:hover { color: var(--accent); text-decoration: underline; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; background: #f1f5f9; color: var(--text-secondary); }
+.authors { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px; }
+.contrib-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--accent); margin-bottom: 6px; }
+.contrib-list { list-style: none; padding: 0; }
+.contrib-list li { font-size: 0.88rem; padding: 3px 0; color: var(--text-secondary); }
+.contrib-list li::before { content: "\25B8 "; color: var(--accent); font-weight: bold; }
+details { margin-top: 10px; }
+summary { font-size: 0.82rem; color: var(--accent); cursor: pointer; font-weight: 600; }
+details .abstract-text { font-size: 0.84rem; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+footer { text-align: center; padding: 40px 20px; font-size: 0.8rem; color: #999; }
+@media (max-width: 600px) {
+  .paper-card { flex-direction: column; }
+  .rank-col { flex-direction: row; }
+  header h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>🤖 Robotics arXiv Digest</h1>
+  <div class="date">Wednesday, November 18, 2026</div>
+  <div class="header-stats">
+    <span class="stat">📄 30 papers</span>
+    <span class="stat">📂 6 research areas</span>
+    <span class="stat badge-claude">Generated by Claude</span>
+  </div>
+</header>
+<div class="landscape">
+  <h2>🔭 Research Landscape</h2>
+  <p>The dominant story today is the rapid convergence of VLA policies and world models into a single network that predicts the future in a <em>latent</em> space rather than in pixels. Three independent groups land on the same design choice. LaST1.0 (#1) predicts compact, geometry-aware latents derived from future wrist views instead of full videos; Z-sight (#3) forecasts the future directly in the visual-token space its own VLM perceives, reaching 81.9% on the SIMPLE benchmark and +20 points on a Unitree G1 at 110 ms per chunk; and JEPA Dots (#24) gets 84.9% on 40 LIBERO tasks with only 39M parameters by separating instruction-free dynamics latents from language-conditioned task latents. Doppel (#21) attacks the same problem from the other side: instead of asking a video model to infer body motion from numeric actions, it renders the robot's intended configuration and lets the model spend capacity on how the world responds, which is what makes training across eight robot and human embodiments possible. The shared conviction is that appearance reconstruction is wasted capacity for control.</p>
+  <p>A second, more skeptical thread asks whether these learned models actually mean what we assume they mean. Balestriero and LeCun's counterfactual JEPA paper (#25) proves that a world model trained only on factual transitions cannot answer 'what if I had acted differently' on its own, then shows that a smoothness argument recovers counterfactuals with no extra data, lifting counterfactual R&sup2; from roughly 40% to 86&ndash;96%. The driving probe (#27) finds that action-conditioned forecasters barely use the action (at most +2.5 mIoU from the right action, but up to &minus;23.2 from a wrong one), and #11 shows that attention weights in a Transformer planner are correlational, not causal, indicators of which objects matter. #30 gives a provable lower bound on how conservative a latent safety filter must be given its latent, and TARS (#5) finds that LLM-to-action-model pipelines in four commercial robots execute physical actions users never asked for. Read together, these papers say that the latents everyone is now building on need explicit tests of causality, action dependence and safety before they can be trusted.</p>
+  <p>The rest of the batch shows learning moving closer to deployment. Several papers reuse experience the robot already has: SeRA (#14) relabels autonomous rollouts with later policy checkpoints and doubles tomato-picking success to 80%, the driving work (#26) turns late or unnecessary human takeovers into earlier, proactive targets, and RecallFlow (#19) uses episodic memory as the starting distribution of a flow policy rather than as an extra condition. Robustness to the physical setup is another theme, with WACO (#4) using the robot's own arm as a calibration target to recover from a bumped camera (+36.7 points on a real UR5e) and ROMUX (#22) navigating from wall cameras with no calibration at all. In hardware, two papers push quasi-direct-drive actuation in different directions, as compact tendon-driven muscle modules (#10) and as a stiffer load-sharing compound planetary gearbox (#29).</p>
+</div>
+<div class="category-grid">
+  <div class="category-card cat-border-1">
+    <h3>Latent World-Action Models &amp; VLAs</h3>
+    <p class="cat-desc">Policies that predict compact future latents or rendered bodies instead of pixels, plus VLA robustness to camera and base shifts.</p>
+    <ul>
+      <li>#1 LaST1.0: A Unified Latent World-Action Model with Co...</li>
+      <li>#3 $Z$-sight: Unifying Vision-Language-Action and Laten...</li>
+      <li>#24 JEPA Dots: Dual-Latent World Model for Language-Guid...</li>
+      <li>#21 Render the Robot, Generate the World: One Video Worl...</li>
+      <li>#4 Towards Pose-Robust Few-Shot Vision-Language-Action...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-2">
+    <h3>Trust, Causality &amp; Safety of Learned Models</h3>
+    <p class="cat-desc">Tests of whether world models, attention maps, safety filters and LLM-driven robots behave the way their designers assume.</p>
+    <ul>
+      <li>#5 Lost Between Mind, Model Collaboration, and Motion:...</li>
+      <li>#11 Attention Is Not Relevance: Challenging the Causalit...</li>
+      <li>#25 Counterfactual World Models: JEPAs That Reason About...</li>
+      <li>#27 Does the Action Matter? Probing Action-Conditioned S...</li>
+      <li>#30 Measuring the Conservatism of Latent Safety Filters...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-3">
+    <h3>Imitation Learning, Rewards &amp; Data</h3>
+    <p class="cat-desc">Reusing autonomous experience, memory-conditioned flow policies, progress rewards, and tools for collecting and segmenting demonstrations.</p>
+    <ul>
+      <li>#6 Grana: Compositional Reward Modeling for Long-Horizo...</li>
+      <li>#9 Single-Controller Teleoperation and Multimodal Datas...</li>
+      <li>#14 Old Experience, New Lessons: Relabeling Autonomous R...</li>
+      <li>#19 RecallFlow: Episodic Memory as the Source Distributi...</li>
+      <li>#23 Neural Network-Based In-Contact Task Segmentation of...</li>
+      <li>#26 Improving While Deployed: Learning Proactive End-to-...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-4">
+    <h3>Navigation &amp; Spatial Perception</h3>
+    <p class="cat-desc">Diffusion planners for search and traversability, aerial VLN, uncalibrated exocentric cameras, event-driven features and classic pose estimation.</p>
+    <ul>
+      <li>#2 ALIVE: Bring Foundation Features to Life with Events</li>
+      <li>#7 Object Pose: The Link between Weak Perspective, Para...</li>
+      <li>#13 A Hierarchical Onboard Vision-Language-Navigation Fr...</li>
+      <li>#15 SearchDiffusion: Information-Guided Diffusion Planni...</li>
+      <li>#17 BEV-Diffusion: Camera-Only Traversability Navigation...</li>
+      <li>#22 Navigating Robots from Unknown and Uncalibrated Exoc...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-5">
+    <h3>Legged, Humanoid &amp; Motion Skills</h3>
+    <p class="cat-desc">Proprioceptive estimation, unified locomotion and fall recovery, and RL-learned martial arts motion.</p>
+    <ul>
+      <li>#12 Learning Martial Arts Motion Skills for Animating Op...</li>
+      <li>#16 Proprioceptive Simultaneous Base and Terrain Elevati...</li>
+      <li>#18 ReLoco: Unified Humanoid Locomotion and Fall Recover...</li>
+    </ul>
+  </div>
+  <div class="category-card cat-border-6">
+    <h3>Actuators, Tactile Sensing &amp; Physical Testbeds</h3>
+    <p class="cat-desc">Quasi-direct-drive hardware, tactile shape completion, micro-swimmer hydrodynamics and orbital-dynamics emulation.</p>
+    <ul>
+      <li>#8 Hydrodynamics of robotic micro-swimmers in confineme...</li>
+      <li>#10 QDD-MM: A Simple and Compact Open-Source Muscle Modu...</li>
+      <li>#20 Dual-Actuation Emulation of Scaled Relative Orbital...</li>
+      <li>#28 TapTacTouch: Shape Completion from Sparse Tactile Co...</li>
+      <li>#29 BiPathCPG: A Novel Load-Sharing Design Architecture...</li>
+    </ul>
+  </div>
+</div>
+<div class="section-header sh-1">Latent World-Action Models &amp; VLAs</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#1</span>
+    <span class="h-badge">h=121</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.23974v1" target="_blank">LaST1.0: A Unified Latent World-Action Model with Control-Centric SpatioTemporal Reasoning</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Pheng-Ann Heng (h=121)</span>
+    </div>
+    <div class="authors">Hao Chen, Xuheng Zhang, Zhuangzhe Wu, Jiaming Liu, Shaobo Zhang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Argues that reconstruction-style world models spend most of their capacity on appearance that is irrelevant to control; LaST1.0 predicts geometry-aware latents taken from future <em>wrist</em> views, so supervision concentrates on the changing robot-object contact region.</li>
+      <li>Drops the pretrained vision encoder entirely in favor of a light patch embedder, which keeps fine-grained visual detail in front of the backbone instead of compressing it through a CLIP/SigLIP-style bottleneck.</li>
+      <li>Introduces LaST-Attention, a structured attention pattern for space, time and modality, to make joint latent prediction and action generation work inside one unified model.</li>
+      <li>Evaluated on two real embodiments with five tasks and on RLBench, LIBERO and LIBERO-Plus, reporting state-of-the-art success and generalization to novel scenes, which supports the claim that control-centric targets beat full video futures.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">World-Action Models couple action learning with future prediction, enabling robotic policies to capture environmental dynamics for robust control. However, prevailing methods take a reconstruction-oriented approach to model future videos, allocating substantial capacity to appearance details that are incidental to control. In this work, we reformulate world modeling for manipulation as control-centric future prediction in latent space, and present LaST1.0, a unified latent World-Action Model. Rather than modeling an observation-complete video future, LaST1.0 predicts compact, geometry-aware latent targets derived from future wrist views, focusing the supervision on the evolving robot-object interactions required for fine-grained manipulation. To better support this control-centric paradigm, LaST1.0 revisits the visual input interface and attention mechanism of its unified architecture. It adopts a vision-encoder-free design with a lightweight patch embedder, exposing fine-grained visual cues directly to the backbone, and introduces LaST-Attention for structured spatiotemporal interactions across modalities. Evaluations across two robot embodiments, five challenging manipulation tasks, and three simulation benchmarks---RLBench, LIBERO, and LIBERO-Plus---demonstrate that LaST1.0 achieves state-of-the-art success rates and generalizes to novel scenarios. These results demonstrate the effectiveness of control-centric latent world modeling for robust manipulation.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#3</span>
+    <span class="h-badge">h=98</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24940v1" target="_blank">$Z$-sight: Unifying Vision-Language-Action and Latent World Modeling</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 G. Sukhatme (h=98)</span>
+    </div>
+    <div class="authors">Junjie Ye, Yiqi Zhao, Muchen Xu, Celina Shiyu Wang, Hao Dong</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Unlike latent policies that align to a frozen external encoder, Z-sight predicts future visual tokens in the same space its VLM uses to perceive the present, so foresight and understanding share one representation.</li>
+      <li>A mixture-of-transformers couples a foresight expert and a continuous action expert with the VLM, jointly denoising future tokens and action chunks with no pixel decoder.</li>
+      <li>Trained on both human video and robot trajectories, it reaches 81.9% on the SIMPLE benchmark (+9.6 points over the best baseline) and 73.3% on six Unitree G1 humanoid tasks (+20.0 points).</li>
+      <li>Runs at 110 ms per chunk, showing that world-model benefits can be obtained without the cost of video generation.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">We introduce $Z$-sight, a unified robot foundation model that couples vision-language-action (VLA) and generative latent world modeling. Video-based world action models (WAMs) show the value of joint future-and-action generation for control, yet inherit the heavy cost of video generators. Recent latent-space policies avoid pixel generation, yet typically align intermediate features or rely on frozen target encoders, decoupling future prediction from the VLM&#x27;s native feature space. $Z$-sight instead predicts the future directly in the visual token space in which its VLM perceives the present. Coupling a foresight expert and a continuous action expert with the VLM in a mixture-of-transformers, $Z$-sight jointly denoises future spatial tokens and actions at inference without pixel reconstruction or external encoders. Trained on human video and robot trajectories, $Z$-sight achieves 81.9% success on SIMPLE (+9.6 points over the strongest baseline) and 73.3% across six Unitree G1 tasks (+20.0 points) at 110 ms per chunk, while remaining competitive on tabletop benchmarks.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#24</span>
+    <span class="h-badge">h=25</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24062v1" target="_blank">JEPA Dots: Dual-Latent World Model for Language-Guided Robot Control</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Jiankai Sun (h=25)</span>
+    </div>
+    <div class="authors">Xianhao Pan, Chi Li, Hanchao Li, Yunxin Liu, Jiankai Sun</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Addresses a conditioning flaw in language-guided world models: the instruction should change which action is chosen, not the predicted outcome of a fixed action.</li>
+      <li>Keeps separate dynamics and task latents; masked attention limits world prediction to instruction-free history and actions, while task latents drive a flow-matching policy.</li>
+      <li>Gets 84.9% on 40 LIBERO tasks with about 39M parameters (vs 78.7% reported for 161M NanoVLA-S under a different protocol) and raises LIBERO-Goal from 67.1% to 88.5% over its own task-ID baseline.</li>
+      <li>Instruction-switching tests confirm the intended invariance, a property most VLA world models do not check.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Predictive world models for language-guided robot control face a fundamental conditioning challenge: instructions should influence action selection without altering the predicted consequences of fixed actions under identical observations. To address this challenge, we introduce JEPA Dots (Dynamics-Oriented Task Separation), a compact dual-latent framework that jointly learns visual dynamics and language-guided control through separate dynamics and task representations. Language-conditioned task features guide a flow-matching policy, while masked attention restricts world prediction to instruction-independent dynamics history and supplied actions. In closed-loop evaluation on 40 trained LIBERO tasks, JEPA Dots achieves 84.9% overall success with approximately 39.1M parameters, compared with the published 78.7% of NanoVLA-S with 161.0M parameters under a different evaluation protocol. In the reference experiment, JEPA Dots also improves overall success from 76.0% for our task-ID-conditioned adaptation baseline to 84.9%, with LIBERO-Goal success increasing from 67.1% to 88.5%. Instruction-switching experiments further confirm that task representations and policy outputs respond to language changes, while dynamics representations and world predictions remain invariant under fixed observations and supplied actions.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#21</span>
+    <span class="h-badge">h=26</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24925v1" target="_blank">Render the Robot, Generate the World: One Video World Model Across Embodiments</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Homanga Bharadhwaj (h=26)</span>
+    </div>
+    <div class="authors">Yash Jangir, Karan Mirakhor, Renos Zabounidis, Muhammad Zubair Irshad, Sergey Zakharov</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Conditions the video world model on camera-aligned renderings of the robot's future body configuration, so it does not have to infer body motion from raw action numbers and can focus on the environment's response.</li>
+      <li>Rendered motion gives a shared visual interface across action spaces, enabling one backbone trained on about 600 hours from eight robot and human embodiments with no embodiment labels.</li>
+      <li>Recovers camera poses for datasets without extrinsics so renderings can be aligned with recorded video.</li>
+      <li>Improves PSNR by 1.00 dB on held-out and 1.20 dB on out-of-distribution trajectories over action-only baselines; training on all eight embodiments helps robot predictions on four of six sets.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Predicting the consequences of an agent&#x27;s actions requires modeling both the body&#x27;s motion and the environment&#x27;s response. Most video world models attempt to learn both from numerical actions, even though geometry and kinematics already specify the intended motion. We introduce Doppel, an embodiment-agnostic video world model conditioned on camera-aligned renderings of future body configurations and numerical action trajectories. By explicitly providing the intended motion, Doppel can focus on predicting object motion and interaction-driven changes in the environment. Rendered motion also provides a common visual interface across different embodiments and action spaces. To train on robot datasets without camera extrinsics, we recover camera poses and align rendered trajectories with recorded observations. We jointly train a single shared video backbone and conditioning adapter on eight datasets spanning eight robot and human embodiments, from single- and bimanual robot arms to a dexterous humanoid and human hands and bodies, using about 600 hours of video without embodiment labels. Across three robot-arm datasets, Doppel improves PSNR over action-only baselines by 1.00 dB on held-out trajectories and 1.20 dB under out-of-distribution evaluation, while predicting more consistent object motion. Training on all eight embodiments (Doppel-8) improves robot predictions over the three-robot model (Doppel-3) on four of six evaluation sets. Project page: https://doppelwm.github.io/.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#4</span>
+    <span class="h-badge">h=87</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24360v1" target="_blank">Towards Pose-Robust Few-Shot Vision-Language-Action Models</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span><span class="pill">cs.CV</span>
+      <span class="pill">👤 Li-Qiang Nie (h=87)</span>
+    </div>
+    <div class="authors">Wenhao Li, Zhongyi Han, Yuhao Wei, Liang Han, Yilong Yin</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Reframes two common deployment failures, a bumped camera tripod and a re-docked mobile base, as the same problem: a change in the camera-to-base extrinsic that the few-shot policy has memorized.</li>
+      <li>Uses the robot arm, posed by forward kinematics, as a metric calibration target and the static scene as a world anchor, which lets one RGB-D frame distinguish a moved camera from a moved robot without ground-truth extrinsics.</li>
+      <li>Canonicalizes image, state, action and start pose back to the calibration frame and fine-tunes the unmodified VLA on its own estimator's artifacts, so it works with existing policies.</li>
+      <li>Raises shifted success by 13.2 points in simulation and 36.7 points on a real UR5e, recovering about 90% (sim) and 87% (real) of the gap to an oracle; also releases LIBERO-PoseShift as a benchmark.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Fine-tuning a vision-language-action (VLA) model on a few dozen demonstrations is the standard way to put a manipulation policy on a robot, yet the resulting policy silently assumes that the camera and the robot base stay exactly where they were during data collection: a bumped tripod or a base re-docked a few centimetres away makes it reach for the wrong place. We show that both failures are one phenomenon, a change of the camera-to-base extrinsic that the policy has memorised, and that the robot carries everything needed to undo it. We introduce WACO, a world-anchored canonicalization framework for VLA models: the arm, placed by forward kinematics at the measured joint angles, serves as a metric calibration target, and the static scene serves as the world anchor that tells a moved camera from a moved robot. From a single RGB-D frame, WACO estimates both shifts without ground-truth extrinsics or extra data, canonicalises the image to the calibration viewpoint and the state, action and start pose to the calibration base frame, and fine-tunes the unmodified policy under the artefacts of its own estimator. We also introduce LIBERO-PoseShift, the first benchmark for RGB VLAs with graded camera, base and compound shifts. Across LIBERO-PoseShift, the LIBERO-Plus camera track and four real-world tasks on a UR5e robot, WACO consistently outperforms the standard few-shot recipe and prior viewpoint-robust methods, raising shifted success by 13.2 points in simulation and by 36.7 points on the real robot, recovering 90% of the simulation gap to a ground-truth oracle and 87% of the real-robot gap, and establishing a new state of the art among methods that use no perturbed training data, with no test-time calibration. Project page: https://peacelwh.github.io/WACO/.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-2">Trust, Causality &amp; Safety of Learned Models</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#5</span>
+    <span class="h-badge">h=71</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24100v1" target="_blank">Lost Between Mind, Model Collaboration, and Motion: Understanding and Measuring Cross-Model Action Misalignment in Commercial Robots</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Xiu-Zhen Cheng (h=71)</span>
+    </div>
+    <div class="authors">Yuhang Huang, Junchao Li, Boyang Ma, Minghui Xu, Kaidi Xu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Identifies a new safety boundary in commercial robots: an LLM interprets intent and a smaller action model translates it, and meaning can drift between the two so the robot moves when the user never issued a motion command.</li>
+      <li>TARS is a black-box testing framework that explores the command-reasoning-action pipeline and automatically verifies unintended physical behaviors, without access to model internals.</li>
+      <li>Runs 133,400 executions across four commercial robots and 44 settings, finding misalignment is widespread and reaching up to 94% verified action coverage.</li>
+      <li>Matters because it treats multi-model robot stacks as an attack surface, which most VLA safety work, focused on a single model, overlooks.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Embodied robots increasingly rely on large language models (LLMs) to interpret user intent and coordinate with robot-specific action models for physical interaction. This multi-model pipeline creates a critical semantic boundary across mind, model collaboration, and motion: semantic consistency may break between what the large model understands, how the small action model translates that understanding into executable commands, and what physical actions the robot ultimately performs. As a security consequence, commercial robots may execute unintended physical actions even when user inputs contain no explicit action commands. To measure this problem, we develop TARS, a black-box framework that explores the command-reasoning-action pipeline and automatically discovers and validates unintended physical behaviors. We evaluate TARS on four commercial robots across 44 experimental settings, conducting 133,400 executions. TARS uncovers widespread cross-model action misalignment and achieves up to 94% verified action coverage.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#11</span>
+    <span class="h-badge">h=41</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24051v1" target="_blank">Attention Is Not Relevance: Challenging the Causality of Attention in Autonomous Driving</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.AI</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 J. Gozálvez (h=41)</span>
+    </div>
+    <div class="authors">Luca Lusvarghi, Javier Gozalvez</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Brings the NLP 'attention is not explanation' debate into autonomous driving by comparing attention-based relevance against a counterfactual ground truth: remove each object and see whether the plan changes.</li>
+      <li>Uses more than 80,000 synthetic scenes with the Transformer planner PlanT 2.0, providing a large-scale causal reference rather than visual inspection of heatmaps.</li>
+      <li>Finds attention misses relevant objects and flags irrelevant ones; it is reasonable on single-lane roads but degrades at multi-lane roads and intersections where explanations matter most.</li>
+      <li>Matters for safety cases and regulators that treat attention maps as interpretability evidence.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Attention has become one of the most widely adopted solutions for estimating the relevance of surrounding objects and interpreting an autonomous vehicle&#x27;s driving decisions. However, its ability to capture the causal impact of individual input elements on an AI model&#x27;s output has long been discussed in the literature, particularly in the Natural Language Processing (NLP) domain. This work brings this discussion into the autonomous driving domain by analyzing the accuracy of attention in estimating the impact of an input object on an autonomous vehicle&#x27;s driving, i.e., its relevance. To this end, we compare different attention-based relevance estimation methods against a causal reference of object relevance obtained through counterfactual analysis. We perform our analysis on more than 80,000 synthetic driving scenes using an autonomous vehicle based on PlanT 2.0, a state-of-the-art Transformer-based model for object-level planning. Results show that attention provides a correlational rather than causal indication of object relevance. Attention-based relevance estimation methods do not consistently identify all relevant objects and tend to incorrectly classify as relevant objects with little or no impact on the vehicle&#x27;s driving. In particular, results show that attention can effectively identify relevant objects in simple single-lane, straight-road scenarios, but its accuracy degrades in more complex settings, such as multi-lane roads and intersections. These findings highlight the limitations of attention as a proxy for object relevance, calling for novel methods able to accurately capture the causal impact of individual objects on the vehicle&#x27;s driving and distinguish it from correlational associations.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#25</span>
+    <span class="h-badge">h=24</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24778v1" target="_blank">Counterfactual World Models: JEPAs That Reason About &quot;What If&quot;</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.LG</span><span class="pill">cs.AI</span><span class="pill">cs.CV</span><span class="pill">cs.RO</span><span class="pill">stat.ML</span>
+      <span class="pill">👤 Randall Balestriero (h=24)</span>
+    </div>
+    <div class="authors">Randall Balestriero, Yann LeCun, Kerda Varaku</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Proves that a world model trained only on factual transitions cannot answer 'what would have happened under another action, with the same hidden disturbance', regardless of data or capacity.</li>
+      <li>Shows that for physical systems where actions and disturbances act as separate forces, the counterfactual is approximately the observed outcome plus the model's prediction difference between the two actions, with no new data, parameters or retraining.</li>
+      <li>Gives an O(h&sup2;) error bound with a matching minimax lower bound and explains failure cases such as discontinuities and multiplicative disturbances.</li>
+      <li>With JEPA models on frozen encoders, counterfactual R&sup2; rises from 38&ndash;46% to 86&ndash;96%; in hindsight planning it finds the right action in 35&ndash;69% of events vs 14&ndash;23% for an oracle planner.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">World models operate in a world they cannot fully observe. When a hidden disturbance, such as a current pushing a boat, changes the outcome of an action, a counterfactual question follows: what would have happened under a different action, subject to the same disturbance? Its answer separates bad decisions from bad luck. We prove that world models trained on factual transitions cannot answer it on their own, whatever their data or capacity. For many physical systems, the observed outcome and a simple property of the dynamics suffice: natura non facit saltus, nature makes no leaps. When actions and disturbances act as separate forces, their interaction is second-order in time, so the counterfactual outcome is, to first order, the observed outcome plus the difference between the world model&#x27;s predictions under the alternative and factual actions. This yields a counterfactual world model with no counterfactual data, extra parameters, or retraining. For transitions of duration $h$, we prove an $O(h^2)$ bound on the counterfactual error relative to the disturbance variance, establish a matching minimax lower bound from unpaired factual data, and characterize failures at discontinuities, coordinate folds, and disturbances that scale the command. We validate these predictions from pixels with JEPA world models on frozen DINOv2 and masked autoencoder (MAE) encoders. On four rendered simulators, our approach improves counterfactual $R^2$ from $38$--$46\%$ to $86$--$96\%$ with the same world models; on a fifth, an underwater vehicle, it reaches $90$--$94\%$ with sixteen times more factual data. Four further frozen encoders, DINOv3, SigLIP~2, CLIP and EVA-02, give $81$--$95\%$ on the same simulators. In hindsight planning, it finds the action that would have reached the goal in $35$--$69\%$ of events, against $14$--$23\%$ for an oracle planner that knows the simulator but not the outcome.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#27</span>
+    <span class="h-badge">h=23</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24840v1" target="_blank">Does the Action Matter? Probing Action-Conditioned Semantic Forecasting as a World Model for Autonomous Driving</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.CV</span><span class="pill">cs.AI</span><span class="pill">cs.LG</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 N. Lobo (h=23)</span>
+    </div>
+    <div class="authors">Binay Kumar Singh, Niels Da Vitoria Lobo</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Questions an untested assumption of driving world models: that their forecasts actually depend on the action they are conditioned on.</li>
+      <li>Measures action dependence by intervening on the action at test time and comparing against an identical model with no action input, validated in a synthetic world with known action effects.</li>
+      <li>The correct action helps mid-term mIoU by at most 2.5 (Cityscapes) and 0.6 (BDD100K) points, while a wrong action hurts by up to 23.2 and 7.0, falling below the no-action model.</li>
+      <li>Feature-wise conditioning relies on actions 1.6x more than input-level conditioning on real data, showing accuracy gains alone do not reveal how strongly a model uses its action.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">World models are increasingly used in autonomous driving to predict how a scene evolves under the ego vehicle&#x27;s actions, supporting counterfactual reasoning and model-based planning. However, existing evaluations focus on prediction fidelity and planning performance, and rarely verify that the predictions depend on the conditioning action. In this paper, we study action dependence in action-conditioned semantic forecasting, which predicts future semantic segmentation from past segmentations and the ego action. We compare a forecaster with feature-wise and input-level action conditioning against an identical model without action input, and measure action dependence with test-time action interventions scored by standard segmentation metrics. The evaluation is validated in a synthetic environment with known action-dependent dynamics and applied to Cityscapes and BDD100K, both within each dataset and across the two vehicle platforms. Experiments show that the executed action improves mid-term mIoU by at most 2.5 points on Cityscapes and 0.6 points on BDD100K, whereas a wrong action reduces it by up to 23.2 and 7.0 points, below the model without action input. On real data, feature-wise conditioning depends 1.6 times more on the action than input-level conditioning at similar accuracy, whereas both depend on it equally in the synthetic environment, where the history does not determine the action. These results show that an accuracy gain indicates that a driving world model uses its action, but not how strongly its forecasts depend on it. Code is available at https://github.com/binayksingh/does-action-matter.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#30</span>
+    <span class="h-badge">h=21</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.23685v1" target="_blank">Measuring the Conservatism of Latent Safety Filters for World Models</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.LG</span><span class="pill">eess.SY</span>
+      <span class="pill">👤 Reza Akhavian (h=21)</span>
+    </div>
+    <div class="authors">Johannes Mootz, Mani Amani, Reza Akhavian</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Shows that conformal calibration can bound a latent safety filter's false acceptance of unsafe actions, but says nothing about how many safe actions it must refuse.</li>
+      <li>Defines 'overlap', the share of safe transitions in latent-action cells that also contain unsafe ones, and proves it is the minimum refusal rate of any cell-wise filter that rejects all unsafe data.</li>
+      <li>Applies to any latent, enabling comparison of three designs; in visual navigation a separate safety encoder has the lowest overlap, refuses the fewest safe actions and lets the planner reach the most goals.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">A latent safety filter decides from the latent of a world model whether a planned action is safe. Conformal calibration sets the threshold of the filter so that it accepts an unsafe action only with a small probability. However, the filter can still be conservative and refuse many safe actions, depending on the latent. To measure the conservatism that a latent forces on the filter, we group similar latents and actions into cells. A filter that gives one decision per cell can refuse the unsafe transitions of a cell only by refusing the safe ones in it as well. We call the share of safe transitions that lie in such cells the overlap. We prove that the overlap is the minimum share of safe transitions that such a filter has to refuse in order to accept no unsafe transition in the data. Both the overlap and the conformal calibration can be applied to any latent. We use this to compare three existing designs, in which the safety labels train a classifier on top of the world model, the world model itself, or a separate encoder beside it. In a visual navigation task, the separate encoder has the lowest overlap, and at the same conformal level its filter refuses the fewest safe actions and lets the planner reach the most goals of the three.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-3">Imitation Learning, Rewards &amp; Data</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#6</span>
+    <span class="h-badge">h=62</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24926v1" target="_blank">Grana: Compositional Reward Modeling for Long-Horizon Robot Manipulation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 R. Poovendran (h=62)</span>
+    </div>
+    <div class="authors">Zi-ang Cao, Kaiyuan Zheng, Yinzhen Xu, Haonan Duan, Jiasheng Gu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Builds a reward model that tracks progress in long tasks by naming the current unfinished subtask in open vocabulary and estimating its continuous progress, instead of relying on fixed subtask classifiers.</li>
+      <li>Composes whole-task progress as credit for completed subtasks plus the progress of the active one, so knowledge learned on short tasks transfers to multi-minute tasks.</li>
+      <li>Introduces an annotation protocol that turns sparse subtask boundaries and action-quality labels into dense progress targets, which avoids the known flaw of elapsed-time proxies when failures reverse progress.</li>
+      <li>Pretrained on 200 mostly short tasks, it predicts rewards zero-shot on unseen tasks, adapts to five long-horizon tasks and improves downstream policies.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robot reward modeling faces two challenges: generalizing across tasks and accurately tracking progress in long-horizon manipulation. General-purpose reward models demonstrate broad task transfer, but transfer from short-task pretraining to long-horizon tasks remains underexplored. Long-horizon progress models often rely on task-specific subtask classifiers or fixed action vocabularies, limiting the reuse of learned progress knowledge when adapting to new tasks. To address these challenges, we introduce Grana, a vision-language robot reward model that learns to identify unfinished subtasks and estimate their continuous progress using open-vocabulary subtask descriptions. We train a language-conditioned model to estimate progress in short-horizon tasks and individual subtasks of long-horizon tasks. For long-horizon tasks, we combine the selected subtask&#x27;s predicted progress with credit for preceding completed subtasks to estimate whole-task progress. General progress prediction requires training the model across diverse tasks with progress supervision that accounts for imperfect execution. Elapsed-time proxies can misrepresent progress when relative subtask durations vary, or failures reverse local progress. We therefore introduce an annotation protocol that converts sparse subtask boundaries and action-quality annotations into dense progress targets, without requiring annotators to assign numerical progress scores. Pretraining with this supervision on 200 diverse, mostly short-horizon manipulation tasks enables zero-shot reward prediction on unseen tasks and improves progress prediction after adaptation to multi-minute, long-horizon tasks. Experiments demonstrate (i) generalizable reward prediction, including adaptation to five long-horizon tasks, (ii) benefits from pretraining and composing subtask progress estimates, and (iii) improved downstream policy performance.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#9</span>
+    <span class="h-badge">h=45</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24499v1" target="_blank">Single-Controller Teleoperation and Multimodal Dataset Generation for a Mobile Manipulator</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 J. Alonso-Mora (h=45)</span>
+    </div>
+    <div class="authors">Fardien Azizi, Sitor Sla, Christiaan Peppelman, Dion van Santen, Andrei-Carlo Papuc</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Lets one operator drive a mobile base, a Kinova arm and the recording process from a single controller, removing the fragmented interfaces that slow mobile-manipulation data collection.</li>
+      <li>Automates the ROS pipeline from capture through image-quality filtering, time synchronization and export to Zarr, so demonstrations are training-ready without manual post-processing.</li>
+      <li>Validated on a bottle pick-and-place transport task, where it records complete episodes with no external commands and flags corrupted frames automatically.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robot learning systems require synchronized, high-quality demonstrations that combine visual, proprioceptive, and action data. However, collecting such datasets with mobile manipulators is often slowed down by fragmented teleoperation interfaces and manual post-processing workflows. This paper presents an integrated framework for teleoperated multimodal data collection on a Clearpath Dingo-O mobile base equipped with a Kinova Gen3 Lite manipulator and an Intel RealSense RGB-D camera. The framework combines single-controller operation of the base, arm, and recording process with an automated ROS-based pipeline for data capture, image-quality filtering, temporal synchronization, visualization, and export to machine-learning-ready Zarr datasets. We validate the system on a pick-and-place mobile-manipulation task in which the robot transports a bottle between two surfaces. The results show that the unified controller supports complete task execution and recording without external commands, while the data pipeline produces synchronized datasets for short demonstrations and identifies corrupted visual frames. The proposed framework provides a practical basis for producing structured demonstrations for robot-learning research.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#14</span>
+    <span class="h-badge">h=30</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24273v1" target="_blank">Old Experience, New Lessons: Relabeling Autonomous Robot Rollouts in Interactive Imitation Learning</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 C. della Santina (h=30)</span>
+    </div>
+    <div class="authors">Zhaoting Li, Cosimo Della Santina, Jens Kober</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Uses the large unlabeled share of interactive imitation learning, the autonomous rollouts, by having later policy checkpoints relabel them instead of imitating the robot's original (possibly bad) actions.</li>
+      <li>Accepts a relabel only when checkpoints agree, and since agreement does not prove correctness, supervises with a set of acceptable actions around it rather than a single target.</li>
+      <li>A step-masked denoising loss mixes accepted relabels with sparse human corrections inside partially supervised action chunks.</li>
+      <li>On real tomato picking it reaches 80% success versus 40% for Set-Supervised Diffusion Policy with the same human feedback and training budget.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Interactive imitation learning enables robots to learn from human interventions during deployment. These interactions naturally produce sparse human corrections and abundant autonomous robot experience without human action labels. Yet existing methods either leave this experience unused for action supervision or imitate historical robot actions, which can reinforce suboptimal behavior. To address this limitation, we propose Set-valued Relabeling of Autonomous experience (SeRA), a framework that learns from autonomous robot experience through set-valued supervision of policy relabels. Later policy checkpoints relabel this experience, and agreement across checkpoints filters the relabels. Since agreement does not guarantee correctness, SeRA constructs desired action sets around accepted relabels. Following Set-Supervised Diffusion Policy (SDP), it trains an action-chunking diffusion policy to increase the probability of actions within these sets. A step-masked denoising loss combines accepted relabels with available human corrections in partially supervised chunks. Experiments across five simulated manipulation tasks in online and offline settings show that SeRA improves policy performance over SDP and outperforms baselines that imitate historical robot actions or exact relabels. On a real-robot tomato-picking task, SeRA achieves 80% success, compared with 40% for SDP, using the same human feedback and training budget. These results demonstrate that relabeled autonomous robot experience can complement human corrections to improve policy performance.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#19</span>
+    <span class="h-badge">h=28</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.23731v1" target="_blank">RecallFlow: Episodic Memory as the Source Distribution of Generative Robot Policies</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Wei Zhai (h=28)</span>
+    </div>
+    <div class="authors">Xuji Zhang, Qilin Zhong, Zichen Zhang, Wei Zhai, Jian Di</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Changes where memory enters a generative policy: rather than adding a long history as a condition, RecallFlow builds the flow's source distribution from episodic memory.</li>
+      <li>Recall slots relocate remembered targets into the current view, and each slot becomes a Gaussian component, so generation starts near the intended action instead of from pure noise.</li>
+      <li>The transport network then uses only the current observation, keeping inference almost as cheap as a memoryless policy.</li>
+      <li>Reaches 80.4% on MIKASA-Robo and beats the strongest baseline by 20.3 points on a new memory-load suite and by 18.8 points on four real tasks.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Diffusion and flow-matching policies have become a standard choice for visuomotor imitation learning, owing to their ability to model multimodal action distributions. In memory-dependent manipulation, the robot must act on information that is no longer visible. Existing methods feed the observation history to the policy as an additional condition, while action generation still starts from Gaussian noise. However, the policy must then pick out the relevant target from a long and redundant history, leading to spurious correlations and unreliable decisions as the memory load grows. Additionally, the initial noise carries no information about what the robot has seen, leaving generation without guidance toward the remembered target. To address these issues, we propose RecallFlow, a flow-policy framework that builds the source distribution from episodic memory. Recall-Relocalization relates the memory to the current view through a few recall slots, so that the source reflects where the remembered targets are now. Recall Anchors then turns each slot into a Gaussian component of the source, enabling generation to start close to the intended action instead of from noise. The transport network then completes the action from the current observation alone, keeping inference nearly as cheap as a memoryless policy. We further build a suite of memory-dependent tasks grouped by memory load and compare all policies under a matched protocol. Extensive experiments show that RecallFlow achieves a state-of-the-art average success rate of 80.4% on the public MIKASA-Robo memory benchmark, and outperforms the strongest baseline by 20.3 points on our suite and by 18.8 points on four real-robot tasks.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#23</span>
+    <span class="h-badge">h=25</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24226v1" target="_blank">Neural Network-Based In-Contact Task Segmentation of Demonstrated Robot Motions via Hand Guiding</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 D. Henrich (h=25)</span>
+    </div>
+    <div class="authors">Johannes Hartwig, Marcello Kögler, Dominik Henrich</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Automatically splits hand-guided demonstrations into three basic motion types using end-effector twists and wrenches, so non-experts do not need to mark which parts require force control.</li>
+      <li>Uses data from a 7-axis robot with a wrist force-torque sensor and hand-labeled ground truth.</li>
+      <li>An early-stage work that targets a practical gap in programming by demonstration for in-contact tasks.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Intuitive robot programming approaches, such as Programming by Demonstration, enable non-experts to teach robots tasks through hand-guided demonstrations. However, for in-contact tasks requiring force control for parts of the motion, automated segmentation of motion types is crucial for improving usability. Considering the related work, this work proposes a neural network-based segmentation method categorizing motion into three fundamental types using input data of cartesian twists and wrenches at the end effector. We collect demonstration data using a 7-axis robot with a wrist-mounted force torque sensor and generate ground truth labeling by hand. While still in development, our research direction aims to enable non-experts to program in-contact tasks more intuitively.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#26</span>
+    <span class="h-badge">h=24</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.23719v1" target="_blank">Improving While Deployed: Learning Proactive End-to-End Driving from Imperfect Human Takeover Data</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Zi-Rui Li (h=24)</span>
+    </div>
+    <div class="authors">Yangang Ren, Di Zeng, Jun Li, Zirui Li, Chengjiang Zhang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Treats human takeover logs as imperfect: drivers often intervene too late or unnecessarily, so direct imitation can teach late reactions.</li>
+      <li>Generates candidate trajectories by perturbing the deployed plan and shifting human corrections earlier in time, then ranks them with a scorer trained on expert demos and takeover preferences.</li>
+      <li>Replaces only pre-takeover targets with higher-scoring candidates and distills them into the driving model without changing its inference architecture.</li>
+      <li>Achieves the best closed-loop success on real scenarios rebuilt with 4D Gaussian splatting, showing a practical way to improve deployed models from fleet logs.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Once deployed on vehicles, end-to-end driving models continuously encounter challenging scenarios, generating valuable human takeover data that capture both model outputs and human behaviors. However, human interventions are often imperfect, as drivers may intervene too late or unnecessarily. Consequently, direct imitation can reinforce late responses or discourage otherwise appropriate maneuvers. To address this challenge, we propose an offline post-training framework that transforms imperfect takeover data into proactive supervision. We first construct diverse trajectory candidates by augmenting the plans of the deployed model and shifting recorded human corrective maneuvers earlier in time. We then train a scene-conditioned trajectory scorer to rank these candidates using expert demonstrations and unpaired preference signals from takeover logs. Using this scorer, we selectively replace pre-takeover training targets with higher-scoring candidates while retaining the original targets in normal driving scenarios. Finally, we distill the resulting targets into the driving model without changing its inference architecture. In closed-loop evaluations using real-world scenarios reconstructed with 4D Gaussian splatting, our method achieves the highest overall success rate, outperforming the deployed model, direct imitation learning and trajectory post-optimization. These results highlight a practical path toward efficient updates of deployed driving models using existing fleet logs.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-4">Navigation &amp; Spatial Perception</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num rank-gold">#2</span>
+    <span class="h-badge">h=120</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24579v1" target="_blank">ALIVE: Bring Foundation Features to Life with Events</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.CV</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 D. Scaramuzza (h=120)</span>
+    </div>
+    <div class="authors">Rong Zou, Haiqing Hao, Davide Scaramuzza</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Solves the staleness problem of foundation features: instead of re-running DINOv3 on every frame, ALIVE uses the event stream to transport and correct multi-layer features from a single anchor image.</li>
+      <li>The updater is trained only on synthetic data with no task labels and transfers zero-shot to real event cameras, so any head built on DINOv3 features can benefit without retraining.</li>
+      <li>With a 200 ms old anchor on DSEC it adds +30.9 mAP in detection, +11.6 mIoU in segmentation and a 15.9% AbsRel gain in depth over using the stale features.</li>
+      <li>Cuts FLOPs by 82.4% and latency 2.5x versus re-encoding images, making high-rate foundation-model perception practical for fast robots and drones.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Visual foundation models provide powerful representations for diverse tasks, but their features become stale as visual content changes between image observations. Refreshing them requires new frames and repeated runs of a computationally expensive image encoder. We introduce ALIVE, an event-based method that incrementally updates native foundation model features between image observations. Given an anchor image, ALIVE uses subsequent events to transport and correct existing multi-layer features extracted by a frozen DINOv3 encoder. Its lightweight updater is trained end-to-end using only synthetic data, without downstream task supervision, and transfers directly to real-world event streams without any adaptation. Across three real-world datasets and five task-dataset settings spanning object detection, semantic segmentation, and depth estimation, ALIVE outperforms all evaluated event-based methods in every metric. On DSEC, when the anchor frame is 200,ms old, ALIVE improves over anchor-image predictions by 30.9,mAP in detection, 11.6,mIoU in segmentation, and 15.9% in depth AbsRel. Compared with image re-encoding, ALIVE reduces FLOPs by 82.4% and latency by a factor of 2.5.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#7</span>
+    <span class="h-badge">h=61</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24095v1" target="_blank">Object Pose: The Link between Weak Perspective, Paraperspective, and Full Perspective</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.CV</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 R. Horaud (h=61)</span>
+    </div>
+    <div class="authors">Radu Horaud, Fadi Dornaika, Bart Lamiroy, Stephane Christy</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Gives an algebraic derivation of DeMenthon and Davis's POSIT, showing it is the zero-order member of a family of iterative perspective approximations.</li>
+      <li>Proposes an iterative paraperspective (first-order) method for both coplanar and non-coplanar points and shows it converges better than the weak-perspective iteration.</li>
+      <li>Adds a simple way to enforce rotation-matrix orthogonality and analyzes sensitivity to calibration errors, including the best experimental setup when intrinsics are imprecise.</li>
+      <li>A classic pose-estimation result now on arXiv, useful as a lightweight, analyzable alternative to nonlinear PnP solvers.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Recently, DeMenthon and Davis [4,5] proposed a method for determining the pose of a 3-D object with respect to a camera from 3-D to 2-D point correspondences. The method consists of iteratively improving the pose computed with a weak perspective camera model to converge, at the limit, to a pose estimation computed with a perspective camera model. In this paper we give an algebraic derivation of DeMenthon and Davis&#x27; method and we show that it belongs to a larger class of methods where the perspective camera model is approximated either at zero order (weak perspective) or first order (paraperspective). We describe in detail an iterative paraperspective pose computation method for both non coplanar and coplanar object points. We analyse the convergence of these methods and we conclude that the iterative paraperspective method (proposed in this paper) has better convergence properties than the iterative weak perspective method. We introduce a simple way of taking into account the orthogonality constraint associated with the rotation matrix. We analyse the sensitivity to camera calibration errors and we define the optimal experimental setup with respect to imprecise camera calibration. We compare the results obtained with this method and with a non-linear optimization method.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#13</span>
+    <span class="h-badge">h=35</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.23930v1" target="_blank">A Hierarchical Onboard Vision-Language-Navigation Framework for Aerial Robots in Complex Environments</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span><span class="pill">cs.AI</span>
+      <span class="pill">👤 Fei Gao (h=35)</span>
+    </div>
+    <div class="authors">Yuze Wu, Mo Zhu, Xingxing Li, Yuheng Du, Zhaoqi Wang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Separates multimodal reasoning from low-level control: the model outputs 3D pose commands and navigation intents that a planner converts into dynamically feasible UAV trajectories.</li>
+      <li>Generates photorealistic training data automatically with a 3D Gaussian Splatting pipeline, addressing the scarcity of 3D aerial navigation data.</li>
+      <li>Adds a three-stage curriculum and a memory-aware cognitive agent that breaks long instructions into subtasks for long-horizon flights.</li>
+      <li>Token sparsification and model slimming give a 7.1x&ndash;9.4x speedup so the system runs onboard, with gains over prior methods in simulation and real flights.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Unmanned Aerial Vehicles (UAVs) are expected to achieve semantic reasoning, intelligent decision-making, and long-horizon navigation under strict onboard constraints. While recent foundation-model-driven approaches have shown promising progress toward this goal, existing methods remain limited by challenges in 3D data availability, trajectory feasibility, long-horizon reasoning, and computational efficiency in complex environments. To bridge these gaps, we propose VLN-AR, a hierarchical vision-language-navigation (VLN) framework for aerial robots. VLN-AR decouples multimodal reasoning and low-level control, enabling structured prediction of 3D pose commands and navigation intentions that are translated into dynamically feasible actions. To mitigate data scarcity and domain gaps, we introduce a fully automated 3D Gaussian Splatting (3DGS)-based pipeline to generate scalable photorealistic UAV navigation data. A progressive three-stage training strategy further enhances grounding, scene reasoning, and complex navigation. In addition, a lightweight cognitive agent improves long-horizon reasoning via memory-aware task decomposition. Finally, we design onboard optimization techniques, including token sparsification and model lightweighting, achieving 7.1x-9.4x speedup while maintaining high navigation performance on resource-limited UAV platforms. Experiments show great improvements over existing methods in both simulation and real-world UAV navigation. Project website: https://wyz000.github.io/VLN-AR/</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#15</span>
+    <span class="h-badge">h=29</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24375v1" target="_blank">SearchDiffusion: Information-Guided Diffusion Planning for Object Search</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 D. Tsetserukou (h=29)</span>
+    </div>
+    <div class="authors">Sausar Karaf, Dmitrii Plotnikov, Alexey Kotcov, Dzmitry Tsetserukou</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Uses a diffusion model to generate position-and-heading trajectories for object search, conditioned on a learned dense utility map of accessibility, useful visibility and semantic progress.</li>
+      <li>The same utility map doubles as a guidance objective during sampling, combined with geometric and heading guidance and validity checks, so trajectories look where information is likely.</li>
+      <li>Achieves 95.6% target detection across 90 simulated tasks on 24 layouts, at higher compute cost; 8 of 10 real quadruped trials succeed without real-data fine-tuning.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Object search in unknown environments requires robots to gather useful observations while avoiding obstacles and accounting for limited sensor visibility. We present SearchDiffusion, a diffusion-based planner that generates position and heading trajectories using a learned dense utility map. The map represents geometric accessibility, useful visibility, and semantic progress. It conditions trajectory generation and provides an objective for sampling guidance. Sampled map hypotheses provide additional geometric context, while geometric and heading guidance, validity checks, and analytical selection support execution. Across 90 simulated tasks on 24 map layouts, SearchDiffusion achieved 95.6\% target detection at greater computational cost. Ablations show complementary benefits from utility and guidance, with limited additional detection benefit from runtime map hypotheses. In ten physical quadruped trials using OneMap relevance maps, eight were successful under operator assessment, without fine-tuning on real-robot data. These results support combining learned spatial utility with guided trajectory generation for object search under partial observability.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#17</span>
+    <span class="h-badge">h=29</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24155v1" target="_blank">BEV-Diffusion: Camera-Only Traversability Navigation with BEV Memory and Efficient Cross-Robot Adaptation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 D. Tsetserukou (h=29)</span>
+    </div>
+    <div class="authors">Iana Zhura, Timofei Kozlov, Dmitrii Plotnikov, Ivan Valuev, Miguel Altamirano Cabrera</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>A single camera-only network predicts a BEV traversability map, its uncertainty and the path together, replacing LiDAR and modular mapping pipelines.</li>
+      <li>A ranking loss keeps traversability graded (asphalt 0.94 vs grass 0.75) and uncertainty-aware guidance ends paths where the map becomes unreliable.</li>
+      <li>A metric BEV memory keeps 62&ndash;66% of out-of-view obstacles (baselines at most 3%), helping a robot escape maze-like traps with 67&ndash;100% task progress.</li>
+      <li>Covered 96% of a 120 m unseen route without intervention (baselines 75&ndash;88%), also after sunset; retraining about 3% of parameters adapts it to a new legged robot in 2.3 minutes.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Robot navigation requires both an understanding of the scene and an efficient adaptation to new robots, yet current methods rely on expensive LiDAR sensors, long mapping and modular pipelines. We present BEV-Diffusion, a camera-only model that learns a bird&#x27;s-eye view (BEV) traversability map, its uncertainty and the path in a single network. A frozen DINOv2 backbone encodes consecutive RGB frames, which inverse perspective mapping and Bayesian fusion lift into the BEV, and a ranking loss keeps outdoor traversability graded rather than binary, separating asphalt from grass (median 0.94 vs. 0.75). On this map, a transformer denoiser generates polar waypoints in a few DDIM steps, and uncertainty-aware guidance refines the path and ends it where the map is no longer reliable. At deployment, a metric BEV memory keeps obstacles after they leave the camera view and warm starts each sample from the previous, ego-motion compensated path. Because the planner jointly learns the path, the map, and its uncertainty, it selects routes through terrain it can confidently traverse. In an unseen courtyard, a wheeled-legged robot autonomously traveled 120 m, completing 96% of the route without intervention, compared with 75-88% for the baselines. Even under low-light conditions after sunset, the proposed model completed the route without requiring any intervention. Retraining only the BEV head, about 3% of the parameters, adapts the model to a small legged robot in 2.3 min. Indoors, the memory gets this robot out of maze-like traps: it retains 62-66% of the nearby out-of-view obstacles, against at most 3% for the baselines, and the robot achieves 67-100% task progress, compared with 20-40% for the evaluated baselines.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#22</span>
+    <span class="h-badge">h=26</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.23894v1" target="_blank">Navigating Robots from Unknown and Uncalibrated Exocentric Cameras via Map Estimation</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 A. Ohya (h=26)</span>
+    </div>
+    <div class="authors">Raul Steinmetz, Raphael Druon, Yusuke Yoshiyasu, Akihisa Ohya, Ayanori Yorozu</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Navigates using wall- or ceiling-mounted cameras that are both uncalibrated (no pose or intrinsics) and unknown (not seen during training), removing per-room calibration.</li>
+      <li>A cross-view transformer trained on large-scale simulation predicts a metric robot-centric obstacle map from exocentric images without using camera parameters; a small PPO policy navigates on the map.</li>
+      <li>Matches the success of a policy using an onboard camera, works with one or several partial views, and transfers zero-shot to a real robot across camera placements and room layouts.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Exocentric cameras, mounted on walls or ceilings in indoor environments, offer wider vantage points and are less easily occluded than robot-mounted cameras, making them an appealing alternative for perception in robot navigation algorithms. Previous methods that use such cameras, however, require their pose and intrinsics to be known before deployment, demanding calibration that is time-consuming, requires specialized personnel, and must be repeated whenever a camera moves or a new room is navigated. We propose Robot-centric Obstacle Maps from Unknown and uncalibrated eXocentric cameras (ROMUX), an agent that navigates a robot toward point goals while avoiding obstacles using exocentric cameras that are both uncalibrated, meaning the system does not require their pose or intrinsic information as input, and unknown, meaning it is not fit to a specific camera during training and does not require pre-deployment fine-tuning. We train a cross-view transformer on large-scale simulation data to predict metric robot-centric obstacle maps from exocentric images, without conditioning image tokens on camera information. A small policy trained with Proximal Policy Optimization (PPO) then navigates on the predicted maps toward a goal coordinate relative to the robot. We benchmark our agent in simulation with cameras randomized per episode, and it matches the success rates of a PPO policy that navigates from a robot-mounted camera. Further, ROMUX works with one camera or multiple cameras with partial views and has been transferred zero-shot to a real robot using a camera at varying positions and orientations across various room layouts.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-5">Legged, Humanoid &amp; Motion Skills</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#12</span>
+    <span class="h-badge">h=37</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.23825v1" target="_blank">Learning Martial Arts Motion Skills for Animating Opponents in VR Sparring Games</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.HC</span><span class="pill">cs.AI</span><span class="pill">cs.MM</span><span class="pill">cs.RO</span>
+      <span class="pill">👤 P. Turaga (h=37)</span>
+    </div>
+    <div class="authors">Jiqing Wen, Qixuan Shi, Robert LiKamWa, Pavan Turaga</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Collects a Tang Soo Do motion-capture dataset covering single techniques, combinations, transitions and sparring variations to support physically simulated martial arts.</li>
+      <li>Pretrains a reusable skill repertoire with adversarial style rewards, then adapts it with task rewards for target-directed strikes and threat-aware evasion, separating 'form' from 'intent'.</li>
+      <li>A user study rates plausibility, smoothness and form, and a Meta Quest VR sparring prototype shows the skills can drive interactive opponents in place of handcrafted animation state machines.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Animating virtual opponents is an important yet challenging task in game development. In martial arts games, opponent motions must not only be physically plausible but also exhibit appropriate technique, timing, transitions, and target-directed intent. Traditional game animations often rely on handcrafted clips, state machine transitions, and procedural adjustments, which can be labor-intensive and may limit the behavioral diversity of non-player characters. This paper presents a martial arts motion skills learning framework for character animation in virtual sparring games. Inspired by Tang Soo Do, we collected a martial arts motion capture dataset containing isolated attacking and defending techniques, technique combinations and transitions, and contextual sparring variations. We first pretrained a reusable repertoire of martial arts motion skills from the captured data using reinforcement learning (RL) with adversarial style rewards, and then adapted these skills with task-specific rewards for target-directed striking and threat-aware evasion. We evaluated the motions generated by the learned policy through a user study, in which participants assessed their physical plausibility, smoothness, and martial arts form. To demonstrate their applicability to interactive gameplay, we developed a VR sparring prototype for Meta Quest headsets. The prototype combines policy-generated motion clips with lightweight state-based control to support interactive opponent behavior. Together, these findings support the feasibility of using a learned martial arts skill repertoire as a motion foundation for animating opponents in VR sparring games.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#16</span>
+    <span class="h-badge">h=29</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24310v1" target="_blank">Proprioceptive Simultaneous Base and Terrain Elevation Estimation for Legged Robot Locomotion</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 P. Trahanias (h=29)</span>
+    </div>
+    <div class="authors">Michael Maravgakis, Stylianos Piperakis, Panos Trahanias</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Treats the terrain as a proprioceptive landmark: each stable footstep gives a height measurement that anchors vertical drift, the error that most harms swing-leg trajectories in the dark or in smoke.</li>
+      <li>Couples a left-invariant EKF with a grid elevation map in a two-way loop, where revisited map cells act like loop closures, effectively SLAM with terrain height instead of features.</li>
+      <li>The filter uses a kinematic velocity measurement instead of per-leg contact states, so its size does not grow with the number of legs.</li>
+      <li>Cuts absolute trajectory error by 22.1% versus the best of three proprioceptive baselines on 296 m of ANYmal-D GrandTour data, and is open source.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Legged robots in visually degraded environments must rely exclusively on proprioceptive sensing, under which global position and yaw are unobservable. Vertical drift is particularly detrimental, as it corrupts the height reference required by swing-leg trajectories and can destabilize the robot. We treat the terrain itself as a persistent proprioceptive landmark: every footstep provides a height measurement that anchors the vertical axis. We propose Simultaneous Base and Elevation Estimation (SBEE), a real-time open-source framework in which a Left-Invariant Extended Kalman Filter (LI-EKF) for floating-base estimation and a grid-based elevation map are coupled in a bidirectional loop, mirroring SLAM with terrain elevation in place of landmarks. Stable foot contacts insert uncertainty-aware height samples into the map, and previously mapped cells are fed back as uncertainty-weighted vertical pseudo-measurements that act analogously to loop closures. Unlike contact-aided invariant filters, the LI-EKF consumes a kinematic velocity measurement instead of augmenting the state with a contact model per leg, so its state dimension is independent of the number of legs. We evaluate SBEE in MuJoCo on quadrupedal and bipedal platforms and on the ANYmal-D GrandTour dataset over 296 m of locomotion, reducing the absolute trajectory error by 22.1% relative to the best of three state-of-the-art proprioceptive estimators.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#18</span>
+    <span class="h-badge">h=29</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.23916v1" target="_blank">ReLoco: Unified Humanoid Locomotion and Fall Recovery via Behavior-Conditioned Motion Priors</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Zhi-Yuan Xu (h=29)</span>
+    </div>
+    <div class="authors">Lequn Fu, Yufeng Hu, Yijun Zhong, Jie Zhang, Xiao Li</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Learns walking, getting up from arbitrary fallen poses and resuming the commanded motion in one proprioceptive policy, removing the controller switching used in most humanoid stacks.</li>
+      <li>Uses posture to select the expert motion pool and conditions a shared discriminator with two behavior-specific outputs, so upright and ground-contact motions get suitable style supervision.</li>
+      <li>Reaches 96.80% get-up success and 96.96% push recovery, with 14.7% lower velocity tracking error than a single-output conditional variant.</li>
+      <li>Deployed on the 64.5 kg Tiangong 3.0 humanoid for walking, running and getting up without on-robot fine-tuning.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Humanoid robots must recover from falls and resume commanded motion to sustain locomotion. Learning these behaviors in one policy requires supervision that accommodates both upright movement and ground-contact recovery. We present ReLoco, a framework that uses behavior-conditioned adversarial motion priors to learn locomotion, get-up from arbitrary fallen postures, and command resumption within one proprioceptive policy. During training, robot posture selects the expert pool and conditions a shared discriminator with two behavior-specific outputs. Task rewards and shared regularization support command tracking and recovery, while temporary assistance facilitates exploration. A simulation-based refinement stage supplies robot-executed motion references for this supervision. Ablations examine conditional supervision, output separation, and reference quality under matched settings. At a common training iteration, the full policy achieves $96.80\%$ independent get-up success and $96.96\%$ push-recovery success, including command resumption. Its torso planar velocity root-mean-square error is $0.1266$~m/s, $14.7\%$ lower than the conditional single-output variant, with similar joint-angle discrepancy measured by dynamic time warping. Deployment on the 64.5-kg Tiangong~3.0 humanoid demonstrates walking, running, get-up, and locomotion resumption after falls using one proprioceptive actor, without controller switching or on-robot policy fine-tuning.</div>
+    </details>
+  </div>
+</div>
+<div class="section-header sh-6">Actuators, Tactile Sensing &amp; Physical Testbeds</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#8</span>
+    <span class="h-badge">h=49</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24631v1" target="_blank">Hydrodynamics of robotic micro-swimmers in confinement</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span><span class="pill">cond-mat.soft</span><span class="pill">physics.flu-dyn</span>
+      <span class="pill">👤 A. Desimone (h=49)</span>
+    </div>
+    <div class="authors">Giovanni Corsi, Giovanni Noselli, Antonio DeSimone</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Asks whether autonomous micro-robots can swim inside narrow vessels of the body, and answers with explicit numerical flow simulation validated on a centimeter-scale prototype with a cargo head and rotating tail.</li>
+      <li>Uses hydrodynamic scaling to predict how millimeter and sub-millimeter replicas would perform, linking a testable physical prototype to the target scale.</li>
+      <li>Concludes that confinement does not rule out such robots but imposes strict, scale-dependent design rules, which turns a feasibility question into concrete design guidance.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Inspired by seminal work by E.M. Purcell, we discuss the problem of predicting and optimizing the performance of autonomous robots swimming in confinement. Our approach is based on the explicit numerical resolution of the fluid flow induced by the swimmer, and it is validated experimentally on a cm-size prototype composed of a cargo head and a rotating propulsive tail. Using hydrodynamic scaling, we predict the performance of replicas of our prototype scaled down to mm- and sub-mm-size to test the feasibility of autonomous micro-robots navigating in narrow vessels. The main result of our theoretical, computational, and experimental analysis is that, while hydrodynamics seems to place no fundamental obstruction to the vision of autonomous micro-robots navigating in narrow lumens inside the human body, it does provide useful and strict guidelines for rational design at different length scales.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#10</span>
+    <span class="h-badge">h=43</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24279v1" target="_blank">QDD-MM: A Simple and Compact Open-Source Muscle Module with Quasi-Direct-Drive Motor for Tendon-driven Robots</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 K. Okada (h=43)</span>
+    </div>
+    <div class="authors">Kento Kawaharazuka, Yoshimoto Ribayashi, Takahiro Hattori, Shunnosuke Yoshimura, Kei Okada</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Builds a tendon-driven muscle module around a quasi-direct-drive motor, giving the high backdrivability and speed that high-ratio gear modules lack.</li>
+      <li>Because the low-ratio motor makes current a good proxy for tension, it removes dedicated force sensors, which greatly simplifies the design and maintenance.</li>
+      <li>Supports multi-direction wire routing, several module-to-module connections, and use of the module body as structure, so it can be reused across varied musculoskeletal layouts.</li>
+      <li>Open-sourced and demonstrated on one-joint robots with two or three muscles and a partial musculoskeletal humanoid, lowering the barrier to entry for the field.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Tendon-driven robots, which actuate like biological muscles by using motors to wind wires, offer advantages such as variable stiffness and redundant actuation. Despite these advantages, musculoskeletal structures inherently involve a large number of diverse muscles, making it desirable to compactly modularize each muscle unit and flexibly accommodate diverse muscle arrangements. While various small muscle modules have been proposed to date, existing designs tend to be complex, difficult to maintain, and suffer from low backdrivability and limited actuation speed due to their high gear ratios. In this work, we propose QDD-MM, a muscle module that leverages recent advances in quasi-direct-drive motors to achieve a simpler and more compact structure with higher backdrivability and faster actuation than previous modules. By utilizing quasi-direct-drive motors, the module eliminates the need for dedicated force-sensing mechanisms, significantly simplifying the overall design, while also supporting flexible wire routing in multiple directions, various module-to-module connections, and even the use of the module body itself as a structural component. QDD-MM integrates these capabilities into a reusable muscle module, and its design is openly available at https://github.com/haraduka/qddmm. We developed tendon-driven robots with one joint and either two or three muscles, as well as a partial musculoskeletal humanoid, using the proposed QDD-MM and verified their effectiveness. We expect that this muscle module will democratize tendon-driven robotics and further accelerate progress in the field.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#20</span>
+    <span class="h-badge">h=27</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24173v1" target="_blank">Dual-Actuation Emulation of Scaled Relative Orbital Dynamics on a Free-Flyer</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 C. Fuglesang (h=27)</span>
+    </div>
+    <div class="authors">Elias Krantz, Pedro Roque, Gunnar Tibert, Huina Mao, Christer Fuglesang</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Extends air-bearing free-flyer testbeds, which normally emulate only free-floating motion, to reproduce Clohessy-Wiltshire relative orbital dynamics.</li>
+      <li>Runs two MPCs in parallel: one flies the 'spacecraft' with thrusters, while the other uses bidirectional propellers to physically apply orbital accelerations and compensates for thruster-induced velocity changes.</li>
+      <li>A dynamic similitude maps the orbital scenario to the small floor and limited actuation, so the spacecraft controller runs at true orbital scale; hardware results match a high-fidelity orbital simulation.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Ground-based free-flyer testbeds reproduce the planar motion of a free-floating spacecraft using air bearings, but not the relative dynamics of spacecraft in orbit. We present a dual-actuation architecture that physically emulates Clohessy-Wiltshire dynamics on an open-source free-flyer. Two model predictive controllers run in parallel: one drives the solenoid thrusters with an orbital dynamics model, representing the spacecraft under test; the other drives bidirectional propellers that physically apply the orbital accelerations, continuously updating its reference to account for thruster-induced velocity changes. A dynamic similitude maps the orbital scenario onto the limited floor area and actuation rates of the testbed, letting the spacecraft controller run directly at orbital scale. We validate the architecture on hardware and against a high-fidelity orbital simulation, where the orbital accelerations instead arise naturally, both driven by the identical spacecraft controller. Their agreement indicates that the testbed reproduces the relative orbital motion the controller would encounter in flight.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#28</span>
+    <span class="h-badge">h=23</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24207v1" target="_blank">TapTacTouch: Shape Completion from Sparse Tactile Contacts with Geometric Priors</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Hyun Oh Song (h=23)</span>
+    </div>
+    <div class="authors">Yoobin Shin, Jaeyoung Lee, Jieun Kang, Hyun Song, Woojin Kim</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Reconstructs 3D object meshes using only sparse touches from 3x3 pressure arrays on a 20-DoF hand, with no vision, no training and no category priors.</li>
+      <li>Turns contacts into 3D constraints through kinematics and fits a multi-scale Gaussian Process implicit surface, adding confidence weighting, weak pseudo-surface constraints and an observation-driven geometric prior to fill unobserved regions.</li>
+      <li>On six real objects it achieves Chamfer distance 1.610, EMD 7.738 and F-score 95.0 in about 50 s per object, useful when objects are occluded or lighting is poor.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">3D object reconstruction is essential for robotic perception and manipulation, yet conventional approaches predominantly rely on visual observations that can be limited by occlusion or unavailable in visually constrained environments. In this work, we propose a vision-free, training-free, and category-agnostic framework for reconstructing 3D object meshes from sparse tactile contacts without relying on pretrained shape models. A 6-DoF robotic arm equipped with a 20-DoF multi-finger robotic hand collects tactile observations using 3x3 pressure sensor arrays mounted on the finger pads. The acquired tactile measurements are transformed into 3D contact constraints through robot kinematics and integrated into a multi-scale Gaussian Process Implicit Surface (GPIS). To address sparse and incomplete surface observations, the proposed method incorporates contact confidence weighting, weak pseudo-surface constraints, and an observation-driven geometric prior to preserve local surface geometry and provide structural guidance in unobserved regions. Real-world experiments on six objects achieve a Chamfer Distance (CD) of 1.610, an Earth Mover&#x27;s Distance (EMD) of 7.738, and an F-Score of 95.00, with reconstruction completed in an average of 49.99 s per object. These results demonstrate that sparse tactile sensing can provide sufficient geometric information for continuous 3D object reconstruction without visual or semantic information.</div>
+    </details>
+  </div>
+</div>
+<div class="paper-card">
+  <div class="rank-col">
+    <span class="rank-num">#29</span>
+    <span class="h-badge">h=21</span>
+  </div>
+  <div class="paper-body">
+    <h3><a href="http://arxiv.org/abs/2611.24142v1" target="_blank">BiPathCPG: A Novel Load-Sharing Design Architecture for Compound Planetary Gearboxes</a></h3>
+    <div class="meta-pills">
+      <span class="pill">2026-11-18</span>
+      <span class="pill">cs.RO</span>
+      <span class="pill">👤 Shishir N. Y. Kolathaya (h=21)</span>
+    </div>
+    <div class="authors">Deepak Kapa, Aman Singh, Saketh Vegesna, Suryank Joshi, Mayank Goswami</div>
+    <div class="contrib-label">Core Contributions</div>
+    <ul class="contrib-list">
+      <li>Proposes a compound planetary gearbox that places an idle second-stage sun gear and load-sharing planets in unused space, addressing the width, mass and stiffness penalties of conventional CPGs in 3D-printed actuators.</li>
+      <li>Includes an optimization framework that finds gear parameters for a given motor and target ratio.</li>
+      <li>The 3D-printed prototype reaches 1394 Nm/rad torsional stiffness (1.70x the conventional CPG), 32% less backlash, 25 g less mass, about 6.4 mm narrower, and 36.49 Nm peak stall torque, all relevant to legged robot QDD actuators.</li>
+    </ul>
+    <details>
+      <summary>Show abstract</summary>
+      <div class="abstract-text">Quasi-Direct Drive (QDD) actuators are widely used in legged robots due to their low reflected inertia, high backdrivability, and high torque density, commonly employing planetary or cycloidal gearboxes. Single-stage planetary gearboxes offer high efficiency but limited torque density; multi-stage designs improve torque density at the cost of efficiency; and cycloidal gearboxes provide high stiffness but suffer from torque ripple. Compound Planetary Gearboxes (CPG) offer a compromise, but conventional designs result in increased actuator width, mass, and reduced torsional stiffness in 3D-printed actuators. This paper proposes the BiPath Compound Planetary Gearbox (BiPathCPG), a novel architecture that introduces an idle second-stage sun gear and load-sharing second-stage planets within the otherwise unused space of a conventional CPG to simultaneously improve stiffness, reduce actuator width, and reduce mass. An optimization framework computes BiPathCPG parameters for a given motor and target gear ratio. The architecture is validated through a 3D-printed proof-of-concept actuator design, benchmarked against a conventional CPG using custom-built test rigs. The BiPathCPG achieves a torsional stiffness of 1394 Nm/rad, a 1.70x improvement over the conventional CPG, with a 32% reduction in backlash, 25 g lower mass, and approximately 6.4 mm reduction in axial width, while achieving a peak stall torque of 36.49 Nm.</div>
+    </details>
+  </div>
+</div>
+<footer>
+  Generated by Claude · Papers from arXiv cs.RO · Ranked by max author h-index via Semantic Scholar · 2026-11-18
+</footer>
+</div>
+</body>
+</html>
